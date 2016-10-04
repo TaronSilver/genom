@@ -20,7 +20,8 @@ int main () {
     getline(cin, filename);
     
     if(string::npos != filename.find("fasta")) {
-    // How the contents are treated in case a fasta file is opened
+        // Checks if the string "fasta" is contained in the filename
+        // How the contents are treated in case a fasta file is opened
         
         string line1;
         string line2;
@@ -43,7 +44,8 @@ int main () {
     }
     
     
-    if(string::npos != filename.find("mat")) {
+    else if(string::npos != filename.find("mat")) {
+        // Checks if the string "mat" is contained in the filename
         // How the contents are treated in case a mat file (matrix) is opened
         
         string line;
@@ -63,7 +65,7 @@ int main () {
         else cout << "Unable to open file \n";
     }
     
-    
+    else cout << "Format not recognized.";
         
         
     
