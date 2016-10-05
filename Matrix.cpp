@@ -11,7 +11,7 @@
 
 double Matrix::getProbability (char const N, int const l)
 {
-	if (l<1 or N!=A or N!=T or N!=G or N!=C)
+	if (l<1 or l>7 or N!=A or N!=T or N!=G or N!=C)
 	{	
         cerr << "Error : negative line value or invalid nucleotide character" << endl;
     }
