@@ -11,6 +11,12 @@
 void test_getPosition()
 {
     
+    char A(A);
+    char B(B);
+    char C(C);
+    char G(G);
+    char T(T);
+   
     //if line value is invalid and negative
     double res1 = getPosition(A, -3);
     std::cout << "Test 1: " << res1 << std::endl;
