@@ -7,8 +7,6 @@
 //
 
 #include "Matrix.hpp"
-#include <iostream>
-
 
 void test_getPosition()
 {
