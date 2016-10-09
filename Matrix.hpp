@@ -8,6 +8,6 @@ class Matrix
 	
 	public :
 	
-	double getProbability (char const N, int const l); //returns the probability for a nucleotide in a specific position
+	static double getProbability (char const N, int const l); //returns the probability for a nucleotide in a specific position
 	
 };
