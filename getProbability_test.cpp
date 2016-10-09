@@ -21,31 +21,31 @@ void test_getPosition()
     
     double res1, res2, res3, res4, res5, res6, res7;
    
-    //if line value is invalid and negative
+    //If line value is invalid : Negative
     res1 = (Matrix::getProbability(A, -3));
-    std::cout << "Test 1: " << res1 << std::endl;
+    cout << "Test 1: " << res1 << endl;
     
-    //if line value is invalid and greater than 7
+    //If line value is invalid : Greater than 7
     res7 = (Matrix::getProbability(A, 9));
-    std::cout << "Test 7: " << res7 << std::endl;
+    cout << "Test 7: " << res7 << endl;
 
-    //if nucleotid character is invalid
-	res2 = (Matrix::getProbability(B, 3));
-    std::cout << "Test 2: " << res2 << std::endl;
+    //If nucleotid character is invalid : Different than A, C, G, T
+    res2 = (Matrix::getProbability(B, 3));
+    cout << "Test 2: " << res2 << endl;
     
-    //no problems column 1
+    //No problems column 1
     res3 = Matrix::getProbability(A, 3);
-    std::cout << "Test 3: " << res3 << std::endl;
+    cout << "Test 3: " << res3 << endl;
     
-    //no problems column 2
+    //No problems column 2
     res4 = Matrix::getProbability(C, 3);
-    std::cout << "Test 4: " << res4 << std::endl;
+    cout << "Test 4: " << res4 << endl;
     
-    //no problems column 3
+    //No problems column 3
     res5 = Matrix::getProbability(G, 3);
-    std::cout << "Test 5: " << res5 << std::endl;
+    cout << "Test 5: " << res5 << endl;
     
-    //no problems column 4
+    //No problems column 4
     res6 = Matrix::getProbability(T, 3);
-    std::cout << "Test 6: " << res6 << std::endl;
+    cout << "Test 6: " << res6 << endl;
 }
