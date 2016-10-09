@@ -8,25 +8,27 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <sstream>
+
 
 double Matrix::getProbability (char const N, int const l)
 {
-	if (l<1 or l>7 or N!=A or N!=T or N!=G or N!=C)
+	if (l<1 or l>7 or N!='A' or N!='T' or N!='G' or N!='C')
 	{	
-        cerr << "Error : negative line value or invalid nucleotide character" << endl;
+        std::cerr << "Error : negative line value or invalid nucleotide character" << std::endl;
     }
 	
-	ifstream PPM;
+	std::ifstream PPM;
 	PPM.open("DBP_PPM.mat");
 	
-	if (PPM.fail(())
+	if (PPM.fail())
 	{
-		cerr << "Error : Cannot read file DBP_PPM.mat" << endl;
+		std::cerr << "Error : Cannot read file DBP_PPM.mat" << std::endl;
 		
-		exit(1); //Call system to stop
+		return(1); //what should we return in case of error?
 		
 	} else {
-				string line;
+				std::string line;
 				int i(1);
 				double A, T, C, G;
 				
@@ -43,14 +45,17 @@ double Matrix::getProbability (char const N, int const l)
         
 				switch (N)                              //returns the requested nucleotide probability
                 {
-					case A:
+					case 'A':
 					return A;
-					case T:
+					case 'T':
 					return T;
-					case C:
+					case 'C':
 					return C;
-					case G:
+					case 'G':
 					return G;
                 }
+                
+                //we have dealt with the case that N is not one of the acceped letters
+                //should we put an error message anyway in case there are problems?
             }
 }
