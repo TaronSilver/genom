@@ -7,41 +7,45 @@
 //
 
 #include "Matrix.hpp"
+#include <iostream>
+
 
 void test_getPosition()
 {
     
-    char A(A);
-    char B(B);
-    char C(C);
-    char G(G);
-    char T(T);
+    char A('A');
+    char B('B');
+    char C('C');
+    char G('G');
+    char T('T');
+    
+    double res1, res2, res3, res4, res5, res6, res7;
    
     //if line value is invalid and negative
-    double res1 = getPosition(A, -3);
+    res1 = (Matrix::getProbability(A, -3));
     std::cout << "Test 1: " << res1 << std::endl;
     
     //if line value is invalid and greater than 7
-    double res7 = getPosition(A, 9);
+    res7 = (Matrix::getProbability(A, 9));
     std::cout << "Test 7: " << res7 << std::endl;
 
     //if nucleotid character is invalid
-    double res2 = getPosition(B, 3);
+	res2 = (Matrix::getProbability(B, 3));
     std::cout << "Test 2: " << res2 << std::endl;
     
     //no problems column 1
-    double res3 = getPosition(A, 3);
+    res3 = Matrix::getProbability(A, 3);
     std::cout << "Test 3: " << res3 << std::endl;
     
     //no problems column 2
-    double res4 = getPosition(C, 3);
+    res4 = Matrix::getProbability(C, 3);
     std::cout << "Test 4: " << res4 << std::endl;
     
     //no problems column 3
-    double res5 = getPosition(G, 3);
+    res5 = Matrix::getProbability(G, 3);
     std::cout << "Test 5: " << res5 << std::endl;
     
     //no problems column 4
-    double res6 = getPosition(T, 3);
+    res6 = Matrix::getProbability(T, 3);
     std::cout << "Test 6: " << res6 << std::endl;
 }
