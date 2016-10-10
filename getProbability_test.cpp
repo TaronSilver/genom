@@ -1,5 +1,5 @@
 //
-//  getPosition_test.cpp
+//  getProbability_test.cpp
 //  
 //
 //  Created by Erica Geneletti and Katia Schalk on 05/10/16.
@@ -8,7 +8,7 @@
 
 #include "Matrix.hpp"
 
-void test_getPosition()
+void test_getProbability()
 {
     
     char A('A');
@@ -20,15 +20,15 @@ void test_getPosition()
     double res1, res2, res3, res4, res5, res6, res7;
    
     //If line value is invalid : Negative
-    res1 = (Matrix::getProbability(A, -3));
+    res1 = Matrix::getProbability(A, -3);
     cout << "Test 1: " << res1 << endl;
     
     //If line value is invalid : Greater than 7
-    res7 = (Matrix::getProbability(A, 9));
+    res7 = Matrix::getProbability(A, 9);
     cout << "Test 7: " << res7 << endl;
 
     //If nucleotid character is invalid : Different than A, C, G, T
-    res2 = (Matrix::getProbability(B, 3));
+    res2 = Matrix::getProbability(B, 3);
     cout << "Test 2: " << res2 << endl;
     
     //No problems column 1
