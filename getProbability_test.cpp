@@ -8,7 +8,7 @@
 
 #include "Matrix.hpp"
 
-void test_getProbability()
+void getProbability_test()
 {
     
     char A('A');
