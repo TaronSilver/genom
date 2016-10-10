@@ -8,7 +8,11 @@ Using namespace std;
 
 class Matrix
 {
-	
+	private:
+	vector<vector<double>> logMatrix;
+	vector<vector<double>> probMatrix;
+	Matrix(string fileName); // cobstructor
+	void probToLog();
 	public :
 	
 	/* Returns the probability for a nucleotide in a specific position.
