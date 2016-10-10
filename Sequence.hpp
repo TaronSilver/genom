@@ -1,0 +1,6 @@
+
+class Sequence
+	{
+		public:
+	
+	};
