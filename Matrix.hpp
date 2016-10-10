@@ -13,6 +13,7 @@ class Matrix
 	vector<vector<double>> probMatrix;
 	Matrix(string fileName); // cobstructor
 	void probToLog();
+	// add an atribute sequence ???
 	public :
 	
 	/* Returns the probability for a nucleotide in a specific position.
