@@ -25,7 +25,7 @@ class Sequence
 		void calc_BaseProb();
 		bool invalid_format(std::string file_name); // MattMinder
 		void ask_name(std::string& entry_name); // Actually ask the file's name
-		std::vector <std::string> extract_sequence(std::string const& entry_name);
+		std::vector <std::string> extract_sequence(std::string const& entry_name); // Returns a vector containing all the different strings contained in the file.
 	};
 
 #endif
