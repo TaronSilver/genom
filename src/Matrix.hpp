@@ -2,6 +2,11 @@
 #include <array>
 
 #include <iostream>
+#include <fstream>
+#include <sstream>
+
+#include <string>
+
 
 typedef std::array < double,4 > BaseProbabilities;
 typedef std::vector<std::vector<double>> ProbMatrix;
@@ -17,7 +22,9 @@ class Matrix
 	// add an atribute sequence ???
 	
 	public :
-	/*Method that compute the logMatrix from the probMatrix*/
+	
+	/*Method that compute the logMatrix from the probMatrix.
+	 Baseprobabilities bp is an array with the 4 base reference probability*/
 	void compute_logMatrix (const BaseProbabilities& bp);
 	
 	/* Returns the probability for a nucleotide in a specific position.

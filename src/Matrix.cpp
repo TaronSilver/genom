@@ -1,31 +1,34 @@
 #include "Matrix.hpp"
-#include <fstream>
-#include <string>
-#include <sstream>
 
 
 void Matrix::compute_logMatrix (const BaseProbabilities& bp)
 {
-	double x, y;
-	logMatrix.resize(proMatrix.size());
-	
-	for(size_t i(0);i<probMatrix.size;++i)
+	if (bp.empty)
 	{
-		for (size_t j(0);j<4;++j)
-		{
-			y=probMatrix[j];
-			x=log2(y/bp[j]);
-			logMatrix[i][j] = x;	
-		}
+		std::cout << "Your BaseProbabilities is empty, we can't compute your logMatrix." << std:: endl;
+		
+	} else {
+				double x, y;
 	
-	}
+				logMatrix.resize(probMatrix.size());
+	
+				for(size_t i(0);i<probMatrix.size;++i)
+				{
+					for (size_t j(0);j<4;++j)
+						{
+							y=probMatrix[j];
+							x=log2(y/bp[j]);
+							logMatrix[i][j] = x;	
+						}
+				}
+			}
 }
 
 double Matrix::getProbability (char const N, int const l)
 {
 	if (l<1 or l>7 or N!='A' or N!='T' or N!='G' or N!='C')
 	{	
-        cerr << "Error : negative line value or invalid nucleotide character" << endl;
+        std::cerr << "Error : negative line value or invalid nucleotide character" << std::endl;
     }
 	
 	ifstream PPM;
@@ -33,7 +36,7 @@ double Matrix::getProbability (char const N, int const l)
 	
 	if (PPM.fail())
 	{
-		cerr << "Error : Cannot read file DBP_PPM.mat" << endl;
+		std::cerr << "Error : Cannot read file DBP_PPM.mat" << std::endl;
 		
 		return(1); //what should we return in case of error?
 		
