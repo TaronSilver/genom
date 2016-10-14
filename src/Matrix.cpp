@@ -139,8 +139,12 @@ void Matrix::sequenceExtract(double cutoff) {
 
 /* Function that accesses the extracted DNA sequences and returns a vector of strings. */
 std::vector<std::string> accessDNASequences() {
+    
+    if (sequenceList.empty()) {
+        throw "Error : No sequences extracted.";
+    }
+    
     return sequenceList;
     
-    // It'd be probably good for the function to throw an error if this list is empty
 }
 
