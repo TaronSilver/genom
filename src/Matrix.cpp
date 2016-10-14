@@ -1,14 +1,25 @@
-
-
-// Created by Erica Geneletti and Katia Schalk on 5/10/16
-
-
-
 #include "Matrix.hpp"
 #include <fstream>
 #include <string>
 #include <sstream>
 
+
+void Matrix::compute_logMatrix (const BaseProbabilities& bp)
+{
+	double x, y;
+	logMatrix.resize(proMatrix.size());
+	
+	for(size_t i(0);i<probMatrix.size;++i)
+	{
+		for (size_t j(0);j<4;++j)
+		{
+			y=probMatrix[j];
+			x=log2(y/bp[j]);
+			logMatrix[i][j] = x;	
+		}
+	
+	}
+}
 
 double Matrix::getProbability (char const N, int const l)
 {
