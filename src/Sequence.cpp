@@ -4,11 +4,15 @@
 #include <fstream>
 #include <algorithm>
 
-void Sequence::initialization() {
+void ask_name(std::string entry_name);
+std::vector <std::string> extract_sequence(std::string const& entry_name);
+bool invalid_format(std::string file_name);
+
+void initialization() {
     std::string entry_name;		// This string will contain the name of the file we want to open.
     
     try {
-        Sequence::ask_name(entry_name); 
+        ask_name(entry_name); 
 	}
     catch(std::string& err) {
         std::cerr <<"Error: " <<err <<std::endl;
@@ -16,10 +20,10 @@ void Sequence::initialization() {
         exit(1); // Stops the program.
 	}
     
-    Sequence::extract_sequence(entry_name); 
+    extract_sequence(entry_name); 
   }
 
-void Sequence::ask_name(std::string& entry_name) {
+void ask_name(std::string& entry_name) {
     std::cout <<"Please give the name of your data file: ";
     std::cin >>entry_name;
     
@@ -38,7 +42,7 @@ void Sequence::ask_name(std::string& entry_name) {
     }
 }
 
-std::vector <std::string> Sequence::extract_sequence(std::string const& entry_name) {
+std::vector <std::string> extract_sequence(std::string const& entry_name) {
     std::ifstream entry(entry_name.c_str());
     std::string line;
     
@@ -83,7 +87,7 @@ std::vector <std::string> Sequence::extract_sequence(std::string const& entry_na
 /*
  The creation of the list generates a compilation error unless flag -c++11, which I have not yet been able to solve
  */
-bool Sequence::invalid_format(std::string file_name) {
+bool invalid_format(std::string file_name) {
     
     // Defines list with known file formats
     static const std::vector<std::string> validValues {".fasta", ".fas", ".fna", ".ffn"};
