@@ -4,9 +4,9 @@
 #include <fstream>
 #include <algorithm>
 
-void ask_name(std::string entry_name);
-std::vector <std::string> extract_sequence(std::string const& entry_name);
-bool invalid_format(std::string file_name);
+Sequence::Sequence(const std::string sequence)
+:sequence_(sequence)
+{}
 
 void initialization() {
     std::string entry_name;		// This string will contain the name of the file we want to open.
@@ -20,8 +20,11 @@ void initialization() {
         exit(1); // Stops the program.
 	}
     
-    extract_sequence(entry_name); 
-  }
+   std::vector <std::string> sequences(extract_sequence(entry_name)); 
+   for(size_t i(0); i<sequences.size(); ++i){
+	   Sequence seq(sequences[i]);
+   }
+}
 
 void ask_name(std::string& entry_name) {
     std::cout <<"Please give the name of your data file: ";

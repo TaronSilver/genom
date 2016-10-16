@@ -19,13 +19,12 @@ class Sequence
 		//void initialization(); // Allows to ask the name of the file we want to open, with exception handling
 		
 		
-		
 		private:
 		double baseProbabibilityA;
 		double baseProbabibilityT;
 		double baseProbabibilityC;
 		double baseProbabibilityG;
-		const std::string sequence;
+		const std::string sequence_;
 		
 		void calc_BaseProb();
 		//bool invalid_format(std::string file_name); // MattMinder
