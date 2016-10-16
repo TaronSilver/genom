@@ -26,14 +26,13 @@ void initialization() {
    }
 }
 
-void ask_name(std::string& entry_name) {
+void ask_name(std::string entry_name) {
     std::cout <<"Please give the name of your data file: ";
     std::cin >>entry_name;
     
     std::ifstream entry(entry_name.c_str());
     
     if (entry.fail()) {
-		
         std::string error("Impossible to read the file:");
         error+=entry_name;
         throw error; 
@@ -103,3 +102,20 @@ bool invalid_format(std::string file_name) {
 
     return 1;
 }
+
+std::vector<size_t> find_sequence(const std::string& string_to_find, const std::vector<std::string>& genes, int sequence_in_tab) 
+		{
+			std::vector<size_t> starting_positions; //it's possible to have several matches in the sequence
+			size_t starting_position(-1);
+			std::cout << "SEARCHING '" << string_to_find << "' in the sequence number " << sequence_in_tab << " of the tab " << std::endl; 
+			do {
+					starting_position = genes[sequence_in_tab].find(string_to_find, starting_position+1); //the function "find" returns the first position of the first character of the first match
+					if(starting_position != std::string::npos)
+					{
+						starting_positions.push_back(starting_position);
+						std::cout << starting_positions.size() << " FOUND starting at char " << starting_position << std::endl;
+					}
+				} while (starting_position != std::string::npos);
+			std::cout << " SCAN FINISHED " << starting_positions.size() << " occurences found" << std::endl;
+			return starting_positions;
+		}
