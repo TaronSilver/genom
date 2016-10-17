@@ -3,22 +3,23 @@
 
 void Matrix::compute_logMatrix (const BaseProbabilities& bp)
 {
-	if (bp.empty)
+	if (bp.empty())
 	{
 		std::cout << "Your BaseProbabilities is empty, we can't compute your logMatrix." << std:: endl;
 		
 	} else {
 				double x, y;
 	
-				logMatrix.resize(probMatrix.size());
+				logMatrix.resize(probMatrix.size());/*Give to logMatrix the same size than probMatrix*/
+				  
 	
-				for(size_t i(0);i<probMatrix.size;++i)
+				for(size_t i(0);i<probMatrix.size();++i)
 				{
-					for (size_t j(0);j<4;++j)
+					for (size_t j(0);j<4;++j)/*Read the probMatrix*/
 						{
 							y=probMatrix[j];
-							x=log2(y/bp[j]);
-							logMatrix[i][j] = x;	
+							x=log2(y/bp[j]); /*Calcul the new values we need*/
+							logMatrix[i][j] = x;/*Stock this new x values in the logMatrix*/
 						}
 				}
 			}
