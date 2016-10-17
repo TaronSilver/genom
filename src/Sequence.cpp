@@ -105,13 +105,13 @@ bool InvalidFormat(std::string file_name) {
     return 1;
 }
 
-std::vector<size_t> Find(const std::string& string_to_find, const std::vector<std::string>& genes, int sequence_in_tab) 
+std::vector<size_t> Sequence::find_sequence(const std::string& string_to_find) 
 		{
 			std::vector<size_t> starting_positions; //it's possible to have several matches in the sequence
 			size_t starting_position(-1);
-			std::cout << "SEARCHING '" << string_to_find << "' in the sequence number " << sequence_in_tab << " of the tab " << std::endl; 
+			std::cout << "SEARCHING '" << string_to_find << "' in the sequence" << std::endl; 
 			do {
-					starting_position = genes[sequence_in_tab].find(string_to_find, starting_position+1); //the function "find" returns the first position of the first character of the first match
+					starting_position = sequence.find(string_to_find, starting_position+1); //the function "find" returns the first position of the first character of the first match
 					if(starting_position != std::string::npos)
 					{
 						starting_positions.push_back(starting_position);
@@ -120,4 +120,14 @@ std::vector<size_t> Find(const std::string& string_to_find, const std::vector<st
 				} while (starting_position != std::string::npos);
 			std::cout << " SCAN FINISHED " << starting_positions.size() << " occurences found" << std::endl;
 			return starting_positions;
+		}
+		
+		void Sequence::calc_BaseProb() {
+			double size_seq(sequence.size());
+			
+			baseProbabibilityA = (static_cast<double>(find_sequence("A").size()))/size_seq; // division entiere ??????
+			baseProbabibilityT = (static_cast<double>(find_sequence("T").size()))/size_seq; // division entiere ??????
+			baseProbabibilityC = (static_cast<double>(find_sequence("C").size()))/size_seq; // division entiere ??????
+			baseProbabibilityG = (static_cast<double>(find_sequence("G").size()))/size_seq; // division entiere ??????
+			
 		}
