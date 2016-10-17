@@ -121,3 +121,14 @@ std::vector<size_t> Find(const std::string& string_to_find, const std::vector<st
 			std::cout << " SCAN FINISHED " << starting_positions.size() << " occurences found" << std::endl;
 			return starting_positions;
 		}
+		
+std::vector<double> Sequence::get_probabilities()
+{
+	std::vector<double> result;
+	result.push_back(baseProbabibilityA);
+	result.push_back(baseProbabibilityC);
+	result.push_back(baseProbabibilityG);
+	result.push_back(baseProbabibilityT);
+	
+	return result;
+}
