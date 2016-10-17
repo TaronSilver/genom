@@ -4,7 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-
+#include <cmath>
 #include <string>
 
 /* Defines number of different nucleotides in DNA sequnece (always 4) */
@@ -13,8 +13,8 @@
 
 
 typedef std::array < double,4 > BaseProbabilities;
-typedef std::vector<std::vector<double>> ProbMatrix;
-typedef std::vector<std::array<double, 4>> LogMatrix;
+typedef std::vector<std::vector<double> > ProbMatrix;
+typedef std::vector<std::array<double, 4> > LogMatrix;
 typedef std::vector<std::string> SequenceList;
 
 class Matrix

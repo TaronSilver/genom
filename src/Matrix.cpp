@@ -3,7 +3,7 @@
 
 void Matrix::compute_logMatrix (const BaseProbabilities& bp)
 {
-	if (bp.empty)
+	if (bp.empty())
 	{
 		std::cout << "Your BaseProbabilities is empty, we can't compute your logMatrix." << std:: endl;
 		
@@ -12,7 +12,7 @@ void Matrix::compute_logMatrix (const BaseProbabilities& bp)
 	
 				logMatrix.resize(probMatrix.size());
 	
-				for(size_t i(0);i<probMatrix.size;++i)
+				for(size_t i(0);i<probMatrix.size();++i)
 				{
 					for (size_t j(0);j<4;++j)
 						{
@@ -31,7 +31,7 @@ double Matrix::getProbability (char const N, int const l)
         std::cerr << "Error : negative line value or invalid nucleotide character" << std::endl;
     }
 	
-	ifstream PPM;
+    std::ifstream PPM;
 	PPM.open("DBP_PPM.mat");
 	
 	if (PPM.fail())
@@ -41,7 +41,7 @@ double Matrix::getProbability (char const N, int const l)
 		return(1); //what should we return in case of error?
 		
 	} else {
-				string line;
+                std::string line;
 				int i(1);
 				double A, T, C, G;
 				
@@ -51,7 +51,7 @@ double Matrix::getProbability (char const N, int const l)
 					++i;
 				}
 				
-				istringstream values(line);		//copies line into new stream
+                std::istringstream values(line);		//copies line into new stream
 				values >> A >> C >> G >> T;		//reads new stream and puts values into nucleotide probabilities
 				
                 PPM.close();
@@ -81,7 +81,7 @@ double Matrix::getProbability (char const N, int const l)
 void Matrix::sequenceExtract(double cutoff) {
     
     // Double that sums the current combination
-    double score(0);
+    double score(0.0);
     
     // Variables that represent matrix properties, to avoid unnecessery
     // computations at each iteration, increasing performance.
@@ -138,7 +138,7 @@ void Matrix::sequenceExtract(double cutoff) {
 }
 
 /* Function that accesses the extracted DNA sequences and returns a vector of strings. */
-std::vector<std::string> accessDNASequences() {
+std::vector<std::string> Matrix::accessDNASequences() {
     
     if (sequenceList.empty()) {
         throw "Error : No sequences extracted.";
