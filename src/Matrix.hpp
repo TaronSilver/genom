@@ -24,16 +24,28 @@ class Matrix
 	LogMatrix logMatrix;
 	ProbMatrix probMatrix;
     SequenceList sequenceList;
-	Matrix(const std::string& fileName); // cobstructor
 	void probToLog();
-	static std::vector<std::vector<double> > mkProbMatrix(std::string const& fileName);
+    
+    /*!
+     * @brief Function that initializes matrix from string.
+     *
+     * @param Name of the input matrix file
+     * @return 1 if success, 0 if error
+     */
+    bool mkProbMatrix(std::string const& fileName);
 
 	
     
 	public :
+    
+    Matrix(const std::string& fileName); // cobstructor
+
+    
 	int getMatrixRowCount(); //{ return probMatrix.size()}
 	/*Method that compute the logMatrix from the probMatrix.
 	 Baseprobabilities bp is an array with the 4 base reference probability*/
+    
+    
 	void compute_logMatrix (const BaseProbabilities& bp);
 	
 	/* Returns the probability for a nucleotide in a specific position.

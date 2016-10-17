@@ -1,6 +1,12 @@
 #include "Matrix.hpp"
 
 
+
+Matrix::Matrix(const std::string& fileName) {
+    mkProbMatrix(fileName);
+}
+
+
 void Matrix::compute_logMatrix (const BaseProbabilities& bp)
 {
     if (bp.empty())
@@ -17,13 +23,17 @@ void Matrix::compute_logMatrix (const BaseProbabilities& bp)
         {
             for (size_t j(0);j<4;++j)/*Read the probMatrix*/
             {
-                y=probMatrix[j];
+                y=probMatrix[i][j];
                 x=log2(y/bp[j]); /*Calcul the new values we need*/
                 logMatrix[i][j] = x;/*Stock this new x values in the logMatrix*/
             }
         }
     }
 }
+
+/*
+ 
+ Commented out because not used at the moment and is producing compiling error.
 
 double Matrix::getProbability (char const N, int const pos)
 {
@@ -52,7 +62,9 @@ double Matrix::getProbability (char const N, int const pos)
     }
 }
 
-static std::vector<std::vector<double> > mkProbMatrix(std::string const& fileName)
+*/
+
+bool Matrix::mkProbMatrix(std::string const& fileName)
 {
     //open file containing PWM
     std::ifstream PWM;
@@ -62,11 +74,10 @@ static std::vector<std::vector<double> > mkProbMatrix(std::string const& fileNam
     if (PWM.fail()) {
         
         throw std::string("Error: Cannot read PWM file");
+        return 0;
         
     } else {
         
-        //make a matrix to return
-        std::vector<std::vector<double> > probMatrix;
         
         //create all variables to be use later
         std::string line;
@@ -79,6 +90,7 @@ static std::vector<std::vector<double> > mkProbMatrix(std::string const& fileNam
             
             //(1) make a sting containing ith line
             getline(PWM, line);
+            
             //check if at end of file now
             if (PWM.eof()) break;
             
@@ -89,15 +101,15 @@ static std::vector<std::vector<double> > mkProbMatrix(std::string const& fileNam
             values >> A >> C >> G >> T;
             
             //(4) make a matrix to pushback for line 1
-            rowi[] = { A, C, G, T };
+            rowi = { A, C, G, T };
             
             //(5) pushback the new row
-            probMatrix.push_back(rowi);
+            Matrix::probMatrix.push_back(rowi);
         }
         
         
         PWM.close();
-        return probMatrix;
+        return 1;
     }
 }
 

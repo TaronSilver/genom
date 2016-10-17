@@ -27,7 +27,7 @@ class Sequence
 		double baseProbabibilityG;
 		double baseProbabibilityT;
 		
-		const std::string sequence_;
+		const std::string sequence;
 		
 		void calc_BaseProb();
 		//bool invalid_format(std::string file_name); // MattMinder
