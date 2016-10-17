@@ -23,9 +23,10 @@ class Sequence
 		
 		private:
 		double baseProbabibilityA;
-		double baseProbabibilityT;
 		double baseProbabibilityC;
 		double baseProbabibilityG;
+		double baseProbabibilityT;
+		
 		const std::string sequence_;
 		
 		void calc_BaseProb();
