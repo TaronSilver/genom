@@ -1,4 +1,4 @@
-#include "Matrix.hpp"
+#include "../src/Matrix.hpp"
 
 void compute_logMatrix_test()
 {

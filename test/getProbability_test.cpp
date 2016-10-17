@@ -6,7 +6,7 @@
 //
 //
 
-#include "Matrix.hpp"
+#include "../src/Matrix.hpp"
 
 void getProbability_test()
 {

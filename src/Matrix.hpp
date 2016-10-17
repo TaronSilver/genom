@@ -20,16 +20,18 @@ typedef std::vector<std::string> SequenceList;
 class Matrix
 {
 	private:
+	
 	LogMatrix logMatrix;
 	ProbMatrix probMatrix;
     SequenceList sequenceList;
 	Matrix(const std::string& fileName); // cobstructor
 	void probToLog();
-	// add an atribute sequence ???
+	static std::vector<std::vector<double> > mkProbMatrix(std::string const& fileName);
+
 	
     
 	public :
-	
+	int getMatrixRowCount(); //{ return probMatrix.size()}
 	/*Method that compute the logMatrix from the probMatrix.
 	 Baseprobabilities bp is an array with the 4 base reference probability*/
 	void compute_logMatrix (const BaseProbabilities& bp);
