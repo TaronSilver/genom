@@ -8,7 +8,7 @@ Sequence::Sequence(const std::string sequence)
 :sequence_(sequence)
 {}
 
-void initialization() {
+void  Initialization() {
     std::string entry_name;		// This string will contain the name of the file we want to open.
     
     try {
@@ -26,7 +26,7 @@ void initialization() {
    }
 }
 
-void ask_name(std::string entry_name) {
+void ask_name(std::string& entry_name) {
     std::cout <<"Please give the name of your data file: ";
     std::cin >>entry_name;
     
