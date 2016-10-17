@@ -33,7 +33,7 @@ void Matrix::compute_logMatrix (const BaseProbabilities& bp)
 
 /*
  
- Commented out because not used at the moment and is producing compiling error.
+ Commented out because not used at the moment and is producing compiling error. --mattminder
 
 double Matrix::getProbability (char const N, int const pos)
 {
