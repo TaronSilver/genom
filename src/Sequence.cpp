@@ -6,13 +6,15 @@
 
 Sequence::Sequence(const std::string sequence)
 :sequence_(sequence)
-{}
+{
+	std::cout <<"Création d'une nouvelle séquence: " <<sequence <<std::endl;
+	}
 
 void  Initialization() {
     std::string entry_name;		// This string will contain the name of the file we want to open.
     
     try {
-        ask_name(entry_name); 
+        AskName(entry_name); 
 	}
     catch(std::string& err) {
         std::cerr <<"Error: " <<err <<std::endl;
@@ -20,13 +22,13 @@ void  Initialization() {
         exit(1); // Stops the program.
 	}
     
-   std::vector <std::string> sequences(extract_sequence(entry_name)); 
+   std::vector <std::string> sequences(ExtractSequence(entry_name)); 
    for(size_t i(0); i<sequences.size(); ++i){
 	   Sequence seq(sequences[i]);
    }
 }
 
-void ask_name(std::string& entry_name) {
+void AskName(std::string& entry_name) {
     std::cout <<"Please give the name of your data file: ";
     std::cin >>entry_name;
     
@@ -39,12 +41,12 @@ void ask_name(std::string& entry_name) {
 	}
     entry.close(); // Don't you have to close it afterwards?
     
-    if(invalid_format(entry_name)) {
+    if(InvalidFormat(entry_name)) {
         throw std::string("Unknown format.");
     }
 }
 
-std::vector <std::string> extract_sequence(std::string const& entry_name) {
+std::vector <std::string> ExtractSequence(std::string const& entry_name) {
     std::ifstream entry(entry_name.c_str());
     std::string line;
     
@@ -76,9 +78,9 @@ std::vector <std::string> extract_sequence(std::string const& entry_name) {
     
     
     // Testing the values by showing them
-    for(size_t i(0); i<sequences.size(); ++i){
+    /*for(size_t i(0); i<sequences.size(); ++i){
         std::cout <<sequences[i] <<'\n'; 
-	}
+	}*/
     
     entry.close(); // Don't you have to close it afterwards?
     return sequences;
@@ -89,7 +91,7 @@ std::vector <std::string> extract_sequence(std::string const& entry_name) {
 /*
  The creation of the list generates a compilation error unless flag -c++11, which I have not yet been able to solve
  */
-bool invalid_format(std::string file_name) {
+bool InvalidFormat(std::string file_name) {
     
     // Defines list with known file formats
     static const std::vector<std::string> validValues {".fasta", ".fas", ".fna", ".ffn"};
@@ -103,7 +105,7 @@ bool invalid_format(std::string file_name) {
     return 1;
 }
 
-std::vector<size_t> find_sequence(const std::string& string_to_find, const std::vector<std::string>& genes, int sequence_in_tab) 
+std::vector<size_t> Find(const std::string& string_to_find, const std::vector<std::string>& genes, int sequence_in_tab) 
 		{
 			std::vector<size_t> starting_positions; //it's possible to have several matches in the sequence
 			size_t starting_position(-1);

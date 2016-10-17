@@ -5,10 +5,10 @@
 #include <vector>
 
 void Initialization();
-void ask_name(std::string& entry_name);
-std::vector <std::string> extract_sequence(std::string const& entry_name);
-bool invalid_format(std::string file_name);
-std::vector<size_t> find(const std::string& string_to_find, const std::vector<std::string>& genes, int sequence_in_gene); // find_sequence() returns a vector with all the starting positions of each occurences of the searched thing // souhailelaissaoui
+void AskName(std::string& entry_name);
+std::vector <std::string> ExtractSequence(std::string const& entry_name);
+bool InvalidFormat(std::string file_name);
+std::vector<size_t> Find(const std::string& string_to_find, const std::vector<std::string>& genes, int sequence_in_gene); // find_sequence() returns a vector with all the starting positions of each occurences of the searched thing // souhailelaissaoui
 
 
 class Sequence
