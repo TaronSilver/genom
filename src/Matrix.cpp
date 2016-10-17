@@ -25,51 +25,78 @@ void Matrix::compute_logMatrix (const BaseProbabilities& bp)
 			}
 }
 
-double Matrix::getProbability (char const N, int const l)
+double Matrix::getProbability (char const N, int const pos)
 {
-	if (l<1 or l>7 or N!='A' or N!='T' or N!='G' or N!='C')
+	//check for valid input
+	if (pos<1 or pos>getMatrixRowCount() or N!='A' or N!='T' or N!='G' or N!='C')
 	{	
-        std::cerr << "Error : negative line value or invalid nucleotide character" << std::endl;
-    }
-	
-	ifstream PPM;
-	PPM.open("DBP_PPM.mat");
-	
-	if (PPM.fail())
-	{
-		std::cerr << "Error : Cannot read file DBP_PPM.mat" << std::endl;
 		
-		return(1); //what should we return in case of error?
+        throw std::string("Error: invalid nucleotide or position");
+        
+    } else {
+		
+		//define column to look in
+		int column;
+		switch (N) {
+			case 'A':
+			column = 0;
+			case 'T':
+			column = 3;
+			case 'C':
+			column = 1;
+			case 'G':
+			column = 2;
+		}
+		
+		return probMatrix[column][pos];
+	}
+}
+
+static std::vector<std::vector<double> > mkProbMatrix(std::string const& fileName)
+{
+	//open file containing PWM
+	std::ifstream PWM;
+	PWM.open("fileName");
+	
+	//send an error if there is a problem opening file
+	if (PWM.fail()) {
+		
+		throw std::string("Error: Cannot read PWM file");
 		
 	} else {
-				string line;
-				int i(1);
-				double A, T, C, G;
-				
-				while(i<=l)				//obtains the requested line in the PPM stream
-				{
-					getline(PPM, line);	
-					++i;
-				}
-				
-				istringstream values(line);		//copies line into new stream
-				values >> A >> C >> G >> T;		//reads new stream and puts values into nucleotide probabilities
-				
-                PPM.close();
-        
-				switch (N)                              //returns the requested nucleotide probability
-                {
-					case 'A':
-					return A;
-					case 'T':
-					return T;
-					case 'C':
-					return C;
-					case 'G':
-					return G;
-                }
-                
-                //we have dealt with the case that N is not one of the acceped letters
-                //should we put an error message anyway in case there are problems?
-            }
+		
+		//make a matrix to return
+		std::vector<std::vector<double> > probMatrix;
+		
+		//create all variables to be use later
+		std::string line;
+		std::istringstream values;
+		double A, T, C, G;
+		std::vector< double > rowi(4);
+		
+		//push back of rows:
+		while (true) {
+			
+			//(1) make a sting containing ith line
+			getline(PWM, line);
+			//check if at end of file now
+			if (PWM.eof()) break;
+			
+			//(2) copy line into new stream 
+			values.str (line);
+			
+			//(3) read values and copy into variables
+			values >> A >> C >> G >> T;
+			
+			//(4) make a matrix to pushback for line 1
+			rowi[] = { A, C, G, T };
+			
+			//(5) pushback the new row
+			probMatrix.push_back(rowi);
+		}
+
+	
+		PWM.close();
+		return probMatrix;
+	}
 }
