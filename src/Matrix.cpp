@@ -101,8 +101,7 @@ void Matrix::compute_abs_relativeMatrix()
 		
 	}
 				
-}
-									
+}								
 				
 void Matrix::compute_rel_absoluteMatrix()
 {	
