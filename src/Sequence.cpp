@@ -5,7 +5,7 @@
 #include <algorithm>
 
 Sequence::Sequence(const std::string sequence)
-:sequence_(sequence)
+:sequence(sequence)
 {
 	std::cout <<"Création d'une nouvelle séquence: " <<sequence <<std::endl;
 	}
