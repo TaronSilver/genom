@@ -7,21 +7,28 @@
 #include <cmath>
 #include <string>
 
+#include <cmath>
+
 /* Defines number of different nucleotides in DNA sequnece (always 4) */
 #define NUMBER_NUCLEOTIDES 4
+#define MINUSINFINI -1000.0
 
 
 
 typedef std::array < double,4 > BaseProbabilities;
 typedef std::vector<std::vector<double> > ProbMatrix;
-typedef std::vector<std::array<double, 4> > LogMatrix;
+typedef std::vector<std::array<double, 4> > NewMatrix;
+typedef std::vector < double > SimpleVector;
+
 typedef std::vector<std::string> SequenceList;
 
 class Matrix
 {
 	private:
 	
-	LogMatrix logMatrix;
+	ProbMatrix logMatrix;
+	ProbMatrix absoluteMatrix;
+	ProbMatrix relativeMatrix;
 	ProbMatrix probMatrix;
     SequenceList sequenceList;
 	Matrix(const std::string& fileName); // cobstructor
@@ -32,9 +39,27 @@ class Matrix
     
 	public :
 	int getMatrixRowCount(); //{ return probMatrix.size()}
-	/*Method that compute the logMatrix from the probMatrix.
-	 Baseprobabilities bp is an array with the 4 base reference probability*/
-	void compute_logMatrix (const BaseProbabilities& bp);
+	
+	/*Method that compute the logMatrix from the absoluteMatrix.
+	 Baseprobabilities bp is an array with the 4 base reference probability, we calcul our log with it to be more precise*/
+	void compute_abs_logMatrix (const BaseProbabilities& bp);
+	
+	/*Method that compute the absoluteMatrix from the logMatrix*/
+	void compute_log_absoluteMatrix (const BaseProbabilities& bp);
+	
+	/*Method that compute the relativeMatrix from the absoluteMatrix*/
+	void compute_abs_relativeMatrix();
+	
+	/*Method that compute the absoluteMatrix from the relativeMatrix*/
+	void compute_rel_absoluteMatrix();
+	
+	/*Calcul the sum we need to pass from the relative to the absolute matrix*/
+	SimpleVector calcul_sum();
+	
+	/*Find the maximum value of the line we need to pass from the absolute to the relative matrix*/
+	SimpleVector max_values();
+	
+	
 	
 	/* Returns the probability for a nucleotide in a specific position.
 	The first argument corresponds to the column: the nucleotide who interest us.

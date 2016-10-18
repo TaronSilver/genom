@@ -1,29 +1,188 @@
 #include "Matrix.hpp"
 
 
-void Matrix::compute_logMatrix (const BaseProbabilities& bp)
+void Matrix::compute_abs_logMatrix (const BaseProbabilities& bp)
+{
+    if (bp.empty())
+    {
+        std::cout << "Your BaseProbabilities is empty, we can't compute your logMatrix." << std:: endl;
+        
+    } else {      
+				logMatrix.clear(); /* Be sure the logMatrix is empty*/
+				
+				SimpleVector new_line;/* Will stock the 4 values of all lines and be added to logMatrix lines by lines*/
+				double y;
+				
+				for(size_t i(0);i<probMatrix.size();++i)
+				{	
+					new_line.clear();
+						
+					for (size_t j(0);j<4;++j)/*Read the absoluteMatrix*/
+					{
+						y=probMatrix[i][j];
+                
+						if(y<1.0E-100)/* Solve the problem of -infini case*/
+						{
+							
+							new_line.push_back(MINUSINFINI);
+					
+						} else {
+					
+									new_line.push_back(log2(y/bp[j])); /*Calcul the new values we need and put it in the new_line*/
+								
+								}
+									
+					}
+							
+					logMatrix.push_back(new_line); /*Stock the line of 4 new values in the logMatrix*/
+				
+				}
+			}	
+}	
+
+void Matrix::compute_log_absoluteMatrix (const BaseProbabilities& bp)
 {
     if (bp.empty())
     {
         std::cout << "Your BaseProbabilities is empty, we can't compute your logMatrix." << std:: endl;
         
     } else {
-        double x, y;
-        
-        logMatrix.resize(probMatrix.size());/*Give to logMatrix the same size than probMatrix*/
-        
-        
-        for(size_t i(0);i<probMatrix.size();++i)
-        {
-            for (size_t j(0);j<4;++j)/*Read the probMatrix*/
-            {
-                y=probMatrix[j];
-                x=log2(y/bp[j]); /*Calcul the new values we need*/
-                logMatrix[i][j] = x;/*Stock this new x values in the logMatrix*/
-            }
-        }
-    }
+				absoluteMatrix.clear(); 
+				  
+				SimpleVector line;
+				double x;
+				
+				for(size_t i(0);i<probMatrix.size();++i)
+				{	
+					line.clear();
+									
+					for (size_t j(0);j<4;++j)/*Read the logMatrix*/
+					{
+						x=probMatrix[i][j];
+                
+						if(x<MINUSINFINI)// Solve the problem of -infini cases
+						{
+							line.push_back(0.0);
+					
+						} else {
+								line.push_back(pow(2,(x/bp[j])));/*Calcul the new values we need*/
+							
+								}
+					}
+					
+					absoluteMatrix.push_back(line);
+					
+				}
+			}
+} 
+
+void Matrix::compute_abs_relativeMatrix()
+{
+	double p;
+	SimpleVector nw_line;
+	SimpleVector v = max_values();
+					  
+	relativeMatrix.clear();
+             
+	for(size_t i(0);i<probMatrix.size();++i)
+	{
+		nw_line.clear();
+		
+		for (size_t j(0);j<4;++j)/*Read the absoluteMatrix*/
+		{
+					
+			p=probMatrix[i][j];
+					
+			nw_line.push_back(p/v[j]);/*Divide the value in position [i][j] by the max value of his line [i]*/
+					
+		}
+		
+		relativeMatrix.push_back(nw_line);
+		
+	}
+				
 }
+									
+				
+void Matrix::compute_rel_absoluteMatrix()
+{	
+	double z;
+	SimpleVector n_line;
+	SimpleVector s=calcul_sum();
+	
+	absoluteMatrix.clear();
+	
+	for(size_t i(0);i<probMatrix.size();++i)
+	{
+		n_line.clear();
+		
+		for (size_t j(0);j<4;++j)
+		{
+			z=probMatrix[i][j];
+					
+			n_line.push_back(z/s[j]);/*Divide the value in position [i][j] by the max value of his line [i]*/
+					
+		}
+		
+		absoluteMatrix.push_back(n_line);
+		
+		}
+}
+	
+
+			          
+				
+SimpleVector Matrix::calcul_sum()
+{
+	SimpleVector sums;
+	double sum;
+	
+	for(size_t i(0);i<probMatrix.size();++i)
+	{
+		sum=0.0;
+		
+		for (size_t j(0);j<4;++j)
+		{
+			sum += probMatrix[i][j];
+					
+		}
+		
+		sums.push_back(sum);		
+					            
+	} 
+	   
+	return sums;  
+}
+	
+	
+
+
+SimpleVector Matrix::max_values()
+{
+	SimpleVector values;	
+	double value;
+		
+	for(size_t i(0);i<probMatrix.size();++i)
+	{
+		value=0.0;
+		
+		for (size_t j(0);j<4;++j)
+		{
+			
+		if(value<probMatrix[i][j])
+			{
+				value=probMatrix[i][j];					
+			}
+		}	
+		
+		values.push_back(value);
+			
+	}
+	
+	return values;
+
+}
+
 
 double Matrix::getProbability (char const N, int const pos)
 {
