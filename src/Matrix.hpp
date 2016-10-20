@@ -1,4 +1,4 @@
-//#ifndef MATRIX_HPP
+#ifndef MATRIX_HPP
 #define MATRIX_HPP
 
 #include <vector>
@@ -41,7 +41,7 @@ class Matrix
     
 	public :
     
-    Matrix(const std::string& fileName); // cobstructor
+    Matrix(const std::string& fileName); // constructor
 
     
 	int getMatrixRowCount(); //{ return probMatrix.size()}
@@ -58,8 +58,10 @@ class Matrix
     
     /* Function that tests all combinations of the position weight matrix and fills
     sequenceList with all sequences with a score higher than the specified cutoff.*/
-    void sequenceExtract(double cutoff);
+    void sequenceExtract();
     
     /* Function that accesses the extracted DNA sequences and returns a vector of strings. */
     std::vector<std::string> accessDNASequences();
 };
+
+#endif

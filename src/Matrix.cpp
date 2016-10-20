@@ -2,8 +2,15 @@
 
 
 
-Matrix::Matrix(const std::string& fileName) {
-    mkProbMatrix(fileName);
+Matrix::Matrix(const std::string& fileName)
+{
+    while(!mkProbMatrix(fileName));
+    compute_logMatrix({.25, .25, .25, .25});
+    sequenceExtract();
+    // We need a solution for this, because right now one matrix can only have one base probability.
+    // We also should ask the user what he wants, because maybe he wants .25 and not a unknown value to him
+    // as a base probability.
+    
 }
 
 
@@ -66,7 +73,7 @@ bool Matrix::mkProbMatrix(std::string const& fileName)
 {
     //open file containing PWM
     std::ifstream PWM;
-    PWM.open("fileName");
+    PWM.open(fileName);
     
     //send an error if there is a problem opening file
     if (PWM.fail()) {
@@ -116,27 +123,35 @@ bool Matrix::mkProbMatrix(std::string const& fileName)
 /* Function that tests all combinations of the position weight matrix and fills
  sequenceList with all sequences with a score higher than the specified cutoff.*/
 
-void Matrix::sequenceExtract(double cutoff) {
+void Matrix::sequenceExtract() {
+    
+    double cutoff;
+    
+    std::cout << "What cutoff would you like to use? " << std::endl;
+    std::cin >> cutoff;
     
     // Double that sums the current combination
     double score(0.0);
+    
     
     // Variables that represent matrix properties, to avoid unnecessery
     // computations at each iteration, increasing performance.
     unsigned int matrixSize = logMatrix.size();
     unsigned int matrixLastElement = matrixSize - 1;
     
+    
     // String that saves current nucleotide sequence
     std::string nucleotideSequence = "";
     
     // Vector that iterates through all possible combinations of matrices
-    std::vector<int> iterator;
+    std::vector<int> iterator(matrixSize);
     for(unsigned int i(0); i < logMatrix.size(); i++) {
         iterator[i] = 0;
     }
     
+    
     // Vector defining the order of the characters
-    std::vector<char> basePosition;
+    std::vector<char> basePosition(4);
     {
         basePosition[0] = 'A';
         basePosition[1] = 'C';
