@@ -1,9 +1,23 @@
 #include "Matrix.hpp"
 
+#include <vector>
+#include <array>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <cmath>
+#include <string>
 
 
-Matrix::Matrix(const std::string& fileName) {
+Matrix::Matrix(const std::string& fileName) 
+{
     mkProbMatrix(fileName);
+}
+
+
+int Matrix::getMatrixRowCount() 
+{ 
+	return probMatrix.size();
 }
 
 
@@ -31,19 +45,18 @@ void Matrix::compute_logMatrix (const BaseProbabilities& bp)
     }
 }
 
-/*
- 
- Commented out because not used at the moment and is producing compiling error. --mattminder
 
+//Commented out by mattminder. I've looked at this and the error is in the calling of getMatrixRowCount
+//I've reduced the commenting out to the problem area -- ericag
 double Matrix::getProbability (char const N, int const pos)
 {
-    //check for valid input
-    if (pos<1 or pos>getMatrixRowCount() or N!='A' or N!='T' or N!='G' or N!='C')
+/*    //check for valid input
+    if (pos < 1 or pos > (->getMatrixRowCount()) or N!='A' or N!='T' or N!='G' or N!='C')
     {
         
         throw std::string("Error: invalid nucleotide or position");
         
-    } else {
+    } else { */
         
         //define column to look in
         int column;
@@ -60,9 +73,8 @@ double Matrix::getProbability (char const N, int const pos)
         
         return probMatrix[column][pos];
     }
-}
+//}
 
-*/
 
 bool Matrix::mkProbMatrix(std::string const& fileName)
 {
@@ -113,10 +125,6 @@ bool Matrix::mkProbMatrix(std::string const& fileName)
     }
 }
 
-
-
-/* Function that tests all combinations of the position weight matrix and fills
- sequenceList with all sequences with a score higher than the specified cutoff.*/
 
 void Matrix::sequenceExtract(double cutoff) {
     
@@ -177,7 +185,7 @@ void Matrix::sequenceExtract(double cutoff) {
     return;
 }
 
-/* Function that accesses the extracted DNA sequences and returns a vector of strings. */
+
 std::vector<std::string> Matrix::accessDNASequences() {
     
     if (sequenceList.empty()) {
@@ -187,4 +195,3 @@ std::vector<std::string> Matrix::accessDNASequences() {
     return sequenceList;
     
 }
-
