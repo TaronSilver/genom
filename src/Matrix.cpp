@@ -125,23 +125,23 @@ void Matrix::compute_rel_absoluteMatrix()
 		
 		absoluteMatrix.push_back(n_line);
 		
-		}
+	}
 }
 
-void Matrix::compute_probMatrix_from_relativeMatrix()
+void Matrix::compute_logConstMatrix_from_relativeMatrix()
 {	
 	double z=0.0;
 	SimpleVector n_line;
 	
-	probMatrix.clear();
+	logConstMatrix.clear();
 	
-	for(size_t i(0);i<probMatrix.size();++i)
+	for(size_t i(0);i<logConstMatrix.size();++i)
 	{
 		for (size_t j(0);j<4;++j)
 		{
 			if(relativeMatrix[i][j] != 0.0) 
 			{
-				z=probMatrix[i][j];		
+				z=logConstMatrix[i][j];		
 				n_line.push_back(log2(z));
 							
 			} else {
@@ -152,12 +152,12 @@ void Matrix::compute_probMatrix_from_relativeMatrix()
 					
 		}
 		
-		probMatrix.push_back(n_line);
+		logConstMatrix.push_back(n_line);
 		
 	}
 }
 
-void Matrix::compute_relativeMatrix_from_probMatrix()
+void Matrix::compute_relativeMatrix_from_logConstMatrix()
 {	
 	double z=0.0;
 	SimpleVector n_line;
@@ -168,7 +168,7 @@ void Matrix::compute_relativeMatrix_from_probMatrix()
 	{
 		for (size_t j(0);j<4;++j)
 		{
-			z=probMatrix[i][j];		
+			z=logConstMatrix[i][j];		
 			n_line.push_back(pow(2,z));		
 		}
 		
@@ -178,15 +178,15 @@ void Matrix::compute_relativeMatrix_from_probMatrix()
 }
 
 	
-void Matrix::compute_probMatrix_from_logMatrix()
+void Matrix::compute_logConstMatrix_from_logMatrix()
 {	
 	double z=0.0;
 	SimpleVector n_line;
 	SimpleVector s=logMatrix_min_values();
 	
-	probMatrix.clear();
+	logConstMatrix.clear();
 	
-	for(size_t i(0);i<probMatrix.size();++i)
+	for(size_t i(0);i<logConstMatrix.size();++i)
 	{
 		for (size_t j(0);j<4;++j)
 		{
@@ -202,7 +202,7 @@ void Matrix::compute_probMatrix_from_logMatrix()
 			n_line.push_back(z-s[j]);
 		}	
 			
-		probMatrix.push_back(n_line);
+		logConstMatrix.push_back(n_line);
 		
 	}
 }
@@ -285,6 +285,19 @@ SimpleVector Matrix::max_values()
 }
 
 
+
+Matrix::Matrix(const std::string& fileName) {
+    mklogConstMatrix_type(fileName);
+}
+
+
+
+
+/*
+ 
+ Commented out because not used at the moment and is producing compiling error. --mattminder
+
+
 double Matrix::getProbability (char const N, int const pos)
 {
     //check for valid input
@@ -308,27 +321,30 @@ double Matrix::getProbability (char const N, int const pos)
                 column = 2;
         }
         
-        return probMatrix[column][pos];
+        return logConstMatrix[column][pos];
     }
 }
 
-static std::vector<std::vector<double> > mkProbMatrix(std::string const& fileName)
-{
+*/
+
+
+
+MATRIX_TYPE Matrix::mklogConstMatrix_type(std::string const& fileName){
+	
     //open file containing PWM
+    MATRIX_TYPE result;
     std::ifstream PWM;
-    PWM.open("fileName");
+    PWM.open(fileName);
     
     //send an error if there is a problem opening file
     if (PWM.fail()) {
         
         throw std::string("Error: Cannot read PWM file");
+        return MATRIX_TYPE::ERROR;
         
     } else {
         
-        //make a matrix to return
-        std::vector<std::vector<double> > probMatrix;
-        
-        //create all variables to be use later
+       //create all variables to be use later
         std::string line;
         std::istringstream values;
         double A, T, C, G;
@@ -339,6 +355,7 @@ static std::vector<std::vector<double> > mkProbMatrix(std::string const& fileNam
             
             //(1) make a sting containing ith line
             getline(PWM, line);
+            
             //check if at end of file now
             if (PWM.eof()) break;
             
@@ -349,18 +366,31 @@ static std::vector<std::vector<double> > mkProbMatrix(std::string const& fileNam
             values >> A >> C >> G >> T;
             
             //(4) make a matrix to pushback for line 1
-            rowi[] = { A, C, G, T };
+            rowi = { A, C, G, T };
             
-            //(5) pushback the new row
-            probMatrix.push_back(rowi);
-        }
-        
-        
-        PWM.close();
-        return probMatrix;
-    }
-}
-
+           
+            //(5) identify the type of the matrix and (6) pushback the new row
+            double sum(0.); 
+            double max(-100.);
+			for(size_t i(0); i<rowi.size(); ++i){
+				sum= sum + rowi[i];
+				if (rowi[i] > max){ max =rowi[i];}
+			}
+			if (sum==1.0 and max < 1.0){ Matrix::absoluteMatrix.push_back(rowi); result = MATRIX_TYPE::absoluteMatrix; } 
+			//the file corresponds to a position probability matrix of absolute probabilities (PPMatrix)
+			if (sum > 1.0 and max == 1.0){Matrix::relativeMatrix.push_back(rowi); result = MATRIX_TYPE::relativeMatrix; }
+			//the file corresponds to a position probability matrix of  probabilities relative to consensus (PPMatrix_consensus)
+			if ( max < 0.){Matrix::logMatrix.push_back(rowi); result = MATRIX_TYPE::logMatrix;}
+            //the file corresponds to a position-specific scoring matrix (log of PPM) named PSSMatrix
+            if(max >= 0. and sum < 0. ) {Matrix::logConstMatrix.push_back(rowi); result = MATRIX_TYPE::logConstMatrix;} //pas top egalite avec zero donc met >= (?)
+            //the file corresponds to a position-specific scoring matrix - constant (PSSMatrix_minus_constant)
+		}
+		PWM.close();
+        return result;
+	}
+	
+ }
+	
 
 
 /* Function that tests all combinations of the position weight matrix and fills
