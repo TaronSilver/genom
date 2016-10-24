@@ -53,6 +53,18 @@ class Matrix
 	/*Method that compute the absoluteMatrix from the relativeMatrix*/
 	void compute_rel_absoluteMatrix();
 	
+	/*Method that compute the relativeMatrix from the probMatrix*/
+	void compute_relativeMatrix_from_probMatrix();
+	
+	/*Method that compute the probMatrix from the relativeMatrix*/
+	void compute_probMatrix_from_relativeMatrix();
+	
+	/*Method that compute the probMatrix from the logMatrix*/
+	void compute_probMatrix_from_logMatrix();
+	
+	/* Find the minimal values of each row of the logMatrix*/
+	SimpleVector logMatrix_min_values();
+	
 	/*Calcul the sum we need to pass from the relative to the absolute matrix*/
 	SimpleVector calcul_sum();
 	

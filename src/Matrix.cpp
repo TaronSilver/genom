@@ -127,9 +127,111 @@ void Matrix::compute_rel_absoluteMatrix()
 		
 		}
 }
-	
 
-			          
+void Matrix::compute_probMatrix_from_relativeMatrix()
+{	
+	double z=0.0;
+	SimpleVector n_line;
+	
+	probMatrix.clear();
+	
+	for(size_t i(0);i<probMatrix.size();++i)
+	{
+		for (size_t j(0);j<4;++j)
+		{
+			if(relativeMatrix[i][j] != 0.0) 
+			{
+				z=probMatrix[i][j];		
+				n_line.push_back(log2(z));
+							
+			} else {
+			
+				z=MINUSINFINI;	
+				n_line.push_back(MINUSINFINI);				
+			}
+					
+		}
+		
+		probMatrix.push_back(n_line);
+		
+	}
+}
+
+void Matrix::compute_relativeMatrix_from_probMatrix()
+{	
+	double z=0.0;
+	SimpleVector n_line;
+	
+	relativeMatrix.clear();
+	
+	for(size_t i(0);i<relativeMatrix.size();++i)
+	{
+		for (size_t j(0);j<4;++j)
+		{
+			z=probMatrix[i][j];		
+			n_line.push_back(pow(2,z));		
+		}
+		
+		relativeMatrix.push_back(n_line);
+		
+	}
+}
+
+	
+void Matrix::compute_probMatrix_from_logMatrix()
+{	
+	double z=0.0;
+	SimpleVector n_line;
+	SimpleVector s=logMatrix_min_values();
+	
+	probMatrix.clear();
+	
+	for(size_t i(0);i<probMatrix.size();++i)
+	{
+		for (size_t j(0);j<4;++j)
+		{
+			if(logMatrix[i][j] != MINUSINFINI) 
+			{
+				z=logMatrix[i][j];		
+							
+			} else {
+			
+				z=MINUSINFINI;					
+			}
+			
+			n_line.push_back(z-s[j]);
+		}	
+			
+		probMatrix.push_back(n_line);
+		
+	}
+}
+
+
+SimpleVector Matrix::logMatrix_min_values()
+{
+	SimpleVector values;	
+	double value=0.0;
+		
+	for(size_t i(0);i<logMatrix.size();++i)
+	{
+		for (size_t j(0);j<4;++j)
+		{
+			
+			if((value != MINUSINFINI) and (value>logMatrix[i][j]))
+			{
+				value=logMatrix[i][j];					
+			}
+		}	
+		
+		values.push_back(value);
+			
+	}
+	
+	return values;
+
+}
+	          
 				
 SimpleVector Matrix::calcul_sum()
 {
