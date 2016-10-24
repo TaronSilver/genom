@@ -28,7 +28,7 @@ void Matrix::compute_logMatrix (const BaseProbabilities& bp)
         
         for(size_t i(0);i<probMatrix.size();++i)
         {
-            for (size_t j(0);j<4;++j)/*Read the probMatrix*/
+            for (size_t j(0);j<NUMBER_NUCLEOTIDES;++j)/*Read the probMatrix*/
             {
                 y=probMatrix[i][j];
                 x=log2(y/bp[j]); /*Calcul the new values we need*/
@@ -86,7 +86,6 @@ bool Matrix::mkProbMatrix(std::string const& fileName)
         
         //create all variables to be use later
         std::string line;
-        std::istringstream values;
         double A, T, C, G;
         std::vector< double > rowi(4);
         
@@ -95,21 +94,26 @@ bool Matrix::mkProbMatrix(std::string const& fileName)
             
             //(1) make a sting containing ith line
             getline(PWM, line);
-            
             //check if at end of file now
             if (PWM.eof()) break;
             
-            //(2) copy line into new stream 
-            values.str (line);
+            //(2) copy line into new stream
+            std::istringstream values(line);
             
             //(3) read values and copy into variables
             values >> A >> C >> G >> T;
             
             //(4) make a matrix to pushback for line 1
-            rowi = { A, C, G, T };
+            rowi.clear();
+            rowi.push_back(A);
+            rowi.push_back(C);
+            rowi.push_back(G);
+            rowi.push_back(T);
             
             //(5) pushback the new row
-            Matrix::probMatrix.push_back(rowi);
+            probMatrix.push_back(rowi);
+            
+            
         }
         
         
@@ -124,7 +128,6 @@ bool Matrix::mkProbMatrix(std::string const& fileName)
  sequenceList with all sequences with a score higher than the specified cutoff.*/
 
 void Matrix::sequenceExtract() {
-    
     double cutoff;
     
     std::cout << "What cutoff would you like to use? " << std::endl;
@@ -185,7 +188,15 @@ void Matrix::sequenceExtract() {
                 iterator[i] = 0;
             }
         }
+        
+        score = 0.0;
     }
+
+    for(unsigned int i(0); i < sequenceList.size(); i++) {
+        std::cout << sequenceList[i] << std::endl;
+        
+    }
+    
     
     return;
 }
