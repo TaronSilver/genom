@@ -26,7 +26,7 @@ std::vector<size_t> Sequence::find_sequence(const std::string& string_to_find)
 				std::cout << starting_positions.size() << " FOUND starting at char " << starting_position << std::endl;
 			}
 		} while (starting_position != std::string::npos);
-	std::cout << " SCAN FINISHED " << starting_positions.size() << " occurences found" << std::endl;
+	std::cout << " SCAN FINISHED " << starting_positions.size() << " occurrences found" << std::endl;
 	return starting_positions;
 }
 
