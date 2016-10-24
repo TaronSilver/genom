@@ -49,6 +49,10 @@ class Sequence
      */
 	void calc_BaseProb();
 	
+    /* BRIEF...*/
+    std::string TranslateSeq(const std::string& Seq); //function that translate a sequence.
+    
+    
 	private:
 	double baseProbabibilityA;
 	double baseProbabibilityC;
