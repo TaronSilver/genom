@@ -7,29 +7,7 @@ Matrix::Matrix(const std::string& fileName) {
 }
 
 
-void Matrix::compute_logMatrix (const BaseProbabilities& bp)
-{
-    if (bp.empty())
-    {
-        std::cout << "Your BaseProbabilities is empty, we can't compute your logMatrix." << std:: endl;
-        
-    } else {
-        double x, y;
-        
-        logMatrix.resize(probMatrix.size());/*Give to logMatrix the same size than probMatrix*/
-        
-        
-        for(size_t i(0);i<probMatrix.size();++i)
-        {
-            for (size_t j(0);j<4;++j)/*Read the probMatrix*/
-            {
-                y=probMatrix[i][j];
-                x=log2(y/bp[j]); /*Calcul the new values we need*/
-                logMatrix[i][j] = x;/*Stock this new x values in the logMatrix*/
-            }
-        }
-    }
-}
+
 
 /*
  
@@ -64,22 +42,24 @@ double Matrix::getProbability (char const N, int const pos)
 
 */
 
-bool Matrix::mkProbMatrix(std::string const& fileName)
-{
+
+
+MATRIX_TYPE Matrix::mkProbMatrix_type(std::string const& fileName){
+	
     //open file containing PWM
+    MATRIX_TYPE result;
     std::ifstream PWM;
-    PWM.open("fileName");
+    PWM.open(fileName);
     
     //send an error if there is a problem opening file
     if (PWM.fail()) {
         
         throw std::string("Error: Cannot read PWM file");
-        return 0;
+        return MATRIX_TYPE::ERROR;
         
     } else {
         
-        
-        //create all variables to be use later
+       //create all variables to be use later
         std::string line;
         std::istringstream values;
         double A, T, C, G;
@@ -103,16 +83,29 @@ bool Matrix::mkProbMatrix(std::string const& fileName)
             //(4) make a matrix to pushback for line 1
             rowi = { A, C, G, T };
             
-            //(5) pushback the new row
-            Matrix::probMatrix.push_back(rowi);
-        }
-        
-        
-        PWM.close();
-        return 1;
-    }
-}
-
+           
+            //(5) identify the type of the matrix and (6) pushback the new row
+            double sum(0.); 
+            double max(-100.);
+			for(size_t i(0); i<rowi.size(); ++i){
+				sum= sum + rowi[i];
+				if (rowi[i] > max){ max =rowi[i];}
+			}
+			if (sum==1.0 and max < 1.0){ Matrix::ppmatrix.push_back(rowi); result = MATRIX_TYPE::PPMatrix; } 
+			//the file corresponds to a position probability matrix of absolute probabilities (PPMatrix)
+			if (sum > 1.0 and max == 1.0){Matrix::ppmatrix_consensus.push_back(rowi); result = MATRIX_TYPE::PPMatrix_consensus; }
+			//the file corresponds to a position probability matrix of  probabilities relative to consensus (PPMatrix_consensus)
+			if ( max < 0.){Matrix::pssmatrix.push_back(rowi); result = MATRIX_TYPE::PSSMatrix;}
+            //the file corresponds to a position-specific scoring matrix (log of PPM) named PSSMatrix
+            if(max >= 0. and sum < 0. ) {Matrix::pssmatrix_minus_constant.push_back(rowi); result = MATRIX_TYPE::PSSMatrix_minus_constant;} //pas top egalite avec zero donc met >= (?)
+            //the file corresponds to a position-specific scoring matrix - constant (PSSMatrix_minus_constant)
+		}
+		PWM.close();
+        return result;
+	}
+	
+ }
+	
 
 
 /* Function that tests all combinations of the position weight matrix and fills
@@ -125,7 +118,7 @@ void Matrix::sequenceExtract(double cutoff) {
     
     // Variables that represent matrix properties, to avoid unnecessery
     // computations at each iteration, increasing performance.
-    unsigned int matrixSize = logMatrix.size();
+    unsigned int matrixSize = pssmatrix.size();
     unsigned int matrixLastElement = matrixSize - 1;
     
     // String that saves current nucleotide sequence
@@ -133,7 +126,7 @@ void Matrix::sequenceExtract(double cutoff) {
     
     // Vector that iterates through all possible combinations of matrices
     std::vector<int> iterator;
-    for(unsigned int i(0); i < logMatrix.size(); i++) {
+    for(unsigned int i(0); i < pssmatrix.size(); i++) {
         iterator[i] = 0;
     }
     
@@ -151,7 +144,7 @@ void Matrix::sequenceExtract(double cutoff) {
         
         // Adds up scored at specific iteration
         for(unsigned int i(0); i < matrixSize; i++) {
-            score+= logMatrix[i][iterator[i]];
+            score+= pssmatrix[i][iterator[i]];
         }
         
         // Prints all nucleotid combinations that have score larger than cutoff
