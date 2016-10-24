@@ -4,8 +4,8 @@
 #include <fstream>
 #include <algorithm>
 
-Sequence::Sequence(const std::string sequence)
-:sequence(sequence)
+Sequence::Sequence(const std::string sequence_)
+:sequence(sequence_)
 {
 	std::cout <<"Création d'une nouvelle séquence: " <<sequence <<std::endl;
 	}
@@ -46,7 +46,7 @@ void AskName(std::string& entry_name) {
     }
 }
 
-std::vector <std::string> ExtractSequence(std::string const& entry_name) {
+std::vector <std::string> ExtractSequence(std::string const entry_name) {
     std::ifstream entry(entry_name.c_str());
     std::string line;
     
@@ -133,13 +133,13 @@ std::vector<double> Sequence::get_probabilities()
 	return result;
 }
 
-		void Sequence::calc_BaseProb() {
-			double size_seq(sequence.size());
-			
-			baseProbabibilityA = (static_cast<double>(find_sequence("A").size()))/size_seq; // division entiere ??????
-			baseProbabibilityT = (static_cast<double>(find_sequence("T").size()))/size_seq; // division entiere ??????
-			baseProbabibilityC = (static_cast<double>(find_sequence("C").size()))/size_seq; // division entiere ??????
-			baseProbabibilityG = (static_cast<double>(find_sequence("G").size()))/size_seq; // division entiere ??????
-			
-		}
+void Sequence::calc_BaseProb() {
+	double size_seq(sequence.size());
+	
+	baseProbabibilityA = (static_cast<double>(find_sequence("A").size()))/size_seq;	// division entiere ??????
+	baseProbabibilityT = (static_cast<double>(find_sequence("T").size()))/size_seq;	// division entiere ??????
+	baseProbabibilityC = (static_cast<double>(find_sequence("C").size()))/size_seq;	// division entiere ??????
+	baseProbabibilityG = (static_cast<double>(find_sequence("G").size()))/size_seq;	// division entiere ??????
+	
+}
 
