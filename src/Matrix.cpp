@@ -13,13 +13,13 @@ void Matrix::compute_abs_logMatrix (const BaseProbabilities& bp)
 				SimpleVector new_line;/* Will stock the 4 values of all lines and be added to logMatrix lines by lines*/
 				double y;
 				
-				for(size_t i(0);i<probMatrix.size();++i)
+				for(size_t i(0);i<absoluteMatrix.size();++i)
 				{	
 					new_line.clear();
 						
 					for (size_t j(0);j<4;++j)/*Read the absoluteMatrix*/
 					{
-						y=probMatrix[i][j];
+						y=absoluteMatrix[i][j];
                 
 						if(y<1.0E-100)/* Solve the problem of -infini case*/
 						{
@@ -52,13 +52,13 @@ void Matrix::compute_log_absoluteMatrix (const BaseProbabilities& bp)
 				SimpleVector line;
 				double x;
 				
-				for(size_t i(0);i<probMatrix.size();++i)
+				for(size_t i(0);i<logMatrix.size();++i)
 				{	
 					line.clear();
 									
 					for (size_t j(0);j<4;++j)/*Read the logMatrix*/
 					{
-						x=probMatrix[i][j];
+						x=logMatrix[i][j];
                 
 						if(x<MINUSINFINI)// Solve the problem of -infini cases
 						{
@@ -84,14 +84,14 @@ void Matrix::compute_abs_relativeMatrix()
 					  
 	relativeMatrix.clear();
              
-	for(size_t i(0);i<probMatrix.size();++i)
+	for(size_t i(0);i<absoluteMatrix.size();++i)
 	{
 		nw_line.clear();
 		
 		for (size_t j(0);j<4;++j)/*Read the absoluteMatrix*/
 		{
 					
-			p=probMatrix[i][j];
+			p=absoluteMatrix[i][j];
 					
 			nw_line.push_back(p/v[j]);/*Divide the value in position [i][j] by the max value of his line [i]*/
 					
@@ -111,13 +111,13 @@ void Matrix::compute_rel_absoluteMatrix()
 	
 	absoluteMatrix.clear();
 	
-	for(size_t i(0);i<probMatrix.size();++i)
+	for(size_t i(0);i<relativeMatrix.size();++i)
 	{
 		n_line.clear();
 		
 		for (size_t j(0);j<4;++j)
 		{
-			z=probMatrix[i][j];
+			z=relativeMatrix[i][j];
 					
 			n_line.push_back(z/s[j]);/*Divide the value in position [i][j] by the max value of his line [i]*/
 					
@@ -136,13 +136,13 @@ SimpleVector Matrix::calcul_sum()
 	SimpleVector sums;
 	double sum;
 	
-	for(size_t i(0);i<probMatrix.size();++i)
+	for(size_t i(0);i<relativeMatrix.size();++i)
 	{
 		sum=0.0;
 		
 		for (size_t j(0);j<4;++j)
 		{
-			sum += probMatrix[i][j];
+			sum += relativeMatrix[i][j];
 					
 		}
 		
@@ -161,16 +161,16 @@ SimpleVector Matrix::max_values()
 	SimpleVector values;	
 	double value;
 		
-	for(size_t i(0);i<probMatrix.size();++i)
+	for(size_t i(0);i<absoluteMatrix.size();++i)
 	{
 		value=0.0;
 		
 		for (size_t j(0);j<4;++j)
 		{
 			
-		if(value<probMatrix[i][j])
+		if(value<absoluteMatrix[i][j])
 			{
-				value=probMatrix[i][j];					
+				value=absoluteMatrix[i][j];					
 			}
 		}	
 		
