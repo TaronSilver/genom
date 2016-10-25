@@ -4,6 +4,14 @@
 #include <vector>
 #include <array>
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include <cmath>
+#include <string>
+
+/* Defines number of different nucleotides in DNA sequnece (always 4) */
+#define NUMBER_NUCLEOTIDES 4
+
 
 /*!
  * @class Matrix
@@ -20,6 +28,7 @@ typedef std::vector<std::string> SequenceList;
 class Matrix
 {
 	private:
+
 	LogMatrix logMatrix;	/*! array with log(probability/base probability) for each nucleotide in each position */
 	ProbMatrix probMatrix;	/*! vector containing the probability for each nucleotide in each position of the motif, from file */
     SequenceList sequenceList;	/*! vector containing all motifs of prob > cutoff prob */
@@ -74,7 +83,7 @@ class Matrix
      *
      * @param double of cutoff value
      */
-    void sequenceExtract(double cutoff);
+    void sequenceExtract();
     
     /*!
      * @brief accesses the extracted DNA sequences and returns a vector of strings

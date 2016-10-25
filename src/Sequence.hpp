@@ -4,84 +4,68 @@
 #include <string>
 #include <vector>
 
-/*!
- * @class Sequence
- *
- * @brief The Sequence class allows the manipulation of sequences we can extract from fasta files.
- */
 
 
-/*!
-     * @brief The Initialization function asks the name of the file we want to open and does an exception handling in the case the file couldnt be found. 
-     * If the file could be found, it will create sequence objects that we will then be able to use.
-     */
-void Initialization();
 
-/*!
-     * @brief This function is the one actually asking the name and throwing an error message in case of problem.
-     * It also calls the InvalidFormat to verify the file format.
-     *
-     * @param This string stores the name of the file. 
-     */
-void AskName(std::string& entry_name);
-
-/*!
-     * @brief This function takes the strings from the file we want to open and stores them in a vector.
-     *
-     * @param The file's name. 
-     * @return A vector containing all strings of interest present in the file. It doesnt store the line following a '>' and ignore backspaces.
-     */
-std::vector <std::string> ExtractSequence(std::string const entry_name);
-
-	/*!
-     * @brief Controls if the file is of a correct, "known", type.
-     * Accepted types are ".fasta", ".fas", ".fna", ".ffn".
-     */
-bool InvalidFormat(std::string file_name);
+//std::vector<size_t> Find(const std::string& string_to_find, const std::vector<std::string>& genes, int sequence_in_gene); // find_sequence() returns a vector with all the starting positions of each occurences of the searched thing // souhailelaissaoui
 
 
 class Sequence
-	{
-		public:
-		
+{
+	public:
 	/*!
-     * @brief Constructor of the Sequence class. It allocates a string to its sequence. 
-     * The underscore is here to differentiate between the parameters and the class's attribute.
-     * For control purpose it shows the allocated sequence.
+     * @brief Constructor
      */
-		Sequence(const std::string sequence_);
+	Sequence(const std::string sequence);
+	
+	/*!
+     * @brief Getter for exterior acces 
+     * 
+     * @return vector of probabilities
+     */
+	std::vector<double> get_probabilities();
+	
+	/*!
+     * @brief Finding where a given enyzme can attach itself to our sequence
+     *
+     * @param enzyme nucleotides
+     * @return position(s) where the enzyme can attach itsefl to our sequence
+     */
+	std::vector<size_t> find_sequence(const std::string& string_to_find);
+	
 
-		
+	
 	/*!
-     * @brief Probabilities' getter.
+     * @brief DESCRIPTION OF FUNCTION
      *
-     * @return A vector containing all the different nucleotidic probabilities.
+     * @param INPUT 
+     * @return 
      */
-		std::vector<double> get_probabilities();
-		
-		
+	//std::vector<size_t> Find(const std::string& string_to_find, 
+	//const std::vector<std::string>& genes, int sequence_in_gene); // find_sequence() returns a vector with all the starting positions of each occurences of the searched thing // souhailelaissaoui
+	
 	/*!
-     * @brief Search for a specific string in a sequence.
-     *
-     * @param A string containing the sequence to find. 
-     * @return A vector containing all positions at which the seuence was found.
+     * @brief Calculates the probability of each nucleotide A,C,G and T
+     *        in our sequence
      */
-		std::vector<size_t> find_sequence(const std::string& string_to_find);
-		
-		
-		private:
-		double baseProbabibilityA;	/*! Corresponds to the number of base (A, C, G, T) over the number of bases present in our sequence. */
-		double baseProbabibilityC;
-		double baseProbabibilityG;
-		double baseProbabibilityT;
-		
-		const std::string sequence; /*! This string stores the actual sequence we extracted from a fasta file, for example.  */
-		
-		
-	/*!
-     * @brief This function calculates the ratio of every base in the sequence.
-     */
-		void calc_BaseProb();
-	};
+	void calc_BaseProb();
+	
+    /* BRIEF...*/
+    std::string TranslateSeq(const std::string& Seq); //function that translate a sequence.
+    
+    
+	private:
+	double baseProbabibilityA;
+	double baseProbabibilityC;
+	double baseProbabibilityG;
+	double baseProbabibilityT;
+	
+	const std::string sequence;
+	
+};
+
+
+
+
 
 #endif

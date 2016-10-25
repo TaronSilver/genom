@@ -9,15 +9,25 @@
 #include <string>
 
 
-Matrix::Matrix(const std::string& fileName) 
-{
-    mkProbMatrix(fileName);
-}
+
 
 
 int Matrix::getMatrixRowCount() 
 { 
 	return probMatrix.size();
+}
+
+
+
+Matrix::Matrix(const std::string& fileName)
+{
+    while(!mkProbMatrix(fileName));
+    compute_logMatrix({.25, .25, .25, .25});
+    sequenceExtract();
+    // We need a solution for this, because right now one matrix can only have one base probability.
+    // We also should ask the user what he wants, because maybe he wants .25 and not a unknown value to him
+    // as a base probability.
+    
 }
 
 
@@ -35,7 +45,8 @@ void Matrix::compute_logMatrix (const BaseProbabilities& bp)
         
         for(size_t i(0);i<probMatrix.size();++i)
         {
-            for (size_t j(0);j<4;++j)/*Read the probMatrix*/
+            for (size_t j(0);j<NUMBER_NUCLEOTIDES;++j)/*Read the probMatrix*/
+
             {
                 y=probMatrix[i][j];
                 x=log2(y/bp[j]); /*Calcul the new values we need*/
@@ -44,6 +55,7 @@ void Matrix::compute_logMatrix (const BaseProbabilities& bp)
         }
     }
 }
+
 
 
 //Commented out by mattminder. I've looked at this and the error is in the calling of getMatrixRowCount
@@ -56,8 +68,9 @@ double Matrix::getProbability (char const N, int const pos)
         
         throw std::string("Error: invalid nucleotide or position");
         
+
     } else { */
-        
+    
         //define column to look in
         int column;
         switch (N) {
@@ -80,7 +93,7 @@ bool Matrix::mkProbMatrix(std::string const& fileName)
 {
     //open file containing PWM
     std::ifstream PWM;
-    PWM.open("fileName");
+    PWM.open(fileName);
     
     //send an error if there is a problem opening file
     if (PWM.fail()) {
@@ -93,7 +106,6 @@ bool Matrix::mkProbMatrix(std::string const& fileName)
         
         //create all variables to be use later
         std::string line;
-        std::istringstream values;
         double A, T, C, G;
         std::vector< double > rowi(4);
         
@@ -102,21 +114,26 @@ bool Matrix::mkProbMatrix(std::string const& fileName)
             
             //(1) make a sting containing ith line
             getline(PWM, line);
-            
             //check if at end of file now
             if (PWM.eof()) break;
             
-            //(2) copy line into new stream 
-            values.str (line);
+            //(2) copy line into new stream
+            std::istringstream values(line);
             
             //(3) read values and copy into variables
             values >> A >> C >> G >> T;
             
             //(4) make a matrix to pushback for line 1
-            rowi = { A, C, G, T };
+            rowi.clear();
+            rowi.push_back(A);
+            rowi.push_back(C);
+            rowi.push_back(G);
+            rowi.push_back(T);
             
             //(5) pushback the new row
-            Matrix::probMatrix.push_back(rowi);
+            probMatrix.push_back(rowi);
+            
+            
         }
         
         
@@ -126,27 +143,38 @@ bool Matrix::mkProbMatrix(std::string const& fileName)
 }
 
 
-void Matrix::sequenceExtract(double cutoff) {
+
+/* Function that tests all combinations of the position weight matrix and fills
+ sequenceList with all sequences with a score higher than the specified cutoff.*/
+
+void Matrix::sequenceExtract() {
+    double cutoff;
+    
+    std::cout << "What cutoff would you like to use? " << std::endl;
+    std::cin >> cutoff;
     
     // Double that sums the current combination
     double score(0.0);
+    
     
     // Variables that represent matrix properties, to avoid unnecessery
     // computations at each iteration, increasing performance.
     unsigned int matrixSize = logMatrix.size();
     unsigned int matrixLastElement = matrixSize - 1;
     
+    
     // String that saves current nucleotide sequence
     std::string nucleotideSequence = "";
     
     // Vector that iterates through all possible combinations of matrices
-    std::vector<int> iterator;
+    std::vector<int> iterator(matrixSize);
     for(unsigned int i(0); i < logMatrix.size(); i++) {
         iterator[i] = 0;
     }
     
+    
     // Vector defining the order of the characters
-    std::vector<char> basePosition;
+    std::vector<char> basePosition(4);
     {
         basePosition[0] = 'A';
         basePosition[1] = 'C';
@@ -180,10 +208,21 @@ void Matrix::sequenceExtract(double cutoff) {
                 iterator[i] = 0;
             }
         }
+        
+        score = 0.0;
     }
+
+    /* Prints sequences to look for, for troubleshooting
+    for(unsigned int i(0); i < sequenceList.size(); i++) {
+        std::cout << sequenceList[i] << std::endl;
+        
+    }
+    */
     
     return;
 }
+
+
 
 
 std::vector<std::string> Matrix::accessDNASequences() {
