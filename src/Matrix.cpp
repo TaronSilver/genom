@@ -1,5 +1,22 @@
 #include "Matrix.hpp"
 
+#include <vector>
+#include <array>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <cmath>
+#include <string>
+
+
+
+
+
+int Matrix::getMatrixRowCount() 
+{ 
+	return probMatrix.size();
+}
+
 
 
 Matrix::Matrix(const std::string& fileName)
@@ -29,6 +46,7 @@ void Matrix::compute_logMatrix (const BaseProbabilities& bp)
         for(size_t i(0);i<probMatrix.size();++i)
         {
             for (size_t j(0);j<NUMBER_NUCLEOTIDES;++j)/*Read the probMatrix*/
+
             {
                 y=probMatrix[i][j];
                 x=log2(y/bp[j]); /*Calcul the new values we need*/
@@ -38,19 +56,21 @@ void Matrix::compute_logMatrix (const BaseProbabilities& bp)
     }
 }
 
-/*
- 
- Commented out because not used at the moment and is producing compiling error. --mattminder
+
+
+//Commented out by mattminder. I've looked at this and the error is in the calling of getMatrixRowCount
+//I've reduced the commenting out to the problem area -- ericag
 double Matrix::getProbability (char const N, int const pos)
 {
-    //check for valid input
-    if (pos<1 or pos>getMatrixRowCount() or N!='A' or N!='T' or N!='G' or N!='C')
+/*    //check for valid input
+    if (pos < 1 or pos > (->getMatrixRowCount()) or N!='A' or N!='T' or N!='G' or N!='C')
     {
         
         throw std::string("Error: invalid nucleotide or position");
         
-    } else {
-        
+
+    } else { */
+    
         //define column to look in
         int column;
         switch (N) {
@@ -66,8 +86,8 @@ double Matrix::getProbability (char const N, int const pos)
         
         return probMatrix[column][pos];
     }
-}
-*/
+//}
+
 
 bool Matrix::mkProbMatrix(std::string const& fileName)
 {
@@ -192,16 +212,19 @@ void Matrix::sequenceExtract() {
         score = 0.0;
     }
 
+    /* Prints sequences to look for, for troubleshooting
     for(unsigned int i(0); i < sequenceList.size(); i++) {
         std::cout << sequenceList[i] << std::endl;
         
     }
-    
+    */
     
     return;
 }
 
-/* Function that accesses the extracted DNA sequences and returns a vector of strings. */
+
+
+
 std::vector<std::string> Matrix::accessDNASequences() {
     
     if (sequenceList.empty()) {

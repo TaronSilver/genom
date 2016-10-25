@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <array>
-
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -14,7 +13,13 @@
 #define NUMBER_NUCLEOTIDES 4
 
 
-
+/*!
+ * @class Matrix
+ *
+ * @brief attributes and methods for probability and log matrices
+ */
+ 
+#define NUMBER_NUCLEOTIDES 4
 typedef std::array < double,4 > BaseProbabilities;
 typedef std::vector<std::vector<double> > ProbMatrix;
 typedef std::vector<std::array<double, 4> > LogMatrix;
@@ -23,10 +28,14 @@ typedef std::vector<std::string> SequenceList;
 class Matrix
 {
 	private:
+
+	LogMatrix logMatrix;	/*! array with log(probability/base probability) for each nucleotide in each position */
+	ProbMatrix probMatrix;	/*! vector containing the probability for each nucleotide in each position of the motif, from file */
+    SequenceList sequenceList;	/*! vector containing all motifs of prob > cutoff prob */
 	
-	LogMatrix logMatrix;
-	ProbMatrix probMatrix;
-    SequenceList sequenceList;
+	/*!
+     * @brief initialisation of logMatrix from probMatrix
+     */
 	void probToLog();
     
     /*!
@@ -37,30 +46,50 @@ class Matrix
      */
     bool mkProbMatrix(std::string const& fileName);
 
-	
     
-	public :
-    
-    Matrix(const std::string& fileName); // constructor
+	public: 
+    /*!
+     * @brief Constructor, initialises probMatrix
+     *
+     * @param Name of input probability matrix
+     */
+    Matrix(const std::string& fileName);
 
+    /*!
+     * @brief returns size of motif (from the probMatrix size)
+     *
+     * @return int corresponding to length of motif
+     */
+	int getMatrixRowCount();
     
-	int getMatrixRowCount(); //{ return probMatrix.size()}
-	/*Method that compute the logMatrix from the probMatrix.
-	 Baseprobabilities bp is an array with the 4 base reference probability*/
-    
-    
+    /*!
+     * @brief initialises logMatrix attribute from probMatrix attribute
+     *
+     * @param array with base probabilities (for A,C,G,T) calculated by sequence
+     */
 	void compute_logMatrix (const BaseProbabilities& bp);
 	
-	/* Returns the probability for a nucleotide in a specific position.
-	The first argument corresponds to the column: the nucleotide who interest us.
-	The second argument corresponds to the lign: the place of this nucleotide in the sequence of 7 nucleotides.*/
-	static double getProbability (char const N, int const l); // Remove static when everything works
+	/*!
+     * @brief get value in probMatrix
+     *
+     * @param char corresponding to nucleotide in cap locks, int for position in motif 
+     * @return double with prob for that nucleotide in position
+     */
+	double getProbability (char const N, int const pos);
     
-    /* Function that tests all combinations of the position weight matrix and fills
-    sequenceList with all sequences with a score higher than the specified cutoff.*/
+    /*!
+     * @brief tests all combinations of the position weight matrix and fills
+    sequenceList with all sequences with a score higher than the specified cutoff
+     *
+     * @param double of cutoff value
+     */
     void sequenceExtract();
     
-    /* Function that accesses the extracted DNA sequences and returns a vector of strings. */
+    /*!
+     * @brief accesses the extracted DNA sequences and returns a vector of strings
+     *
+     * @return ??? author of this ???
+     */
     std::vector<std::string> accessDNASequences();
 };
 

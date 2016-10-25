@@ -17,6 +17,7 @@ std::vector<size_t> Sequence::find_sequence(const std::string& string_to_find) /
     std::vector<size_t> starting_positions; //it's possible to have several matches in the sequence
     size_t starting_position(-1);
     std::string Translated_String(TranslateSeq(string_to_find));
+
     
     // std::cout << "SEARCHING '" << string_to_find << "' in the sequence"<< std::endl;
     
@@ -77,6 +78,7 @@ void Sequence::calc_BaseProb() {
     baseProbabibilityC = .25;
     baseProbabibilityG = .25;
     baseProbabibilityT = .25;
+
     
     /*
 	baseProbabibilityA = (static_cast<double>(find_sequence("A").size()))/size_seq; // division entiere ??????
