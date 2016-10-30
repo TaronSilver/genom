@@ -25,7 +25,7 @@ std::vector<size_t> Sequence::find_sequence(const std::string& string_to_find) /
         if(starting_position != std::string::npos)
         {
             starting_positions.push_back(starting_position);
-            std::cout << Translated_String << " starting at char " << starting_position <<" +"<< std::endl; //translated_string équivalent au binding spot
+            std::cout << string_to_find << " starting at char " << starting_position <<" +"<< std::endl; //translated_string équivalent au binding spot
         }
     } while (starting_position != std::string::npos);
     
@@ -38,11 +38,11 @@ std::vector<size_t> Sequence::find_sequence(const std::string& string_to_find) /
     starting_position = -1;
     
     do {
-        starting_position = sequence.length()-sequence.find(Translated_String, starting_position+1)-Translated_String.length(); // second Do() to find the translated string position(total length - the position - the length of the string. because the complementary is inverted)
+        starting_position = sequence.find(Translated_String, starting_position+1); // second Do() to find the translated string position.
         if(starting_position != std::string::npos)
         {
             starting_positions.push_back(starting_position);
-            std::cout << string_to_find << " starting at char " << starting_position <<" -"<< std::endl; //string_to_find équivalent au binding spot
+            std::cout << Translated_String << " starting at char " << starting_position <<" -"<< std::endl; //string_to_find équivalent au binding spot
         }
     } while (starting_position != std::string::npos);
     
@@ -116,6 +116,6 @@ std::string Sequence::TranslateSeq(const std::string& Seq) // Translate a sequen
         }
     }
     
-    return RevSeq;
+    return std::reverse(RevSeq.begin(),RevSeq.end());
 }
 
