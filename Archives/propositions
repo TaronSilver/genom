@@ -1,7 +1,3 @@
-Write a method to print a sequence in the teminal
-Write a method who's able to find a specific chain of letters (of a specified length) from our sequence and to give the starting position
-Write a method to extract a chain from a position from the sequence
-Wrtie a method that gives the probability for a nucleotide on a specific position
-Write a method that gives the most probable nucleotide for every position
-Write a method that gives the most probable arrangment from the matrix
-
+Have the results of the search printed in a new file
+Testing
+Funtion allowing user to choose in which order to have the results
