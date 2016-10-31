@@ -156,82 +156,167 @@ void Matrix::compute_rel_absoluteMatrix()
 	}
 }
 
-void Matrix::compute_logConstMatrix_from_relativeMatrix()
-{	
-	double z=0.0;
-	SimpleVector n_line;
-	
-	logConstMatrix.clear();
-	
-	for(size_t i(0);i<logConstMatrix.size();++i)
-	{
-		for (size_t j(0);j<4;++j)
-		{
-			if(relativeMatrix[i][j] != 0.0) 
-			{
-				z=logConstMatrix[i][j];		
-				n_line.push_back(log2(z));
-							
-			} else {
-			
-				z=MINUSINFINI;	
-				n_line.push_back(MINUSINFINI);				
-			}
-					
-		}
-		
-		logConstMatrix.push_back(n_line);
-		
-	}
-}
-
 void Matrix::compute_relativeMatrix_from_logConstMatrix()
 {	
 	double z=0.0;
 	SimpleVector n_line;
 	
+	/*! first, we should make sure that the relativeMatrix is empty */
 	relativeMatrix.clear();
 	
+	/*! create the relativeMatrix */
 	for(size_t i(0);i<relativeMatrix.size();++i)
 	{
 		for (size_t j(0);j<4;++j)
 		{
 			z=logConstMatrix[i][j];		
-			n_line.push_back(pow(2,z));		
+			n_line.push_back(pow(2,z));					
 		}
 		
+		/*! add the values of each line to the relativeMatrix */
 		relativeMatrix.push_back(n_line);
+	}
+}
+
+
+void Matrix::compute_logConstMatrix_from_relativeMatrix()
+{	
+	double z=0.0;
+	SimpleVector n_line;
+	
+	/*! first, we should make sure that the logConstMatrix is empty */
+	logConstMatrix.clear();
+	
+	/*! create the logConstMatrix */
+	for(size_t i(0);i<logConstMatrix.size();++i)
+	{
+		for (size_t j(0);j<4;++j)
+		{
+			/*! if the element of the logMatrix is not 0, we can create the new element of the logConstMatrix */
+			if(relativeMatrix[i][j] != 0.0) 
+			{
+				z=logConstMatrix[i][j];		
+				n_line.push_back(log2(z));
+			
+			/*! if the element is 0, the value of the logConstMatrix will then be MINUSINFINI */			
+			} else {
+			
+				n_line.push_back(MINUSINFINI);				
+			}
+					
+		}
+		
+		/*! add the values of each line to the logConstMatrix */
+		logConstMatrix.push_back(n_line);
 		
 	}
 }
 
-	
+
 void Matrix::compute_logConstMatrix_from_logMatrix()
 {	
 	double z=0.0;
 	SimpleVector n_line;
 	SimpleVector s=logMatrix_min_values();
 	
+	/*! first, we should make sure that the logConstMatrix is empty */
 	logConstMatrix.clear();
 	
+	/*! create the logConstMatrix */
 	for(size_t i(0);i<logConstMatrix.size();++i)
 	{
 		for (size_t j(0);j<4;++j)
 		{
+			/*! if the element of the logMatrix is not MINUSINFINI, we can create the new element of the logConstMatrix */
 			if(logMatrix[i][j] != MINUSINFINI) 
 			{
-				z=logMatrix[i][j];		
-							
+				z=logMatrix[i][j];	
+				n_line.push_back(z-s[j]);	
+				
+			/*! if an element of the logMatrix is MINUSINFINI, it should be the same in the logConstMatrix */			
 			} else {
 			
-				z=MINUSINFINI;					
+				n_line.push_back(MINUSINFINI);					
 			}
-			
-			n_line.push_back(z-s[j]);
 		}	
-			
+		
+		/*! add the values of each line to the logConstMatrix */
 		logConstMatrix.push_back(n_line);
 		
+	}
+}
+
+
+void Matrix::compute_logMatrix_from_logConstMatrix()
+{	
+	/*! first we convert the logConstMatrix to the relativeMatrix */
+	compute_relativeMatrix_from_logConstMatrix();
+	
+	/*! then we convert the relativeMatrix to the logMatrix*/
+	compute_logConstMatrix_from_relativeMatrix();
+}
+
+
+void Matrix::compute_relativeMatrix_from_logMatrix()
+{	
+	/*! first we convert the logMatrix to the logConstMatrix */
+	compute_logConstMatrix_from_logMatrix();
+	
+	/*! then we convert the logConstMatrix to the relativeMatrix*/
+	compute_relativeMatrix_from_logConstMatrix();
+}
+
+
+void Matrix::compute_logMatrix_from_relativeMatrix()
+{	
+	/*! first we convert the relativeMatrix to the logConstMatrix */
+	compute_logConstMatrix_from_relativeMatrix();
+	
+	/*! then we convert the logConstMatrix to the logMatrix*/
+	compute_logMatrix_from_logConstMatrix();
+	
+}
+
+
+void Matrix::compute_logConstMatrix_from_absoluteMatrix()
+{	
+	/*! first we convert the absoluteMatrix to the relativeMatrix */
+	compute_abs_relativeMatrix();
+	
+	/*! then we convert the relativeMatrix to the logConstMatrix*/
+	compute_logConstMatrix_from_relativeMatrix();
+}
+
+
+void Matrix::compute_absoluteMatrix_from_logConstMatrix()
+{	
+	double z=0.0;
+	SimpleVector n_line;
+	SimpleVector s=sum_pow2logConstMatrix();
+	
+	
+	/*! first, we should make sure that the absoluteMatrix is empty */
+	absoluteMatrix.clear();
+	
+	/*! create the absoluteMatrix */
+	for(size_t i(0);i<absoluteMatrix.size();++i)
+	{
+		for (size_t j(0);j<4;++j)
+		{
+			/*! if the element of the logConstMatrix is not MINUSINFINI, we can create the new element of the absoluteMatrix */
+			if(logConstMatrix[i][j] != MINUSINFINI) 
+			{
+				z=logConstMatrix[i][j];	
+				n_line.push_back((pow(2,z))/s[j]);	
+				
+			/*! if an element of the logConstMatrix is MINUSINFINI, it will give 0 in the absoluteMatrix */			
+			} else {
+			
+				n_line.push_back(0.0);					
+			}
+		}	
+		/*! add the values of each line to the absoluteMatrix */
+		absoluteMatrix.push_back(n_line);
 	}
 }
 
@@ -240,26 +325,60 @@ SimpleVector Matrix::logMatrix_min_values()
 {
 	SimpleVector values;	
 	double value=0.0;
+	
 		
+	/*! Search in the logMatrix for each line which one is the maximal value */
 	for(size_t i(0);i<logMatrix.size();++i)
 	{
 		for (size_t j(0);j<4;++j)
 		{
-			
+			/*! the condition that you can't take MINUSINFINI as the maximal value */
 			if((value != MINUSINFINI) and (value>logMatrix[i][j]))
 			{
 				value=logMatrix[i][j];					
+			} else 
+			{
+									
 			}
 		}	
-		
-		values.push_back(value);
-			
+		/*! add the maximal value of each line into a vector */
+		values.push_back(value);	
 	}
 	
+	/*! return the vector with the 4 maximal values of each line of the logMatrix */
 	return values;
-
 }
-	          
+
+
+SimpleVector Matrix::sum_pow2logConstMatrix()
+{
+	SimpleVector sums;
+	double sum;
+	
+	for(size_t i(0);i<logConstMatrix.size();++i)
+	{
+		sum=0.0;
+		
+		for (size_t j(0);j<4;++j)
+		{
+			/*! we have to add to the sum only the elements of the logConstMatrix that are not equal to MINUSINFINI */
+			if(logConstMatrix[i][j] != MINUSINFINI)
+			{
+				sum += (pow(2,logConstMatrix[i][j]));
+				
+			/*! if an element of the logConstMatrix is equal to MINUSINFINI, we don't add it to the sum */						
+			} else {
+									
+			}		
+		}
+		
+		/*! add the sum of each line to the vector of the sums */
+		sums.push_back(sum);					            
+	}  
+	/*! return the vector with all the sums we need */
+	return sums;  
+}
+
 				
 SimpleVector Matrix::calcul_sum()
 {
@@ -313,17 +432,9 @@ SimpleVector Matrix::max_values()
 }
 
 
-
-
-
-
-
-
 /*
  
  Commented out because not used at the moment and is producing compiling error. --mattminder
-
-
 >>>>>>> conversion-matrix
 double Matrix::getProbability (char const N, int const pos)
 {
@@ -333,7 +444,6 @@ double Matrix::getProbability (char const N, int const pos)
         
         throw std::string("Error: invalid nucleotide or position");
         
-
     } else { 
     
         //define column to look in
@@ -352,8 +462,6 @@ double Matrix::getProbability (char const N, int const pos)
         return logConstMatrix[column][pos];
     }
 //}
-
-
 */
 
 

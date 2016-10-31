@@ -111,17 +111,35 @@ class Matrix
 	/*Method that compute the absoluteMatrix from the relativeMatrix*/
 	void compute_rel_absoluteMatrix();
 	
-	/*Method that compute the relativeMatrix from the logConstMatrix*/
+	/*! Method that computes the relativeMatrix from the logConstMatrix */
 	void compute_relativeMatrix_from_logConstMatrix();
 	
-	/*Method that compute the logConstMatrix from the relativeMatrix*/
+	/*! Method that computes the logConstMatrix from the relativeMatrix */
 	void compute_logConstMatrix_from_relativeMatrix();
-	
-	/*Method that compute the logConstMatrix from the logMatrix*/
+   
+    /*! Method that computes the logConstMatrix from the logMatrix */
 	void compute_logConstMatrix_from_logMatrix();
 	
-	/* Find the minimal values of each row of the logMatrix*/
-	SimpleVector logMatrix_min_values();
+	/*! Method that computes the logMatrix from the logConstMatrix */
+	void compute_logMatrix_from_logConstMatrix();
+	
+	/*! Method that computes the relativeMatrix from the logMatrix */
+	void compute_relativeMatrix_from_logMatrix();
+	
+	/*! Method that computes the logMatrix from the relativeMatrix */
+	void compute_logMatrix_from_relativeMatrix();
+	
+	/*! Method that computes the logConstMatrix from the absoluteMatrix */
+	void compute_logConstMatrix_from_absoluteMatrix();
+	
+	/*! Method that computes the absoluteMatrix from the logConstMatrix */
+	void compute_absoluteMatrix_from_logConstMatrix();
+
+	/*! Method that finds the minimal values of each row of the logMatrix */
+	SimpleVector logMatrix_min_values();  
+
+	/*! Method that computes the sum of (2 power each element of the logConstMatrix) */
+	SimpleVector sum_pow2logConstMatrix();
 	
 	/*Calcul the sum we need to pass from the relative to the absolute matrix*/
 	SimpleVector calcul_sum();
