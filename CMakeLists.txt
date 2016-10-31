@@ -10,16 +10,16 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 include_directories(src)
 link_directories("/usr/local/lib") #Tells cmake where some libs could potentially be located
 
-add_executable(SequenceTest src/Sequence.cpp src/Sequence.hpp test/SequenceTest.cpp)
+add_executable(Main src/main.cpp src/Matrix.cpp src/Sequence.cpp src/utility.cpp)
 #target_link_libraries(PopulationSimul m)
 
 if (test)
 	enable_testing()
 	find_package(GTest)
 	include_directories(${GTEST_INCLUDE_DIRS})
-	add_executable(Sequence_Test src/Sequence.cpp src/Sequence.hpp test/SequenceTest.cpp)
-	target_link_libraries(SequenceTest ${GTEST_BOTH_LIBRARIES} pthread)
-	add_test(genom-2 SequenceTest)
+	add_executable(MainTest2 src/main.cpp src/Matrix.cpp src/Sequence.cpp src/utility.cpp)
+	target_link_libraries(MainTest2 ${GTEST_BOTH_LIBRARIES} pthread) 
+	add_test(genom-2 MainTest)
 endif(test)
 
 find_package(Doxygen)
