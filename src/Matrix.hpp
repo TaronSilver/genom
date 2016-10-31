@@ -35,6 +35,7 @@ typedef std::vector<std::vector<double> > Matrix_Neo;
 class Matrix
 {
 	private:
+	BaseProbabilities BaseProb;
     SequenceList sequenceList;	/*! vector containing all motifs of prob > cutoff prob */
 	/*!
      * @brief initialisation of logMatrix from probMatrix
@@ -61,13 +62,21 @@ class Matrix
      *
      * @param Name of input probability matrix
      */
+    Matrix(const std::string& fileName); 
 
-	
+	    /*!
+     * @brief initialise the matrix that is in the file filename 
+     *
+     * @param the name of the file to open
+     */
 	MATRIX_TYPE init_Matrix_type(std::string const& fileName);
-	   
-	public :
+	     /*!
+     * @brief Fill all the matrixes 
+     *
+     * @param Type of the already filled matrix
+     */  
+	void fill_Matrix(MATRIX_TYPE type);
     
-    Matrix(const std::string& fileName); // constructor
 
     /*!
      * @brief returns size of motif (from the probMatrix size)

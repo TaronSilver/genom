@@ -54,17 +54,49 @@ int Matrix::getMatrixRowCount()
 }
 */ 
 //Old version with proMatrix and used only in Matrix::getProbability 
-
-Matrix::Matrix(const std::string& fileName)
-{
-    while(!init_Matrix_type(fileName));
-    //compute_logMatrix({.25, .25, .25, .25});
+Matrix::Matrix(const std::string& fileName) {
+// we have to initialise BaseProb here
+     fill_Matrix(init_Matrix_type(fileName));
     sequenceExtract();
     // We need a solution for this, because right now one matrix can only have one base probability.
     // We also should ask the user what he wants, because maybe he wants .25 and not a unknown value to him
     // as a base probability.
-    
 }
+
+void Matrix::fill_Matrix(MATRIX_TYPE type) {
+	switch (type) {
+		case MATRIX_TYPE::absoluteMatrix:
+		compute_abs_logMatrix(BaseProb);
+		compute_abs_relativeMatrix();
+		compute_logConstMatrix_from_logMatrix();
+		break;
+		
+		case MATRIX_TYPE::relativeMatrix:
+		compute_rel_absoluteMatrix();
+		compute_abs_logMatrix(BaseProb);
+		compute_logConstMatrix_from_logMatrix();
+		break;
+		
+		case MATRIX_TYPE::logMatrix:
+		compute_log_absoluteMatrix(BaseProb);
+		compute_abs_relativeMatrix();
+		compute_logConstMatrix_from_logMatrix();
+		break;
+		
+		case MATRIX_TYPE::logConstMatrix:
+		compute_relativeMatrix_from_logConstMatrix();
+		compute_rel_absoluteMatrix();
+		compute_abs_logMatrix(BaseProb);
+		break;
+		
+		case MATRIX_TYPE::ERROR:
+		std::cerr << "Fichier invalide" << std::endl;
+		//we have to think how we can handle the errors 
+		break;
+	}
+ } 
+
+
 
 void Matrix::compute_log_absoluteMatrix (const BaseProbabilities& bp)
 
