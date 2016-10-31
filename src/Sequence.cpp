@@ -115,7 +115,10 @@ std::string Sequence::TranslateSeq(const std::string& Seq) // Translate a sequen
                 std::cout<<"Error in the translation"<< std::endl;	
         }
     }
-    
-    return std::reverse(RevSeq.begin(),RevSeq.end());
+
+    std::string to_be_reversed(RevSeq);
+    std::reverse(to_be_reversed.begin(),to_be_reversed.end()) ;
+
+    return to_be_reversed;
 }
 
