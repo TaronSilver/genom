@@ -56,8 +56,15 @@ int Matrix::getMatrixRowCount()
 //Old version with proMatrix and used only in Matrix::getProbability 
 Matrix::Matrix(const std::string& fileName) {
 // we have to initialise BaseProb here
-     fill_Matrix(init_Matrix_type(fileName));
+    
+    fill_Matrix(init_Matrix_type(fileName));
+    
+    
     sequenceExtract();
+    
+    
+    
+    
     // We need a solution for this, because right now one matrix can only have one base probability.
     // We also should ask the user what he wants, because maybe he wants .25 and not a unknown value to him
     // as a base probability.
@@ -66,33 +73,33 @@ Matrix::Matrix(const std::string& fileName) {
 void Matrix::fill_Matrix(MATRIX_TYPE type) {
 	switch (type) {
 		case MATRIX_TYPE::absoluteMatrix:
-		compute_abs_logMatrix(BaseProb);
-		compute_abs_relativeMatrix();
-		compute_logConstMatrix_from_logMatrix();
-		break;
+            compute_abs_logMatrix(BaseProb);
+            compute_abs_relativeMatrix();
+            compute_logConstMatrix_from_logMatrix();
+            break;
 		
 		case MATRIX_TYPE::relativeMatrix:
-		compute_rel_absoluteMatrix();
-		compute_abs_logMatrix(BaseProb);
-		compute_logConstMatrix_from_logMatrix();
-		break;
+            compute_rel_absoluteMatrix();
+            compute_abs_logMatrix(BaseProb);
+            compute_logConstMatrix_from_logMatrix();
+            break;
 		
 		case MATRIX_TYPE::logMatrix:
-		compute_log_absoluteMatrix(BaseProb);
-		compute_abs_relativeMatrix();
-		compute_logConstMatrix_from_logMatrix();
-		break;
+            compute_log_absoluteMatrix(BaseProb);
+            compute_abs_relativeMatrix();
+            compute_logConstMatrix_from_logMatrix();
+            break;
 		
 		case MATRIX_TYPE::logConstMatrix:
-		compute_relativeMatrix_from_logConstMatrix();
-		compute_rel_absoluteMatrix();
-		compute_abs_logMatrix(BaseProb);
-		break;
+            compute_relativeMatrix_from_logConstMatrix();
+            compute_rel_absoluteMatrix();
+            compute_abs_logMatrix(BaseProb);
+            break;
 		
 		case MATRIX_TYPE::ERROR:
-		std::cerr << "Fichier invalide" << std::endl;
-		//we have to think how we can handle the errors 
-		break;
+            std::cerr << "Fichier invalide" << std::endl;
+            //we have to think how we can handle the errors
+            break;
 	}
  } 
 
@@ -550,13 +557,26 @@ MATRIX_TYPE Matrix::init_Matrix_type(std::string const& fileName){
 				sum= sum + rowi[i];
 				if (rowi[i] > max){ max =rowi[i];}
 			}
-			if (sum==1.0 and max < 1.0){ Matrix::absoluteMatrix.push_back(rowi); result = MATRIX_TYPE::absoluteMatrix; } 
+            
+			if (sum < 1.02 and sum > 0.98 and max < 1.0){
+                Matrix::absoluteMatrix.push_back(rowi);
+                result = MATRIX_TYPE::absoluteMatrix;
+            }
 			//the file corresponds to a position probability matrix of absolute probabilities (PPMatrix)
-			if (sum > 1.0 and max == 1.0){Matrix::relativeMatrix.push_back(rowi); result = MATRIX_TYPE::relativeMatrix; }
+			if (sum > 1.0 and max == 1.0){
+                Matrix::relativeMatrix.push_back(rowi);
+                result = MATRIX_TYPE::relativeMatrix;
+            }
 			//the file corresponds to a position probability matrix of  probabilities relative to consensus (PPMatrix_consensus)
-			if ( max < 0.){Matrix::logMatrix.push_back(rowi); result = MATRIX_TYPE::logMatrix;}
+			if ( max < 0.){
+                Matrix::logMatrix.push_back(rowi);
+                result = MATRIX_TYPE::logMatrix;
+            }
             //the file corresponds to a position-specific scoring matrix (log of PPM) named PSSMatrix
-            if(max >= 0. and sum < 0. ) {Matrix::logConstMatrix.push_back(rowi); result = MATRIX_TYPE::logConstMatrix;} //pas top egalite avec zero donc met >= (?)
+            if(max >= 0. and sum < 0. ) {
+                Matrix::logConstMatrix.push_back(rowi);
+                result = MATRIX_TYPE::logConstMatrix;
+            } //pas top egalite avec zero donc met >= (?)
             //the file corresponds to a position-specific scoring matrix - constant (PSSMatrix_minus_constant)
 		}
 		PWM.close();
@@ -586,7 +606,6 @@ void Matrix::sequenceExtract() {
     unsigned int matrixSize = logMatrix.size();
     unsigned int matrixLastElement = matrixSize - 1;
     
-    
     // String that saves current nucleotide sequence
     std::string nucleotideSequence = "";
     
@@ -595,7 +614,7 @@ void Matrix::sequenceExtract() {
     for(unsigned int i(0); i < logMatrix.size(); i++) {
         iterator[i] = 0;
     }
-    
+
     
     // Vector defining the order of the characters
     std::vector<char> basePosition(4);
@@ -605,15 +624,15 @@ void Matrix::sequenceExtract() {
         basePosition[2] = 'G';
         basePosition[3] = 'T';
     }
-    
-    
+
+
     while(iterator[0]!=NUMBER_NUCLEOTIDES) {
         
         // Adds up scored at specific iteration
         for(unsigned int i(0); i < matrixSize; i++) {
             score+= logMatrix[i][iterator[i]];
         }
-        
+
         // Prints all nucleotid combinations that have score larger than cutoff
         if (score >= cutoff) {
             for(unsigned int i(0); i < matrixSize; i++) {
