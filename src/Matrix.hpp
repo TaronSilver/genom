@@ -58,13 +58,31 @@ class Matrix
     
 	public: 
     /*!
-     * @brief Constructor, initialises probMatrix
+     * @brief Constructor of matrix from file
      *
      * @param Name of input probability matrix
      */
-    Matrix(const std::string& fileName); 
+    Matrix(const std::string& fileName);
+    
+    
+    /*!
+     * @brief Constructeur matrix from vector
+     *
+     * @param Name of input probability matrix
+     */
+    Matrix(Matrix_Neo input_matrix, MATRIX_TYPE type);
 
-	    /*!
+    /*!
+     * @brief Saves specified matrix type to specified file
+     */
+    void save_matrix();
+    
+    /*!
+     * @brief Allows user to save multiple matrice types to multiple files
+     */
+    void save_matrix_loop();
+    
+    /*!
      * @brief initialise the matrix that is in the file filename 
      *
      * @param the name of the file to open
@@ -106,6 +124,7 @@ class Matrix
     void sequenceExtract();
 
 
+    
 	
 	/*Method that compute the logMatrix from the absoluteMatrix.
 	 Baseprobabilities bp is an array with the 4 base reference probability, we calcul our log with it to be more precise*/

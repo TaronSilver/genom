@@ -70,6 +70,146 @@ Matrix::Matrix(const std::string& fileName) {
     // as a base probability.
 }
 
+Matrix::Matrix(Matrix_Neo input_matrix, MATRIX_TYPE type) {
+    switch (type) {
+        case MATRIX_TYPE::absoluteMatrix:
+            absoluteMatrix=input_matrix;
+            break;
+            
+        case MATRIX_TYPE::relativeMatrix:
+            relativeMatrix=input_matrix;
+            break;
+            
+        case MATRIX_TYPE::logMatrix:
+            logMatrix=input_matrix;
+            break;
+            
+        case MATRIX_TYPE::logConstMatrix:
+            logConstMatrix=input_matrix;
+            break;
+            
+        default:
+            std::cout << "ERROR, no type specified" << std::endl;
+            break;
+    }
+    
+    fill_Matrix(type);
+    
+    
+}
+
+
+void Matrix::save_matrix() {
+    
+    std::cout << std::endl
+            << "Which type of matrix would you like to save?" << std::endl
+            << "Enter 1 for a standard probability matrix. " << std::endl
+            << "Enter 2 for a normalized probability matrix. " << std::endl
+            << "Enter 3 for a standard logarithmic matrix." << std::endl
+            << "Enter 4 for a normalized logarithmic matrix. " << std::endl;
+    
+    MATRIX_TYPE matrix_type;
+    unsigned int answer;
+    
+    while (true) {
+        std::cin >> answer;
+        
+        if(answer == 1) {
+            matrix_type = MATRIX_TYPE::absoluteMatrix;
+            break;
+        }
+        
+        else if(answer == 2) {
+            matrix_type = MATRIX_TYPE::relativeMatrix;
+            break;
+        }
+        
+        else if(answer==3) {
+            matrix_type = MATRIX_TYPE::logMatrix;
+            break;
+        }
+        
+        else if(answer==4) {
+            matrix_type = MATRIX_TYPE::logConstMatrix;
+            break;
+        }
+        
+        else {
+            std::cout << "Error: Invalid answer. Please try again." << std::endl;
+        }
+    }
+    
+    Matrix_Neo outputmatrix;
+    
+    switch (matrix_type) {
+        case MATRIX_TYPE::absoluteMatrix:
+            outputmatrix = absoluteMatrix;
+            break;
+            
+        case MATRIX_TYPE::relativeMatrix:
+            outputmatrix = relativeMatrix;
+            break;
+        
+        case MATRIX_TYPE::logMatrix:
+            outputmatrix = logMatrix;
+            break;
+            
+        case MATRIX_TYPE::logConstMatrix:
+            outputmatrix = logConstMatrix;
+            break;
+            
+        default:
+            std::cout << "ERROR, no type assigned.";
+            break;
+            // Better exception handling needed.
+    }
+
+    double matrixSize(outputmatrix.size());
+    
+    std::ofstream outputfile;
+    std::string filename;
+    
+    std::cout << "What file would you like to save your matrix to?" << std::endl;
+    std::cin >> filename;
+    
+    // Adds format if none specified (-> if there is no point in the string)
+    if(filename.find(".")==std::string::npos) {
+        filename += ".mat";
+    }
+    
+    outputfile.open(filename);
+    
+    for(int i(0); i < matrixSize; i++) {
+        for(int j(0); j < 4; j++) {
+            outputfile << outputmatrix[i][j] << "\t";
+        }
+        outputfile << "\n";
+    }
+    
+    outputfile.close();
+    
+    
+}
+
+void Matrix::save_matrix_loop() {
+    bool answer(0);
+    
+    while(true) {
+        save_matrix();
+        
+        std::cout << "Would you like another type of matrix?" << std::endl
+                  << "Enter 1 for yes, 0 for no" << std::endl;
+        
+        std::cin >> answer;
+        
+        if(answer==0)
+            break;
+    }
+    
+}
+
+
+
 void Matrix::fill_Matrix(MATRIX_TYPE type) {
 	switch (type) {
 		case MATRIX_TYPE::absoluteMatrix:

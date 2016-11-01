@@ -1,13 +1,10 @@
 #include "Sequence.hpp"
 
-#include <iostream>
-#include <fstream>
-#include <algorithm>
 
 Sequence::Sequence(const std::string new_sequence)
 :sequence(new_sequence)
 {
-	std::cout <<"Creation of a new sequence: " << new_sequence <<std::endl;
+	// std::cout <<"Creation of a new sequence: " << new_sequence <<std::endl;
     calc_BaseProb();
 }
 
@@ -120,4 +117,12 @@ std::string Sequence::TranslateSeq(const std::string& Seq) // Translate a sequen
     
     return RevSeq;
 }
+
+std::string Sequence::access_sequence_pos(unsigned int position, unsigned int length) {
+    assert(sequence.size() > position);
+    assert(sequence.size() > position + length);
+    return sequence.substr(position, length);
+    
+}
+
 

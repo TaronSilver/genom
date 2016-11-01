@@ -4,7 +4,9 @@
 #include <string>
 #include <vector>
 #include <iostream>
-
+#include <fstream>
+#include <algorithm>
+#include <assert.h>
 
 
 
@@ -35,6 +37,16 @@ class Sequence
 	std::vector<size_t> find_sequence(const std::string& string_to_find);
 	
 
+    
+    /*!
+     * @brief Returns the nucleotide sequence of a specified length at a specified position
+     *
+     * @param The starting position, the length of the sequence to extract
+     * @return string containing the desired sequence
+     */
+    std::string access_sequence_pos(unsigned int position, unsigned int length);
+    
+    
 	
 	/*!
      * @brief DESCRIPTION OF FUNCTION
