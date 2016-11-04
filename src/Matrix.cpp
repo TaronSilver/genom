@@ -396,7 +396,7 @@ void Matrix::compute_logConstMatrix_from_logMatrix()
 {	
 	double z=0.0;
 	SimpleVector n_line;
-	SimpleVector s=logMatrix_min_values();
+	SimpleVector s=logMatrix_max_values();
 	
 	/*! first, we should make sure that the logConstMatrix is empty */
 	logConstMatrix.clear();
@@ -500,7 +500,7 @@ void Matrix::compute_absoluteMatrix_from_logConstMatrix()
 }
 
 
-SimpleVector Matrix::logMatrix_min_values()
+SimpleVector Matrix::logMatrix_max_values()
 {
 	SimpleVector values;	
 	double value=0.0;
@@ -512,13 +512,10 @@ SimpleVector Matrix::logMatrix_min_values()
 		for (size_t j(0);j<4;++j)
 		{
 			/*! the condition that you can't take MINUSINFINI as the maximal value */
-			if((value != MINUSINFINI) and (value>logMatrix[i][j]))
+			if((logMatrix[i][j] != MINUSINFINI) and (value>logMatrix[i][j]))
 			{
 				value=logMatrix[i][j];					
-			} else 
-			{
-									
-			}
+			} 
 		}	
 		/*! add the maximal value of each line into a vector */
 		values.push_back(value);	
@@ -546,9 +543,7 @@ SimpleVector Matrix::sum_pow2logConstMatrix()
 				sum += (pow(2,logConstMatrix[i][j]));
 				
 			/*! if an element of the logConstMatrix is equal to MINUSINFINI, we don't add it to the sum */						
-			} else {
-									
-			}		
+					
 		}
 		
 		/*! add the sum of each line to the vector of the sums */
@@ -808,9 +803,11 @@ void Matrix::sequenceExtract() {
 
 
 
-std::vector<std::string> Matrix::accessDNASequences() {
+std::vector<std::string> Matrix::accessDNASequences()
+ {
     
-    if (sequenceList.empty()) {
+    if (sequenceList.empty())
+    {
         throw "Error : No sequences extracted.";
     }
     
