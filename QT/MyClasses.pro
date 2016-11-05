@@ -1,8 +1,11 @@
 QT += widgets
 
 HEADERS += \
-    window.hpp
+    window.h
 
 SOURCES += \
-    window.cpp \
-    main.cpp
+    main.cpp \
+    window.cpp
+
+FORMS += \
+    window.ui
