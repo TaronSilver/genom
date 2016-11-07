@@ -169,38 +169,6 @@ class Matrix
 	void compute_logConstMatrix_from_logMatrix();
 	
 	/*!
-     * @brief Method that computes the logMatrix from the logConstMatrix
-     *
-     * @param  	Baseprobabilities bp is an array with the 4 base reference probability
-     * 			we calcul our log with it to be more precise
-     */
-	void compute_logMatrix_from_logConstMatrix();
-	
-	/*!
-     * @brief Method that computes the relativeMatrix from the logMatrix
-     *
-     * @param  	Baseprobabilities bp is an array with the 4 base reference probability
-     * 			we calcul our log with it to be more precise
-     */
-	void compute_relativeMatrix_from_logMatrix();
-	
-	/*!
-     * @brief Method that computes the logMatrix from the relativeMatrix
-     *
-     * @param  	Baseprobabilities bp is an array with the 4 base reference probability
-     * 			we calcul our log with it to be more precise
-     */
-	void compute_logMatrix_from_relativeMatrix();
-	
-	/*!
-     * @brief Method that computes the logConstMatrix from the absoluteMatrix
-     *
-     * @param  	Baseprobabilities bp is an array with the 4 base reference probability
-     * 			we calcul our log with it to be more precise
-     */
-	void compute_logConstMatrix_from_absoluteMatrix();
-	
-	/*!
      * @brief Method that computes the absoluteMatrix from the logConstMatrix
      *
      * @param  	Baseprobabilities bp is an array with the 4 base reference probability
@@ -209,16 +177,16 @@ class Matrix
 	void compute_absoluteMatrix_from_logConstMatrix();
 
 	/*!
-     * @brief Method that finds the minimal values of each row of the logMatrix
+     * @brief Method that finds the maximal values for each row of the logMatrix
      *
-     * @return ???
+     * @return a vector with all the maximal values of each row of the logMatrix 
      */
 	SimpleVector logMatrix_max_values();  
 
 	/*!
-     * @brief Method that computes the sum of (2 power each element of the logConstMatrix)
+     * @brief Method that computes the sum of (2 power each element of one row of the logConstMatrix) for each row
      *
-     * @return ???
+     * @return a vector with the sum of (2 power each element of one row of the logConstMatrix) for each row
      */
 	SimpleVector sum_pow2logConstMatrix();
 	
