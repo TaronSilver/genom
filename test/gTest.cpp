@@ -1,7 +1,7 @@
 #include "gtest/gtest.h"
 #include "../src/Matrix.hpp"
 #include "../src/utility.hpp"
-
+#include <cmath>
 /*! I use the constructor to initialise the four 4 different matrix.
  * This matrix will be use to check if our function work as expected because 
  * the different values test are the value we expect for the corresponding
@@ -21,7 +21,7 @@ Matrix ma_matrice_4(lcm,logConstMatrix);
 
 SimpleVector value_test_1({1.407408});
 SimpleVector value_test_2({0.710526});
-SimpleVector value_test_3({1.407408});
+SimpleVector value_test_3({1.40741});
 SimpleVector value_test_4({1.506960});			
 /*!
  *@brief Function testing if calcul_sum() returns the expected value, using a relativematrix
@@ -42,7 +42,9 @@ TEST (max_values_Test, MaxValueabsoluteMatrix)
  */
 TEST (sum_pow2logConstMatrix_Test, Positivepow )
 {
-	ASSERT_EQ(value_test_3,ma_matrice_4.sum_pow2logConstMatrix());
+	//ASSERT_DOUBLE_EQ(value_test_3[0],ma_matrice_4.sum_pow2logConstMatrix()[0]);
+	
+	ASSERT_TRUE(std::abs(value_test_3[0] - ma_matrice_4.sum_pow2logConstMatrix()[0]) < 0.0001);
 }
 /*!
  *@brief Function testing if logMatrix_max_values() return the max value of the line, using a logMatrix

@@ -503,7 +503,7 @@ void Matrix::compute_absoluteMatrix_from_logConstMatrix()
 SimpleVector Matrix::logMatrix_max_values()
 {
 	SimpleVector values;	
-	double value=0.0;
+	double value=logMatrix[0][0];
 	
 		
 	/*! Search in the logMatrix for each line which one is the maximal value */
@@ -512,7 +512,7 @@ SimpleVector Matrix::logMatrix_max_values()
 		for (size_t j(0);j<4;++j)
 		{
 			/*! the condition that you can't take MINUSINFINI as the maximal value */
-			if((logMatrix[i][j] != MINUSINFINI) and (value>logMatrix[i][j]))
+			if((logMatrix[i][j] != MINUSINFINI) and (value<logMatrix[i][j]))
 			{
 				value=logMatrix[i][j];					
 			} 
@@ -529,7 +529,7 @@ SimpleVector Matrix::logMatrix_max_values()
 SimpleVector Matrix::sum_pow2logConstMatrix()
 {
 	SimpleVector sums;
-	double sum;
+	double sum=0.0;
 	
 	for(size_t i(0);i<logConstMatrix.size();++i)
 	{
@@ -542,7 +542,8 @@ SimpleVector Matrix::sum_pow2logConstMatrix()
 			{
 				sum += (pow(2,logConstMatrix[i][j]));
 				
-			/*! if an element of the logConstMatrix is equal to MINUSINFINI, we don't add it to the sum */						
+			/*! if an element of the logConstMatrix is equal to MINUSINFINI, we don't add it to the sum */	
+}					
 					
 		}
 		
