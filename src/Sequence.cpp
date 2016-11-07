@@ -90,7 +90,7 @@ std::string Sequence::TranslateSeq(const std::string& Seq) // Translate a sequen
 {
     std::string RevSeq(Seq.length(), ' ');
     
-    for(int i=0 ; i < Seq.length() ; i++)
+    for(size_t i=0 ; i < Seq.length() ; i++)
     {
         switch (Seq[i])
         {
