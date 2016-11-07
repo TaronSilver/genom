@@ -35,26 +35,19 @@ typedef std::vector<std::vector<double> > Matrix_Neo;
 class Matrix
 {
 	private:
-	BaseProbabilities BaseProb;
+	BaseProbabilities BaseProb;	/*! ??? */
     SequenceList sequenceList;	/*! vector containing all motifs of prob > cutoff prob */
-	/*!
+	
+	Matrix_Neo absoluteMatrix; 	/*! vector containing the probability for each nucleotide in each position of the motif */
+	Matrix_Neo relativeMatrix; 	/*! position probability matrix of  probabilities relative to consensus */
+    Matrix_Neo logMatrix; 		/*! array with log(probability/base probability) for each nucleotide in each position */
+	Matrix_Neo logConstMatrix;	/*! position-specific scoring matrix ( named logMatrix) - constant */
+   
+    /*!
      * @brief initialisation of logMatrix from probMatrix
      */
-	Matrix_Neo absoluteMatrix; /*! vector containing the probability for each nucleotide in each position of the motif */
-	Matrix_Neo relativeMatrix; /*! position probability matrix of  probabilities relative to consensus */
-    Matrix_Neo logMatrix; /*! array with log(probability/base probability) for each nucleotide in each position */
-	Matrix_Neo logConstMatrix;	 /*! position-specific scoring matrix ( named logMatrix) - constant */
-   
-    
 	void probToLog();
     
-    /*!
-     * @brief Function that initializes matrix from string.
-     *
-     * @param Name of the input matrix file
-     * @return 1 if success, 0 if error
-     */
-
     
 	public: 
     /*!
@@ -88,13 +81,13 @@ class Matrix
      * @param the name of the file to open
      */
 	MATRIX_TYPE init_Matrix_type(std::string const& fileName);
-	     /*!
+	 
+	 /*!
      * @brief Fill all the matrixes 
      *
      * @param Type of the already filled matrix
      */  
 	void fill_Matrix(MATRIX_TYPE type);
-    
 
     /*!
      * @brief returns size of motif (from the probMatrix size)
@@ -109,87 +102,154 @@ class Matrix
      * @param char corresponding to nucleotide in cap locks, int for position in motif 
      * @return double with prob for that nucleotide in position
      */
-	static double getProbability (char const N, int const pos); // Remove static when everything works
-    	/* Returns the probability for a nucleotide in a specific position.
-	The first argument corresponds to the column: the nucleotide who interest us.
-	The second argument corresponds to the lign: the place of this nucleotide in the sequence of 7 nucleotides.*/
-	
-
+	static double getProbability (char const N, int const pos);
+    	
     /*!
-     * @brief tests all combinations of the position weight matrix and fills
-    sequenceList with all sequences with a score higher than the specified cutoff
+     * @brief 	tests all combinations of the position weight matrix and fills
+				sequenceList with all sequences with a score higher than the specified cutoff
      *
      * @param double of cutoff value
      */
     void sequenceExtract();
 
-
-    
-	
-	/*Method that compute the logMatrix from the absoluteMatrix.
-	 Baseprobabilities bp is an array with the 4 base reference probability, we calcul our log with it to be more precise*/
+	/*!
+     * @brief Method that compute the logMatrix from the absoluteMatrix
+     *
+     * @param 	Baseprobabilities bp is an array with the 4 base reference probability
+     * 			we calcul our log with it to be more precise
+     */
 	void compute_abs_logMatrix (const BaseProbabilities& bp);
 	
-	/*Method that compute the absoluteMatrix from the logMatrix*/
+	/*!
+     * @brief Method that compute the absoluteMatrix from the logMatrix
+     *
+     * @param  	Baseprobabilities bp is an array with the 4 base reference probability
+     * 			we calcul our log with it to be more precise
+     */
 	void compute_log_absoluteMatrix (const BaseProbabilities& bp);
 	
-	/*Method that compute the relativeMatrix from the absoluteMatrix*/
+	/*!
+     * @brief Method that compute the relativeMatrix from the absoluteMatrix
+     *
+     * @param  	Baseprobabilities bp is an array with the 4 base reference probability
+     * 			we calcul our log with it to be more precise
+     */
 	void compute_abs_relativeMatrix();
 	
-	/*Method that compute the absoluteMatrix from the relativeMatrix*/
+	/*!
+     * @brief Method that compute the absoluteMatrix from the relativeMatrix
+     *
+     * @param  	Baseprobabilities bp is an array with the 4 base reference probability
+     * 			we calcul our log with it to be more precise
+     */
 	void compute_rel_absoluteMatrix();
 	
-	/*! Method that computes the relativeMatrix from the logConstMatrix */
+	/*!
+     * @brief Method that computes the relativeMatrix from the logConstMatrix
+     *
+     * @param  	Baseprobabilities bp is an array with the 4 base reference probability
+     * 			we calcul our log with it to be more precise
+     */
 	void compute_relativeMatrix_from_logConstMatrix();
 	
-	/*! Method that computes the logConstMatrix from the relativeMatrix */
+	/*!
+     * @brief Method that computes the logConstMatrix from the relativeMatrix
+     *
+     * @param  	Baseprobabilities bp is an array with the 4 base reference probability
+     * 			we calcul our log with it to be more precise
+     */
 	void compute_logConstMatrix_from_relativeMatrix();
    
-    /*! Method that computes the logConstMatrix from the logMatrix */
+	/*!
+     * @brief Method that computes the logConstMatrix from the logMatrix
+     *
+     * @param  	Baseprobabilities bp is an array with the 4 base reference probability
+     * 			we calcul our log with it to be more precise
+     */
 	void compute_logConstMatrix_from_logMatrix();
 	
-	/*! Method that computes the logMatrix from the logConstMatrix */
+	/*!
+     * @brief Method that computes the logMatrix from the logConstMatrix
+     *
+     * @param  	Baseprobabilities bp is an array with the 4 base reference probability
+     * 			we calcul our log with it to be more precise
+     */
 	void compute_logMatrix_from_logConstMatrix();
 	
-	/*! Method that computes the relativeMatrix from the logMatrix */
+	/*!
+     * @brief Method that computes the relativeMatrix from the logMatrix
+     *
+     * @param  	Baseprobabilities bp is an array with the 4 base reference probability
+     * 			we calcul our log with it to be more precise
+     */
 	void compute_relativeMatrix_from_logMatrix();
 	
-	/*! Method that computes the logMatrix from the relativeMatrix */
+	/*!
+     * @brief Method that computes the logMatrix from the relativeMatrix
+     *
+     * @param  	Baseprobabilities bp is an array with the 4 base reference probability
+     * 			we calcul our log with it to be more precise
+     */
 	void compute_logMatrix_from_relativeMatrix();
 	
-	/*! Method that computes the logConstMatrix from the absoluteMatrix */
+	/*!
+     * @brief Method that computes the logConstMatrix from the absoluteMatrix
+     *
+     * @param  	Baseprobabilities bp is an array with the 4 base reference probability
+     * 			we calcul our log with it to be more precise
+     */
 	void compute_logConstMatrix_from_absoluteMatrix();
 	
-	/*! Method that computes the absoluteMatrix from the logConstMatrix */
+	/*!
+     * @brief Method that computes the absoluteMatrix from the logConstMatrix
+     *
+     * @param  	Baseprobabilities bp is an array with the 4 base reference probability
+     * 			we calcul our log with it to be more precise
+     */
 	void compute_absoluteMatrix_from_logConstMatrix();
 
-	/*! Method that finds the minimal values of each row of the logMatrix */
+	/*!
+     * @brief Method that finds the minimal values of each row of the logMatrix
+     *
+     * @return ???
+     */
 	SimpleVector logMatrix_min_values();  
 
-	/*! Method that computes the sum of (2 power each element of the logConstMatrix) */
+	/*!
+     * @brief Method that computes the sum of (2 power each element of the logConstMatrix)
+     *
+     * @return ???
+     */
 	SimpleVector sum_pow2logConstMatrix();
 	
-	/*Calcul the sum we need to pass from the relative to the absolute matrix*/
+	/*!
+     * @brief Calculates the sum we need to pass from the relative to the absolute matrix
+     *
+     * @return ???
+     */
 	SimpleVector calcul_sum();
 	
-	/*Find the maximum value of the line we need to pass from the absolute to the relative matrix*/
+	/*!
+     * @brief Find the maximum value of the line we need to pass from the absolute to the relative matrix
+     *
+     * @return ???
+     */
 	SimpleVector max_values();
     
-	
-
-    
-    /* Function that tests all combinations of the position weight matrix and fills
-    sequenceList with all sequences with a score higher than the specified cutoff.*/
-    
+    /*!
+     * @brief 	Function that tests all combinations of the position weight matrix and fills
+				sequenceList with all sequences with a score higher than the specified cutoff
+     *
+     * @param ???
+     */
     void sequenceExtract(double cutoff);
 	
     /*!
      * @brief accesses the extracted DNA sequences and returns a vector of strings
      *
-     * @return ??? author of this ???
+     * @return ???
      */
-    std::vector<std::string> accessDNASequences();
-    
+    std::vector<std::string> accessDNASequences(); 
     
 };
 
