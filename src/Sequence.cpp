@@ -125,4 +125,16 @@ std::string Sequence::access_sequence_pos(unsigned int position, unsigned int le
     
 }
 
+unsigned Sequence::get_nucleotide_count(const char N)
+{
+	unsigned counter(0);
+	for (unsigned i=0; i< sequence.size(); ++i)
+	{
+		if (sequence[i] == N) 
+		{
+			counter += 1;
+		}
+	}
+	return counter;
+}
 

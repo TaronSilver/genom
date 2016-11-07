@@ -34,8 +34,13 @@ typedef std::vector<std::vector<double> > Matrix_Neo;
 
 class Matrix
 {
+<<<<<<< HEAD
 	private:
 	BaseProbabilities BaseProb;	/*! ??? */
+=======
+	public:
+	BaseProbabilities BaseProb;
+>>>>>>> master
     SequenceList sequenceList;	/*! vector containing all motifs of prob > cutoff prob */
 	
 	Matrix_Neo absoluteMatrix; 	/*! vector containing the probability for each nucleotide in each position of the motif */
@@ -208,12 +213,17 @@ class Matrix
      */
 	void compute_absoluteMatrix_from_logConstMatrix();
 
+<<<<<<< HEAD
 	/*!
      * @brief Method that finds the minimal values of each row of the logMatrix
      *
      * @return ???
      */
 	SimpleVector logMatrix_min_values();  
+=======
+	/*! Method that finds the minimal values of each row of the logMatrix */
+	SimpleVector logMatrix_max_values();  
+>>>>>>> master
 
 	/*!
      * @brief Method that computes the sum of (2 power each element of the logConstMatrix)
