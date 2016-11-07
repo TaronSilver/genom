@@ -209,7 +209,6 @@ void Matrix::save_matrix_loop() {
 }
 
 
-
 void Matrix::fill_Matrix(MATRIX_TYPE type) {
 	switch (type) {
 		case MATRIX_TYPE::absoluteMatrix:
@@ -221,7 +220,7 @@ void Matrix::fill_Matrix(MATRIX_TYPE type) {
 		case MATRIX_TYPE::relativeMatrix:
             compute_rel_absoluteMatrix();
             compute_abs_logMatrix(BaseProb);
-            compute_logConstMatrix_from_logMatrix();
+            compute_logConstMatrix_from_relativeMatrix();
             break;
 		
 		case MATRIX_TYPE::logMatrix:
@@ -232,7 +231,7 @@ void Matrix::fill_Matrix(MATRIX_TYPE type) {
 		
 		case MATRIX_TYPE::logConstMatrix:
             compute_relativeMatrix_from_logConstMatrix();
-            compute_rel_absoluteMatrix();
+            compute_absoluteMatrix_from_logConstMatrix();
             compute_abs_logMatrix(BaseProb);
             break;
 		
@@ -242,7 +241,6 @@ void Matrix::fill_Matrix(MATRIX_TYPE type) {
             break;
 	}
  } 
-
 
 
 void Matrix::compute_log_absoluteMatrix (const BaseProbabilities& bp)
@@ -425,48 +423,6 @@ void Matrix::compute_logConstMatrix_from_logMatrix()
 	}
 }
 
-
-void Matrix::compute_logMatrix_from_logConstMatrix()
-{	
-	/*! first we convert the logConstMatrix to the relativeMatrix */
-	compute_relativeMatrix_from_logConstMatrix();
-	
-	/*! then we convert the relativeMatrix to the logMatrix*/
-	compute_logConstMatrix_from_relativeMatrix();
-}
-
-
-void Matrix::compute_relativeMatrix_from_logMatrix()
-{	
-	/*! first we convert the logMatrix to the logConstMatrix */
-	compute_logConstMatrix_from_logMatrix();
-	
-	/*! then we convert the logConstMatrix to the relativeMatrix*/
-	compute_relativeMatrix_from_logConstMatrix();
-}
-
-
-void Matrix::compute_logMatrix_from_relativeMatrix()
-{	
-	/*! first we convert the relativeMatrix to the logConstMatrix */
-	compute_logConstMatrix_from_relativeMatrix();
-	
-	/*! then we convert the logConstMatrix to the logMatrix*/
-	compute_logMatrix_from_logConstMatrix();
-	
-}
-
-
-void Matrix::compute_logConstMatrix_from_absoluteMatrix()
-{	
-	/*! first we convert the absoluteMatrix to the relativeMatrix */
-	compute_abs_relativeMatrix();
-	
-	/*! then we convert the relativeMatrix to the logConstMatrix*/
-	compute_logConstMatrix_from_relativeMatrix();
-}
-
-
 void Matrix::compute_absoluteMatrix_from_logConstMatrix()
 {	
 	double z=0.0;
@@ -503,7 +459,7 @@ void Matrix::compute_absoluteMatrix_from_logConstMatrix()
 SimpleVector Matrix::logMatrix_max_values()
 {
 	SimpleVector values;	
-	double value=0.0;
+	double value (logMatrix[0][0]);
 	
 		
 	/*! Search in the logMatrix for each line which one is the maximal value */
@@ -512,7 +468,7 @@ SimpleVector Matrix::logMatrix_max_values()
 		for (size_t j(0);j<4;++j)
 		{
 			/*! the condition that you can't take MINUSINFINI as the maximal value */
-			if((logMatrix[i][j] != MINUSINFINI) and (value>logMatrix[i][j]))
+			if((logMatrix[i][j] != MINUSINFINI) and (value<logMatrix[i][j]))
 			{
 				value=logMatrix[i][j];					
 			} 
@@ -525,11 +481,10 @@ SimpleVector Matrix::logMatrix_max_values()
 	return values;
 }
 
-
 SimpleVector Matrix::sum_pow2logConstMatrix()
 {
 	SimpleVector sums;
-	double sum;
+	double sum=0.0;
 	
 	for(size_t i(0);i<logConstMatrix.size();++i)
 	{
@@ -541,10 +496,7 @@ SimpleVector Matrix::sum_pow2logConstMatrix()
 			if(logConstMatrix[i][j] != MINUSINFINI)
 			{
 				sum += (pow(2,logConstMatrix[i][j]));
-				
-			/*! if an element of the logConstMatrix is equal to MINUSINFINI, we don't add it to the sum */						
-		}
-					
+			}							
 		}
 		
 		/*! add the sum of each line to the vector of the sums */
