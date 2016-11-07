@@ -75,6 +75,14 @@ class Sequence
 	
 	const std::string sequence;
 	
+	/*!
+     * @brief counts number of given nucleotides in the sequence
+     *
+     * @param nucleotide (A, C, G, T) 
+     * @return number of times it appears
+     */
+	unsigned get_nucleotide_count(const char N);
+	
 };
 
 
