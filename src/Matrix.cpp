@@ -543,6 +543,7 @@ SimpleVector Matrix::sum_pow2logConstMatrix()
 				sum += (pow(2,logConstMatrix[i][j]));
 				
 			/*! if an element of the logConstMatrix is equal to MINUSINFINI, we don't add it to the sum */						
+		}
 					
 		}
 		
