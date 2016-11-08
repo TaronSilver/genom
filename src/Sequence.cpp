@@ -9,12 +9,14 @@ Sequence::Sequence(const std::string new_sequence)
 }
 
 
-std::vector<size_t> Sequence::find_sequence(const std::string& string_to_find) // second loop Do for the inversed string and modified the "cout" (add the + or -)
+std::vector<size_t> Sequence::find_sequence(const std::string& string_to_find, std::ofstream& outputfile) // second loop Do for the inversed string and modified the "cout" (add the + or -)
 {
     std::vector<size_t> starting_positions; //it's possible to have several matches in the sequence
     size_t starting_position(-1);
     std::string Translated_String(TranslateSeq(string_to_find));
+    
 
+    
     
     // std::cout << "SEARCHING '" << string_to_find << "' in the sequence"<< std::endl;
    
@@ -24,6 +26,7 @@ std::vector<size_t> Sequence::find_sequence(const std::string& string_to_find) /
         {
             starting_positions.push_back(starting_position);
             std::cout << string_to_find << " starting at char " << starting_position+1 <<" +"<< std::endl; //translated_string équivalent au binding spot
+            outputfile << string_to_find << " starting at char " << starting_position+1 <<" +"<< std::endl;
         }
     } while (starting_position != std::string::npos);
     
@@ -37,6 +40,8 @@ std::vector<size_t> Sequence::find_sequence(const std::string& string_to_find) /
         {
             starting_positions.push_back(starting_position);
             std::cout << string_to_find << " starting at char " << starting_position+1  <<" -"<< std::endl; //string_to_find équivalent au binding spot
+            outputfile << string_to_find << " starting at char " << starting_position+1  <<" -"<< std::endl; //string_to_find équivalent au binding spot
+
         }
     } while (starting_position != std::string::npos);
     
@@ -113,14 +118,14 @@ std::string Sequence::TranslateSeq(const std::string& Seq) // Translate a sequen
     }
 
     std::string to_be_reversed(RevSeq);
-    std::reverse(to_be_reversed.begin(),to_be_reversed.end()) ;
+    std::reverse(to_be_reversed.begin(),to_be_reversed.end());
 
     return to_be_reversed;
 }
 
 std::string Sequence::access_sequence_pos(unsigned int position, unsigned int length) {
     assert(sequence.size() > position);
-    assert(sequence.size() > position + length);
+    assert(sequence.size() >= position + length);
     return sequence.substr(position, length);
     
 }
@@ -136,5 +141,9 @@ unsigned Sequence::get_nucleotide_count(const char N)
 		}
 	}
 	return counter;
+}
+
+unsigned int Sequence::length() {
+    return sequence.length();
 }
 
