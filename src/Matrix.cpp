@@ -42,7 +42,7 @@ Matrix_Neo Matrix:: get_abs_logMatrix(	const BaseProbabilities& bp)
 					
 						} else {
 					
-									new_line.push_back(log2(y/bp[j])); /*Calcul the new values we need and put it in the new_line*/
+									new_line.push_back(log2(y/bp[i])); /*Calcul the new values we need and put it in the new_line*/
 								
 								}
 									
@@ -286,7 +286,7 @@ Matrix_Neo Matrix:: get_log_absoluteMatrix(	const BaseProbabilities& bp)
 							line.push_back(0.0);
 					
 						} else {
-								line.push_back(bp[j]*exp(log(2)*x));/*Calcul the new values we need*/
+								line.push_back(bp[i]*exp(log(2)*x));/*Calcul the new values we need*/
 							
 								}
 					}
