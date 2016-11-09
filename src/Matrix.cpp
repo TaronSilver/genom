@@ -35,7 +35,7 @@ void Matrix::compute_abs_logMatrix (const BaseProbabilities& bp)
 					
 						} else {
 					
-									new_line.push_back(log2(y/bp[j])); /*Calcul the new values we need and put it in the new_line*/
+									new_line.push_back(log2(y/bp[i])); /*Calcul the new values we need and put it in the new_line*/
 								
 								}
 									
@@ -270,7 +270,7 @@ void Matrix::compute_log_absoluteMatrix (const BaseProbabilities& bp)
 							line.push_back(0.0);
 					
 						} else {
-								line.push_back(pow(2,(x/bp[j])));/*Calcul the new values we need*/
+								line.push_back(pow(2,(x/bp[i])));/*Calcul the new values we need*/
 							
 								}
 					}
