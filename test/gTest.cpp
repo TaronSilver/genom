@@ -1,7 +1,6 @@
 #include "gtest/gtest.h"
 #include "../src/Matrix.hpp"
-#include "../src/utility.hpp"
-#include <cmath>
+
 /*! I use the constructor to initialise the four 4 different matrix.
  * This matrix will be use to check if our function work as expected because 
  * the different values test are the value we expect for the corresponding
