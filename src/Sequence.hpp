@@ -83,6 +83,18 @@ class Sequence
      */
 	unsigned get_nucleotide_count(const char N);
 	
+	/*!
+     * @brief sets probabilities to correct values
+     *
+     * @param base probabilities for nucleotides A, C, G and T
+     */
+	void setBaseProbs(double baseProbA, double baseProbC, double baseProbG, double baseProbT);
+
+	/*!
+     * @brief asks user what base probability to used and implements choice
+     */
+	void AskBaseProb();
+	
 };
 
 
