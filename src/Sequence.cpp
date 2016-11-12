@@ -2,7 +2,7 @@
 
 
 Sequence::Sequence(const std::string new_sequence) :sequence(new_sequence) {
-	std::cout <<"Creation of a new sequence" <<std::endl;
+	std::cout <<"Creation of a new sequence: " << new_sequence << std::endl;
 	AskBaseProb();
 }
 
@@ -177,6 +177,7 @@ void Sequence::AskBaseProb() {
 	
 	else {
 		std::cerr << "Invalid input for base probability" << std::endl;
+		AskBaseProb();
 	}
 }
 
