@@ -70,9 +70,20 @@ std::vector <double> nucleotide_probability(
  * @brief Returns vector of vector with probabilities based on a list of sequences
  *        and specified binding position and length (asked for during function)
  *
- * @param vector of sequences to analyze
+ * @param vector of sequences to analyze, a bool whether the entire sequence is 
+ *        relevant (true), or if only a part of the sequence to be specified
  * @return A probability matrix in form of Matrix_Neo, order: A, C, G, T
  */
-Matrix_Neo generate_PWM_from_Seq_list(std::vector <Sequence> sequence_list);
+Matrix_Neo generate_PWM_from_Seq_list(std::vector <Sequence> sequence_list, bool entire_sequence);
+
+
+/*!
+ * @brief Function that allows for creation of a new Matrix based on the found results,
+ *        stored in a txt file
+ *
+ * @param name of the txt file
+ * @return A probability matrix in form of Matrix_Neo, order: A, C, G, T
+ */
+Matrix_Neo matrix_from_sequence_results(std::string filename);
 
 #endif

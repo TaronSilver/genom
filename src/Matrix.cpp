@@ -218,7 +218,6 @@ void Matrix::save_matrix_loop() {
 }
 
 
-
 void Matrix::fill_Matrix(MATRIX_TYPE type) {
 	switch (type) {
 		case MATRIX_TYPE::absoluteMatrix:
@@ -230,7 +229,7 @@ void Matrix::fill_Matrix(MATRIX_TYPE type) {
 		case MATRIX_TYPE::relativeMatrix:
             compute_rel_absoluteMatrix();
             compute_abs_logMatrix(BaseProb);
-            compute_logConstMatrix_from_logMatrix();
+            compute_logConstMatrix_from_relativeMatrix();
             break;
 		
 		case MATRIX_TYPE::logMatrix:
@@ -241,7 +240,7 @@ void Matrix::fill_Matrix(MATRIX_TYPE type) {
 		
 		case MATRIX_TYPE::logConstMatrix:
             compute_relativeMatrix_from_logConstMatrix();
-            compute_rel_absoluteMatrix();
+            compute_absoluteMatrix_from_logConstMatrix();
             compute_abs_logMatrix(BaseProb);
             break;
 		
@@ -251,7 +250,6 @@ void Matrix::fill_Matrix(MATRIX_TYPE type) {
             break;
 	}
  } 
-
 
 
 void Matrix::compute_log_absoluteMatrix (const BaseProbabilities& bp)
@@ -286,7 +284,9 @@ Matrix_Neo Matrix:: get_log_absoluteMatrix(	const BaseProbabilities& bp)
 							line.push_back(0.0);
 					
 						} else {
+
 								line.push_back(bp[i]*exp(log(2)*x));/*Calcul the new values we need*/
+
 							
 								}
 					}
@@ -472,53 +472,9 @@ Matrix_Neo Matrix::compute_logConstMatrix_from_logMatrix()
 	return logConstMatrix;
 }
 
-
-void Matrix::compute_logMatrix_from_logConstMatrix()
-{	
-	/*! first we convert the logConstMatrix to the relativeMatrix */
-	compute_relativeMatrix_from_logConstMatrix();
-	
-	/*! then we convert the relativeMatrix to the logMatrix*/
-	compute_logConstMatrix_from_relativeMatrix();
-}
-
-
-void Matrix::compute_relativeMatrix_from_logMatrix()
-{	
-	/*! first we convert the logMatrix to the logConstMatrix */
-	compute_logConstMatrix_from_logMatrix();
-	
-	/*! then we convert the logConstMatrix to the relativeMatrix*/
-	compute_relativeMatrix_from_logConstMatrix();
-}
-
-
-void Matrix::compute_logMatrix_from_relativeMatrix()
-{	
-	/*! first we convert the relativeMatrix to the logConstMatrix */
-	compute_logConstMatrix_from_relativeMatrix();
-	
-	/*! then we convert the logConstMatrix to the logMatrix*/
-	compute_logMatrix_from_logConstMatrix();
-	
-}
-
-
-void Matrix::compute_logConstMatrix_from_absoluteMatrix()
-{	
-	/*! first we convert the absoluteMatrix to the relativeMatrix */
-	compute_abs_relativeMatrix();
-	
-	/*! then we convert the relativeMatrix to the logConstMatrix*/
-	compute_logConstMatrix_from_relativeMatrix();
-}
-
-
 Matrix_Neo Matrix::compute_absoluteMatrix_from_logConstMatrix()
-{	/*! first, we should make sure that the absoluteMatrix is empty */
-	absoluteMatrix.clear();
-	
-	
+{	
+
 	double z=0.0;
 	SimpleVector n_line;
 	SimpleVector s=sum_pow2logConstMatrix();
@@ -552,7 +508,9 @@ Matrix_Neo Matrix::compute_absoluteMatrix_from_logConstMatrix()
 SimpleVector Matrix::logMatrix_max_values()
 {
 	SimpleVector values;	
-	double value=logMatrix[0][0];
+
+	double value (logMatrix[0][0]);
+
 	
 		
 	/*! Search in the logMatrix for each line which one is the maximal value */
@@ -574,7 +532,6 @@ SimpleVector Matrix::logMatrix_max_values()
 	return values;
 }
 
-
 SimpleVector Matrix::sum_pow2logConstMatrix()
 {
 	SimpleVector sums;
@@ -590,10 +547,12 @@ SimpleVector Matrix::sum_pow2logConstMatrix()
 			if(logConstMatrix[i][j] != MINUSINFINI)
 			{
 				sum += (pow(2,logConstMatrix[i][j]));
-				
-			/*! if an element of the logConstMatrix is equal to MINUSINFINI, we don't add it to the sum */	
-}					
+
+									
 					
+
+			}							
+
 		}
 		
 		/*! add the sum of each line to the vector of the sums */
@@ -809,13 +768,21 @@ void Matrix::sequenceExtract() {
         basePosition[2] = 'G';
         basePosition[3] = 'T';
     }
-
-
+    for (unsigned int i(0); i<logMatrix.size(); i++) {
+        for (unsigned int j(0); j<4; j++) {
+            std::cout << logMatrix[i][j] << "   ";
+        }
+        std::cout << std::endl;
+    }
+    
+    
+    
     while(iterator[0]!=NUMBER_NUCLEOTIDES) {
         
         // Adds up scored at specific iteration
         for(unsigned int i(0); i < matrixSize; i++) {
-            score+= logMatrix[i][iterator[i]];
+            score += logMatrix[i][iterator[i]];
+            
         }
 
         // Prints all nucleotid combinations that have score larger than cutoff
@@ -836,8 +803,6 @@ void Matrix::sequenceExtract() {
                 iterator[i] = 0;
             }
         }
-        
-        score = 0.0;
     }
 
     /* Prints sequences to look for, for troubleshooting

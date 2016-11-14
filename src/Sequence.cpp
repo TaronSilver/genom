@@ -9,45 +9,47 @@ Sequence::Sequence(const std::string new_sequence)
 }
 
 
-std::vector<size_t> Sequence::find_sequence(const std::string& string_to_find) // second loop Do for the inversed string and modified the "cout" (add the + or -)
+std::vector<size_t> Sequence::find_sequence(const std::string& string_to_find, std::ofstream& outputfile) // second loop Do for the inversed string and modified the "cout" (add the + or -)
 {
     std::vector<size_t> starting_positions; //it's possible to have several matches in the sequence
     size_t starting_position(-1);
     std::string Translated_String(TranslateSeq(string_to_find));
+    
 
     
-    // std::cout << "SEARCHING '" << string_to_find << "' in the sequence"<< std::endl;
     
+    // std::cout << "SEARCHING '" << string_to_find << "' in the sequence"<< std::endl;
+   
     do {
         starting_position = sequence.find(string_to_find, starting_position+1); //the function "find" returns the first position of the first character of the first match
         if(starting_position != std::string::npos)
         {
             starting_positions.push_back(starting_position);
-            std::cout << Translated_String << " starting at char " << starting_position <<" +"<< std::endl; //translated_string équivalent au binding spot
+            std::cout << string_to_find << " starting at char " << starting_position+1 <<" +"<< std::endl; //translated_string équivalent au binding spot
+            outputfile << string_to_find << " starting at char " << starting_position+1 <<" +"<< std::endl;
         }
     } while (starting_position != std::string::npos);
     
 
-    return starting_positions;
-    
-    /*
-     Doesnt work yet
      
     starting_position = -1;
     
     do {
-        starting_position = sequence.length()-sequence.find(Translated_String, starting_position+1)-Translated_String.length(); // second Do() to find the translated string position(total length - the position - the length of the string. because the complementary is inverted)
+        starting_position = sequence.find(Translated_String, starting_position+1); // second Do() to find the translated string position.
         if(starting_position != std::string::npos)
         {
             starting_positions.push_back(starting_position);
-            std::cout << string_to_find << " starting at char " << starting_position <<" -"<< std::endl; //string_to_find équivalent au binding spot
+            std::cout << string_to_find << " starting at char " << starting_position+1  <<" -"<< std::endl; //string_to_find équivalent au binding spot
+            outputfile << string_to_find << " starting at char " << starting_position+1  <<" -"<< std::endl; //string_to_find équivalent au binding spot
+
         }
     } while (starting_position != std::string::npos);
     
-    
+    /*
     std::cout << " SCAN FINISHED " << starting_positions.size() << " occurences found" << std::endl;
-    return starting_positions;
     */
+    return starting_positions;
+  
 }
 
 
@@ -90,7 +92,7 @@ std::string Sequence::TranslateSeq(const std::string& Seq) // Translate a sequen
 {
     std::string RevSeq(Seq.length(), ' ');
     
-    for(int i=0 ; i < Seq.length() ; i++)
+    for(size_t i=0 ; i < Seq.length() ; i++)
     {
         switch (Seq[i])
         {
@@ -114,13 +116,16 @@ std::string Sequence::TranslateSeq(const std::string& Seq) // Translate a sequen
                 std::cout<<"Error in the translation"<< std::endl;	
         }
     }
-    
-    return RevSeq;
+
+    std::string to_be_reversed(RevSeq);
+    std::reverse(to_be_reversed.begin(),to_be_reversed.end());
+
+    return to_be_reversed;
 }
 
 std::string Sequence::access_sequence_pos(unsigned int position, unsigned int length) {
     assert(sequence.size() > position);
-    assert(sequence.size() > position + length);
+    assert(sequence.size() >= position + length);
     return sequence.substr(position, length);
     
 }
@@ -136,5 +141,9 @@ unsigned Sequence::get_nucleotide_count(const char N)
 		}
 	}
 	return counter;
+}
+
+unsigned int Sequence::length() {
+    return sequence.length();
 }
 
