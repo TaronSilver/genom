@@ -211,7 +211,7 @@ std::vector <double> nucleotide_probability(
 }
 
 
-Matrix_Neo generate_PWM_from_Seq_list(std::vector <Sequence> sequence_list) {
+Matrix_Neo generate_PWM_from_Seq_list(std::vector <Sequence> sequence_list, bool entire_sequence) {
     Matrix_Neo probability_matrix;
     std::vector <std::string> binding_sequences;
     
@@ -219,21 +219,29 @@ Matrix_Neo generate_PWM_from_Seq_list(std::vector <Sequence> sequence_list) {
     unsigned int length;
     unsigned int number_sequences(sequence_list.size());
     
-    while (true) {
-        std::cout << "At what position is the binding site (starts at 1)?" << std::endl;
-        std::cin >> position;
-        std::cout << "How long is the binding site?" << std::endl;
-        std::cin >> length;
+    if(!entire_sequence) {
+        // todo if only a part of the sequence is relevant
+        while (true) {
+            std::cout << "At what position is the binding site (starts at 1)?" << std::endl;
+            std::cin >> position;
+            std::cout << "How long is the binding site?" << std::endl;
+            std::cin >> length;
         
-        if(position <= 0) {
-            std::cout << "Error, binding position must be positive" << std::endl;
+            if(position <= 0) {
+                std::cout << "Error, binding position must be positive" << std::endl;
+            }
+            else if(length <= 0) {
+                std::cout << "Error, binding site length must be positive" << std::endl;
+            }
+            else {
+                break;
+            }
         }
-        else if(length <= 0) {
-            std::cout << "Error, binding site length must be positive" << std::endl;
-        }
-        else {
-            break;
-        }
+    }
+    
+    else {
+        position = 1;
+        length = sequence_list[0].length();
     }
     
     for (unsigned int i(0); i < number_sequences; i++) {
@@ -266,5 +274,28 @@ Matrix_Neo generate_PWM_from_Seq_list(std::vector <Sequence> sequence_list) {
     return probability_matrix;
 }
 
+
+Matrix_Neo matrix_from_sequence_results(std::string filename) {
+    
+    std::ifstream entry(filename);
+    std::string line;
+    
+    std::vector <Sequence> sequences; // That is the object that will be returned.
+    std::string nucleotides;
+    
+    
+    // Reads lines, converts line to stream, reads the first word and creates a sequence out of it
+    while(getline(entry, line)){
+        
+        std::istringstream stringstream(line);
+        stringstream >> nucleotides;
+        
+        Sequence sequence(nucleotides);
+        sequences.push_back(sequence);
+    }
+    
+    entry.close();
+    return generate_PWM_from_Seq_list(sequences, true);
+}
 
 

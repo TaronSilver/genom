@@ -7,7 +7,7 @@
 #include <fstream>
 #include <algorithm>
 #include <assert.h>
-
+#include <sstream>
 
 
 //std::vector<size_t> Find(const std::string& string_to_find, const std::vector<std::string>& genes, int sequence_in_gene); // find_sequence() returns a vector with all the starting positions of each occurences of the searched thing // souhailelaissaoui
@@ -29,12 +29,12 @@ class Sequence
 	std::vector<double> get_probabilities();
 	
 	/*!
-     * @brief Finding where a given enyzme can attach itself to our sequence
-     *
-     * @param enzyme nucleotides
+     * @brief Finding where a given enyzme can attach itself to our sequence, saves result in
+     *        file specified in outputfile
+     * @param enzyme nucleotides, outputfile
      * @return position(s) where the enzyme can attach itsefl to our sequence
      */
-	std::vector<size_t> find_sequence(const std::string& string_to_find);
+    std::vector<size_t> find_sequence(const std::string& string_to_find, std::ofstream& outputfile);
 	
 
     
@@ -46,6 +46,14 @@ class Sequence
      */
     std::string access_sequence_pos(unsigned int position, unsigned int length);
     
+    
+    /*!
+     * @brief Returns the length of the sequence
+     *
+     * @param The starting position, the length of the sequence to extract
+     * @return unsinged int containing sequence length
+     */
+    unsigned int length();
     
 	
 	/*!
