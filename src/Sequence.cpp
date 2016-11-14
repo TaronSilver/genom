@@ -1,11 +1,9 @@
 #include "Sequence.hpp"
 
 
-Sequence::Sequence(const std::string new_sequence)
-:sequence(new_sequence)
-{
-	// std::cout <<"Creation of a new sequence: " << new_sequence <<std::endl;
-    calc_BaseProb();
+Sequence::Sequence(const std::string new_sequence) :sequence(new_sequence) {
+	std::cout <<"Creation of a new sequence: " << new_sequence << std::endl;
+	AskBaseProb();
 }
 
 
@@ -68,24 +66,19 @@ std::vector<double> Sequence::get_probabilities()
 	return result;
 }
 
-// Modified, such that every baseProb is .25, for the moment.
-
 void Sequence::calc_BaseProb() {
-	double size_seq(sequence.size());
 	
-    baseProbabibilityA = .25;
-    baseProbabibilityC = .25;
-    baseProbabibilityG = .25;
-    baseProbabibilityT = .25;
-
-    
-    /*
-	baseProbabibilityA = (static_cast<double>(find_sequence("A").size()))/size_seq; // division entiere ??????
-	baseProbabibilityC = (static_cast<double>(find_sequence("C").size()))/size_seq; // division entiere ??????
-	baseProbabibilityG = (static_cast<double>(find_sequence("G").size()))/size_seq; // division entiere ??????
-	baseProbabibilityT = (static_cast<double>(find_sequence("T").size()))/size_seq; // division entiere ??????
-     */
-
+	double countA, countC, countG, countT;
+	double totCount;
+	
+	countA = get_nucleotide_count('A');
+	countC = get_nucleotide_count('C');
+	countG = get_nucleotide_count('G');
+	countT = get_nucleotide_count('T');
+	
+	totCount = countA + countC + countG + countT;
+	
+	setBaseProbs(countA/totCount, countC/totCount, countG/totCount, countT/totCount);
 }
 
 std::string Sequence::TranslateSeq(const std::string& Seq) // Translate a sequence to its complementary sequence
@@ -142,6 +135,56 @@ unsigned Sequence::get_nucleotide_count(const char N)
 	}
 	return counter;
 }
+
+
+void Sequence::setBaseProbs(double baseProbA, double baseProbC, double baseProbG, double baseProbT) {
+	baseProbabibilityA = baseProbA;
+	baseProbabibilityC = baseProbC;
+	baseProbabibilityG = baseProbG;
+	baseProbabibilityT = baseProbT;
+}
+
+void Sequence::AskBaseProb() {
+	
+	int choice;
+	
+	std::cout<<"What base probability would you like to use for the log matrix?"<<std::endl;
+	std::cout<<"Enter 1 to use a base probability of 0.25 for all nucleotides"<<std::endl;
+	std::cout<<"Enter 2 to use base probabilities calculated from the input sequence"<<std::endl;
+	std::cout<<"Enter 0 to use custom base probabilities"<<std::endl;
+	
+	std::cin>>choice;
+	
+	if (choice == 0) {
+		double baseProbA, baseProbC, baseProbG, baseProbT;
+		
+		std::cout << "Enter the base probability for A ";
+		std::cin >> baseProbA;
+		
+		std::cout << "Enter the base probability for C ";
+		std::cin >> baseProbC;
+		
+		std::cout << "Enter the base probability for G ";
+		std::cin >> baseProbG;
+		
+		std::cout << "Enter the base probability for A ";
+		std::cin >> baseProbT;
+		
+		setBaseProbs(baseProbA, baseProbC, baseProbG, baseProbT);
+	}
+	
+	else if (choice == 1) {
+		setBaseProbs(0.25, 0.25, 0.25, 0.25);
+	}
+	
+	else if (choice == 2) {
+		calc_BaseProb();
+	}
+	
+	else {
+		std::cerr << "Invalid input for base probability" << std::endl;
+		AskBaseProb();
+	}
 
 unsigned int Sequence::length() {
     return sequence.length();
