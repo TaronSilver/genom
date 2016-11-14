@@ -712,13 +712,21 @@ void Matrix::sequenceExtract() {
         basePosition[2] = 'G';
         basePosition[3] = 'T';
     }
-
-
+    for (unsigned int i(0); i<logMatrix.size(); i++) {
+        for (unsigned int j(0); j<4; j++) {
+            std::cout << logMatrix[i][j] << "   ";
+        }
+        std::cout << std::endl;
+    }
+    
+    
+    
     while(iterator[0]!=NUMBER_NUCLEOTIDES) {
         
         // Adds up scored at specific iteration
         for(unsigned int i(0); i < matrixSize; i++) {
-            score+= logMatrix[i][iterator[i]];
+            score += logMatrix[i][iterator[i]];
+            
         }
 
         // Prints all nucleotid combinations that have score larger than cutoff
@@ -739,8 +747,6 @@ void Matrix::sequenceExtract() {
                 iterator[i] = 0;
             }
         }
-        
-        score = 0.0;
     }
 
     /* Prints sequences to look for, for troubleshooting
