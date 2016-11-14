@@ -1,7 +1,6 @@
 #include "gtest/gtest.h"
 #include "../src/Matrix.hpp"
-#include "../src/utility.hpp"
-#include <cmath>
+
 /*! I use the constructor to initialise the four 4 different matrix.
  * This matrix will be use to check if our function work as expected because 
  * the different values test are the value we expect for the corresponding
@@ -96,6 +95,8 @@ TEST (compute_relativeMatrix_from_logConstMatrix_test, goodrelativeMatrix)
  */
 TEST (compute_absoluteMatrix_from_logConstMatrix_test, goodabsoluteMatrix)
 {
+	ma_matrice_4.sum_pow2logConstMatrix();
+	
 	for(int j = 0 ; j< 4 ;++j)
 	{
 	ASSERT_TRUE(std::abs(a[0][j]- ma_matrice_4.compute_absoluteMatrix_from_logConstMatrix()[0][j]) < 0.0001);
@@ -107,6 +108,8 @@ TEST (compute_absoluteMatrix_from_logConstMatrix_test, goodabsoluteMatrix)
  */
 TEST (compute_logConstMatrix_from_logMatrix_test, goodlogConstMatrix)
 {
+	ma_matrice_3.logMatrix_max_values();
+	
 	for(int j = 0 ; j< 4 ;++j)
 	{
 	ASSERT_TRUE(std::abs(lcm[0][j] - ma_matrice_3.compute_logConstMatrix_from_logMatrix()[0][j]) < 0.0001);
@@ -121,6 +124,8 @@ TEST (compute_logConstMatrix_from_logMatrix_test, goodlogConstMatrix)
  */
 TEST (compute_abs_relativeMatrix_test, goodrelativeMatrix)
 {
+	ma_matrice_2.max_values();
+	
 	for(int j = 0 ; j< 4 ;++j)
 	{
 	ASSERT_TRUE(std::abs(r[0][j] - ma_matrice_2.compute_abs_relativeMatrix()[0][j]) <0.0001);
@@ -132,6 +137,8 @@ TEST (compute_abs_relativeMatrix_test, goodrelativeMatrix)
  */
 TEST (compute_rel_absoluteMatrix_test, goodabsoluteeMatrix)
 {
+	ma_matrice_1.calcul_sum();
+	
 	for(int j = 0 ; j< 4 ;++j)
 	{
 	ASSERT_TRUE(std::abs(a[0][j]-ma_matrice_1.compute_rel_absoluteMatrix()[0][j]) < 0.0001);
