@@ -303,9 +303,7 @@ Matrix_Neo Matrix::compute_abs_relativeMatrix()
 	relativeMatrix.clear();
 	double p;
 	SimpleVector nw_line;
-	//SimpleVector v=max_values();
-	//Comment the line SimpleVector v=max_values()  and decomment this line to execute gTest on this function.
-	SimpleVector v({0.710526});
+	SimpleVector v=max_values();
 	
 	
 	           
@@ -344,9 +342,8 @@ Matrix_Neo Matrix::compute_rel_absoluteMatrix()
 	
 	double z;
 	SimpleVector n_line;
-	//SimpleVector s=calcul_sum();
-	//Comment the line SimpleVector s=calcul_sum() and decomment this line to execute gTest on this function.
-	SimpleVector s({1.407408});
+	SimpleVector s=calcul_sum();
+	
 	
 	
 	
@@ -445,9 +442,8 @@ Matrix_Neo Matrix::compute_logConstMatrix_from_logMatrix()
 {	
 	double z=0.0;
 	SimpleVector n_line;
-	//SimpleVector s=logMatrix_max_values();
-	//Comment the line SimpleVector s=logMatrix_max_values() and decomment this line to execute gTest on this function.
-	SimpleVector s({1.506960});
+	SimpleVector s=logMatrix_max_values();
+	
 	
 	/*! first, we should make sure that the logConstMatrix is empty */
 	logConstMatrix.clear();
@@ -528,9 +524,8 @@ Matrix_Neo Matrix::compute_absoluteMatrix_from_logConstMatrix()
 	
 	double z=0.0;
 	SimpleVector n_line;
-	//SimpleVector s=sum_pow2logConstMatrix();
-	//Comment the line SimpleVector s=sum_pow2logConstMatrix() and decomment this line to execute gTest on this function.
-	SimpleVector s({1.40741});
+	SimpleVector s=sum_pow2logConstMatrix();
+	
 	
 	/*! create the absoluteMatrix */
 	for(size_t i(0);i<logConstMatrix.size();++i)
