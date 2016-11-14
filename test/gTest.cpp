@@ -117,6 +117,7 @@ TEST (compute_logConstMatrix_from_logMatrix_test, goodlogConstMatrix)
 } 
 
 
+
 //-------------------------------------------- gTests Failed
 
 /*!
