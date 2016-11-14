@@ -185,6 +185,7 @@ void Sequence::AskBaseProb() {
 		std::cerr << "Invalid input for base probability" << std::endl;
 		AskBaseProb();
 	}
+}	
 
 unsigned int Sequence::length() {
     return sequence.length();
