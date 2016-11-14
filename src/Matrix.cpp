@@ -284,10 +284,8 @@ Matrix_Neo Matrix:: get_log_absoluteMatrix(	const BaseProbabilities& bp)
 							line.push_back(0.0);
 					
 						} else {
-
 								line.push_back(bp[i]*exp(log(2)*x));/*Calcul the new values we need*/
 
-							
 								}
 					}
 					
@@ -304,7 +302,7 @@ Matrix_Neo Matrix::compute_abs_relativeMatrix()
 	double p;
 	SimpleVector nw_line;
 	SimpleVector v=max_values();
-	           
+       
 	for(size_t i(0);i<absoluteMatrix.size();++i)
 	{
 		
@@ -441,6 +439,7 @@ Matrix_Neo Matrix::compute_logConstMatrix_from_logMatrix()
 	double z=0.0;
 	SimpleVector n_line;
 	SimpleVector s=logMatrix_max_values();
+
 	
 	/*! first, we should make sure that the logConstMatrix is empty */
 	logConstMatrix.clear();

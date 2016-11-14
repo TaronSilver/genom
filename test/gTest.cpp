@@ -84,6 +84,7 @@ TEST (compute_log_absoluteMatrix_test, goodabsoluteMatrix)
  */
 TEST (compute_relativeMatrix_from_logConstMatrix_test, goodrelativeMatrix)
 {
+	
 	for(int j = 0 ; j< 4 ;++j)
 	{
 	ASSERT_TRUE(std::abs(r[0][j] - ma_matrice_4.compute_relativeMatrix_from_logConstMatrix()[0][j]) < 0.0001);
