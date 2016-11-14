@@ -9,7 +9,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 include_directories(src)
 link_directories("/usr/local/lib") #Tells cmake where some libs could potentially be located
-
+link_directories("/usr/lib")
 add_executable(Main src/main.cpp src/Matrix.cpp src/Sequence.cpp src/utility.cpp)
 #target_link_libraries(PopulationSimul m)
 
@@ -17,8 +17,8 @@ if (test)
 	enable_testing()
 	find_package(GTest)
 	include_directories(${GTEST_INCLUDE_DIRS})
-	add_executable(MainTest2 src/main.cpp src/Matrix.cpp src/Sequence.cpp src/utility.cpp)
-	target_link_libraries(MainTest2 ${GTEST_BOTH_LIBRARIES} pthread) 
+	add_executable(gtests test/gTest.cpp src/Matrix.cpp)
+	target_link_libraries(gtests ${GTEST_BOTH_LIBRARIES} pthread) 
 	add_test(genom-2 MainTest)
 endif(test)
 

@@ -12,9 +12,16 @@ void Matrix::compute_abs_logMatrix (const BaseProbabilities& bp)
 {
     if (bp.empty())
     {
-        std::cout << "Your BaseProbabilities is empty, we can't compute your logMatrix." << std:: endl;
+        std::cout << "Your BaseProbabilities is empty, we can't compute your logMatrix." << std:: endl;      
         
-    } else {      
+    } else {  
+			get_abs_logMatrix(bp);
+			
+			}		
+}
+			
+Matrix_Neo Matrix:: get_abs_logMatrix(	const BaseProbabilities& bp)
+{		  
 				logMatrix.clear(); /* Be sure the logMatrix is empty*/
 				
 				SimpleVector new_line;/* Will stock the 4 values of all lines and be added to logMatrix lines by lines*/
@@ -44,8 +51,10 @@ void Matrix::compute_abs_logMatrix (const BaseProbabilities& bp)
 					logMatrix.push_back(new_line); /*Stock the line of 4 new values in the logMatrix*/
 				
 				}
-			}	
+				
+				return logMatrix;
 }	
+	
 
 /*
 int Matrix::getMatrixRowCount() 
@@ -185,7 +194,7 @@ void Matrix::save_matrix() {
         }
         outputfile << "\n";
     }
-    
+    calcul_sum();
     outputfile.close();
     
     
@@ -251,7 +260,12 @@ void Matrix::compute_log_absoluteMatrix (const BaseProbabilities& bp)
         std::cout << "Your BaseProbabilities is empty, we can't compute your logMatrix." << std:: endl;
         
     } else {
+			get_log_absoluteMatrix(bp);
+			}
+}
 
+Matrix_Neo Matrix:: get_log_absoluteMatrix(	const BaseProbabilities& bp)
+{
 				absoluteMatrix.clear(); 
 				  
 				SimpleVector line;
@@ -270,51 +284,64 @@ void Matrix::compute_log_absoluteMatrix (const BaseProbabilities& bp)
 							line.push_back(0.0);
 					
 						} else {
-								line.push_back(pow(2,(x/bp[i])));/*Calcul the new values we need*/
-							
+								line.push_back(bp[i]*exp(log(2)*x));/*Calcul the new values we need*/
+
 								}
 					}
 					
 					absoluteMatrix.push_back(line);
 					
 				}
+				return absoluteMatrix;
 			}
-} 
 
-void Matrix::compute_abs_relativeMatrix()
-{
+
+Matrix_Neo Matrix::compute_abs_relativeMatrix()
+{	
+	relativeMatrix.clear();
 	double p;
 	SimpleVector nw_line;
-	SimpleVector v = max_values();
-					  
-	relativeMatrix.clear();
-             
+	SimpleVector v=max_values();
+       
 	for(size_t i(0);i<absoluteMatrix.size();++i)
 	{
+		
 		nw_line.clear();
 		
-		for (size_t j(0);j<4;++j)/*Read the absoluteMatrix*/
+		for (size_t j(0);j<4;++j)
 		{
 					
 			p=absoluteMatrix[i][j];
+			
+			if(p=0.0)
+			{
+							
+				nw_line.push_back(0.0);
 					
-			nw_line.push_back(p/v[j]);/*Divide the value in position [i][j] by the max value of his line [i]*/
+			} else 
+				{
 					
+					nw_line.push_back(p/v[i]);/*Divide the value in position [i][j] by the max value of his line [i]*/
+				}			
 		}
 		
 		relativeMatrix.push_back(nw_line);
 		
 	}
+	return relativeMatrix;
 				
 }								
 				
-void Matrix::compute_rel_absoluteMatrix()
+Matrix_Neo Matrix::compute_rel_absoluteMatrix()
 {	
+	absoluteMatrix.clear();
+	
 	double z;
 	SimpleVector n_line;
 	SimpleVector s=calcul_sum();
 	
-	absoluteMatrix.clear();
+	
+	
 	
 	for(size_t i(0);i<relativeMatrix.size();++i)
 	{
@@ -323,17 +350,27 @@ void Matrix::compute_rel_absoluteMatrix()
 		for (size_t j(0);j<4;++j)
 		{
 			z=relativeMatrix[i][j];
+			
+			if(z=0.000000)
+			{
+							
+				n_line.push_back(0.000000);
 					
-			n_line.push_back(z/s[j]);/*Divide the value in position [i][j] by the max value of his line [i]*/
+			} else 
+			{
 					
+			n_line.push_back(z/s[i]);/*Divide the value in position [i][j] by the max value of his line [i]*/
+			
+			}
 		}
 		
 		absoluteMatrix.push_back(n_line);
 		
 	}
+	return absoluteMatrix;
 }
 
-void Matrix::compute_relativeMatrix_from_logConstMatrix()
+Matrix_Neo Matrix::compute_relativeMatrix_from_logConstMatrix()
 {	
 	double z=0.0;
 	SimpleVector n_line;
@@ -342,8 +379,11 @@ void Matrix::compute_relativeMatrix_from_logConstMatrix()
 	relativeMatrix.clear();
 	
 	/*! create the relativeMatrix */
-	for(size_t i(0);i<relativeMatrix.size();++i)
+	for(size_t i(0);i<logConstMatrix.size();++i)
 	{
+		
+		n_line.clear();
+		
 		for (size_t j(0);j<4;++j)
 		{
 			z=logConstMatrix[i][j];		
@@ -353,10 +393,11 @@ void Matrix::compute_relativeMatrix_from_logConstMatrix()
 		/*! add the values of each line to the relativeMatrix */
 		relativeMatrix.push_back(n_line);
 	}
+	return relativeMatrix;
 }
 
 
-void Matrix::compute_logConstMatrix_from_relativeMatrix()
+Matrix_Neo Matrix::compute_logConstMatrix_from_relativeMatrix()
 {	
 	double z=0.0;
 	SimpleVector n_line;
@@ -365,16 +406,18 @@ void Matrix::compute_logConstMatrix_from_relativeMatrix()
 	logConstMatrix.clear();
 	
 	/*! create the logConstMatrix */
-	for(size_t i(0);i<logConstMatrix.size();++i)
+	for(size_t i(0);i<relativeMatrix.size();++i)
 	{
 		for (size_t j(0);j<4;++j)
 		{
+			n_line.clear();
+			
 			/*! if the element of the logMatrix is not 0, we can create the new element of the logConstMatrix */
 			if(relativeMatrix[i][j] != 0.0) 
 			{
-				z=logConstMatrix[i][j];		
+				z=relativeMatrix[i][j];		
 				n_line.push_back(log2(z));
-			
+				
 			/*! if the element is 0, the value of the logConstMatrix will then be MINUSINFINI */			
 			} else {
 			
@@ -387,28 +430,32 @@ void Matrix::compute_logConstMatrix_from_relativeMatrix()
 		logConstMatrix.push_back(n_line);
 		
 	}
+	return logConstMatrix;
 }
 
 
-void Matrix::compute_logConstMatrix_from_logMatrix()
+Matrix_Neo Matrix::compute_logConstMatrix_from_logMatrix()
 {	
 	double z=0.0;
 	SimpleVector n_line;
 	SimpleVector s=logMatrix_max_values();
+
 	
 	/*! first, we should make sure that the logConstMatrix is empty */
 	logConstMatrix.clear();
 	
 	/*! create the logConstMatrix */
-	for(size_t i(0);i<logConstMatrix.size();++i)
+	for(size_t i(0);i<logMatrix.size();++i)
 	{
+		n_line.clear();
+		
 		for (size_t j(0);j<4;++j)
 		{
 			/*! if the element of the logMatrix is not MINUSINFINI, we can create the new element of the logConstMatrix */
 			if(logMatrix[i][j] != MINUSINFINI) 
 			{
 				z=logMatrix[i][j];	
-				n_line.push_back(z-s[j]);	
+				n_line.push_back(z-s[i]);	
 				
 			/*! if an element of the logMatrix is MINUSINFINI, it should be the same in the logConstMatrix */			
 			} else {
@@ -421,28 +468,28 @@ void Matrix::compute_logConstMatrix_from_logMatrix()
 		logConstMatrix.push_back(n_line);
 		
 	}
+	return logConstMatrix;
 }
 
-void Matrix::compute_absoluteMatrix_from_logConstMatrix()
+Matrix_Neo Matrix::compute_absoluteMatrix_from_logConstMatrix()
 {	
+
 	double z=0.0;
 	SimpleVector n_line;
 	SimpleVector s=sum_pow2logConstMatrix();
-	
-	
-	/*! first, we should make sure that the absoluteMatrix is empty */
-	absoluteMatrix.clear();
-	
+
 	/*! create the absoluteMatrix */
-	for(size_t i(0);i<absoluteMatrix.size();++i)
+	for(size_t i(0);i<logConstMatrix.size();++i)
 	{
+		n_line.clear();
+	
 		for (size_t j(0);j<4;++j)
 		{
 			/*! if the element of the logConstMatrix is not MINUSINFINI, we can create the new element of the absoluteMatrix */
 			if(logConstMatrix[i][j] != MINUSINFINI) 
 			{
 				z=logConstMatrix[i][j];	
-				n_line.push_back((pow(2,z))/s[j]);	
+				n_line.push_back((pow(2,z))/s[i]);	
 				
 			/*! if an element of the logConstMatrix is MINUSINFINI, it will give 0 in the absoluteMatrix */			
 			} else {
@@ -453,13 +500,16 @@ void Matrix::compute_absoluteMatrix_from_logConstMatrix()
 		/*! add the values of each line to the absoluteMatrix */
 		absoluteMatrix.push_back(n_line);
 	}
+	return absoluteMatrix;
 }
 
 
 SimpleVector Matrix::logMatrix_max_values()
 {
 	SimpleVector values;	
+
 	double value (logMatrix[0][0]);
+
 	
 		
 	/*! Search in the logMatrix for each line which one is the maximal value */
@@ -496,7 +546,12 @@ SimpleVector Matrix::sum_pow2logConstMatrix()
 			if(logConstMatrix[i][j] != MINUSINFINI)
 			{
 				sum += (pow(2,logConstMatrix[i][j]));
+
+									
+					
+
 			}							
+
 		}
 		
 		/*! add the sum of each line to the vector of the sums */
