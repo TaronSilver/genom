@@ -194,7 +194,7 @@ void Matrix::save_matrix() {
         }
         outputfile << "\n";
     }
-    calcul_sum()
+    calcul_sum();
     outputfile.close();
     
     
