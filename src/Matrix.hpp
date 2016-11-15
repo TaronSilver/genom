@@ -8,13 +8,15 @@
 #include <sstream>
 #include <cmath>
 #include <string>
-
+#include <list>
 #include <cmath>
+#include <map>
 
 /* Defines number of different nucleotides in DNA sequnece (always 4) */
 #define NUMBER_NUCLEOTIDES 4
 #define MINUSINFINI -1000.0
 
+typedef enum {A, C, G, T, N} nuc;
 
 
 /*!
@@ -31,6 +33,11 @@ typedef std::vector<std::string> SequenceList;
 typedef std::vector<std::vector<double> > Matrix_Neo;
 
 
+typedef struct BindingSequence {
+    std::string sequence;
+    double score;
+} BindingSequence;
+
 
 class Matrix
 {
@@ -42,6 +49,8 @@ class Matrix
 	Matrix_Neo relativeMatrix; 	/*! position probability matrix of  probabilities relative to consensus */
     	Matrix_Neo logMatrix; 		/*! array with log(probability/base probability) for each nucleotide in each position */
 	Matrix_Neo logConstMatrix;	/*! position-specific scoring matrix ( named logMatrix) - constant */
+    
+    unsigned int length;
    
     /*!
      * @brief initialisation of logMatrix from probMatrix
@@ -187,7 +196,23 @@ class Matrix
      *
      * @return ???
      */
-    std::vector<std::string> accessDNASequences(); 
+    std::vector<std::string> accessDNASequences();
+    
+    /*!
+     * @brief 	getter for length of matrix
+     *
+     * @return length
+     */
+    unsigned int get_length();
+    
+    /*!
+     * @brief 	Returns score of a sequence based on the log matrix. If nucleotide is N, it is disregarded
+     *
+     * @param   List of enum nuc, being a nucleotide sequence
+     *
+     * @return  score
+     */
+    double sequence_score(std::list<nuc> sequence);
     
 };
 

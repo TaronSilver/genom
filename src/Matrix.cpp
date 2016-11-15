@@ -8,6 +8,11 @@
 #include <cmath>
 #include <string>
 
+
+
+
+
+
 void Matrix::compute_abs_logMatrix (const BaseProbabilities& bp)
 {
     if (bp.empty())
@@ -67,7 +72,7 @@ Matrix::Matrix(const std::string& fileName) {
 // we have to initialise BaseProb here
     
     fill_Matrix(init_Matrix_type(fileName));
-    
+    length = logMatrix.size();
     
     sequenceExtract();
     
@@ -827,4 +832,24 @@ std::vector<std::string> Matrix::accessDNASequences()
     
     return sequenceList;
     
+}
+
+
+unsigned int Matrix::get_length() {
+    return length;
+}
+
+double Matrix::sequence_score(std::list<nuc> sequence) {
+    double score(0);
+    std::list<nuc>::iterator iterator;
+    
+    unsigned int index(0);
+    for (iterator = sequence.begin(); iterator != sequence.end(); iterator++) {
+        if (*iterator < N) {
+            score += logMatrix[index][*iterator];
+        }
+        index++;
+    }
+    
+    return score;
 }

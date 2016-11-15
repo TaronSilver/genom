@@ -6,6 +6,20 @@
 
 enum PROCEDURE { MatrixFromSequences, SequencesFromMatrix, Exit };
 
+
+typedef struct SearchResult {
+    std::string sequence;
+    unsigned int position;
+    double score;
+    char direction;
+} SearchResult;
+
+typedef struct SearchResults {
+    std::string description;
+    std::vector<SearchResult> searchResults;
+} SearchResults;
+
+
 /*!
  * @brief Asks what the user wants to do
  *
@@ -85,5 +99,30 @@ Matrix_Neo generate_PWM_from_Seq_list(std::vector <Sequence> sequence_list, bool
  * @return A probability matrix in form of Matrix_Neo, order: A, C, G, T
  */
 Matrix_Neo matrix_from_sequence_results(std::string filename);
+
+
+/*!
+ * @brief Goes through all sequences in the file and returns sequences with a score above 5
+ *
+ * @param Name of sequence file, Matrix to compare it with, Cutoff
+ * @return A vector of all search results (each in one structure SearchResults)
+ */
+std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix, double cutoff);
+
+
+/*!
+ * @brief Prints search results to file
+ *
+ * @param Search results, filename
+ */
+void print_results(SearchResults results, std::string filename);
+
+
+/*!
+ * @brief Prints search results to terminal
+ *
+ * @param Search results
+ */
+void print_results(SearchResults results);
 
 #endif

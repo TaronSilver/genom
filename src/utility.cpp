@@ -1,5 +1,35 @@
 #include "utility.hpp"
 
+
+std::map< char, nuc > charmap{
+    {'A', A}, {'a', A},
+    {'C', C}, {'c', C},
+    {'G', G}, {'g', G},
+    {'T', T}, {'t', T},
+    {'N', N}, {'n', N},
+    {'-', N}, {'.', N}
+};
+
+std::map< char, nuc > complementmap{
+    {'A', T}, {'a', T},
+    {'C', G}, {'c', G},
+    {'G', C}, {'g', C},
+    {'T', A}, {'t', A},
+    {'N', N}, {'n', N},
+    {'-', N}, {'.', N}
+};
+
+std::map< nuc, char > backwardsmap {
+    {A, 'A'},
+    {C, 'C'},
+    {G, 'G'},
+    {T, 'T'},
+    {N, 'N'}
+};
+
+
+
+
 /// Program starting
 //-------------------------------------------------------------------------
 
@@ -297,6 +327,159 @@ Matrix_Neo matrix_from_sequence_results(std::string filename) {
     entry.close();
     return generate_PWM_from_Seq_list(sequences, true);
 }
+
+
+
+
+//==========================================================================================
+// I am very sorry for the uglyness of this function
+
+std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix, double cutoff) {
+    
+    // File to read
+    std::ifstream entry_file(filename);
+    
+    // Search results of all sequences
+    std::vector <SearchResults> output;
+    
+    // Search results of one sequence
+    SearchResults sequence_matches;
+    
+    SearchResult sequence_match;
+    
+    std::list<nuc> forwardSequence;
+    std::list<nuc> backwardSequence;
+    
+    bool fill(true);
+    
+    char character;
+    
+    unsigned int char_counter(0);
+    unsigned int length(matrix.get_length());
+    unsigned int sequence_counter(0);
+    unsigned int position_counter(0);
+    
+    double score;
+    
+    
+    
+    
+    while(entry_file.get(character)) {
+        // Skip if endline is found
+        if(character == '\n')
+            break;
+        
+        // What to do if current line is description
+        if(character == '>' or character == ';') {
+            if (sequence_counter) {
+                output.push_back(sequence_matches);
+                sequence_matches = SearchResults(); // Reset to 0
+                position_counter = 0;
+            }
+            
+            getline(entry_file, sequence_matches.description);
+            sequence_matches.description += "\n";
+            break;
+        }
+        
+        // What to do if the sequence hasn't been filled yet with sufficient characters
+        if(fill) {
+            forwardSequence.push_back(charmap[character]);
+            backwardSequence.push_front(complementmap[character]);
+            char_counter++;
+            
+            if(char_counter >= length)
+                fill = false;
+            break;
+        }
+        
+        // Checks if character is valid
+        auto it = charmap.find(character);
+        if (it == charmap.end())
+        {
+            std::cout << "Unknown character. Character is skipped and ignored\n";
+            break;
+        }
+        position_counter++;
+        
+        // Updates sequence with the new character
+        forwardSequence.pop_front();
+        forwardSequence.push_back(charmap[character]);
+        backwardSequence.pop_back();
+        backwardSequence.push_front(charmap[character]);
+        
+        // What to do if forward is binding
+        score = matrix.sequence_score(forwardSequence);
+        if(score >= cutoff) {
+            std::list<nuc>::iterator iterator;
+            
+            for (iterator = forwardSequence.begin(); iterator != forwardSequence.end(); iterator++)
+                sequence_match.sequence += backwardsmap[*iterator];
+            
+            sequence_match.position = position_counter;
+            sequence_match.score = score;
+            sequence_match.direction = '+';
+            
+            sequence_matches.searchResults.push_back(sequence_match);
+            sequence_match = SearchResult(); // Empty match
+        }
+        
+        // What to do if backward is binding
+        score = matrix.sequence_score(backwardSequence);
+        if(score >= cutoff) {
+            std::list<nuc>::iterator iterator;
+            
+            for (iterator = backwardSequence.begin(); iterator != backwardSequence.end(); iterator++)
+                sequence_match.sequence += backwardsmap[*iterator];
+            
+            sequence_match.position = position_counter;
+            sequence_match.score = score;
+            sequence_match.direction = '-';
+            
+            sequence_matches.searchResults.push_back(sequence_match);
+            sequence_match = SearchResult(); // Empty match
+        }
+    }
+    
+    entry_file.close();
+    return output;
+}
+
+
+//==========================================================================================
+void print_results(SearchResults results, std::string filename) {
+    std::ofstream outputfile;
+    outputfile.open(filename);
+    unsigned int size = results.searchResults.size();
+    
+    outputfile << results.description << std::endl;
+    
+    
+    for (unsigned int i(0); i < size; i++) {
+        outputfile << results.searchResults[i].sequence << " found at position "
+                   << results.searchResults[i].position << " in "
+                   << results.searchResults[i].direction << " direction with the score "
+                   << results.searchResults[i].score << std::endl;
+    }
+    outputfile.close();
+}
+
+
+//==========================================================================================
+void print_results(SearchResults results) {
+    unsigned int size = results.searchResults.size();
+    
+    std::cout << results.description << std::endl;
+    
+    
+    for (unsigned int i(0); i < size; i++) {
+        std::cout << results.searchResults[i].sequence << " found at position "
+                << results.searchResults[i].position << " in "
+                << results.searchResults[i].direction << " direction with the score "
+                << results.searchResults[i].score << std::endl;
+    }
+}
+
 
 
 
