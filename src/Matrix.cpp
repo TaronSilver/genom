@@ -313,7 +313,7 @@ Matrix_Neo Matrix::compute_abs_relativeMatrix()
 					
 			p=absoluteMatrix[i][j];
 			
-			if(p=0.0)
+			if(p==0.0)
 			{
 							
 				nw_line.push_back(0.0);
@@ -351,7 +351,7 @@ Matrix_Neo Matrix::compute_rel_absoluteMatrix()
 		{
 			z=relativeMatrix[i][j];
 			
-			if(z=0.000000)
+			if(z==0.000000)
 			{
 							
 				n_line.push_back(0.000000);
