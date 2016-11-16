@@ -144,7 +144,6 @@ TEST (compute_rel_absoluteMatrix_test, goodabsoluteeMatrix)
 	ASSERT_TRUE(std::abs(a[0][j]-ma_matrice_1.compute_rel_absoluteMatrix()[0][j]) < 0.0001);
 	}
 }
-//-------------------------------------------- gTests Failed
 
 /*!
  *@brief Function testing if compute_logConstMatrix_from_relativeMatrix() returns the good logConstMatrix

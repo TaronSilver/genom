@@ -22,33 +22,33 @@ void Matrix::compute_abs_logMatrix (const BaseProbabilities& bp)
 			
 Matrix_Neo Matrix:: get_abs_logMatrix(	const BaseProbabilities& bp)
 {		  
-				logMatrix.clear(); /* Be sure the logMatrix is empty*/
+				logMatrix.clear(); /*!Be sure the logMatrix is empty*/
 				
-				SimpleVector new_line;/* Will stock the 4 values of all lines and be added to logMatrix lines by lines*/
+				SimpleVector new_line;/*! Will stock the 4 values of all lines and be added to logMatrix lines by lines*/
 				double y;
 				
 				for(size_t i(0);i<absoluteMatrix.size();++i)
 				{	
 					new_line.clear();
 						
-					for (size_t j(0);j<4;++j)/*Read the absoluteMatrix*/
+					for (size_t j(0);j<4;++j)/*!Read the absoluteMatrix*/
 					{
 						y=absoluteMatrix[i][j];
                 
-						if(y<1.0E-100)/* Solve the problem of -infini case*/
+						if(y<1.0E-100)/*! Solve the problem of -infini case*/
 						{
 							
 							new_line.push_back(MINUSINFINI);
 					
 						} else {
 					
-									new_line.push_back(log2(y/bp[i])); /*Calcul the new values we need and put it in the new_line*/
+									new_line.push_back(log2(y/bp[i])); /*!Calcul the new values we need and put it in the new_line*/
 								
 								}
 									
 					}
 							
-					logMatrix.push_back(new_line); /*Stock the line of 4 new values in the logMatrix*/
+					logMatrix.push_back(new_line); /*!Stock the line of 4 new values in the logMatrix*/
 				
 				}
 				
@@ -408,9 +408,11 @@ Matrix_Neo Matrix::compute_logConstMatrix_from_relativeMatrix()
 	/*! create the logConstMatrix */
 	for(size_t i(0);i<relativeMatrix.size();++i)
 	{
+		n_line.clear();
+		
 		for (size_t j(0);j<4;++j)
 		{
-			n_line.clear();
+			
 			
 			/*! if the element of the logMatrix is not 0, we can create the new element of the logConstMatrix */
 			if(relativeMatrix[i][j] != 0.0) 
@@ -651,12 +653,12 @@ double Matrix::getProbability (char const N, int const pos)
 
 MATRIX_TYPE Matrix::init_Matrix_type(std::string const& fileName){
 	
-    //open file containing PWM
+    /*!Open file containing PWM*/
     MATRIX_TYPE result;
     std::ifstream PWM;
     PWM.open(fileName);
     
-    //send an error if there is a problem opening file
+    /*!Send an error if there is a problem opening file*/
     if (PWM.fail()) {
         
         throw std::string("Error: Cannot read PWM file");
