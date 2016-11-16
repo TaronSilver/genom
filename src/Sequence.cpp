@@ -7,13 +7,14 @@ Sequence::Sequence(const std::string new_sequence) :sequence(new_sequence) {
 }
 
 
-std::vector<Seq_and_pos> Sequence::find_sequence(const std::string& string_to_find, std::ofstream& outputfile) // second loop Do for the inversed string and modified the "cout" (add the + or -)
+std::vector<size_t> Sequence::find_sequence(const std::string& string_to_find, std::ofstream& outputfile) // second loop Do for the inversed string and modified the "cout" (add the + or -)
 {
-    std::vector<Seq_and_pos> seq_and_positions; //it's possible to have several matches in the sequence
-    ///
+    std::vector<size_t> starting_positions; //it's possible to have several matches in the sequence
     size_t starting_position(-1);
     std::string Translated_String(TranslateSeq(string_to_find));
-  
+    
+
+    
     
     // std::cout << "SEARCHING '" << string_to_find << "' in the sequence"<< std::endl;
    
@@ -21,9 +22,9 @@ std::vector<Seq_and_pos> Sequence::find_sequence(const std::string& string_to_fi
         starting_position = sequence.find(string_to_find, starting_position+1); //the function "find" returns the first position of the first character of the first match
         if(starting_position != std::string::npos)
         {
-            struct Seq_and_pos found_element {string_to_find , starting_position};
-            seq_and_positions.push_back(found_element);
-            outputfile << found_element.sequence << " starting at char " << found_element.position +1 <<" +"<< std::endl;//translated_string équivalent au binding spot
+            starting_positions.push_back(starting_position);
+            std::cout << string_to_find << " starting at char " << starting_position+1 <<" +"<< std::endl; //translated_string équivalent au binding spot
+            outputfile << string_to_find << " starting at char " << starting_position+1 <<" +"<< std::endl;
         }
     } while (starting_position != std::string::npos);
     
@@ -35,9 +36,9 @@ std::vector<Seq_and_pos> Sequence::find_sequence(const std::string& string_to_fi
         starting_position = sequence.find(Translated_String, starting_position+1); // second Do() to find the translated string position.
         if(starting_position != std::string::npos)
         {
-            struct Seq_and_pos found_element {string_to_find , starting_position};
-            seq_and_positions.push_back(found_element);
-            outputfile << found_element.sequence << " starting at char " << found_element.position +1  <<" -"<< std::endl; //string_to_find équivalent au binding spot
+            starting_positions.push_back(starting_position);
+            std::cout << string_to_find << " starting at char " << starting_position+1  <<" -"<< std::endl; //string_to_find équivalent au binding spot
+            outputfile << string_to_find << " starting at char " << starting_position+1  <<" -"<< std::endl; //string_to_find équivalent au binding spot
 
         }
     } while (starting_position != std::string::npos);
@@ -45,7 +46,7 @@ std::vector<Seq_and_pos> Sequence::find_sequence(const std::string& string_to_fi
     /*
     std::cout << " SCAN FINISHED " << starting_positions.size() << " occurences found" << std::endl;
     */
-    return seq_and_positions;
+    return starting_positions;
   
 }
 

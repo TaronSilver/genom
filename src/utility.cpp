@@ -30,66 +30,9 @@ std::map< nuc, char > backwardsmap {
 
 
 
-/// Program starting
-//-------------------------------------------------------------------------
 
 
-PROCEDURE whatToDo() {
-    // system("Clear");
-    PROCEDURE whatToDo;
-    unsigned int answer;
-    std::cout << "Welcome to our program. What would you like to do? \n";
-    std::cout << "Enter 1 to obtain a probability weight matrix from multiple" << std::endl
-              << "sequences." << std::endl;
-    std::cout << "Enter 2 to obtain all binding positions of a protein from a " << std::endl
-              << "probability matrix on a given nucleotide sequence." << std::endl;
-    std::cout << "Enter 0 to exit the program." << std::endl;
-    
-    while (true) {
-        std::cin >> answer;
-        
-        if (answer == 1) {
-            whatToDo = MatrixFromSequences;
-            break;
-        }
-        else if (answer == 2) {
-            whatToDo = SequencesFromMatrix;
-            break;
-        }
-        else if (answer == 0) {
-            whatToDo = Exit;
-            break;
-        }
-        else {
-            std::cout << "Unrecognized input. Please try again." << std::endl;
-        }
-    }
-    
-    return whatToDo;
-    
-}
 
-
-/// Matrix reading
-//-------------------------------------------------------------------------
-
-
-void AskNameMatrix(std::string& entry_name)
-{
-    std::cout <<"Please give the name of your matrix file: ";
-    std::cin >>entry_name;
-    
-    std::ifstream entry(entry_name.c_str());
-    
-    if (entry.fail()) {
-        std::string error("Impossible to read the file: ");
-        error+=entry_name;
-        throw error;
-    }
-    entry.close(); // Don't you have to close it afterwards?
-
-}
-//-------------------------------------------------------------------------
 
 
 
@@ -182,20 +125,7 @@ std::vector <std::string> ExtractSequence(std::string const& entry_name)
     return sequences;
 }
 
-bool InvalidFormat(std::string file_name)
-{
-    
-    // Defines list with known file formats
-    static const std::vector<std::string> validValues {".fasta", ".fas", ".fna", ".ffn"};
-    
-    for(unsigned int i = 0; i < validValues.size(); i++) {
-        if(file_name.find(validValues[i])!=std::string::npos)
-            return 0;
-        // Returns 0 if the file extension can be found
-    }
-    
-    return 1;
-}
+
 
 std::vector <double> nucleotide_probability(
     std::vector <std::string> nucleotide_sequences,
@@ -367,7 +297,7 @@ std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix,
     while(entry_file.get(character)) {
         // Skip if endline is found
         if(character == '\n')
-            break;
+            continue;
         
         // What to do if current line is description
         if(character == '>' or character == ';') {
@@ -379,7 +309,7 @@ std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix,
             
             getline(entry_file, sequence_matches.description);
             sequence_matches.description += "\n";
-            break;
+            continue;
         }
         
         // What to do if the sequence hasn't been filled yet with sufficient characters
@@ -390,7 +320,7 @@ std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix,
             
             if(char_counter >= length)
                 fill = false;
-            break;
+            continue;
         }
         
         // Checks if character is valid
@@ -398,7 +328,7 @@ std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix,
         if (it == charmap.end())
         {
             std::cout << "Unknown character. Character is skipped and ignored\n";
-            break;
+            continue;
         }
         position_counter++;
         
@@ -479,6 +409,8 @@ void print_results(SearchResults results) {
                 << results.searchResults[i].score << std::endl;
     }
 }
+
+
 
 
 

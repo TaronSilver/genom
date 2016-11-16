@@ -3,8 +3,9 @@
 
 #include "Matrix.hpp"
 #include "Sequence.hpp"
+#include "user_interaction.hpp"
 
-enum PROCEDURE { MatrixFromSequences, SequencesFromMatrix, Exit };
+
 
 
 typedef struct SearchResult {
@@ -20,20 +21,8 @@ typedef struct SearchResults {
 } SearchResults;
 
 
-/*!
- * @brief Asks what the user wants to do
- *
- * @return Answer of type PROCEDURE
- */
-PROCEDURE whatToDo();
 
-/*!
- * @brief Allows to ask the name of the matrix file we want to open,
- *		  with exception handling
- *
- * @param name of the file we want to open
- */
-void AskNameMatrix(std::string& entry_name);
+
 
 
 /*!
@@ -59,13 +48,7 @@ void AskNameFasta(std::string& entry_name);
  */
 std::vector <std::string> ExtractSequence(std::string const& entry_name);
 
-/*!
- * @brief Checks if the file if valid
- *
- * @param name of the file we want to open
- * @return 0 if format is valid of 1 if not
- */
-bool InvalidFormat(std::string file_name);
+
 
 /*!
  * @brief Gives the probability of all nucleotides at a specified position
@@ -124,5 +107,8 @@ void print_results(SearchResults results, std::string filename);
  * @param Search results
  */
 void print_results(SearchResults results);
+
+
+
 
 #endif
