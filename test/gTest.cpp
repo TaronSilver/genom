@@ -1,6 +1,12 @@
 #include "gtest/gtest.h"
 #include "../src/Matrix.hpp"
 #include "../src/utility.hpp"
+#include "../src/Sequence.hpp"
+#include <string>
+#include <vector>
+#include <fstream>
+
+//MATRIXtests
 
 /*! I use the constructor to initialise the four 4 different matrix.
  * This matrix will be use to check if our function work as expected because 
@@ -52,6 +58,47 @@ TEST (logMatrix_max_values_Test, MaxValuelogMatrix)
 	ASSERT_EQ(value_test_4,ma_matrice_3.logMatrix_max_values());
 }
 
+
+//SEQUENCEtests
+
+std::vector<size_t> Seqtest = {10,22,34};
+Sequence Seq("AAAAAAAAAACCAAAAAAAAAACCAAAAAAAAAACCAAAA");
+std::string trouve = ("CC");
+std::vector<double> Probtest = {.25,.25,.25,.25};
+
+TEST (find_sequence_Test, Bonne)
+{
+	std::ofstream outputfile("testseq");
+	//outputfile.open;
+    ASSERT_EQ(Seqtest,Seq.find_sequence(trouve,outputfile));
+}
+ /*!
+ *@brief Function testing if "find_sequence" returns the the expected sequence
+*/
+
+TEST (get_probabilities_Test, Bonne)
+{
+    ASSERT_EQ(Probtest,Seq.get_probabilities());
+}
+/*!
+ *@brief Function testing if "get_probabilities()" returns the expected probabilities
+ */
+ 
+TEST (access_sequence_pos_Test, Bonne)
+{
+    ASSERT_EQ(trouve,Seq.access_sequence_pos(10,2));
+}
+/*!
+ *@brief Function testing if "access_sequence_pos" returns the expected sequence using a position and a length
+*/
+
+TEST (get_nucleotide_count_test, Bonne)
+{
+    ASSERT_EQ(34,Seq.get_nucleotide_count('A'));
+}
+/*!
+ *@brief Function testing if "get_nucleotide_count" returns the expected number of one given nucleotide 
+*/
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
