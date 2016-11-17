@@ -261,6 +261,10 @@ Matrix_Neo matrix_from_sequence_results(std::string filename) {
 
 
 
+
+
+//==========================================================================================
+// SEQUENCE ANALYSIS
 //==========================================================================================
 // I am very sorry for the uglyness of this function
 //
@@ -268,6 +272,8 @@ Matrix_Neo matrix_from_sequence_results(std::string filename) {
 // TODO: Progress bar
 
 std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix, double cutoff) {
+    
+    std::cout << "SIZE: " << filesize(filename) << std::endl;
     
     // File to read
     std::ifstream entry_file(filename);
@@ -327,8 +333,11 @@ std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix,
             
             if(char_counter >= length)
                 fill = false;
-            continue;
         }
+        
+        // Go to next cycle if it is still not full
+        if(fill)
+            continue;
         
         // Checks if character is valid
         auto it = charmap.find(character);
@@ -343,13 +352,10 @@ std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix,
         forwardSequence.pop_front();
         forwardSequence.push_back(charmap[character]);
         backwardSequence.pop_back();
-        backwardSequence.push_front(charmap[character]);
+        backwardSequence.push_front(complementmap[character]);
         
         // What to do if forward is binding
         score = matrix.sequence_score(forwardSequence);
-        
-        // DEBUG_
-        std::cout << "FWD: " << score << std::endl;
         
         if(score >= cutoff) {
 
@@ -365,8 +371,6 @@ std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix,
         // What to do if backward is binding
         score = matrix.sequence_score(backwardSequence);
         
-        // DEBUG_
-        std::cout << "BWD: " << score << std::endl;
         
         if(score >= cutoff) {
             sequence_match.sequence = sequence_string_from_nuc_list(backwardSequence);
@@ -382,11 +386,16 @@ std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix,
     
     output.push_back(sequence_matches);
     
-    //DEBUG_
-    std::cout << output.size();
     
     entry_file.close();
     return output;
+}
+
+
+//==========================================================================================
+int filesize(std::string filename) {
+    std::ifstream in(filename, std::ios::binary | std::ios::ate);
+    return in.tellg();
 }
 
 //==========================================================================================

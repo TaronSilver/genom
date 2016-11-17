@@ -86,6 +86,11 @@ Matrix_Neo generate_PWM_from_Seq_list(std::vector <Sequence> sequence_list, bool
 Matrix_Neo matrix_from_sequence_results(std::string filename);
 
 
+
+
+
+//==========================================================================================
+// SEQUENCE ANALYSIS
 /*!
  * @brief Goes through all sequences in the file and returns sequences with a score above 5
  *
@@ -93,6 +98,13 @@ Matrix_Neo matrix_from_sequence_results(std::string filename);
  * @return A vector of all search results (each in one structure SearchResults)
  */
 std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix, double cutoff);
+
+/*!
+ * @brief   Determines size of a file
+ * @param   Name of file to analyze
+ * @return  Number of bytes of file, only approximatively
+ */
+int filesize(std::string filename);
 
 /*!
  * @brief Translates a list of the enum "nuc" to a string
