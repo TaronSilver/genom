@@ -265,6 +265,7 @@ Matrix_Neo matrix_from_sequence_results(std::string filename) {
 // I am very sorry for the uglyness of this function
 //
 // TODO: Doesn't work if at position 0; reverse strand doesnt work
+// TODO: Progress bar
 
 std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix, double cutoff) {
     
@@ -333,7 +334,7 @@ std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix,
         auto it = charmap.find(character);
         if (it == charmap.end())
         {
-            std::cout << "Unknown character. Character is skipped and ignored\n";
+            std::cout << "Unknown character: " << character << ". Character is skipped and ignored\n";
             continue;
         }
         position_counter++;
@@ -351,11 +352,8 @@ std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix,
         std::cout << "FWD: " << score << std::endl;
         
         if(score >= cutoff) {
-            std::list<nuc>::iterator iterator;
-            
-            for (iterator = forwardSequence.begin(); iterator != forwardSequence.end(); iterator++)
-                sequence_match.sequence += backwardsmap[*iterator];
-            
+
+            sequence_match.sequence = sequence_string_from_nuc_list(forwardSequence);
             sequence_match.position = position_counter;
             sequence_match.score = score;
             sequence_match.direction = '+';
@@ -371,10 +369,7 @@ std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix,
         std::cout << "BWD: " << score << std::endl;
         
         if(score >= cutoff) {
-            std::list<nuc>::iterator iterator;
-            
-            for (iterator = backwardSequence.begin(); iterator != backwardSequence.end(); iterator++)
-                sequence_match.sequence += backwardsmap[*iterator];
+            sequence_match.sequence = sequence_string_from_nuc_list(backwardSequence);
             
             sequence_match.position = position_counter;
             sequence_match.score = score;
@@ -391,6 +386,17 @@ std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix,
     std::cout << output.size();
     
     entry_file.close();
+    return output;
+}
+
+//==========================================================================================
+
+std::string sequence_string_from_nuc_list(std::list<nuc> sequence) {
+    std::string output;
+    std::list<nuc>::iterator iterator;
+
+    for (iterator = sequence.begin(); iterator != sequence.end(); iterator++)
+        output += backwardsmap[*iterator];
     return output;
 }
 

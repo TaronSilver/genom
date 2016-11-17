@@ -27,6 +27,9 @@ int main() {
         enzyme_on_sequence();
     }
     
+    if (procedure == MatrixFromSequences) {
+        enzyme_from_sequences();
+    }
 
 }
 

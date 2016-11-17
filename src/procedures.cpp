@@ -28,3 +28,20 @@ void enzyme_on_sequence() {
     }
 
 }
+
+
+void enzyme_from_sequences() {
+    if(ask_binding_length_known())
+        binding_length_known();
+    else
+        binding_length_unknown();
+}
+
+
+void binding_length_known() {
+    
+}
+
+void binding_length_unknown() {
+    
+}

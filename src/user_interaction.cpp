@@ -60,6 +60,29 @@ double ask_cutoff() {
 
 
 //-----------------------------------------------------------------------
+
+bool ask_binding_length_known() {
+    bool known;
+    std::cout << "Do you know the length of the enzyme binding site? " << std::endl
+              << "enter 1 for yes, 0 for no. ";
+    std::cin >> known;
+    return known;
+}
+
+
+
+//-----------------------------------------------------------------------
+
+unsigned int ask_length() {
+    
+    unsigned int length;
+    std::cout << "How long is the enzyme binding site? ";
+    std::cin >> length;
+    return length;
+    
+}
+
+//-----------------------------------------------------------------------
 std::string ask_name_fasta()
 {
     std::string entry_name;
@@ -90,14 +113,14 @@ std::string ask_name_fasta()
 
 
 //-------------------------------------------------------------------------
-
+// There's a better function for this
 
 std::string ask_name_matrix()
 {
     std::string entry_name;
     std::cout <<"Please give the name of your matrix file: ";
     std::cin >> entry_name;
-
+    
     std::ifstream entry(entry_name.c_str());
 
     
@@ -107,6 +130,7 @@ std::string ask_name_matrix()
         throw error;
     }
     entry.close(); // Don't you have to close it afterwards?
+
     return entry_name;
 }
 //-------------------------------------------------------------------------

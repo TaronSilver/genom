@@ -8,17 +8,19 @@
 
 
 
-typedef struct SearchResult {
+class SearchResult {
+public:
     std::string sequence;
     unsigned int position;
     double score;
     char direction;
-} SearchResult;
+};
 
-typedef struct SearchResults {
+class SearchResults {
+public:
     std::string description;
     std::vector<SearchResult> searchResults;
-} SearchResults;
+};
 
 
 
@@ -91,6 +93,14 @@ Matrix_Neo matrix_from_sequence_results(std::string filename);
  * @return A vector of all search results (each in one structure SearchResults)
  */
 std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix, double cutoff);
+
+/*!
+ * @brief Translates a list of the enum "nuc" to a string
+ *
+ * @param A list of nucleotides to be translated
+ * @return Nucleotide sequence as a string
+ */
+std::string sequence_string_from_nuc_list(std::list<nuc>);
 
 
 /*!

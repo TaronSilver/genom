@@ -25,8 +25,20 @@
 void enzyme_on_sequence();
 
 
+/* @Brief   Handles everything if the user wants to determine
+ *          a probability weight matrix from given sequences
+ */
+void enzyme_from_sequences();
 
+/* @Brief   Handles everything if the user knows the length of the binding
+ *          site
+ */
+void binding_length_known();
 
+/* @Brief   Handles everything if the user doesn't know the length of the binding
+ *          site
+ */
+void binding_length_unknown();
 
 //------------------------------------------------------------------------
 

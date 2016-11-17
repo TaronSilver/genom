@@ -28,7 +28,9 @@ Matrix::Matrix(const std::string& fileName,
 {
     Matrix_Neo input_matrix ( read_matrix(fileName) );
     MATRIX_TYPE type;
+    
     type = determine_matrix_type(input_matrix);
+    
     logMatrix = matrix_to_log( input_matrix, type );
     length = logMatrix.size();
     
@@ -195,15 +197,17 @@ MATRIX_TYPE Matrix::determine_matrix_type(Matrix_Neo input) {
         
         id++;
     }
-    
+
     Matrix_Neo converted(probMatrix_from_logMatrix( input ));
+    
+    
     id = 0;
     
     // Checks if it is a probability weight matrix
     while(id<size) {
-        line_sum = sum_of_line(input[id]);
-        minimum_of_line = min_of_line(input[id]);
-        maximum_of_line = max_of_line(input[id]);
+        line_sum = sum_of_line(converted[id]);
+        minimum_of_line = min_of_line(converted[id]);
+        maximum_of_line = max_of_line(converted[id]);
         
         if(line_is_reg_ppm(minimum_of_line, maximum_of_line, line_sum))
             return MATRIX_TYPE::logMatrix;
@@ -425,7 +429,7 @@ Matrix_Neo Matrix::probMatrix_from_logMatrix( Matrix_Neo input_matrix )
         
         for (size_t j(0);j<NUMBER_NUCLEOTIDES;++j)/*Read the logMatrix*/
         {
-            intermediate=logMatrix[i][j];
+            intermediate=input_matrix[i][j];
             
             if(intermediate<MINUSINFINI)// Solve the problem of -infini cases
             {
@@ -433,7 +437,6 @@ Matrix_Neo Matrix::probMatrix_from_logMatrix( Matrix_Neo input_matrix )
                 
             } else {
                 new_line.push_back(base_prob[j]*exp(log(2)*intermediate));/*Calcul the new values we need*/
-                
             }
         }
         
