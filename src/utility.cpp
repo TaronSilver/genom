@@ -273,8 +273,6 @@ Matrix_Neo matrix_from_sequence_results(std::string filename) {
 
 std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix, double cutoff) {
     
-    std::cout << "SIZE: " << filesize(filename) << std::endl;
-    
     // File to read
     std::ifstream entry_file(filename);
     
@@ -283,8 +281,6 @@ std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix,
     
     // Search results of one sequence
     SearchResults sequence_matches;
-    
-    SearchResult sequence_match;
     
     std::list<nuc> forwardSequence;
     std::list<nuc> backwardSequence;
@@ -296,15 +292,17 @@ std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix,
     unsigned int char_counter(0);
     unsigned int length(matrix.get_length());
     unsigned int position_counter(0);
+    int size_of_file;
+    size_of_file = filesize(filename);
+    int size_base_element(size_of_file/100 * sizeof(char));
     
     bool first_line(true);
     
     double score;
     
-    
-    
-    
     while(entry_file.get(character)) {
+        
+        print_progress(entry_file.tellg(), size_of_file, size_base_element);
         
         // Skip if endline is found
         if(character == '\n')
@@ -339,13 +337,10 @@ std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix,
         if(fill)
             continue;
         
-        // Checks if character is valid
-        auto it = charmap.find(character);
-        if (it == charmap.end())
-        {
-            std::cout << "Unknown character: " << character << ". Character is skipped and ignored\n";
+        // Skips if character is not valid
+        if(!valid_character(character))
             continue;
-        }
+        
         position_counter++;
         
         // Updates sequence with the new character
@@ -359,36 +354,51 @@ std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix,
         
         if(score >= cutoff) {
 
-            sequence_match.sequence = sequence_string_from_nuc_list(forwardSequence);
-            sequence_match.position = position_counter;
-            sequence_match.score = score;
-            sequence_match.direction = '+';
-            
+            SearchResult sequence_match(fill_search_result(forwardSequence, position_counter, score, '+'));
             sequence_matches.searchResults.push_back(sequence_match);
-            sequence_match = SearchResult(); // Empty match
         }
         
         // What to do if backward is binding
         score = matrix.sequence_score(backwardSequence);
         
-        
         if(score >= cutoff) {
-            sequence_match.sequence = sequence_string_from_nuc_list(backwardSequence);
-            
-            sequence_match.position = position_counter;
-            sequence_match.score = score;
-            sequence_match.direction = '-';
-            
+            SearchResult sequence_match(fill_search_result(backwardSequence, position_counter, score, '-'));
             sequence_matches.searchResults.push_back(sequence_match);
-            sequence_match = SearchResult(); // Empty match
         }
     }
     
     output.push_back(sequence_matches);
     
-    
     entry_file.close();
     return output;
+}
+
+
+//==========================================================================================
+// SHOULD BE MADE AS CONSTRUCTOR
+
+SearchResult fill_search_result(std::list<nuc> sequence, int position_counter, double score, char direction)
+{
+    SearchResult sequence_match;
+    
+    sequence_match.sequence = sequence_string_from_nuc_list(sequence);
+    sequence_match.position = position_counter;
+    sequence_match.score = score;
+    sequence_match.direction = direction;
+    
+    return sequence_match;
+}
+
+//==========================================================================================
+bool valid_character(char character) {
+    auto it = charmap.find(character);
+    if (it == charmap.end())
+    {
+        std::cout << "Unknown character: " << character << ". Character is skipped and ignored\n";
+        return false;
+    }
+    else
+        return true;
 }
 
 
@@ -397,6 +407,19 @@ int filesize(std::string filename) {
     std::ifstream in(filename, std::ios::binary | std::ios::ate);
     return in.tellg();
 }
+
+//==========================================================================================
+void print_progress(int position, int filesize, int size_base_element) {
+    static int nextPrint(0);
+    static int increment(filesize/1000000);
+    
+    if(position >= nextPrint) {
+        
+        std::cout << (double)position / (double)filesize * 100 << "%" << std::endl;
+        nextPrint += increment;
+    }
+}
+
 
 //==========================================================================================
 

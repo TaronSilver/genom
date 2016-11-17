@@ -99,12 +99,38 @@ Matrix_Neo matrix_from_sequence_results(std::string filename);
  */
 std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix, double cutoff);
 
+
+/*!
+ * @brief Fills up a Search result. This should be made as a constructor of the class
+ *
+ * @param A nuc-list of the sequence, the position, the score and the direction of the result
+ * @return A filled class SearchResult
+ */
+SearchResult fill_search_result(std::list<nuc> sequence, int position_counter, double score, char direction);
+
+
+/*!
+ * @brief Determines if input character is valid (a nucleotide)
+ *
+ * @param Input character
+ * @return true if valid, false if not valid
+ */
+bool valid_character(char character);
+
+
 /*!
  * @brief   Determines size of a file
  * @param   Name of file to analyze
  * @return  Number of bytes of file, only approximatively
  */
 int filesize(std::string filename);
+
+/*!
+ * @brief   Prints out current progress
+ * @param   Current position, current filesize
+ */
+void print_progress(int position, int filesize, int size_base_element);
+
 
 /*!
  * @brief Translates a list of the enum "nuc" to a string
