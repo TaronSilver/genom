@@ -14,8 +14,11 @@ void enzyme_on_sequence() {
     system("Clear");
     
     std::string file_name_matrix;
-    
+        
     Matrix enzyme(ask_name_matrix());
+    
+    // DEBUG_
+    enzyme.print_log_matrix();
     
     std::vector<SearchResults> enzyme_matches;
     enzyme_matches = analyze_sequence(ask_name_fasta(), enzyme, ask_cutoff());

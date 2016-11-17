@@ -26,7 +26,6 @@ Matrix::Matrix(const std::string& fileName,
                const std::vector<double> base_prob)
 :base_prob(base_prob)
 {
-    
     Matrix_Neo input_matrix ( read_matrix(fileName) );
     MATRIX_TYPE type;
     type = determine_matrix_type(input_matrix);
@@ -93,6 +92,17 @@ double Matrix::sequence_score(std::list<nuc> sequence) {
 
 
 
+//-----------------------------------------------------------------------
+// DEBUGGING FUNCTIONS
+//-----------------------------------------------------------------------
+void Matrix::print_log_matrix() {
+    for(size_t i(0); i<length; i++) {
+        for(size_t j(0); j<NUMBER_NUCLEOTIDES; j++) {
+            std::cout << logMatrix[i][j] << "\t";
+        }
+        std::cout << std::endl;
+    }
+}
 
 
 
@@ -105,7 +115,7 @@ double Matrix::sequence_score(std::list<nuc> sequence) {
 //-----------------------------------------------------------------------
 
 Matrix_Neo Matrix::read_matrix(std::string const& fileName){
-    
+
     Matrix_Neo input_matrix;
     
     std::ifstream PWM;
@@ -149,8 +159,10 @@ Matrix_Neo Matrix::read_matrix(std::string const& fileName){
             //(5) Pushback the new row
             input_matrix.push_back(rowi);
             
+            
         }
         PWM.close();
+        
         return input_matrix;
     }
 }
@@ -267,6 +279,16 @@ bool Matrix::line_is_normed_ppm(double min, double max, double sum) {
 
 // TODO: Maybe change the default
 Matrix_Neo Matrix::matrix_to_log(Matrix_Neo input_matrix, MATRIX_TYPE type) {
+    
+    // DEBUG_
+    for(size_t i(0); i<input_matrix.size(); i++) {
+        for(size_t j(0); j<NUMBER_NUCLEOTIDES; j++) {
+            std::cout << input_matrix[i][j] << "\t";
+        }
+        std::cout << std::endl;
+    }
+    Matrix_Neo outputmatrix(logMatrix_from_probMatrix(input_matrix));
+    
     switch (type) {
         case MATRIX_TYPE::logMatrix:
             return input_matrix;
@@ -337,11 +359,12 @@ Matrix_Neo Matrix::logMatrix_from_probMatrix( Matrix_Neo input_matrix )
             {
                 new_line.push_back(MINUSINFINI);
             } else {
-                new_line.push_back(log2(intermediate / base_prob[i]));
+                new_line.push_back(log2(intermediate / base_prob[j]));
             }
         }
         
         logMatrix.push_back(new_line); /*Stock the line of 4 new values in the logMatrix*/
+
     }
     return logMatrix;
 }
@@ -409,7 +432,7 @@ Matrix_Neo Matrix::probMatrix_from_logMatrix( Matrix_Neo input_matrix )
                 new_line.push_back(0.0);
                 
             } else {
-                new_line.push_back(base_prob[i]*exp(log(2)*intermediate));/*Calcul the new values we need*/
+                new_line.push_back(base_prob[j]*exp(log(2)*intermediate));/*Calcul the new values we need*/
                 
             }
         }

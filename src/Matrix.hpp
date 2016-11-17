@@ -316,6 +316,15 @@ class Matrix
 
     
     
+    //-----------------------------------------------------------------------
+    // DEBUGGING FUNCTIONS
+    /*!
+     * @brief   Function that prints out a matrix to terminal. To be used 
+     *          for debugging
+     */
+    void print_log_matrix();
+    
+    
     
     
     

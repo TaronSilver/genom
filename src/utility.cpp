@@ -263,6 +263,8 @@ Matrix_Neo matrix_from_sequence_results(std::string filename) {
 
 //==========================================================================================
 // I am very sorry for the uglyness of this function
+//
+// TODO: Doesn't work if at position 0; reverse strand doesnt work
 
 std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix, double cutoff) {
     
@@ -286,8 +288,9 @@ std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix,
     
     unsigned int char_counter(0);
     unsigned int length(matrix.get_length());
-    unsigned int sequence_counter(0);
     unsigned int position_counter(0);
+    
+    bool first_line(true);
     
     double score;
     
@@ -295,17 +298,20 @@ std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix,
     
     
     while(entry_file.get(character)) {
+        
         // Skip if endline is found
         if(character == '\n')
             continue;
         
         // What to do if current line is description
         if(character == '>' or character == ';') {
-            if (sequence_counter) {
+            if (!first_line) {
                 output.push_back(sequence_matches);
                 sequence_matches = SearchResults(); // Reset to 0
                 position_counter = 0;
             }
+            
+            first_line = false;
             
             getline(entry_file, sequence_matches.description);
             sequence_matches.description += "\n";
@@ -340,6 +346,10 @@ std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix,
         
         // What to do if forward is binding
         score = matrix.sequence_score(forwardSequence);
+        
+        // DEBUG_
+        std::cout << "FWD: " << score << std::endl;
+        
         if(score >= cutoff) {
             std::list<nuc>::iterator iterator;
             
@@ -356,6 +366,10 @@ std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix,
         
         // What to do if backward is binding
         score = matrix.sequence_score(backwardSequence);
+        
+        // DEBUG_
+        std::cout << "BWD: " << score << std::endl;
+        
         if(score >= cutoff) {
             std::list<nuc>::iterator iterator;
             
@@ -370,6 +384,11 @@ std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix,
             sequence_match = SearchResult(); // Empty match
         }
     }
+    
+    output.push_back(sequence_matches);
+    
+    //DEBUG_
+    std::cout << output.size();
     
     entry_file.close();
     return output;

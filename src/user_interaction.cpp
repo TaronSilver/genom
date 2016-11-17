@@ -96,9 +96,10 @@ std::string ask_name_matrix()
 {
     std::string entry_name;
     std::cout <<"Please give the name of your matrix file: ";
-    std::cin >>entry_name;
-    
+    std::cin >> entry_name;
+
     std::ifstream entry(entry_name.c_str());
+
     
     if (entry.fail()) {
         std::string error("Impossible to read the file: ");
