@@ -10,7 +10,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 include_directories(src)
 link_directories("/usr/local/lib") #Tells cmake where some libs could potentially be located
 link_directories("/usr/lib")
-add_executable(Main src/main.cpp src/Matrix.cpp src/Sequence.cpp src/utility.cpp)
+add_executable(Main src/main.cpp src/Matrix.cpp src/Sequence.cpp src/utility.cpp src/user_interaction.cpp src/procedures.cpp)
 #target_link_libraries(PopulationSimul m)
 
 if (test)
