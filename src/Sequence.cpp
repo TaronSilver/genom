@@ -170,7 +170,14 @@ void Sequence::AskBaseProb() {
 		std::cout << "Enter the base probability for A ";
 		std::cin >> baseProbT;
 		
-		setBaseProbs(baseProbA, baseProbC, baseProbG, baseProbT);
+		double check(baseProbA + baseProbC + baseProbG + baseProbT);
+		
+		if (check == 1) {
+			setBaseProbs(baseProbA, baseProbC, baseProbG, baseProbT);
+		} else {
+			std::cout << "Base Probabilities need to add up to one" << std::endl;
+			AskBaseProb();
+		}
 	}
 	
 	else if (choice == 1) {
