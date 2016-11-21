@@ -8,15 +8,18 @@
 
 //MATRIXtests
 
+#include "gtest/gtest.h"
+#include "../src/Matrix.hpp"
+
 /*! I use the constructor to initialise the four 4 different matrix.
  * This matrix will be use to check if our function work as expected because 
  * the different values test are the value we expect for the corresponding
  *  matrix when we applied the different function.
  */
-Matrix_Neo r({{0.259260,0.000,0.148148,1.000}});
+Matrix_Neo r({{0.259260,0.000000,0.148148,1.000}});
 Matrix ma_matrice_1(r, relativeMatrix);
 
-Matrix_Neo a({{0.18421,0.000,0.105263, 0.710526}});
+Matrix_Neo a({{0.184211,0.000,0.105263, 0.710526}});
 Matrix ma_matrice_2(a, absoluteMatrix);
 
 Matrix_Neo lm({{-0.440569,MINUSINFINI,-1.247930,1.506960}});
@@ -27,8 +30,10 @@ Matrix ma_matrice_4(lcm,logConstMatrix);
 
 SimpleVector value_test_1({1.407408});
 SimpleVector value_test_2({0.710526});
-SimpleVector value_test_3({1.407408});
-SimpleVector value_test_4({1.506960});			
+SimpleVector value_test_3({1.40741});
+SimpleVector value_test_4({1.506960});	
+
+BaseProbabilities BP({0.25,0.25,0.25,0.25}); 		
 /*!
  *@brief Function testing if calcul_sum() returns the expected value, using a relativematrix
  */
@@ -48,8 +53,10 @@ TEST (max_values_Test, MaxValueabsoluteMatrix)
  */
 TEST (sum_pow2logConstMatrix_Test, Positivepow )
 {
-	ASSERT_EQ(value_test_3,ma_matrice_4.sum_pow2logConstMatrix());
+	
+	ASSERT_TRUE(std::abs(value_test_3[0] - ma_matrice_4.sum_pow2logConstMatrix()[0]) < 0.0001);
 }
+
 /*!
  *@brief Function testing if logMatrix_max_values() return the max value of the line, using a logMatrix
  */
@@ -58,6 +65,106 @@ TEST (logMatrix_max_values_Test, MaxValuelogMatrix)
 	ASSERT_EQ(value_test_4,ma_matrice_3.logMatrix_max_values());
 }
 
+
+/*!
+ *@brief Function testing if compute_abs_logMatrix() returns the good logConstMatrix
+ */
+TEST (compute_abs_logMatrix_test, goodrelativeMatrix)
+{
+	for(int j = 0 ; j< 4 ;++j)
+	{
+	ASSERT_TRUE(std::abs(lm[0][j] - ma_matrice_2.get_abs_logMatrix(BP)[0][j]) < 0.0001);
+	}
+} 
+
+
+/*!
+ *@brief Function testing if compute_log_absoluteMatrix returns the good logConstMatrix
+ */
+TEST (compute_log_absoluteMatrix_test, goodabsoluteMatrix)
+{
+	for(int j = 0 ; j< 4 ;++j)
+	{
+	ASSERT_TRUE(std::abs(a[0][j] - ma_matrice_3.get_log_absoluteMatrix(BP)[0][j]) <0.0001);
+	}
+} 
+
+/*!
+ *@brief Function testing if compute_relativeMatrix_from_logConstMatrix() returns the good relativeMatrix
+ */
+TEST (compute_relativeMatrix_from_logConstMatrix_test, goodrelativeMatrix)
+{
+	
+	for(int j = 0 ; j< 4 ;++j)
+	{
+	ASSERT_TRUE(std::abs(r[0][j] - ma_matrice_4.compute_relativeMatrix_from_logConstMatrix()[0][j]) < 0.0001);
+	}
+} 
+
+/*!
+ *@brief Function testing if compute_absoluteMatrix_from_logConstMatrix() returns the good logConstMatrix
+ */
+TEST (compute_absoluteMatrix_from_logConstMatrix_test, goodabsoluteMatrix)
+{
+	ma_matrice_4.sum_pow2logConstMatrix();
+	
+	for(int j = 0 ; j< 4 ;++j)
+	{
+	ASSERT_TRUE(std::abs(a[0][j]- ma_matrice_4.compute_absoluteMatrix_from_logConstMatrix()[0][j]) < 0.0001);
+	}
+} 
+
+/*!
+ *@brief Function testing if compute_logConstMatrix_from_logMatrix() returns the good logConstMatrix
+ */
+TEST (compute_logConstMatrix_from_logMatrix_test, goodlogConstMatrix)
+{
+	ma_matrice_3.logMatrix_max_values();
+	
+	for(int j = 0 ; j< 4 ;++j)
+	{
+	ASSERT_TRUE(std::abs(lcm[0][j] - ma_matrice_3.compute_logConstMatrix_from_logMatrix()[0][j]) < 0.0001);
+	}
+} 
+
+
+
+/*!
+ *@brief Function testing if compute_abs_relativeMatrix() returns the good relativeMatrix
+ */
+TEST (compute_abs_relativeMatrix_test, goodrelativeMatrix)
+{
+	ma_matrice_2.max_values();
+	
+	for(int j = 0 ; j< 4 ;++j)
+	{
+	ASSERT_TRUE(std::abs(r[0][j] - ma_matrice_2.compute_abs_relativeMatrix()[0][j]) <0.0001);
+	}
+} 
+
+/*!
+ *@brief Function testing if compute_rel_absoluteMatrix() returns the good absoluteMatrix
+ */
+TEST (compute_rel_absoluteMatrix_test, goodabsoluteeMatrix)
+{
+	ma_matrice_1.calcul_sum();
+	
+	for(int j = 0 ; j< 4 ;++j)
+	{
+	ASSERT_TRUE(std::abs(a[0][j]-ma_matrice_1.compute_rel_absoluteMatrix()[0][j]) < 0.0001);
+	}
+}
+
+/*!
+ *@brief Function testing if compute_logConstMatrix_from_relativeMatrix() returns the good logConstMatrix
+ */
+TEST (compute_logConstMatrix_from_relativeMatrix_test, goodlogConstMatrix)
+{
+	for(int j = 0 ; j< 4 ;++j)
+	{
+	ASSERT_TRUE(std::abs(lcm[0][j] - ma_matrice_1.compute_logConstMatrix_from_relativeMatrix()[0][j]) < 0.0001);
+	}
+} 
 
 //SEQUENCEtests
 

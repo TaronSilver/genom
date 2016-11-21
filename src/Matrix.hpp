@@ -120,61 +120,31 @@ class Matrix
      */
 	void compute_abs_logMatrix (const BaseProbabilities& bp);
 	
-	/*!
-     * @brief Method that compute the absoluteMatrix from the logMatrix
-     *
-     * @param  	Baseprobabilities bp is an array with the 4 base reference probability
-     * 			we calcul our log with it to be more precise
-     */
+
+	Matrix_Neo get_abs_logMatrix(const BaseProbabilities& bp);
+	
+	/*Method that compute the absoluteMatrix from the logMatrix*/
 	void compute_log_absoluteMatrix (const BaseProbabilities& bp);
 	
-	/*!
-     * @brief Method that compute the relativeMatrix from the absoluteMatrix
-     *
-     * @param  	Baseprobabilities bp is an array with the 4 base reference probability
-     * 			we calcul our log with it to be more precise
-     */
-	void compute_abs_relativeMatrix();
+	Matrix_Neo get_log_absoluteMatrix(	const BaseProbabilities& bp);
 	
-	/*!
-     * @brief Method that compute the absoluteMatrix from the relativeMatrix
-     *
-     * @param  	Baseprobabilities bp is an array with the 4 base reference probability
-     * 			we calcul our log with it to be more precise
-     */
-	void compute_rel_absoluteMatrix();
+	/*Method that compute the relativeMatrix from the absoluteMatrix*/
+	Matrix_Neo compute_abs_relativeMatrix();
 	
-	/*!
-     * @brief Method that computes the relativeMatrix from the logConstMatrix
-     *
-     * @param  	Baseprobabilities bp is an array with the 4 base reference probability
-     * 			we calcul our log with it to be more precise
-     */
-	void compute_relativeMatrix_from_logConstMatrix();
+	/*Method that compute the absoluteMatrix from the relativeMatrix*/
+	Matrix_Neo compute_rel_absoluteMatrix();
 	
-	/*!
-     * @brief Method that computes the logConstMatrix from the relativeMatrix
-     *
-     * @param  	Baseprobabilities bp is an array with the 4 base reference probability
-     * 			we calcul our log with it to be more precise
-     */
-	void compute_logConstMatrix_from_relativeMatrix();
+	/*! Method that computes the relativeMatrix from the logConstMatrix */
+	Matrix_Neo compute_relativeMatrix_from_logConstMatrix();
+	
+	/*! Method that computes the logConstMatrix from the relativeMatrix */
+	Matrix_Neo compute_logConstMatrix_from_relativeMatrix();
    
-	/*!
-     * @brief Method that computes the logConstMatrix from the logMatrix
-     *
-     * @param  	Baseprobabilities bp is an array with the 4 base reference probability
-     * 			we calcul our log with it to be more precise
-     */
-	void compute_logConstMatrix_from_logMatrix();
+    /*! Method that computes the logConstMatrix from the logMatrix */
+	Matrix_Neo compute_logConstMatrix_from_logMatrix();
 	
-	/*!
-     * @brief Method that computes the absoluteMatrix from the logConstMatrix
-     *
-     * @param  	Baseprobabilities bp is an array with the 4 base reference probability
-     * 			we calcul our log with it to be more precise
-     */
-	void compute_absoluteMatrix_from_logConstMatrix();
+	/*! Method that computes the absoluteMatrix from the logConstMatrix */
+	Matrix_Neo compute_absoluteMatrix_from_logConstMatrix();
 
 	/*!
      * @brief Method that finds the maximal values for each row of the logMatrix
