@@ -49,7 +49,7 @@ TEST (init_Matrix_type_Test2, logconstinit)
 {
 	ASSERT_EQ(MATRIX_TYPE::logConstMatrix, ma_matrice_1.init_Matrix_type("../res/DBP_PSSM.mat"));
 }	
->>>>>>> master
+
 /*!
  *@brief Function testing if calcul_sum() returns the expected value, using a relativematrix
  */
@@ -205,13 +205,6 @@ TEST (find_sequence_Test, Bonne)
  *@brief Function testing if "find_sequence" returns the the expected sequence
 */
 
-TEST (get_probabilities_Test, Bonne)
-{
-    ASSERT_EQ(Probtest,Seq.get_probabilities());
-}
-/*!
- *@brief Function testing if "get_probabilities()" returns the expected probabilities
- */
  
 TEST (access_sequence_pos_Test, Bonne)
 {
