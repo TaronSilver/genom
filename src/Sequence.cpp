@@ -167,7 +167,7 @@ void Sequence::AskBaseProb() {
 		std::cout << "Enter the base probability for G ";
 		std::cin >> baseProbG;
 		
-		std::cout << "Enter the base probability for A ";
+		std::cout << "Enter the base probability for T ";
 		std::cin >> baseProbT;
 		
 		setBaseProbs(baseProbA, baseProbC, baseProbG, baseProbT);
