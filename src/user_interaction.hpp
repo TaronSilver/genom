@@ -75,7 +75,27 @@ std::string ask_name_matrix();
  */
 bool InvalidFormat(std::string file_name);
 
+/*!
+ * @brief Cout: Indicate the creation of a new sequence 
+ * @param name of the new sequence
+ * 
+ */
+void Cout_NewSeq(std::string);
 
+/*!
+ * @brief Ask the choice ( 0 or 1 or 2 ) corresponding to the question "what we want to do"
+ *
+ * @return the Choice made by the user.
+ */
+int CoutCin_AskBaseProb();
+
+/*!
+ * @brief Ask the Prob corresponding to the nucleotide.
+ *
+ * @param the nucleotide needed (A or C or G or T)
+ * @return the Prob enter by the user for this nucleotide
+ */
+double CoutCin_AskBaseProb0(char);
 //-----------------------------------------------------------------------
 
 
