@@ -1,5 +1,6 @@
 #include "utility.hpp"
 
+#define LINE_SIZE 5000
 
 std::map< char, nuc > charmap{
     {'A', A}, {'a', A},
@@ -302,7 +303,7 @@ std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix,
     
     while(entry_file.get(character)) {
         
-        print_progress(entry_file.tellg(), size_of_file, size_base_element);
+        print_progress(entry_file.tellg(), size_of_file);
         
         // Skip if endline is found
         if(character == '\n')
@@ -374,6 +375,352 @@ std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix,
 }
 
 
+
+//==========================================================================================
+// Optimized version of the function
+//
+// TODO: Progress bar
+
+std::vector<SearchResults> analyze_sequence_opt(std::string filename, Matrix matrix, double cutoff) {
+    
+
+    
+    // File to read
+    std::ifstream entry_file(filename);
+    
+    // Search results of all sequences
+    std::vector <SearchResults> output;
+    
+    // Search results of one sequence
+    SearchResults sequence_matches;
+    
+    std::list<nuc> forwardSequence;
+    std::list<nuc> backwardSequence;
+    
+    bool fill(true);
+    bool description(true);
+    
+    
+    unsigned int char_counter(0);
+    unsigned int length(matrix.get_length());
+    unsigned int position_counter(0);
+    unsigned int line_size;
+    
+    unsigned int print_counter(0);
+
+    
+    int size_of_file;
+    size_of_file = filesize(filename);
+    
+    bool first_line(true);
+    unsigned int index(0);
+    
+    double score;
+    
+    char line[LINE_SIZE];
+    
+    
+    
+    
+    // ----
+    
+    while(entry_file.get(line, LINE_SIZE, '\n')) {
+        // Sets line_size to amount of characters read in get
+        line_size = entry_file.gcount();
+        index = 0;
+        
+        if (print_counter > 5000) {
+            print_progress(entry_file.tellg(), size_of_file);
+            print_counter = 0;
+
+        }
+        
+        print_counter++;
+
+        
+        if (line[index] == '>' or line[index] == ';') {
+            
+            if (!first_line) {
+                output.push_back(sequence_matches);
+                sequence_matches = SearchResults(); // Reset to 0
+            }
+            
+            if(!forwardSequence.empty())
+                forwardSequence.clear();
+            if(!backwardSequence.empty())
+                backwardSequence.clear();
+
+            position_counter = 0;
+            char_counter = 0;
+            first_line = false;
+            fill = true;
+            sequence_matches.description += line;
+            
+        }
+
+        else {
+            while (fill) {
+                if (valid_character(line[index])) {
+                    forwardSequence.push_back(charmap[line[index]]);
+                    backwardSequence.push_front(complementmap[line[index]]);
+                    char_counter++;
+                    
+                }
+                
+                if(char_counter >= length) {
+                    fill = false;
+                }
+
+                
+                index++;
+
+
+            }
+            
+            // For initialized sequence
+            // What to do if forward is binding
+            score = matrix.sequence_score(forwardSequence);
+            
+            if(score >= cutoff) {
+                
+                SearchResult sequence_match(fill_search_result(forwardSequence, position_counter, score, '+'));
+                sequence_matches.searchResults.push_back(sequence_match);
+            }
+            
+            // What to do if backward is binding
+            score = matrix.sequence_score(backwardSequence);
+            
+            if(score >= cutoff) {
+                SearchResult sequence_match(fill_search_result(backwardSequence, position_counter, score, '-'));
+                sequence_matches.searchResults.push_back(sequence_match);
+            }
+            
+            
+            // For all following combinations
+            while (index < line_size) {
+                
+                // Skips if character is not valid
+                if(valid_character(line[index]))
+                {
+                    position_counter++;
+                    
+                    // Updates sequence with the new character
+                    forwardSequence.pop_front();
+                    forwardSequence.push_back(charmap[line[index]]);
+                    backwardSequence.pop_back();
+                    backwardSequence.push_front(complementmap[line[index]]);
+                    
+                    // What to do if forward is binding
+                    score = matrix.sequence_score(forwardSequence);
+                    
+                    if(score >= cutoff) {
+                        
+                        SearchResult sequence_match(fill_search_result(forwardSequence, position_counter, score, '+'));
+                        sequence_matches.searchResults.push_back(sequence_match);
+                    }
+                    
+                    // What to do if backward is binding
+                    score = matrix.sequence_score(backwardSequence);
+                    
+                    if(score >= cutoff) {
+                        SearchResult sequence_match(fill_search_result(backwardSequence, position_counter, score, '-'));
+                        sequence_matches.searchResults.push_back(sequence_match);
+                    }
+                }
+                index++;
+            }
+            
+        }
+        
+        if(entry_file.peek() == '\n')
+            entry_file.get();
+        
+    }
+    
+    output.push_back(sequence_matches);
+    
+    entry_file.close();
+    return output;
+}
+
+
+
+
+//==========================================================================================
+// Even further optimized version of the function, INPROGRESS
+//
+// TODO: Progress bar
+
+std::vector<SearchResults> analyze_sequence_opt2(std::string filename, Matrix matrix, double cutoff) {
+    
+    // File to read
+    std::ifstream entry_file(filename);
+    
+    // Search results of all sequences
+    std::vector <SearchResults> output;
+    
+    // Search results of one sequence
+    SearchResults sequence_matches;
+    
+    std::list<nuc> forwardSequence;
+    std::list<nuc> backwardSequence;
+    
+    bool fill(true);
+    bool description(true);
+    
+    
+    unsigned int char_counter(0);
+    unsigned int length(matrix.get_length());
+    unsigned int position_counter(0);
+    unsigned int line_size;
+    
+    unsigned int print_counter(0);
+    
+    
+    int size_of_file;
+    size_of_file = filesize(filename);
+    
+    bool first_line(true);
+    unsigned int index(0);
+    
+    double score;
+    
+    char line[LINE_SIZE];
+    std::string seq_description;
+    
+    
+    // Handles first line
+    while (entry_file.peek() == '>' or entry_file.peek() == ';') {
+        getline(entry_file, seq_description, '\n');
+        sequence_matches.description += seq_description;
+    }
+    
+    std::cout << "HELLO" << std::endl;
+    
+    while(entry_file.get(line, LINE_SIZE, '>')) {
+        // Sets line_size to amount of characters read in get
+        line_size = entry_file.gcount();
+        
+        std::cout << line_size << std::endl;
+        
+        index = 0;
+        
+        if (print_counter > 10) {
+            print_progress(entry_file.tellg(), size_of_file);
+            print_counter = 0;
+            
+        }
+        print_counter++;
+        
+        
+        while (fill) {
+            if (valid_character(line[index])) {
+                forwardSequence.push_back(charmap[line[index]]);
+                backwardSequence.push_front(complementmap[line[index]]);
+                char_counter++;
+                
+            }
+            
+            if(char_counter >= length) {
+                fill = false;
+            }
+            
+            
+            index++;
+            
+            
+        }
+        
+        // For initialized sequence
+        // What to do if forward is binding
+        score = matrix.sequence_score(forwardSequence);
+        
+        if(score >= cutoff) {
+            
+            SearchResult sequence_match(fill_search_result(forwardSequence, position_counter, score, '+'));
+            sequence_matches.searchResults.push_back(sequence_match);
+        }
+        
+        // What to do if backward is binding
+        score = matrix.sequence_score(backwardSequence);
+        
+        if(score >= cutoff) {
+            SearchResult sequence_match(fill_search_result(backwardSequence, position_counter, score, '-'));
+            sequence_matches.searchResults.push_back(sequence_match);
+        }
+        
+        
+        // For all following combinations
+        while (index < line_size) {
+            
+            // Skips if character is not valid
+            if(valid_character(line[index]))
+            {
+                position_counter++;
+                
+                // Updates sequence with the new character
+                forwardSequence.pop_front();
+                forwardSequence.push_back(charmap[line[index]]);
+                backwardSequence.pop_back();
+                backwardSequence.push_front(complementmap[line[index]]);
+                
+                // What to do if forward is binding
+                score = matrix.sequence_score(forwardSequence);
+                
+                if(score >= cutoff) {
+                    
+                    SearchResult sequence_match(fill_search_result(forwardSequence, position_counter, score, '+'));
+                    sequence_matches.searchResults.push_back(sequence_match);
+                }
+                
+                // What to do if backward is binding
+                score = matrix.sequence_score(backwardSequence);
+                
+                if(score >= cutoff) {
+                    SearchResult sequence_match(fill_search_result(backwardSequence, position_counter, score, '-'));
+                    sequence_matches.searchResults.push_back(sequence_match);
+                }
+            }
+            index++;
+        }
+        
+        
+        if (entry_file.peek() == '>' or entry_file.peek() == EOF) {
+            output.push_back(sequence_matches);
+            sequence_matches = SearchResults();
+            
+            if(!forwardSequence.empty())
+                forwardSequence.clear();
+            if(!backwardSequence.empty())
+                backwardSequence.clear();
+            
+            position_counter = 0;
+            char_counter = 0;
+            first_line = false;
+            fill = true;
+
+            while (entry_file.peek() == '>' or entry_file.peek() == ';') {
+                getline(entry_file, seq_description);
+                sequence_matches.description += seq_description;
+            }
+        }
+    }
+    
+    output.push_back(sequence_matches);
+    
+    entry_file.close();
+    return output;
+}
+
+
+
+
+
+
+
+
+
+
 //==========================================================================================
 // SHOULD BE MADE AS CONSTRUCTOR
 
@@ -394,7 +741,7 @@ bool valid_character(char character) {
     auto it = charmap.find(character);
     if (it == charmap.end())
     {
-        std::cout << "Unknown character: " << character << ". Character is skipped and ignored\n";
+        // std::cout << "Unknown character: " << character << ". Character is skipped and ignored\n";
         return false;
     }
     else
@@ -409,7 +756,8 @@ int filesize(std::string filename) {
 }
 
 //==========================================================================================
-void print_progress(int position, int filesize, int size_base_element) {
+void print_progress(int position, int filesize) {
+    
     static int nextPrint(0);
     static int increment(filesize/1000000);
     

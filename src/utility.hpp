@@ -93,11 +93,35 @@ Matrix_Neo matrix_from_sequence_results(std::string filename);
 // SEQUENCE ANALYSIS
 /*!
  * @brief Goes through all sequences in the file and returns sequences with a score above 5
+ *          Estimated time for PPM.mat on human genome: 3h05, with flag -O2, MacBook Pro, cutoff 5
  *
  * @param Name of sequence file, Matrix to compare it with, Cutoff
  * @return A vector of all search results (each in one structure SearchResults)
  */
 std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix, double cutoff);
+
+
+/*!
+ * @brief   Goes through all sequences in the file and returns sequences with a score above 5
+ *          Optimized version
+ *          Estimated time for PPM.mat on human genome: 29min, with flag -O2, MacBook Pro, cutoff 5
+ *
+ * @param Name of sequence file, Matrix to compare it with, Cutoff
+ * @return A vector of all search results (each in one structure SearchResults)
+ */
+std::vector<SearchResults> analyze_sequence_opt(std::string filename, Matrix matrix, double cutoff);
+
+
+/*!
+ * @brief Goes through all sequences in the file and returns sequences with a score above 5
+ *         Optimized version 2
+ *          Estimated time for PPM on human genome: 30min, with flag -O2, MacBook Pro, cutoff 5
+ *
+ * @param Name of sequence file, Matrix to compare it with, Cutoff
+ * @return A vector of all search results (each in one structure SearchResults)
+ */
+std::vector<SearchResults> analyze_sequence_opt2(std::string filename, Matrix matrix, double cutoff);
+
 
 
 /*!
@@ -125,11 +149,12 @@ bool valid_character(char character);
  */
 int filesize(std::string filename);
 
+
 /*!
  * @brief   Prints out current progress
  * @param   Current position, current filesize
  */
-void print_progress(int position, int filesize, int size_base_element);
+void print_progress(int position, int filesize);
 
 
 /*!
