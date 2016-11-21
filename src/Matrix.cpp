@@ -226,7 +226,7 @@ MATRIX_TYPE Matrix::determine_matrix_type(Matrix_Neo input) {
 
 double Matrix::max_of_line(std::vector<double> line) {
     std::vector<double>::iterator maximum_of_line;
-    maximum_of_line = max_element(line.begin(), line.end());
+    maximum_of_line = std::max_element(line.begin(), line.end());
     return *maximum_of_line;
 }
 
@@ -235,7 +235,7 @@ double Matrix::max_of_line(std::vector<double> line) {
 
 double Matrix::min_of_line(std::vector<double> line) {
     std::vector<double>::iterator minimum_of_line;
-    minimum_of_line = min_element(line.begin(), line.end());
+    minimum_of_line = std::min_element(line.begin(), line.end());
     return *minimum_of_line;
 }
 
