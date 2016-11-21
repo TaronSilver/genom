@@ -44,16 +44,7 @@ std::map< nuc, char > backwardsmap {
 
 std::vector <Sequence> Initialization()
 {
-    std::string entry_name;		// This string will contain the name of the file we want to open.
-    
-    try {
-        AskNameFasta(entry_name);
-    }
-    catch(std::string& err) {
-        std::cerr <<"Error: " <<err <<std::endl;
-        std:: cerr <<"Program stop. ";
-        exit(1); // Stops the program.
-    }
+    std::string entry_name = ask_name_fasta();
     
     std::vector <Sequence> sequence_list;
     
@@ -64,25 +55,6 @@ std::vector <Sequence> Initialization()
     }
     
     return sequence_list;
-}
-
-void AskNameFasta(std::string& entry_name)
-{
-    std::cout <<"Please give the name of your sequence file: ";
-    std::cin >>entry_name;
-    
-    std::ifstream entry(entry_name.c_str());
-    
-    if (entry.fail()) {
-        std::string error("Impossible to read the file:");
-        error+=entry_name;
-        throw error;
-    }
-    entry.close(); // Don't you have to close it afterwards?
-    
-    if(InvalidFormat(entry_name)) {
-        throw std::string("Unknown format.");
-    }
 }
 
 std::vector <std::string> ExtractSequence(std::string const& entry_name)
@@ -128,10 +100,7 @@ std::vector <std::string> ExtractSequence(std::string const& entry_name)
 
 
 
-std::vector <double> nucleotide_probability(
-    std::vector <std::string> nucleotide_sequences,
-    unsigned int position
-) {
+std::vector <double> nucleotide_probability(std::vector <std::string> nucleotide_sequences, unsigned int position) {
     
     std::vector <unsigned int> nucleotide_counter(4, 0);
     std::vector <double> probabilities(4, 0);
@@ -158,8 +127,8 @@ std::vector <double> nucleotide_probability(
                 nucleotide_counter[3]++;
                 break;
             default:
-                std::cout << "WARNING, nucleotide " << nucleotide_sequences[i][position]
-                          << " not recognized" << std::endl;
+                
+                nucleotide_warning(nucleotide_sequences[i][position]);
                 return {0,0,0,0};
                 // Better error handling needed!!
         }
@@ -182,22 +151,8 @@ Matrix_Neo generate_PWM_from_Seq_list(std::vector <Sequence> sequence_list, bool
     
     if(!entire_sequence) {
         // todo if only a part of the sequence is relevant
-        while (true) {
-            std::cout << "At what position is the binding site (starts at 1)?" << std::endl;
-            std::cin >> position;
-            std::cout << "How long is the binding site?" << std::endl;
-            std::cin >> length;
-        
-            if(position <= 0) {
-                std::cout << "Error, binding position must be positive" << std::endl;
-            }
-            else if(length <= 0) {
-                std::cout << "Error, binding site length must be positive" << std::endl;
-            }
-            else {
-                break;
-            }
-        }
+            position = ask_position();
+            length = ask_length();
     }
     
     else {
@@ -206,12 +161,7 @@ Matrix_Neo generate_PWM_from_Seq_list(std::vector <Sequence> sequence_list, bool
     }
     
     for (unsigned int i(0); i < number_sequences; i++) {
-        binding_sequences.push_back(
-                                    sequence_list[i].access_sequence_pos(
-                                                                         position-1,
-                                                                         length
-                                                                         )
-                                    );
+        binding_sequences.push_back(sequence_list[i].access_sequence_pos(position-1, length));
     }
     // Goes through all sequences, extracts binding sites and
     // stores them in vector binding_sequences
@@ -595,13 +545,12 @@ std::vector<SearchResults> analyze_sequence_opt2(std::string filename, Matrix ma
         sequence_matches.description += seq_description;
     }
     
-    std::cout << "HELLO" << std::endl;
-    
+        
     while(entry_file.get(line, LINE_SIZE, '>')) {
         // Sets line_size to amount of characters read in get
         line_size = entry_file.gcount();
         
-        std::cout << line_size << std::endl;
+        //std::cout << line_size << std::endl;
         
         index = 0;
         
@@ -756,20 +705,6 @@ int filesize(std::string filename) {
 }
 
 //==========================================================================================
-void print_progress(int position, int filesize) {
-    
-    static int nextPrint(0);
-    static int increment(filesize/1000000);
-    
-    if(position >= nextPrint) {
-        
-        std::cout << (double)position / (double)filesize * 100 << "%" << std::endl;
-        nextPrint += increment;
-    }
-}
-
-
-//==========================================================================================
 
 std::string sequence_string_from_nuc_list(std::list<nuc> sequence) {
     std::string output;
@@ -778,41 +713,6 @@ std::string sequence_string_from_nuc_list(std::list<nuc> sequence) {
     for (iterator = sequence.begin(); iterator != sequence.end(); iterator++)
         output += backwardsmap[*iterator];
     return output;
-}
-
-
-//==========================================================================================
-void print_results(SearchResults results, std::string filename) {
-    std::ofstream outputfile;
-    outputfile.open(filename);
-    unsigned int size = results.searchResults.size();
-    
-    outputfile << results.description << std::endl;
-    
-    
-    for (unsigned int i(0); i < size; i++) {
-        outputfile << results.searchResults[i].sequence << " found at position "
-                   << results.searchResults[i].position << " in "
-                   << results.searchResults[i].direction << " direction with the score "
-                   << results.searchResults[i].score << std::endl;
-    }
-    outputfile.close();
-}
-
-
-//==========================================================================================
-void print_results(SearchResults results) {
-    unsigned int size = results.searchResults.size();
-    
-    std::cout << results.description << std::endl;
-    
-    
-    for (unsigned int i(0); i < size; i++) {
-        std::cout << results.searchResults[i].sequence << " found at position "
-                << results.searchResults[i].position << " in "
-                << results.searchResults[i].direction << " direction with the score "
-                << results.searchResults[i].score << std::endl;
-    }
 }
 
 

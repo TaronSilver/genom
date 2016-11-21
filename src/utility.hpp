@@ -8,38 +8,12 @@
 
 
 
-class SearchResult {
-public:
-    std::string sequence;
-    unsigned int position;
-    double score;
-    char direction;
-};
-
-class SearchResults {
-public:
-    std::string description;
-    std::vector<SearchResult> searchResults;
-};
-
-
-
-
-
-
 /*!
  * @brief Allows to ask the name of the file we want to open,
  *		  with exception handling
  */
 std::vector <Sequence> Initialization();
 
-/*!
- * @brief Allows to ask the name of the fasta file we want to open,
- *		  with exception handling
- *
- * @param name of the file we want to open
- */
-void AskNameFasta(std::string& entry_name);
 
 /*!
  * @brief If all the conditions a correct reads te DNA sequence from
@@ -151,13 +125,6 @@ int filesize(std::string filename);
 
 
 /*!
- * @brief   Prints out current progress
- * @param   Current position, current filesize
- */
-void print_progress(int position, int filesize);
-
-
-/*!
  * @brief Translates a list of the enum "nuc" to a string
  *
  * @param A list of nucleotides to be translated
@@ -165,21 +132,6 @@ void print_progress(int position, int filesize);
  */
 std::string sequence_string_from_nuc_list(std::list<nuc>);
 
-
-/*!
- * @brief Prints search results to file
- *
- * @param Search results, filename
- */
-void print_results(SearchResults results, std::string filename);
-
-
-/*!
- * @brief Prints search results to terminal
- *
- * @param Search results
- */
-void print_results(SearchResults results);
 
 
 
