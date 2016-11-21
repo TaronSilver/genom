@@ -254,3 +254,36 @@ void print_results(SearchResults results) {
     }
 }
 
+=======
+//----------------------------------------------------------------------
+void Cout_NewSeq(std::string new_sequence)
+{
+	std::cout <<"Creation of a new sequence: " << new_sequence << std::endl;
+}
+//----------------------------------------------------------------------
+int CoutCin_AskBaseProb()
+{
+	int choice;
+	
+	std::cout<<"What base probability would you like to use for the log matrix?"<<std::endl;
+	std::cout<<"Enter 1 to use a base probability of 0.25 for all nucleotides"<<std::endl;
+	std::cout<<"Enter 2 to use base probabilities calculated from the input sequence"<<std::endl;
+	std::cout<<"Enter 0 to use custom base probabilities"<<std::endl;
+	
+	std::cin>>choice;
+	
+	return choice;	
+}
+//----------------------------------------------------------------------
+double CoutCin_AskBaseProb0(char C)
+{
+	double baseProb;
+	
+	std::cout << "Enter the base probability for "<< C ;
+	std::cin >> baseProb;
+	
+	return baseProb;
+}
+//----------------------------------------------------------------------
+
+//----------------------------------------------------------------------

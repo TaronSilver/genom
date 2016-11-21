@@ -4,13 +4,17 @@
 #include "../src/Sequence.hpp"
 #include <iostream>
 #include <string>
+#include <vector>
 #include <fstream>
+
+//MATRIXtests
 
 /*! I use the constructor to initialise the four 4 different matrix.
  * This matrix will be use to check if our function work as expected because 
  * the different values test are the value we expect for the corresponding
  *  matrix when we applied the different function.
  */
+ 
 Matrix_Neo r({{0.259260,0.000000,0.148148,1.000}});
 Matrix ma_matrice_1(r, relativeMatrix);
 
@@ -47,6 +51,8 @@ Matrix_Neo value_test_6 ({{0.5,0.5,0.0,0.0},{0.5,0.5,0.0,0.0},{0.0,0.25,0.5,0.25
 /*!
  *@brief Function testing if calcul_sum() returns the expected value, using a relativematrix
  */
+ 
+
 TEST (calcul_sum_Test, PositiveSum)
 {
 	ASSERT_EQ(value_test_1,ma_matrice_1.calcul_sum());
@@ -193,6 +199,40 @@ TEST (generate_PWM_from_Seq_list_Test, PWM)
 {
 	ASSERT_EQ(value_test_6,generate_PWM_from_Seq_list(sequence_list, entire_sequence));
 }
+
+//SEQUENCEtests
+
+std::vector<size_t> Seqtest = {10,22,34};
+Sequence Seq("AAAAAAAAAACCAAAAAAAAAACCAAAAAAAAAACCAAAA");
+std::string trouve = ("CC");
+std::vector<double> Probtest = {.25,.25,.25,.25};
+
+TEST (find_sequence_Test, Bonne)
+{
+	std::ofstream outputfile("testseq");
+	//outputfile.open;
+    ASSERT_EQ(Seqtest,Seq.find_sequence(trouve,outputfile));
+}
+ /*!
+ *@brief Function testing if "find_sequence" returns the the expected sequence
+*/
+
+ 
+TEST (access_sequence_pos_Test, Bonne)
+{
+    ASSERT_EQ(trouve,Seq.access_sequence_pos(10,2));
+}
+/*!
+ *@brief Function testing if "access_sequence_pos" returns the expected sequence using a position and a length
+*/
+
+TEST (get_nucleotide_count_test, Bonne)
+{
+    ASSERT_EQ(34,Seq.get_nucleotide_count('A'));
+}
+/*!
+ *@brief Function testing if "get_nucleotide_count" returns the expected number of one given nucleotide 
+*/
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);

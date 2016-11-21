@@ -1,8 +1,12 @@
 #include "Sequence.hpp"
+#include "user_interaction.hpp"
 
-
-Sequence::Sequence(const std::string new_sequence) :sequence(new_sequence) {
+Sequence::Sequence(const std::string new_sequence) :sequence(new_sequence) 
+{
+	/*
 	std::cout <<"Creation of a new sequence: " << new_sequence << std::endl;
+	*/
+	Cout_NewSeq(new_sequence);
 	AskBaseProb();
 }
 
@@ -152,7 +156,7 @@ void Sequence::setBaseProbs(double baseProbA, double baseProbC, double baseProbG
 }
 
 void Sequence::AskBaseProb() {
-	
+	/*
 	int choice;
 	
 	std::cout<<"What base probability would you like to use for the log matrix?"<<std::endl;
@@ -161,10 +165,15 @@ void Sequence::AskBaseProb() {
 	std::cout<<"Enter 0 to use custom base probabilities"<<std::endl;
 	
 	std::cin>>choice;
+	*/
+	int choice = CoutCin_AskBaseProb();
 	
 	if (choice == 0) {
-		double baseProbA, baseProbC, baseProbG, baseProbT;
+		/*double baseProbA, baseProbC, baseProbG, baseProbT;*/
 		
+		std::vector<double> BaseProbs ={0.0,0.0,0.0,0.0};
+		std::vector<char> Base ={'A','C','G','T'};
+		/*
 		std::cout << "Enter the base probability for A ";
 		std::cin >> baseProbA;
 		
@@ -174,10 +183,15 @@ void Sequence::AskBaseProb() {
 		std::cout << "Enter the base probability for G ";
 		std::cin >> baseProbG;
 		
-		std::cout << "Enter the base probability for A ";
+		std::cout << "Enter the base probability for T ";
 		std::cin >> baseProbT;
-		
-		setBaseProbs(baseProbA, baseProbC, baseProbG, baseProbT);
+		*/
+		for(size_t i=0; i<Base.size(); ++i)
+		{
+			BaseProbs[i] = CoutCin_AskBaseProb0(Base[i]);
+			
+		}
+		setBaseProbs(BaseProbs[0], BaseProbs[1], BaseProbs[2], BaseProbs[3]);
 	}
 	
 	else if (choice == 1) {
