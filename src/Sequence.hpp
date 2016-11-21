@@ -39,7 +39,7 @@ class Sequence
      * @param enzyme nucleotides, outputfile
      * @return position(s) where the enzyme can attach itsefl to our sequence
      */
-    std::vector<size_t> find_sequence(const std::string& string_to_find, std::ofstream& outputfile);
+    std::vector<Seq_and_pos> find_sequence(const std::string& string_to_find, std::ofstream& outputfile);
 	
 
     
