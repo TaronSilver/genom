@@ -1,5 +1,14 @@
 #include "gtest/gtest.h"
 #include "../src/Matrix.hpp"
+#include "../src/utility.hpp"
+#include "../src/Sequence.hpp"
+#include <string>
+#include <vector>
+#include <fstream>
+
+//MATRIXtests
+
+
 
 /*! I use the constructor to initialise the four 4 different matrix.
  * This matrix will be use to check if our function work as expected because 
@@ -40,6 +49,7 @@ TEST (init_Matrix_type_Test2, logconstinit)
 {
 	ASSERT_EQ(MATRIX_TYPE::logConstMatrix, ma_matrice_1.init_Matrix_type("../res/DBP_PSSM.mat"));
 }	
+
 /*!
  *@brief Function testing if calcul_sum() returns the expected value, using a relativematrix
  */
@@ -134,8 +144,8 @@ TEST (compute_logConstMatrix_from_logMatrix_test, goodlogConstMatrix)
 } 
 
 
-
 //-------------------------------------------- gTests Failed
+
 
 /*!
  *@brief Function testing if compute_abs_relativeMatrix() returns the good relativeMatrix
@@ -161,7 +171,9 @@ TEST (compute_rel_absoluteMatrix_test, goodabsoluteeMatrix)
 	{
 	ASSERT_TRUE(std::abs(a[0][j]-ma_matrice_1.compute_rel_absoluteMatrix()[0][j]) < 0.0001);
 	}
-} 
+
+}
+ 
 
 
 /*!
@@ -174,6 +186,41 @@ TEST (compute_logConstMatrix_from_relativeMatrix_test, goodlogConstMatrix)
 	ASSERT_TRUE(std::abs(lcm[0][j] - ma_matrice_1.compute_logConstMatrix_from_relativeMatrix()[0][j]) < 0.0001);
 	}
 } 
+
+
+//SEQUENCEtests
+
+std::vector<size_t> Seqtest = {10,22,34};
+Sequence Seq("AAAAAAAAAACCAAAAAAAAAACCAAAAAAAAAACCAAAA");
+std::string trouve = ("CC");
+std::vector<double> Probtest = {.25,.25,.25,.25};
+
+TEST (find_sequence_Test, Bonne)
+{
+	std::ofstream outputfile("testseq");
+	//outputfile.open;
+    ASSERT_EQ(Seqtest,Seq.find_sequence(trouve,outputfile));
+}
+ /*!
+ *@brief Function testing if "find_sequence" returns the the expected sequence
+*/
+
+ 
+TEST (access_sequence_pos_Test, Bonne)
+{
+    ASSERT_EQ(trouve,Seq.access_sequence_pos(10,2));
+}
+/*!
+ *@brief Function testing if "access_sequence_pos" returns the expected sequence using a position and a length
+*/
+
+TEST (get_nucleotide_count_test, Bonne)
+{
+    ASSERT_EQ(34,Seq.get_nucleotide_count('A'));
+}
+/*!
+ *@brief Function testing if "get_nucleotide_count" returns the expected number of one given nucleotide 
+*/
 
 
 int main(int argc, char **argv) {

@@ -74,6 +74,7 @@ class Sequence
     /* BRIEF...*/
     std::string TranslateSeq(const std::string& Seq); //function that translate a sequence.
     
+    unsigned get_nucleotide_count(const char N);
     
 	private:
 	double baseProbabibilityA;
@@ -89,7 +90,7 @@ class Sequence
      * @param nucleotide (A, C, G, T) 
      * @return number of times it appears
      */
-	unsigned get_nucleotide_count(const char N);
+	//unsigned get_nucleotide_count(const char N); WHY ?? mp
 	
 	/*!
      * @brief sets probabilities to correct values
