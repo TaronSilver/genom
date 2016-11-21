@@ -254,7 +254,7 @@ void print_results(SearchResults results) {
     }
 }
 
-=======
+
 //----------------------------------------------------------------------
 void Cout_NewSeq(std::string new_sequence)
 {
