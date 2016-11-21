@@ -13,6 +13,10 @@
 
 //std::vector<size_t> Find(const std::string& string_to_find, const std::vector<std::string>& genes, int sequence_in_gene); // find_sequence() returns a vector with all the starting positions of each occurences of the searched thing // souhailelaissaoui
 
+struct Seq_and_pos {
+	std::string sequence;
+	unsigned int position;
+};
 
 class Sequence
 {
