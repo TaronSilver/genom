@@ -11,6 +11,7 @@
 #include <list>
 #include <cmath>
 #include <map>
+#include <algorithm>
 
 /* Defines number of different nucleotides in DNA sequnece (always 4) */
 #define NUMBER_NUCLEOTIDES 4

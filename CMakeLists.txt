@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.6)
 
 project(genom-2 CXX C)
 
-option(test "Build tests." ON) #declares a boolean that tells that we are doing a test version.
+#option(test "Build tests." ON) #declares a boolean that tells that we are doing a test version.
 set(CMAKE_BUILD_TYPE Debug) #Allows to debug
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wall -pedantic -std=c++11")
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -11,6 +11,7 @@ include_directories(src)
 link_directories("/usr/local/lib") #Tells cmake where some libs could potentially be located
 link_directories("/usr/lib")
 add_executable(Main src/main.cpp src/Matrix.cpp src/Sequence.cpp src/utility.cpp src/procedures.cpp src/user_interaction.cpp)
+
 #target_link_libraries(PopulationSimul m)
 
 if (test)
