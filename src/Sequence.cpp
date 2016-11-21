@@ -21,7 +21,11 @@ std::vector<Seq_and_pos> Sequence::find_sequence(const std::string& string_to_fi
         starting_position = sequence.find(string_to_find, starting_position+1); //the function "find" returns the first position of the first character of the first match
         if(starting_position != std::string::npos)
         {
-            struct Seq_and_pos found_element {string_to_find , starting_position};
+            struct Seq_and_pos found_element;
+            
+            found_element.sequence = string_to_find;
+            found_element.position = starting_position;
+            
             seq_and_positions.push_back(found_element);
             outputfile << found_element.sequence << " starting at char " << found_element.position +1 <<" +"<< std::endl;//translated_string équivalent au binding spot
         }
@@ -35,7 +39,11 @@ std::vector<Seq_and_pos> Sequence::find_sequence(const std::string& string_to_fi
         starting_position = sequence.find(Translated_String, starting_position+1); // second Do() to find the translated string position.
         if(starting_position != std::string::npos)
         {
-            struct Seq_and_pos found_element {string_to_find , starting_position};
+            struct Seq_and_pos found_element;
+            
+            found_element.sequence = string_to_find;
+            found_element.position = starting_position;            
+            
             seq_and_positions.push_back(found_element);
             outputfile << found_element.sequence << " starting at char " << found_element.position +1  <<" -"<< std::endl; //string_to_find équivalent au binding spot
 
