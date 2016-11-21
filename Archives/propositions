@@ -2,3 +2,9 @@ Have the results of the search printed in a new file
 Testing
 Funtion allowing user to choose in which order to have the results
 Function that makes a probability matrix from a list of motifs that protein binds
+
+
+NEW FUNCTIONALITIES FROM TODAY
+
+file format checking: add characters N,!,- and lowercase a,c,g,t as well as deal with the possible presence of empty lines at the end
+mapping nucleotides to 

@@ -46,17 +46,21 @@ PROCEDURE whatToDo() {
 
 void AskNameMatrix(std::string& entry_name)
 {
-    std::cout <<"Please give the name of your matrix file: ";
-    std::cin >>entry_name;
-    
-    std::ifstream entry(entry_name.c_str());
-    
-    if (entry.fail()) {
+	std::ifstream entry;
+    do {
+		std::cout <<"Please give the name of your matrix file: ";
+		std::cin >>entry_name;
+		entry.open(entry_name.c_str());
+		if (entry.fail()) {
+			std::cerr << "Impossible to read the file, try again:" << std::endl; }
+   /* if (entry.fail()) {
         std::string error("Impossible to read the file: ");
         error+=entry_name;
         throw error;
-    }
+    }*/
     entry.close(); // Don't you have to close it afterwards?
+    }	while (entry.fail());
+    
 
 }
 //-------------------------------------------------------------------------
@@ -93,22 +97,29 @@ std::vector <Sequence> Initialization()
 }
 
 void AskNameFasta(std::string& entry_name)
-{
-    std::cout <<"Please give the name of your sequence file: ";
-    std::cin >>entry_name;
+{	
+	std::ifstream entry;
+	do{
+		std::cout <<"Please give the name of your sequence file: ";
+		std::cin >>entry_name;
+		entry.open(entry_name.c_str());
+	
     
-    std::ifstream entry(entry_name.c_str());
-    
-    if (entry.fail()) {
-        std::string error("Impossible to read the file:");
-        error+=entry_name;
-        throw error;
-    }
-    entry.close(); // Don't you have to close it afterwards?
-    
-    if(InvalidFormat(entry_name)) {
-        throw std::string("Unknown format.");
-    }
+		/*if (entry.fail()) {
+			std::string error("Impossible to read the file:");
+			error+=entry_name;
+			throw error;
+		}*/
+		
+		if (entry.fail()) {
+			std::cerr << "Impossible to read the file. Try Again:" << std::endl;
+		}
+		if(InvalidFormat(entry_name)) {
+			//throw std::string("Unknown format.");
+			std::cerr <<"Unknown format. Try Again:" << std::endl;
+			}
+	entry.close(); // Don't you have to close it afterwards?
+    } while (entry.fail() or InvalidFormat(entry_name));
 }
 
 std::vector <std::string> ExtractSequence(std::string const& entry_name)
@@ -221,22 +232,23 @@ Matrix_Neo generate_PWM_from_Seq_list(std::vector <Sequence> sequence_list, bool
     
     if(!entire_sequence) {
         // todo if only a part of the sequence is relevant
-        while (true) {
-            std::cout << "At what position is the binding site (starts at 1)?" << std::endl;
-            std::cin >> position;
-            std::cout << "How long is the binding site?" << std::endl;
-            std::cin >> length;
-        
-            if(position <= 0) {
-                std::cout << "Error, binding position must be positive" << std::endl;
-            }
-            else if(length <= 0) {
-                std::cout << "Error, binding site length must be positive" << std::endl;
-            }
-            else {
-                break;
-            }
-        }
+       
+            do {
+				std::cout << "At what position is the binding site (starts at 1)?" << std::endl;
+				std::cin >> position;
+				if (position<=0) { 
+					std::cerr << "Error, binding position must be positive" << std::endl;
+				}
+			} while (position <= 0);
+			
+			do {
+				std::cout << "How long is the binding site?" << std::endl;
+				std::cin >> length;
+				if(length <= 0) {
+                std::cerr << "Error, binding site length must be positive" << std::endl;
+									}
+				} while(length <= 0);
+				
     }
     
     else {
@@ -297,5 +309,6 @@ Matrix_Neo matrix_from_sequence_results(std::string filename) {
     entry.close();
     return generate_PWM_from_Seq_list(sequences, true);
 }
+
 
 

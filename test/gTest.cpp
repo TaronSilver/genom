@@ -8,8 +8,7 @@
 
 //MATRIXtests
 
-#include "gtest/gtest.h"
-#include "../src/Matrix.hpp"
+
 
 /*! I use the constructor to initialise the four 4 different matrix.
  * This matrix will be use to check if our function work as expected because 
@@ -33,7 +32,24 @@ SimpleVector value_test_2({0.710526});
 SimpleVector value_test_3({1.40741});
 SimpleVector value_test_4({1.506960});	
 
-BaseProbabilities BP({0.25,0.25,0.25,0.25}); 		
+BaseProbabilities BP({0.25,0.25,0.25,0.25}); 
+
+/*!
+ *@brief Function testing if init_Matrix_type() returns the expected type with the correspondinf file
+ */	
+
+TEST (init_Matrix_type_Test1, absoluteinit)
+{
+	ASSERT_EQ(MATRIX_TYPE::absoluteMatrix ,ma_matrice_1.init_Matrix_type("../res/DBP_PPM.mat"));
+}
+/*!
+ *@brief Function testing if init_Matrix_type() returns the expected type with the correspondinf file
+ */	
+TEST (init_Matrix_type_Test2, logconstinit)
+{
+	ASSERT_EQ(MATRIX_TYPE::logConstMatrix, ma_matrice_1.init_Matrix_type("../res/DBP_PSSM.mat"));
+}	
+>>>>>>> master
 /*!
  *@brief Function testing if calcul_sum() returns the expected value, using a relativematrix
  */
@@ -128,6 +144,8 @@ TEST (compute_logConstMatrix_from_logMatrix_test, goodlogConstMatrix)
 } 
 
 
+//-------------------------------------------- gTests Failed
+
 
 /*!
  *@brief Function testing if compute_abs_relativeMatrix() returns the good relativeMatrix
@@ -153,7 +171,10 @@ TEST (compute_rel_absoluteMatrix_test, goodabsoluteeMatrix)
 	{
 	ASSERT_TRUE(std::abs(a[0][j]-ma_matrice_1.compute_rel_absoluteMatrix()[0][j]) < 0.0001);
 	}
+
 }
+ 
+
 
 /*!
  *@brief Function testing if compute_logConstMatrix_from_relativeMatrix() returns the good logConstMatrix
@@ -165,6 +186,7 @@ TEST (compute_logConstMatrix_from_relativeMatrix_test, goodlogConstMatrix)
 	ASSERT_TRUE(std::abs(lcm[0][j] - ma_matrice_1.compute_logConstMatrix_from_relativeMatrix()[0][j]) < 0.0001);
 	}
 } 
+
 
 //SEQUENCEtests
 
@@ -206,6 +228,7 @@ TEST (get_nucleotide_count_test, Bonne)
 /*!
  *@brief Function testing if "get_nucleotide_count" returns the expected number of one given nucleotide 
 */
+
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
