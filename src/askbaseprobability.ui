@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>askBaseProbability</class>
+ <widget class="QDialog" name="askBaseProbability">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QComboBox" name="chooseBase">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>50</y>
+     <width>341</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>Base Probability of 0.25</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Base Probability calculated from the input sequence</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Custom Base Probability</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QPushButton" name="buttonLeave">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>250</y>
+     <width>80</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Ok</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="spinA">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>120</y>
+     <width>66</width>
+     <height>23</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="spinC">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>160</y>
+     <width>66</width>
+     <height>23</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="spinG">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>160</y>
+     <width>66</width>
+     <height>23</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="spinT">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>120</y>
+     <width>66</width>
+     <height>23</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

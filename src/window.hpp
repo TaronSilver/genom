@@ -1,5 +1,5 @@
-#ifndef WINDOW_H
-#define WINDOW_H
+#ifndef WINDOW_HPP
+#define WINDOW_HPP
 
 #include <QDialog>
 #include <QApplication>
@@ -10,6 +10,7 @@
 #include <QFontDialog>
 #include <QColorDialog>
 #include <QFileDialog>
+#include <QObject>
 
 namespace Ui {
     class Window;
@@ -27,18 +28,17 @@ public slots:
     void on_chooseFasta_clicked();
     void on_chooseMatrix_clicked();
     void on_buttonLeave_clicked();
+    void on_sequenceFromMatrixButton_clicked();
+    void on_matrixFromSequenceButton_clicked();
+
 
 private:
     Ui::Window *ui;
 
     QString fastaLocation;
     QString matrixLocation;
-
-    /*
-     * Leagcy attributes (whatever you wanna call them)
-    QPushButton *m_fileName;
-    QPushButton *m_directoryName;
-    QPushButton *m_dialogueButton; */
 };
+
+
 
 #endif // WINDOW_H
