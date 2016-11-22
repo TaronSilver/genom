@@ -17,20 +17,25 @@
 //-------------------------------------------------------------------------
 
 int main() {
-
+    
     PROCEDURE procedure;
-
-    procedure = whatToDo();
-
-    // What to do if user wants to extract Sequences from a given matrix
-    if (procedure == SequencesFromMatrix) {
-        enzyme_on_sequence();
-    }
-
-    if (procedure == MatrixFromSequences) {
-        enzyme_from_sequences();
-    }
-
+    
+    
+    
+   do {
+	    procedure = whatToDo();
+	    
+	    // What to do if user wants to extract Sequences from a given matrix
+	    if (procedure == SequencesFromMatrix) {
+	        enzyme_on_sequence();
+	    }
+	    
+	    if (procedure == MatrixFromSequences) {
+	        enzyme_from_sequences();
+	    }
+	 } while (procedure != Exit);
+	
+	return 0;
 }
 
 
