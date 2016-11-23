@@ -1,5 +1,5 @@
-#include "askposandlength.hpp"
-#include "../build/ui_askposandlength.h"
+#include "askPosAndLength.hpp"
+#include "../build/ui_askPosAndLength.h"
 
 
 askPosAndLength::askPosAndLength(QWidget *parent) :

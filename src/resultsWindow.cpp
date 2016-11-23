@@ -1,5 +1,5 @@
-#include "resultswindow.hpp"
-#include "../build/ui_resultswindow.h"
+#include "resultsWindow.hpp"
+#include "../build/ui_resultsWindow.h"
 
 ResultsWindow::ResultsWindow(QWidget *parent) :
     QDialog(parent),

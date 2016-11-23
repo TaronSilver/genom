@@ -43,7 +43,7 @@ std::vector <double> nucleotide_probability(
  * @brief Returns vector of vector with probabilities based on a list of sequences
  *        and specified binding position and length (asked for during function)
  *
- * @param vector of sequences to analyze, a bool whether the entire sequence is 
+ * @param vector of sequences to analyze, a bool whether the entire sequence is
  *        relevant (true), or if only a part of the sequence to be specified
  * @return A probability matrix in form of Matrix_Neo, order: A, C, G, T
  */
@@ -133,7 +133,12 @@ int filesize(std::string filename);
 std::string sequence_string_from_nuc_list(std::list<nuc>);
 
 
-
-
+/*!
+	 * @brief Change an absolute path to a relative one, considering the file is in the main directory of our program.
+	 *
+	 * @param the absolute path of the file to open
+	 * @return the relative patch of the file to ope.n
+	 */
+std::string relativePath(std::string file);
 
 #endif

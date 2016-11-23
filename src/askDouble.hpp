@@ -14,15 +14,15 @@ class askDouble : public QDialog
 public:
     explicit askDouble(QWidget *parent = 0);
     ~askDouble();
-    double getCutoff();
+    double getDouble();
 
 public slots:
-    void on_setCutoff_clicked();
-    void on_spinCutoff_valueChanged(double);
+    void on_setDouble_clicked();
+    void on_spinDouble_valueChanged(double);
 
 private:
     Ui::askDouble *ui;
-    double cutoff;
+    double Double;
 
 };
 

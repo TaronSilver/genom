@@ -1,5 +1,5 @@
-#include "askbaseprobability.hpp"
-#include "../build/ui_askbaseprobability.h"
+#include "askBaseProbability.hpp"
+#include "../build/ui_askBaseProbability.h"
 
 askBaseProbability::askBaseProbability(QWidget *parent) :
     QDialog(parent),

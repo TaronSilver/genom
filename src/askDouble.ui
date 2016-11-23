@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>CutOff Value</string>
   </property>
-  <widget class="QDoubleSpinBox" name="spinCutoff">
+  <widget class="QDoubleSpinBox" name="spinDouble">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -23,7 +23,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QPushButton" name="setCutoff">
+  <widget class="QPushButton" name="setDouble">
    <property name="geometry">
     <rect>
      <x>120</x>

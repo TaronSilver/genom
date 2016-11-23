@@ -1,5 +1,5 @@
-#include "savesequence.hpp"
-#include "../build/ui_savesequence.h"
+#include "saveSequence.hpp"
+#include "../build/ui_saveSequence.h"
 
 SaveSequence::SaveSequence(QWidget *parent) :
     QDialog(parent),

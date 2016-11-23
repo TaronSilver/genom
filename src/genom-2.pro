@@ -1,36 +1,42 @@
 QT += widgets
 
 HEADERS += \
+    askBaseProbability.hpp \
+    askBool.hpp \
+    askDouble.hpp \
+    askPosAndLength.hpp \
     Matrix.hpp \
+    procedures.hpp \
+    resultsWindow.hpp \
+    saveMatrix.hpp \
+    saveSequence.hpp \
     Sequence.hpp \
+    user_interaction.hpp \
     utility.hpp \
-    window.hpp \
-    askdouble.hpp \
-    askposandlength.hpp \
-    savematrix.hpp \
-    savesequence.hpp \
-    askbaseprobability.hpp \
-    resultswindow.hpp
+    window.hpp
 
 SOURCES += \
+    askBaseProbability.cpp \
+    askBool.cpp \
+    askDouble.cpp \
+    askPosAndLength.cpp \
     mainQt.cpp \
-    window.cpp \
     Matrix.cpp \
+    procedures.cpp \
+    resultsWindow.cpp \
+    saveMatrix.cpp \
+    saveSequence.cpp \
     Sequence.cpp \
+    user_interactionQt.cpp \
     utility.cpp \
-    askdouble.cpp \
-    askposandlength.cpp \
-    savematrix.cpp \
-    resultswindow.cpp \
-    savesequence.cpp \
-    askbaseprobability.cpp \
-    user_interactionQt.cpp
+    window.cpp
 
 FORMS += \
-    window.ui \
-    askdouble.ui \
-    askposandlength.ui \
-    savematrix.ui \
-    resultswindow.ui \
-    savesequence.ui \
-    askbaseprobability.ui
+    askBaseProbability.ui \
+    askBool.ui \
+    askDouble.ui \
+    askPosAndLength.ui \
+    resultsWindow.ui \
+    saveMatrix.ui \
+    saveSequence.ui \
+    window.ui

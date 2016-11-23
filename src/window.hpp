@@ -23,6 +23,8 @@ class Window : public QDialog
 public:
     explicit Window(QWidget *parent = 0);
     ~Window();
+    static std::string getFastaLocation();
+    static std::string getMatrixLocation();
 
 public slots:
     void on_chooseFasta_clicked();
@@ -37,8 +39,8 @@ private:
 
     QString fastaLocation;
     QString matrixLocation;
+    std::string fastaLocationFromWindow;
+    std::string matrixLocationFromWindow;
 };
-
-
 
 #endif // WINDOW_H

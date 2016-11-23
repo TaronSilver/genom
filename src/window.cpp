@@ -2,6 +2,7 @@
 #include "../build/ui_window.h"
 
 #include "utility.hpp"
+#include "procedures.hpp"
 
 Window::Window(QWidget *parent) :
     QDialog(parent),
@@ -33,17 +34,19 @@ void Window::on_chooseMatrix_clicked() {
     ui->showMatrixLocation->setText(matrixLocation);
     ui->showMatrixLocation->adjustSize();
 }
-
+std::string matrixFilePath;
+std::string fastaFilePath;
 void Window::on_sequenceFromMatrixButton_clicked() {
     if(fastaLocation.isEmpty() or matrixLocation.isEmpty()) {
         QMessageBox::critical(this, "Error: Files not chosen", "You havent chosen your Sequence or your Matrix file.");
     }
     else {
-    std::string matrixFilePath = relativePath(matrixLocation.toStdString());
-    std::string fastaFilePath = relativePath(fastaLocation.toStdString());
-    extractSequenceFromMatrix(matrixFilePath, fastaFilePath);
+    matrixFilePath = relativePath(matrixLocation.toStdString());
+    fastaFilePath = relativePath(fastaLocation.toStdString());
+    enzyme_on_sequence();
     }
 }
+
 
 void Window::on_matrixFromSequenceButton_clicked() {
     if(fastaLocation.isEmpty()) {
@@ -51,6 +54,14 @@ void Window::on_matrixFromSequenceButton_clicked() {
     }
     else {
     std::string fastaFilePath = relativePath(fastaLocation.toStdString());
-    extractMatrixfromSequence(fastaFilePath);
+    enzyme_from_sequences();
     }
+}
+
+std::string Window::getFastaLocation(){
+    return fastaFilePath;
+}
+
+std::string Window::getMatrixLocation(){
+    return matrixFilePath;
 }

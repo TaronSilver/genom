@@ -1,5 +1,5 @@
-#include "savematrix.hpp"
-#include "../build/ui_savematrix.h"
+#include "saveMatrix.hpp"
+#include "../build/ui_saveMatrix.h"
 
 saveMatrix::saveMatrix(QWidget *parent) :
     QDialog(parent),

@@ -8,65 +8,43 @@
 
 #include "user_interaction.hpp"
 
-
-
-//-----------------------------------------------------------------------
-
-PROCEDURE whatToDo() {
-    
-    system("Clear");
-    PROCEDURE whatToDo;
-    unsigned int answer;
-    
-    std::cout << "Welcome to our program. What would you like to do? \n";
-    std::cout << "Enter 1 to obtain a probability weight matrix from multiple" << std::endl
-    << "sequences." << std::endl;
-    std::cout << "Enter 2 to obtain all binding positions of a protein from a " << std::endl
-    << "probability matrix on a given nucleotide sequence." << std::endl;
-    std::cout << "Enter 0 to exit the program." << std::endl;
-    
-    while (true) {
-        std::cin >> answer;
-        
-        if (answer == 1) {
-            whatToDo = MatrixFromSequences;
-            break;
-        }
-        else if (answer == 2) {
-            whatToDo = SequencesFromMatrix;
-            break;
-        }
-        else if (answer == 0) {
-            whatToDo = Exit;
-            break;
-        }
-        else {
-            std::cout << "Unrecognized input. Please try again." << std::endl;
-        }
-    }
-    
-    return whatToDo;
-    
-}
+#include "askBaseProbability.hpp"
+#include "askBool.hpp"
+#include "askDouble.hpp"
+#include "askPosAndLength.hpp"
+#include "resultsWindow.hpp"
+#include "saveMatrix.hpp"
+#include "saveSequence.hpp"
+#include "window.hpp"
 
 
 //-----------------------------------------------------------------------
 double ask_cutoff() {
-    double cutoff;
+    /*double cutoff;
     std::cout << "What cutoff would you like to use?" << std::endl;
     std::cin >> cutoff;
-    return cutoff;
+    return cutoff; */
+    askDouble window;
+    window.show();
+    window.exec();
+
+    return window.getDouble();
 }
 
 
 //-----------------------------------------------------------------------
 
 bool ask_binding_length_known() {
-    bool known;
+    /*bool known;
     std::cout << "Do you know the length of the enzyme binding site? " << std::endl
               << "enter 1 for yes, 0 for no. ";
     std::cin >> known;
-    return known;
+    return known;  */
+    askBool question;
+    question.show();
+    question.exec();
+
+    return question.getBool();
 }
 
 
@@ -116,7 +94,7 @@ unsigned int ask_length() {
 //-----------------------------------------------------------------------
 std::string ask_name_fasta()
 {
-    std::string entry_name;
+    /*std::string entry_name;
     
     while (true) {
         std::cout <<"Please give the name of your sequence file: ";
@@ -137,8 +115,9 @@ std::string ask_name_fasta()
         entry.close();
         break;
     }
-    
-    return entry_name;
+
+    return entry_name;*/
+    return Window::getFastaLocation();
 }
 
 
@@ -148,7 +127,7 @@ std::string ask_name_fasta()
 
 std::string ask_name_matrix()
 {
-    std::string entry_name;
+    /*std::string entry_name;
     
     while (true) {
 	    std::cout <<"Please give the name of your matrix file: ";
@@ -171,7 +150,8 @@ std::string ask_name_matrix()
 	    break;
 	}
 
-    return entry_name;
+    return entry_name;*/
+    return Window::getMatrixLocation();
 }
 //-------------------------------------------------------------------------
 
