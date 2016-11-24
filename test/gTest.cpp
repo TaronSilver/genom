@@ -15,24 +15,34 @@
  *  matrix when we applied the different function.
  */
  
+std::vector<double> BP({0.25,0.25,0.25,0.25});
+ 
 Matrix_Neo r({{0.259260,0.000000,0.148148,1.000}});
-Matrix ma_matrice_1(r, relativeMatrix);
+Matrix ma_matrice_1(r, relativeMatrix, BP);
 
 Matrix_Neo a({{0.184211,0.000,0.105263, 0.710526}});
-Matrix ma_matrice_2(a, absoluteMatrix);
+Matrix ma_matrice_2(a, absoluteMatrix, BP);
 
 Matrix_Neo lm({{-0.440569,MINUSINFINI,-1.247930,1.506960}});
-Matrix ma_matrice_3(lm,logMatrix);
+Matrix ma_matrice_3(lm,logMatrix, BP);
 
 Matrix_Neo lcm({{-1.947529,MINUSINFINI,-2.754889,0.000}});
-Matrix ma_matrice_4(lcm,logConstMatrix);
+Matrix ma_matrice_4(lcm,logConstMatrix, BP);
+
+Matrix_Neo random({{1.506960,0.105263,0.148148,-2.754889}});
+
+Matrix_Neo DBP_PPM{ {0.991265586410457  , 0.00188241672188422, 0.00438979579543401, 0.00246220107222457}, 
+					 {0.00454038913318475, 0.00308716342389013, 0.961116800192759  , 0.0312556472501656}, 
+					 {0.00319260279955123, 0.991529060968172  ,0.00188243089596181 , 0.0033959053363151},
+					 {0.891738449490994  ,0.00188241672188422 , 0.00883982892596831, 0.0975393048611529},
+					 {0.624171736642371  ,0.251091801698693   ,0.00595596650804169 ,0.118780495150895},
+					 {0.728886814047346  ,0.10454942473345	  ,0.0115881573399193  ,0.154975603879284},
+					 {0.304793385940606  ,0.491122522739594	  ,0.00446509246430938 ,0.199618998855491}   };
 
 std::vector<double> value_test_1({1.407408});
 std::vector<double> value_test_2({0.710526});
 std::vector<double> value_test_3({1.40741});
 std::vector<double> value_test_4({1.506960});	
-
-std::vector<double> BP({{0.25,0.25,0.25,0.25}});
 
 std::vector<std::string> nucleotide_sequences ({{"AACGT", "CCGTA", "AATCG", "CCGTA"}});
 unsigned int position = 2;
@@ -199,6 +209,60 @@ TEST (generate_PWM_from_Seq_list_Test, PWM)
 {
 	ASSERT_EQ(value_test_6,generate_PWM_from_Seq_list(sequence_list, entire_sequence));
 }
+
+//-----------gtest tristan------
+/*!
+ *@brief Testing the getters funtions length, base probability and logMatrix
+ */
+TEST (getters_functions, good_initialisation)
+{
+	for(size_t i(0) ; i<4 ; ++i)
+	{
+		ASSERT_EQ(BP[i], ma_matrice_1.get_base_probabilities()[i]);
+		ASSERT_EQ(BP, ma_matrice_2.get_base_probabilities()[i]);
+		ASSERT_EQ(BP, ma_matrice_3.get_base_probabilities()[i]);
+		ASSERT_EQ(BP, ma_matrice_4.get_base_probabilities()[i]);
+		
+		ASSERT_EQ(lm.size(), ma_matrice_1.get_length());
+		ASSERT_EQ(lm.size(), ma_matrice_2.get_length());
+		ASSERT_EQ(lm.size(), ma_matrice_3.get_length());
+		ASSERT_EQ(lm.size(), ma_matrice_4.get_length());
+		
+		ASSERT_EQ(lm[0][i], ma_matrice_1.get_logMatrix()[0][i]);
+		ASSERT_EQ(lm[0][i], ma_matrice_2.get_logMatrix()[0][i]);
+		ASSERT_EQ(lm[0][i], ma_matrice_3.get_logMatrix()[0][i]);
+		ASSERT_EQ(lm[0][i], ma_matrice_4.get_logMatrix()[0][i]);
+	}
+	
+}
+
+/*!
+ *@brief Matrix type testing
+ */
+TEST (determine_matrix_type_test, good_determination)
+{
+	ASSERT_EQ(relativeMatrix, determine_matrix_type(r));
+	ASSERT_EQ(absoluteMatrix, determine_matrix_type(a));
+	ASSERT_EQ(logMatrix, determine_matrix_type(lm));
+	ASSERT_EQ(logConstMatrix, determine_matrix_type(lcm));
+	ASSERT_EQ(ERROR, determine_matrix_type(random));
+}
+
+/*!
+ *@brief Read from file testing 
+ */
+TEST (read_matrix_test, good_reading_file)
+{
+	std::ofstream outputfile("matrix")
+	for (size_t i(0) ; i<DBP_PPM.size() ; ++i)
+	{
+		for ( size_t j(0) ; j<DBP_PPM[i].size() ; ++j)
+		
+		ASSERT_EQ(DBP_PPM[i][j], read_matrix(outputfile)[i][j]) /// really not sure
+		
+	}
+}
+
 
 //SEQUENCEtests
 
