@@ -17,6 +17,7 @@ void enzyme_on_sequence() {
 
     Matrix enzyme(ask_name_matrix());
 
+	std::string file_name(Ask_Outputfile_Name());
     // DEBUG_
     enzyme.print_log_matrix();
 
@@ -25,6 +26,7 @@ void enzyme_on_sequence() {
 
     for (unsigned index(0); index < enzyme_matches.size(); index++) {
         print_results(enzyme_matches[index]);
+        print_results(enzyme_matches[index],file_name);
     }
 
 }

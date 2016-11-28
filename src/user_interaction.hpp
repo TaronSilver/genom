@@ -157,6 +157,13 @@ int CoutCin_AskBaseProb();
  * @return the Prob enter by the user for this nucleotide
  */
 double CoutCin_AskBaseProb0(char);
+
+/*!
+ * @brief Ask the name for the outputfile 
+ *
+ * @return Name of the outputfile
+ */
+std::string Ask_Outputfile_Name();
 //-----------------------------------------------------------------------
 
 

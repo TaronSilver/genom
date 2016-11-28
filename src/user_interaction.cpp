@@ -223,11 +223,11 @@ void print_progress(int position, int filesize) {
 //==========================================================================================
 void print_results(SearchResults results, std::string filename) {
     std::ofstream outputfile;
-    outputfile.open(filename);
+    outputfile.open(filename, std::ios_base::app);
     unsigned int size = results.searchResults.size();
     
     outputfile << results.description << std::endl;
-    
+    std::cout << "HELLO" << std::endl;
     
     for (unsigned int i(0); i < size; i++) {
         outputfile << results.searchResults[i].sequence << " found at position "
@@ -254,6 +254,15 @@ void print_results(SearchResults results) {
     }
 }
 
+//==========================================================================================
+std::string Ask_Outputfile_Name() {
+	std::string filename;
+	
+	std::cout <<"What would you like to call your outpufile?"<< std::endl;
+	std::cin>>filename;
+	
+	return filename; 
+}
 
 //----------------------------------------------------------------------
 void Cout_NewSeq(std::string new_sequence)

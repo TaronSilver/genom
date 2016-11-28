@@ -586,7 +586,7 @@ std::vector<SearchResults> analyze_sequence_opt2(std::string filename, Matrix ma
 
         if(score >= cutoff) {
 
-            SearchResult sequence_match(fill_search_result(forwardSequence, position_counter -1, score, '+'));
+            SearchResult sequence_match(fill_search_result(forwardSequence, position_counter, score, '+'));
             sequence_matches.searchResults.push_back(sequence_match);
         }
 
@@ -594,7 +594,7 @@ std::vector<SearchResults> analyze_sequence_opt2(std::string filename, Matrix ma
         score = matrix.sequence_score(backwardSequence);
 
         if(score >= cutoff) {
-            SearchResult sequence_match(fill_search_result(backwardSequence, position_counter -1, score, '-'));
+            SearchResult sequence_match(fill_search_result(backwardSequence, position_counter, score, '-'));
             sequence_matches.searchResults.push_back(sequence_match);
         }
 
@@ -618,7 +618,7 @@ std::vector<SearchResults> analyze_sequence_opt2(std::string filename, Matrix ma
 
                 if(score >= cutoff) {
 
-                    SearchResult sequence_match(fill_search_result(forwardSequence, position_counter -1, score, '+'));
+                    SearchResult sequence_match(fill_search_result(forwardSequence, position_counter, score, '+'));
                     sequence_matches.searchResults.push_back(sequence_match);
                 }
 
@@ -626,7 +626,7 @@ std::vector<SearchResults> analyze_sequence_opt2(std::string filename, Matrix ma
                 score = matrix.sequence_score(backwardSequence);
 
                 if(score >= cutoff) {
-                    SearchResult sequence_match(fill_search_result(backwardSequence, position_counter -1, score, '-'));
+                    SearchResult sequence_match(fill_search_result(backwardSequence, position_counter, score, '-'));
                     sequence_matches.searchResults.push_back(sequence_match);
                 }
             }

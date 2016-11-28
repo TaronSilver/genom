@@ -14,7 +14,7 @@
 #include "Matrix.hpp"
 #include "Sequence.hpp"
 #include "utility.hpp"
-
+#include "user_interaction.hpp"
 
 //-----------------------------------------------------------------------
 
