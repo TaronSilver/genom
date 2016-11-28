@@ -58,6 +58,18 @@ void askBaseProbability::on_spinT_valueChanged(double){
     probT = ui->spinT->value();
 }
 
-void askBaseProbability::on_buttonLeave_clicked(){
+unsigned int askBaseProbability::getMatrixChoice(){
+    return matrixChoice;
+}
+
+std::string askBaseProbability::getFileName(){
+    return ui->editFileName->text().toStdString();
+}
+
+void askBaseProbability::on_buttonSave_clicked(){
     this->close();
+}
+
+void askBaseProbability::on_chooseMatrix_currentIndexChanged(int){
+    matrixChoice = ui->chooseMatrix->currentIndex()+1;
 }

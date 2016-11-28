@@ -20,6 +20,8 @@ public:
     double getProbG();
     double getProbT();
     int getBaseChoice();
+    unsigned int getMatrixChoice();
+    std::string getFileName();
 
 public slots:
     void on_chooseBase_currentIndexChanged(int);
@@ -27,7 +29,10 @@ public slots:
     void on_spinC_valueChanged(double);
     void on_spinG_valueChanged(double);
     void on_spinT_valueChanged(double);
-    void on_buttonLeave_clicked();
+    void on_buttonSave_clicked();
+    void on_chooseMatrix_currentIndexChanged(int);
+
+
 
 private:
     Ui::askBaseProbability *ui;
@@ -36,6 +41,7 @@ private:
     double probG;
     double probT;
     int baseChoice = 0;
+    unsigned int matrixChoice = 1;
 };
 
 #endif // ASKBASEPROBABILITY_HPP
