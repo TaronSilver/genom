@@ -1,19 +1,19 @@
-#ifndef ASKBASEPROBABILITY_HPP
-#define ASKBASEPROBABILITY_HPP
+#ifndef matrixFromSequence_HPP
+#define matrixFromSequence_HPP
 
 #include <QDialog>
 
 namespace Ui {
-class askBaseProbability;
+class matrixFromSequence;
 }
 
-class askBaseProbability : public QDialog
+class matrixFromSequence : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit askBaseProbability(QWidget *parent = 0);
-    ~askBaseProbability();
+    explicit matrixFromSequence(QWidget *parent = 0);
+    ~matrixFromSequence();
 
     double getProbA();
     double getProbC();
@@ -42,7 +42,7 @@ public slots:
 
 
 private:
-    Ui::askBaseProbability *ui;
+    Ui::matrixFromSequence *ui;
     double probA;
     double probC;
     double probG;
@@ -51,4 +51,4 @@ private:
     unsigned int matrixChoice = 1;
 };
 
-#endif // ASKBASEPROBABILITY_HPP
+#endif // matrixFromSequence_HPP

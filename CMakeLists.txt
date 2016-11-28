@@ -34,7 +34,7 @@ if (QT4_FOUND)
 	execute_process(COMMAND bash ../qt.sh )
 	include_directories(src /usr/include/qt4/Qt)
 	link_directories("/usr/local/lib" "/usr/lib") #Tells cmake where some libs could potentially be located
-	add_executable(MainQt src/askBaseProbability.cpp src/askBool.cpp src/askDouble.cpp src/askPosAndLength.cpp src/mainQt.cpp src/Matrix.cpp src/procedures.cpp src/resultsWindow.cpp src/saveMatrix.cpp src/saveSequence.cpp src/Sequence.cpp src/user_interactionQt.cpp src/utility.cpp src/window.cpp)
+	add_executable(MainQt src/askDouble.cpp src/mainQt.cpp src/Matrix.cpp src/matrixFromSequence.cpp src/procedures.cpp src/resultsWindow.cpp src/saveSequence.cpp src/Sequence.cpp src/user_interactionQt.cpp src/utility.cpp src/window.cpp)
 	target_link_libraries(MainQt Qt4::QtGui)
 endif (QT4_FOUND)
 

@@ -1,10 +1,8 @@
 #include "user_interaction.hpp"
 
-#include "askBaseProbability.hpp"
+#include "matrixFromSequence.hpp"
 #include "askDouble.hpp"
-#include "askPosAndLength.hpp"
 #include "resultsWindow.hpp"
-#include "saveMatrix.hpp"
 #include "saveSequence.hpp"
 #include "window.hpp"
 
@@ -22,20 +20,20 @@ double ask_cutoff() {
 //-----------------------------------------------------------------------
 
 bool ask_binding_length_known() {
-    return askBaseProbability::getBool();
+    return matrixFromSequence::getBool();
 }
 
 
 //-----------------------------------------------------------------------
 
 unsigned int ask_position() {
-    return askBaseProbability::getPosition();
+    return matrixFromSequence::getPosition();
 }
 
 //-----------------------------------------------------------------------
 
 unsigned int ask_length() {
-    return askBaseProbability::getLength();
+    return matrixFromSequence::getLength();
 }
 
 //-----------------------------------------------------------------------
@@ -167,5 +165,5 @@ double CoutCin_AskBaseProb0(char C)
 
 
 std::string Ask_Outputfile_Name(){
-    return askBaseProbability::getOutputName();
+    return matrixFromSequence::getOutputName();
 }

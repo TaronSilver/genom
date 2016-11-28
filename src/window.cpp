@@ -3,7 +3,7 @@
 
 #include "utility.hpp"
 #include "procedures.hpp"
-#include "askBaseProbability.hpp"
+#include "matrixFromSequence.hpp"
 
 Window::Window(QWidget *parent) :
     QDialog(parent),
@@ -58,7 +58,7 @@ void Window::on_matrixFromSequenceButton_clicked() {
     }
     else {
     std::string fastaFilePath = relativePath(fastaLocation.toStdString());
-    askBaseProbability glass;
+    matrixFromSequence glass;
     glass.show();
     glass.exec();
 
