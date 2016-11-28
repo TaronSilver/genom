@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>374</width>
-    <height>283</height>
+    <width>600</width>
+    <height>386</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QComboBox" name="chooseBase">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>30</y>
+     <x>300</x>
+     <y>90</y>
      <width>341</width>
      <height>22</height>
     </rect>
@@ -44,8 +44,8 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>70</y>
+     <x>330</x>
+     <y>130</y>
      <width>66</width>
      <height>23</height>
     </rect>
@@ -57,8 +57,8 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>200</x>
-     <y>110</y>
+     <x>480</x>
+     <y>170</y>
      <width>66</width>
      <height>23</height>
     </rect>
@@ -70,8 +70,8 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>110</y>
+     <x>330</x>
+     <y>170</y>
      <width>66</width>
      <height>23</height>
     </rect>
@@ -83,8 +83,8 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>200</x>
-     <y>70</y>
+     <x>480</x>
+     <y>130</y>
      <width>66</width>
      <height>23</height>
     </rect>
@@ -93,8 +93,8 @@
   <widget class="QLineEdit" name="editFileName">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>220</y>
+     <x>120</x>
+     <y>100</y>
      <width>113</width>
      <height>22</height>
     </rect>
@@ -103,8 +103,8 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>200</y>
+     <x>10</x>
+     <y>80</y>
      <width>151</width>
      <height>16</height>
     </rect>
@@ -116,8 +116,8 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>150</y>
+     <x>10</x>
+     <y>30</y>
      <width>111</width>
      <height>16</height>
     </rect>
@@ -129,8 +129,8 @@
   <widget class="QComboBox" name="chooseMatrix">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>170</y>
+     <x>70</x>
+     <y>50</y>
      <width>211</width>
      <height>21</height>
     </rect>
@@ -159,8 +159,8 @@
   <widget class="QPushButton" name="buttonSave">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>250</y>
+     <x>310</x>
+     <y>320</y>
      <width>80</width>
      <height>22</height>
     </rect>
@@ -172,21 +172,21 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>283</y>
+     <x>10</x>
+     <y>220</y>
      <width>141</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>Please give a length:</string>
+    <string>Length:</string>
    </property>
   </widget>
   <widget class="QSpinBox" name="intPosition">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>253</y>
+     <x>160</x>
+     <y>130</y>
      <width>47</width>
      <height>23</height>
     </rect>
@@ -198,24 +198,44 @@
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>250</y>
+     <x>10</x>
+     <y>127</y>
      <width>141</width>
      <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>Please give a position:</string>
+    <string>Start Position:</string>
    </property>
   </widget>
   <widget class="QSpinBox" name="intLength">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>283</y>
+     <x>160</x>
+     <y>220</y>
      <width>47</width>
      <height>23</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>160</y>
+     <width>181</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::RightToLeft</enum>
+   </property>
+   <property name="text">
+    <string>Do you know the length 
+ of your sequence?</string>
    </property>
   </widget>
  </widget>

@@ -25,7 +25,7 @@ void enzyme_on_sequence() {
     enzyme_matches = analyze_sequence_opt2(ask_name_fasta(), enzyme, ask_cutoff());
 
     for (unsigned index(0); index < enzyme_matches.size(); index++) {
-        print_results(enzyme_matches[index]);
+        //print_results(enzyme_matches[index]);
         print_results(enzyme_matches[index],file_name);
     }
 
@@ -41,7 +41,9 @@ void enzyme_from_sequences() {
 
 
 void binding_length_known() {
-
+    std::vector <Sequence> sequence_list;
+    sequence_list = Initialization();
+    generate_PWM_from_Seq_list(sequence_list, false);
 }
 
 void binding_length_unknown() {

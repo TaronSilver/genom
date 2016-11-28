@@ -22,8 +22,11 @@ public:
     int getBaseChoice();
     unsigned int getMatrixChoice();
     std::string getFileName();
+    static std::string getOutputName();
     static unsigned int getPosition();
     static unsigned int getLength();
+    void getCheckState();
+    static bool getBool();
 
 public slots:
     void on_chooseBase_currentIndexChanged(int);
@@ -35,6 +38,7 @@ public slots:
     void on_chooseMatrix_currentIndexChanged(int);
     void on_intPosition_valueChanged(int);
     void on_intLength_valueChanged(int);
+    void on_checkBox_stateChanged();
 
 
 private:

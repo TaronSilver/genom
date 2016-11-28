@@ -1,15 +1,6 @@
-//
-//  user_interaction.cpp
-//
-//
-//  Created by Mättu on 15.11.16.
-//
-//
-
 #include "user_interaction.hpp"
 
 #include "askBaseProbability.hpp"
-#include "askBool.hpp"
 #include "askDouble.hpp"
 #include "askPosAndLength.hpp"
 #include "resultsWindow.hpp"
@@ -31,11 +22,7 @@ double ask_cutoff() {
 //-----------------------------------------------------------------------
 
 bool ask_binding_length_known() {
-    askBool question;
-    question.show();
-    question.exec();
-
-    return question.getBool();
+    return askBaseProbability::getBool();
 }
 
 
@@ -177,6 +164,8 @@ double CoutCin_AskBaseProb0(char C)
 
 	return baseProb;
 }
-//----------------------------------------------------------------------
 
-//----------------------------------------------------------------------
+
+std::string Ask_Outputfile_Name(){
+    return askBaseProbability::getOutputName();
+}

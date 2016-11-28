@@ -2,6 +2,8 @@
 #include "../build/ui_askBaseProbability.h"
 
 #include <QMessageBox>
+#include <iostream>
+using namespace  std;
 
 askBaseProbability::askBaseProbability(QWidget *parent) :
     QDialog(parent),
@@ -67,6 +69,16 @@ unsigned int askBaseProbability::getMatrixChoice(){
 std::string askBaseProbability::getFileName(){
     return ui->editFileName->text().toStdString();
 }
+//std::string output=getFileName();
+std::string askBaseProbability::getOutputName(){
+    //return output;
+}
+
+void askBaseProbability::on_checkBox_stateChanged(){
+    if(ui->checkBox->isChecked()){
+        ui->intLength->setEnabled(true);
+    }
+}
 
 void askBaseProbability::on_chooseMatrix_currentIndexChanged(int){
     matrixChoice = ui->chooseMatrix->currentIndex()+1;
@@ -77,18 +89,30 @@ unsigned int length=0;
 
 void askBaseProbability::on_intPosition_valueChanged(int){
     position = ui->intPosition->value();
+    cout <<endl <<position;
 }
 
 void askBaseProbability::on_intLength_valueChanged(int){
     length = ui->intLength->value();
+    cout <<endl <<length;
 }
 
 unsigned int askBaseProbability::getPosition(){
+    cout <<endl <<"Position finale :" <<position;
     return position;
 }
 
 unsigned int askBaseProbability::getLength(){
+    cout <<endl <<"Length finale :" <<length;
     return length;
+}
+bool checkBox;
+void askBaseProbability::getCheckState(){
+    checkBox = ui->checkBox->isChecked();
+}
+
+bool askBaseProbability::getBool(){
+    return checkBox;
 }
 
 void askBaseProbability::on_buttonSave_clicked(){
