@@ -68,10 +68,6 @@ std::string askBaseProbability::getFileName(){
     return ui->editFileName->text().toStdString();
 }
 
-void askBaseProbability::on_buttonSave_clicked(){
-    this->close();
-}
-
 void askBaseProbability::on_chooseMatrix_currentIndexChanged(int){
     matrixChoice = ui->chooseMatrix->currentIndex()+1;
 }
