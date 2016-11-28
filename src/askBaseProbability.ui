@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>374</width>
-    <height>283</height>
+    <width>376</width>
+    <height>367</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -159,14 +159,63 @@
   <widget class="QPushButton" name="buttonSave">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>250</y>
+     <x>260</x>
+     <y>330</y>
      <width>80</width>
      <height>22</height>
     </rect>
    </property>
    <property name="text">
     <string>Save</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>283</y>
+     <width>141</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Please give a length:</string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="intPosition">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>253</y>
+     <width>47</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="minimum">
+    <number>1</number>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>250</y>
+     <width>141</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Please give a position:</string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="intLength">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>283</y>
+     <width>47</width>
+     <height>23</height>
+    </rect>
    </property>
   </widget>
  </widget>

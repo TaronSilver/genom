@@ -3,6 +3,7 @@
 
 #include "utility.hpp"
 #include "procedures.hpp"
+#include "askBaseProbability.hpp"
 
 Window::Window(QWidget *parent) :
     QDialog(parent),
@@ -34,6 +35,7 @@ void Window::on_chooseMatrix_clicked() {
     ui->showMatrixLocation->setText(matrixLocation);
     ui->showMatrixLocation->adjustSize();
 }
+
 std::string matrixFilePath;
 std::string fastaFilePath;
 void Window::on_sequenceFromMatrixButton_clicked() {
@@ -41,8 +43,10 @@ void Window::on_sequenceFromMatrixButton_clicked() {
         QMessageBox::critical(this, "Error: Files not chosen", "You havent chosen your Sequence or your Matrix file.");
     }
     else {
-    matrixFilePath = relativePath(matrixLocation.toStdString());
-    fastaFilePath = relativePath(fastaLocation.toStdString());
+    //matrixFilePath = relativePath(matrixLocation.toStdString());
+    //fastaFilePath = relativePath(fastaLocation.toStdString());
+        matrixFilePath = matrixLocation.toStdString();
+        fastaFilePath = fastaLocation.toStdString();
     enzyme_on_sequence();
     }
 }
@@ -54,6 +58,10 @@ void Window::on_matrixFromSequenceButton_clicked() {
     }
     else {
     std::string fastaFilePath = relativePath(fastaLocation.toStdString());
+    askBaseProbability glass;
+    glass.show();
+    glass.exec();
+
     enzyme_from_sequences();
     }
 }

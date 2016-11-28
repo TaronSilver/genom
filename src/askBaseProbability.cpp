@@ -1,6 +1,8 @@
 #include "askBaseProbability.hpp"
 #include "../build/ui_askBaseProbability.h"
 
+#include <QMessageBox>
+
 askBaseProbability::askBaseProbability(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::askBaseProbability)
@@ -66,10 +68,32 @@ std::string askBaseProbability::getFileName(){
     return ui->editFileName->text().toStdString();
 }
 
-void askBaseProbability::on_buttonSave_clicked(){
-    this->close();
-}
+
 
 void askBaseProbability::on_chooseMatrix_currentIndexChanged(int){
     matrixChoice = ui->chooseMatrix->currentIndex()+1;
+}
+
+unsigned int position=1;
+unsigned int length=0;
+
+void askBaseProbability::on_intPosition_valueChanged(int){
+    position = ui->intPosition->value();
+}
+
+void askBaseProbability::on_intLength_valueChanged(int){
+    length = ui->intLength->value();
+}
+
+unsigned int askBaseProbability::getPosition(){
+    return position;
+}
+
+unsigned int askBaseProbability::getLength(){
+    return length;
+}
+
+void askBaseProbability::on_buttonSave_clicked(){
+    if( length == 0 ) QMessageBox::critical(this, "Length Value Invalid", "Your value for your length is impossible, please try again.");
+    else if( position != 0 ) this->close();
 }

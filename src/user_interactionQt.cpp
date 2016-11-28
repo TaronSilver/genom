@@ -42,44 +42,13 @@ bool ask_binding_length_known() {
 //-----------------------------------------------------------------------
 
 unsigned int ask_position() {
-
-	unsigned int position;
-
-	while (true) {
-	    std::cout << "At what position is the binding site (starts at 1)?";
-	    std::cin >> position;
-
-	    if (position <= 0) {
-			std::cout << "Position must be positive" << std::endl;
-			continue;
-		}
-
-		break;
-	}
-
-    return position;
-
+    return askBaseProbability::getPosition();
 }
 
 //-----------------------------------------------------------------------
 
 unsigned int ask_length() {
-
-    unsigned int length;
-    while (true) {
-	    std::cout << "How long is the enzyme binding site? ";
-	    std::cin >> length;
-
-	    if (length <= 0) {
-			std::cout << "Lenght must be positive" << std::endl;
-			continue;
-		}
-
-		break;
-	}
-
-    return length;
-
+    return askBaseProbability::getLength();
 }
 
 //-----------------------------------------------------------------------

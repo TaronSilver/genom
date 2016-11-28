@@ -39,9 +39,12 @@ void enzyme_from_sequences() {
 
 
 void binding_length_known() {
-
+  std::vector <Sequence> sequence_list;
+  sequence_list = Initialization();
+  generate_PWM_from_Seq_list(sequence_list, false);
 }
 
 void binding_length_unknown() {
+  //EM implementation
 
 }
