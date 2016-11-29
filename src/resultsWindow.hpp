@@ -1,22 +1,26 @@
-#ifndef RESULTSWINDOW_H
-#define RESULTSWINDOW_H
+#ifndef RESULTSWINDOW_HPP
+#define RESULTSWINDOW_HPP
 
 #include <QDialog>
+#include <QTextBrowser>
 
 namespace Ui {
-class ResultsWindow;
+class resultsWindow;
 }
 
-class ResultsWindow : public QDialog
+class resultsWindow : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit ResultsWindow(QWidget *parent = 0);
-    ~ResultsWindow();
+    explicit resultsWindow(QWidget *parent = 0);
+    ~resultsWindow();
+
 
 private:
-    Ui::ResultsWindow *ui;
+    Ui::resultsWindow *ui;
+    std::string resultsLocation;
+    QTextBrowser resultsBrowser;
 };
 
-#endif // RESULTSWINDOW_H
+#endif // RESULTSWINDOW_HPP

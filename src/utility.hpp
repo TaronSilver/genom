@@ -132,13 +132,4 @@ int filesize(std::string filename);
  */
 std::string sequence_string_from_nuc_list(std::list<nuc>);
 
-
-/*!
-	 * @brief Change an absolute path to a relative one, considering the file is in the main directory of our program.
-	 *
-	 * @param the absolute path of the file to open
-	 * @return the relative patch of the file to ope.n
-	 */
-std::string relativePath(std::string file);
-
 #endif

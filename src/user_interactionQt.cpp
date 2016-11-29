@@ -161,5 +161,5 @@ double CoutCin_AskBaseProb0(char C)
 
 
 std::string Ask_Outputfile_Name(){
-    return Window::getOutputName();
+    return "../"+Window::getOutputName();
 }

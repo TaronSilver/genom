@@ -714,10 +714,3 @@ std::string sequence_string_from_nuc_list(std::list<nuc> sequence) {
         output += backwardsmap[*iterator];
     return output;
 }
-
-
-std::string relativePath(std::string file){
-    size_t position(file.find_last_of("/"));
-    file=".."+file.substr(position);
-    return file;
-}

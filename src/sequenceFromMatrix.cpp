@@ -1,5 +1,6 @@
 #include "sequenceFromMatrix.hpp"
 #include "ui_sequenceFromMatrix.h"
+#include "resultsWindow.hpp"
 
 sequenceFromMatrix::sequenceFromMatrix(QWidget *parent) :
     QDialog(parent),
@@ -23,5 +24,9 @@ double sequenceFromMatrix::getCutoff(){
 }
 
 void sequenceFromMatrix::on_buttonSave_clicked(){
+    resultsWindow results;
+    results.show();
+    results.exec();
+
     this->close();
 }

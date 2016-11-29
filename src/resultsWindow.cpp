@@ -1,14 +1,15 @@
 #include "resultsWindow.hpp"
-#include "../build/ui_resultsWindow.h"
+#include "ui_resultsWindow.h"
 
-ResultsWindow::ResultsWindow(QWidget *parent) :
+resultsWindow::resultsWindow(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::ResultsWindow)
+    ui(new Ui::resultsWindow)
 {
     ui->setupUi(this);
+    ui->textBrowser->setText("whatever");
 }
 
-ResultsWindow::~ResultsWindow()
+resultsWindow::~resultsWindow()
 {
     delete ui;
 }

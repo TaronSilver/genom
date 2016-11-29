@@ -62,7 +62,7 @@ void Window::on_matrixFromSequenceButton_clicked() {
         QMessageBox::critical(this, "Error: File not chosen", "You havent chosen your Sequence file.");
     }
     else {
-    fastaFilePath = relativePath(fastaLocation.toStdString());
+    fastaFilePath = fastaLocation.toStdString();
     matrixFromSequence glass;
     glass.show();
     glass.exec();
