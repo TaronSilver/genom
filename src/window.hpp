@@ -25,6 +25,8 @@ public:
     ~Window();
     static std::string getFastaLocation();
     static std::string getMatrixLocation();
+    static std::string getOutputName();
+    void getFileName();
 
 public slots:
     void on_chooseFasta_clicked();

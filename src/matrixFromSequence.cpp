@@ -3,7 +3,6 @@
 
 #include <QMessageBox>
 #include <iostream>
-using namespace  std;
 
 matrixFromSequence::matrixFromSequence(QWidget *parent) :
     QDialog(parent),
@@ -66,14 +65,6 @@ unsigned int matrixFromSequence::getMatrixChoice(){
     return matrixChoice;
 }
 
-std::string matrixFromSequence::getFileName(){
-    return ui->editFileName->text().toStdString();
-}
-//std::string output=getFileName();
-std::string matrixFromSequence::getOutputName(){
-    //return output;
-}
-
 void matrixFromSequence::on_checkBox_stateChanged(){
     if(ui->checkBox->isChecked()){
         ui->intLength->setEnabled(true);
@@ -89,21 +80,17 @@ unsigned int length=0;
 
 void matrixFromSequence::on_intPosition_valueChanged(int){
     position = ui->intPosition->value();
-    cout <<endl <<position;
 }
 
 void matrixFromSequence::on_intLength_valueChanged(int){
     length = ui->intLength->value();
-    cout <<endl <<length;
 }
 
 unsigned int matrixFromSequence::getPosition(){
-    cout <<endl <<"Position finale :" <<position;
     return position;
 }
 
 unsigned int matrixFromSequence::getLength(){
-    cout <<endl <<"Length finale :" <<length;
     return length;
 }
 bool checkBox;

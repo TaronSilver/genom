@@ -1,7 +1,7 @@
 #include "user_interaction.hpp"
 
 #include "matrixFromSequence.hpp"
-#include "askDouble.hpp"
+#include "sequenceFromMatrix.hpp"
 #include "resultsWindow.hpp"
 #include "saveSequence.hpp"
 #include "window.hpp"
@@ -9,11 +9,7 @@
 
 //-----------------------------------------------------------------------
 double ask_cutoff() {
-    askDouble window;
-    window.show();
-    window.exec();
-
-    return window.getDouble();
+    return sequenceFromMatrix::getCutoff();
 }
 
 
@@ -101,12 +97,12 @@ void print_progress(int position, int filesize) {
 //==========================================================================================
 void print_results(SearchResults results, std::string filename) {
     std::ofstream outputfile;
-    outputfile.open(filename);
+    outputfile.open(filename, std::ios_base::app);
     unsigned int size = results.searchResults.size();
 
     outputfile << results.description << std::endl;
-
-
+    std::cout << "HELLO" << std::endl;
+    
     for (unsigned int i(0); i < size; i++) {
         outputfile << results.searchResults[i].sequence << " found at position "
                    << results.searchResults[i].position << " in "
@@ -165,5 +161,5 @@ double CoutCin_AskBaseProb0(char C)
 
 
 std::string Ask_Outputfile_Name(){
-    return matrixFromSequence::getOutputName();
+    return Window::getOutputName();
 }

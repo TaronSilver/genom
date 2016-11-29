@@ -1,7 +1,8 @@
-#ifndef ASKDOUBLE_HPP
-#define ASKDOUBLE_HPP
+#ifndef askDouble_HPP
+#define askDouble_HPP
 
 #include <QDialog>
+#include <QtWidgets>
 
 namespace Ui {
 class askDouble;
@@ -26,4 +27,4 @@ private:
 
 };
 
-#endif // ASKDOUBLE_HPP
+#endif // askDouble_HPP

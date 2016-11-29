@@ -21,8 +21,6 @@ public:
     double getProbT();
     int getBaseChoice();
     unsigned int getMatrixChoice();
-    std::string getFileName();
-    static std::string getOutputName();
     static unsigned int getPosition();
     static unsigned int getLength();
     void getCheckState();

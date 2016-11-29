@@ -4,6 +4,7 @@
 #include "utility.hpp"
 #include "procedures.hpp"
 #include "matrixFromSequence.hpp"
+#include "sequenceFromMatrix.hpp"
 
 Window::Window(QWidget *parent) :
     QDialog(parent),
@@ -38,26 +39,30 @@ void Window::on_chooseMatrix_clicked() {
 
 std::string matrixFilePath;
 std::string fastaFilePath;
-void Window::on_sequenceFromMatrixButton_clicked() {
+std::string output;
+void Window::on_sequenceFromMatrixButton_clicked() { //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     if(fastaLocation.isEmpty() or matrixLocation.isEmpty()) {
         QMessageBox::critical(this, "Error: Files not chosen", "You havent chosen your Sequence or your Matrix file.");
     }
     else {
-    //matrixFilePath = relativePath(matrixLocation.toStdString());
-    //fastaFilePath = relativePath(fastaLocation.toStdString());
         matrixFilePath = matrixLocation.toStdString();
         fastaFilePath = fastaLocation.toStdString();
-    enzyme_on_sequence();
+       this->getFileName();
+
+        sequenceFromMatrix mac;
+        mac.show();
+        mac.exec();
+
+        enzyme_on_sequence();
     }
 }
-
 
 void Window::on_matrixFromSequenceButton_clicked() {
     if(fastaLocation.isEmpty()) {
         QMessageBox::critical(this, "Error: File not chosen", "You havent chosen your Sequence file.");
     }
     else {
-    std::string fastaFilePath = relativePath(fastaLocation.toStdString());
+    fastaFilePath = relativePath(fastaLocation.toStdString());
     matrixFromSequence glass;
     glass.show();
     glass.exec();
@@ -72,4 +77,12 @@ std::string Window::getFastaLocation(){
 
 std::string Window::getMatrixLocation(){
     return matrixFilePath;
+}
+
+void Window::getFileName(){
+    output = ui->editFileName->text().toStdString();
+}
+
+std::string Window::getOutputName(){
+    return output;
 }

@@ -1,7 +1,6 @@
 QT += widgets
 
 HEADERS += \
-    askDouble.hpp \
     Matrix.hpp \
     procedures.hpp \
     resultsWindow.hpp \
@@ -10,10 +9,10 @@ HEADERS += \
     user_interaction.hpp \
     utility.hpp \
     window.hpp \
-    matrixFromSequence.hpp
+    matrixFromSequence.hpp \
+    sequenceFromMatrix.hpp
 
 SOURCES += \
-    askDouble.cpp \
     mainQt.cpp \
     Matrix.cpp \
     procedures.cpp \
@@ -23,11 +22,12 @@ SOURCES += \
     user_interactionQt.cpp \
     utility.cpp \
     window.cpp \
-    matrixFromSequence.cpp
+    matrixFromSequence.cpp \
+    sequenceFromMatrix.cpp
 
 FORMS += \
-    askDouble.ui \
     resultsWindow.ui \
     saveSequence.ui \
     window.ui \
-    matrixFromSequence.ui
+    matrixFromSequence.ui \
+    sequenceFromMatrix.ui

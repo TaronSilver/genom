@@ -1,4 +1,4 @@
-#include "askDouble.hpp"
+include "askDouble.hpp"
 #include "../build/ui_askDouble.h"
 
 askDouble::askDouble(QWidget *parent) :
@@ -7,20 +7,21 @@ askDouble::askDouble(QWidget *parent) :
 {
     ui->setupUi(this);
 }
-
-askDouble::~askDouble()
+/*
+sequenceFromMatrix::~sequenceFromMatrix()
 {
     delete ui;
 }
 
-double askDouble::getDouble(){
+double sequenceFromMatrix::getDouble(){
     return Double;
 }
 
-void askDouble::on_setDouble_clicked(){
+void sequenceFromMatrix::on_setDouble_clicked(){
     this->close();
 }
 
-void askDouble::on_spinDouble_valueChanged(double){
+void sequenceFromMatrix::on_spinDouble_valueChanged(double){
     Double = ui->spinDouble->value();
 }
+*/

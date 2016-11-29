@@ -4,7 +4,7 @@ project(genom-2 CXX C)
 
 option(main "Build main version." ON)
 option(test "Build tests." OFF) #declares a boolean that tells that we are doing a test version.
-#option(Qt "Building Graphic Interface." OFF)
+option(Qt "Building Graphic Interface." OFF)
 
 set(CMAKE_BUILD_TYPE Debug) #Allows to debug
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wall -pedantic -std=c++11")
@@ -28,7 +28,7 @@ if (test)
 endif (test)
 
 find_package(Qt4)
-if (QT4_FOUND)
+if (QT4_FOUND AND Qt)
 	set(CMAKE_AUTOMOC ON)
 	set(CMAKE_AUTOOUIC ON)
 	execute_process(COMMAND bash ../qt.sh )
@@ -36,7 +36,7 @@ if (QT4_FOUND)
 	link_directories("/usr/local/lib" "/usr/lib") #Tells cmake where some libs could potentially be located
 	add_executable(MainQt src/askDouble.cpp src/mainQt.cpp src/Matrix.cpp src/matrixFromSequence.cpp src/procedures.cpp src/resultsWindow.cpp src/saveSequence.cpp src/Sequence.cpp src/user_interactionQt.cpp src/utility.cpp src/window.cpp)
 	target_link_libraries(MainQt Qt4::QtGui)
-endif (QT4_FOUND)
+endif (QT4_FOUND AND Qt)
 
 find_package(Doxygen)
 if(DOXYGEN_FOUND)
