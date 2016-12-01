@@ -12,6 +12,10 @@
 #include <QFileDialog>
 #include <QObject>
 
+#include "procedures.hpp"
+#include "matrixFromSequence.hpp"
+#include "sequenceFromMatrix.hpp"
+
 namespace Ui {
     class Window;
 }

@@ -3,6 +3,8 @@
 
 #include <QDialog>
 
+#include "resultsWindow.hpp"
+
 namespace Ui {
 class sequenceFromMatrix;
 }

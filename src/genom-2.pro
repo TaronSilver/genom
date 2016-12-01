@@ -10,8 +10,7 @@ HEADERS += \
     window.hpp \
     matrixFromSequence.hpp \
     sequenceFromMatrix.hpp \
-    resultsWindow.hpp \
-    matrix_line_operations.hpp
+    resultsWindow.hpp
 
 SOURCES += \
     mainQt.cpp \
@@ -24,8 +23,7 @@ SOURCES += \
     window.cpp \
     matrixFromSequence.cpp \
     sequenceFromMatrix.cpp \
-    resultsWindow.cpp \
-    matrix_line_operations.cpp
+    resultsWindow.cpp
 
 FORMS += \
     saveSequence.ui \

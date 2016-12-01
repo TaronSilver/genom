@@ -2,9 +2,6 @@
 #include "../build/ui_window.h"
 
 #include "utility.hpp"
-#include "procedures.hpp"
-#include "matrixFromSequence.hpp"
-#include "sequenceFromMatrix.hpp"
 
 Window::Window(QWidget *parent) :
     QDialog(parent),
@@ -54,6 +51,10 @@ void Window::on_sequenceFromMatrixButton_clicked() { //!!!!!!!!!!!!!!!!!!!!!!!!!
         mac.exec();
 
         enzyme_on_sequence();
+
+        resultsWindow results;
+        results.show();
+        results.exec();
     }
 }
 
