@@ -106,7 +106,6 @@ bool InvalidFormatMat(std::string file_name);
 bool InvalidFormat(std::string file_name);
 
 /*!
-<<<<<<< HEAD
  * @brief   Prints out current progress
  * @param   Current position, current filesize
  */
