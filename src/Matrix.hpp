@@ -324,7 +324,8 @@ class Matrix
      *          for debugging
      */
     void print_log_matrix();
-    
+};
+
 #endif
 
 

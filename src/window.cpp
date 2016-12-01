@@ -20,9 +20,6 @@ void Window::on_buttonLeave_clicked() {
 
 void Window::on_chooseFasta_clicked() {
     fastaLocation = QFileDialog::getOpenFileName(this, "Open a Sequence File", fastaLocation, "Fasta files only! ( *.fasta *.fas *.ffn *.faa *.frn )");
-    //QString file = QFileDialog::getOpenFileName(this, "Open a Sequence File" ,QString(),"Fasta files only! ( *.fasta *.fas *ffn *.faa *.frn )");
-
-    //QMessageBox::information(this, "Fasta File", "You have chosen this file: " + fastaLocation);
 
     ui->showFastaLocation->setText(fastaLocation);
     ui->showFastaLocation->adjustSize();
@@ -34,10 +31,13 @@ void Window::on_chooseMatrix_clicked() {
     ui->showMatrixLocation->adjustSize();
 }
 
+
 std::string matrixFilePath;
 std::string fastaFilePath;
 std::string output;
-void Window::on_sequenceFromMatrixButton_clicked() { //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+void Window::on_sequenceFromMatrixButton_clicked() {
     if(fastaLocation.isEmpty() or matrixLocation.isEmpty()) {
         QMessageBox::critical(this, "Error: Files not chosen", "You havent chosen your Sequence or your Matrix file.");
     }

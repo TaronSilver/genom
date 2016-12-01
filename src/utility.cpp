@@ -71,7 +71,6 @@ std::vector <std::string> ExtractSequence(std::string const& entry_name)
         if(line.front()=='>'){
             sequences.push_back(intermediate_value);
             intermediate_value.clear(); }
-        //else if(line.front()=='\n'){}
         else {
 
             // Makes DNA Sequence on line all uppercase, allowing for easier search afterwards
@@ -87,12 +86,6 @@ std::vector <std::string> ExtractSequence(std::string const& entry_name)
 
     // Deletes the first vector created, which is a ghost one. This is just a hack cobbled together, it'd probably be best to correct that in a better way at some point.
     sequences.erase(sequences.begin());
-
-
-    // Testing the values by showing them
-    /*for(size_t i(0); i<sequences.size(); ++i){
-     std::cout <<sequences[i] <<'\n';
-     }*/
 
     entry.close(); // Don't you have to close it afterwards?
     return sequences;
