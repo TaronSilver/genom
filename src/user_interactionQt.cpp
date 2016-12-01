@@ -73,6 +73,7 @@ bool InvalidFormat(std::string file_name)
 
     return 1;
 }
+
 //-----------------------------------------------------------------------
 void nucleotide_warning(char c)
 {
@@ -134,20 +135,13 @@ void Cout_NewSeq(std::string new_sequence)
 {
 	std::cout <<"Creation of a new sequence: " << new_sequence << std::endl;
 }
+
 //----------------------------------------------------------------------
 int CoutCin_AskBaseProb()
 {
-	int choice;
-
-	std::cout<<"What base probability would you like to use for the log matrix?"<<std::endl;
-	std::cout<<"Enter 1 to use a base probability of 0.25 for all nucleotides"<<std::endl;
-	std::cout<<"Enter 2 to use base probabilities calculated from the input sequence"<<std::endl;
-	std::cout<<"Enter 0 to use custom base probabilities"<<std::endl;
-
-	std::cin>>choice;
-
-	return choice;
+    return matrixFromSequence::getBaseChoiceFinal();
 }
+
 //----------------------------------------------------------------------
 double CoutCin_AskBaseProb0(char C)
 {

@@ -13,7 +13,7 @@ resultsWindow::resultsWindow(QWidget *parent) :
     ui->setupUi(this);
 
     //The output file is saved one directory before, thus the addtiion of ../
-    QString filename = "../" + QString::fromStdString(Window::getOutputName());
+    QString filename = QString::fromStdString(Ask_Outputfile_Name());
     QFile file(filename);
 
     file.open(QFile::ReadOnly | QFile::Text);

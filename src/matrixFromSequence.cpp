@@ -15,7 +15,7 @@ matrixFromSequence::~matrixFromSequence()
 {
     delete ui;
 }
-
+    unsigned int baseChoiceFinal;
 void matrixFromSequence::on_chooseBase_currentIndexChanged(int){
     if(ui->chooseBase->currentIndex()==2){
         ui->spinA->setEnabled(true);
@@ -24,6 +24,13 @@ void matrixFromSequence::on_chooseBase_currentIndexChanged(int){
         ui->spinT->setEnabled(true);
     }
     baseChoice = ui->chooseBase->currentIndex();
+    baseChoiceFinal=baseChoice;
+}
+
+unsigned int matrixFromSequence::getBaseChoiceFinal(){
+    if (baseChoiceFinal == 0) return 1;
+    else if (baseChoiceFinal == 1) return 2;
+    else if (baseChoiceFinal == 2 ) return 0;
 }
 
 int matrixFromSequence::getBaseChoice(){

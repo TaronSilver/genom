@@ -25,6 +25,7 @@ public:
     static unsigned int getLength();
     void getCheckState();
     static bool getBool();
+    static unsigned int getBaseChoiceFinal();
 
 public slots:
     void on_chooseBase_currentIndexChanged(int);
@@ -45,7 +46,7 @@ private:
     double probC;
     double probG;
     double probT;
-    int baseChoice = 0;
+    int baseChoice = 0; //0=0.25 for all, 1= to EM Algorithm, 2 = custom base choice by user input
     unsigned int matrixChoice = 1;
 };
 
