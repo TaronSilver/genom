@@ -6,215 +6,387 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>386</height>
+    <width>553</width>
+    <height>276</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QComboBox" name="chooseBase">
-   <property name="geometry">
-    <rect>
-     <x>300</x>
-     <y>90</y>
-     <width>341</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <item>
-    <property name="text">
-     <string>Base Probability of 0.25</string>
-    </property>
+  <layout class="QGridLayout" name="gridLayout_4">
+   <item row="3" column="2">
+    <spacer name="verticalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
-   <item>
-    <property name="text">
-     <string>Base Probability calculated from the input sequence</string>
-    </property>
+   <item row="5" column="2">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
-   <item>
-    <property name="text">
-     <string>Custom Base Probability</string>
-    </property>
+   <item row="3" column="4">
+    <spacer name="horizontalSpacer_10">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
-  </widget>
-  <widget class="QDoubleSpinBox" name="spinA">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>330</x>
-     <y>130</y>
-     <width>66</width>
-     <height>23</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QDoubleSpinBox" name="spinC">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>480</x>
-     <y>170</y>
-     <width>66</width>
-     <height>23</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QDoubleSpinBox" name="spinG">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>330</x>
-     <y>170</y>
-     <width>66</width>
-     <height>23</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QDoubleSpinBox" name="spinT">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>480</x>
-     <y>130</y>
-     <width>66</width>
-     <height>23</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>30</y>
-     <width>111</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Save Matrix as:</string>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="chooseMatrix">
-   <property name="geometry">
-    <rect>
-     <x>70</x>
-     <y>50</y>
-     <width>211</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <item>
-    <property name="text">
-     <string>Standard Probability Matrix</string>
-    </property>
+   <item row="2" column="0">
+    <spacer name="horizontalSpacer_9">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
-   <item>
-    <property name="text">
-     <string>Normalized Probability Matrix</string>
-    </property>
+   <item row="6" column="3">
+    <widget class="QPushButton" name="buttonSave">
+     <property name="text">
+      <string>Save</string>
+     </property>
+    </widget>
    </item>
-   <item>
-    <property name="text">
-     <string>Standard Logarithmic Matrix</string>
-    </property>
+   <item row="4" column="1" colspan="2">
+    <layout class="QGridLayout" name="gridLayout_3">
+     <item row="2" column="2">
+      <widget class="QDoubleSpinBox" name="spinA">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="4">
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>C:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="6">
+      <widget class="QDoubleSpinBox" name="spinC">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="6">
+      <widget class="QDoubleSpinBox" name="spinT">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>A:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>G:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="7">
+      <spacer name="horizontalSpacer_4">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="2" column="4">
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>T:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="2" column="7">
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="3" column="2">
+      <widget class="QDoubleSpinBox" name="spinG">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="3">
+      <spacer name="horizontalSpacer_5">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="3" column="3">
+      <spacer name="horizontalSpacer_6">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="1" column="0" colspan="8">
+      <widget class="QComboBox" name="chooseBase">
+       <item>
+        <property name="text">
+         <string>Base Probability of 0.25</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Base Probability calculated from the input sequence</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Custom Base Probability</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
    </item>
-   <item>
-    <property name="text">
-     <string>Normalized Logarithmic Matrix</string>
-    </property>
+   <item row="0" column="1">
+    <spacer name="verticalSpacer_5">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
-  </widget>
-  <widget class="QPushButton" name="buttonSave">
-   <property name="geometry">
-    <rect>
-     <x>310</x>
-     <y>320</y>
-     <width>80</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Save</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_3">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>220</y>
-     <width>141</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Length:</string>
-   </property>
-  </widget>
-  <widget class="QSpinBox" name="intPosition">
-   <property name="geometry">
-    <rect>
-     <x>160</x>
-     <y>130</y>
-     <width>47</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="minimum">
-    <number>1</number>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_4">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>127</y>
-     <width>141</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Start Position:</string>
-   </property>
-  </widget>
-  <widget class="QSpinBox" name="intLength">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>160</x>
-     <y>220</y>
-     <width>47</width>
-     <height>23</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="checkBox">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>160</y>
-     <width>181</width>
-     <height>61</height>
-    </rect>
-   </property>
-   <property name="layoutDirection">
-    <enum>Qt::RightToLeft</enum>
-   </property>
-   <property name="text">
-    <string>Do you know the length 
+   <item row="2" column="1">
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="1">
+      <widget class="QComboBox" name="chooseMatrix">
+       <item>
+        <property name="text">
+         <string>Standard Probability Matrix</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Normalized Probability Matrix</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Standard Logarithmic Matrix</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Normalized Logarithmic Matrix</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Save Matrix as:</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="2" column="3">
+    <spacer name="horizontalSpacer_8">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="3" column="3">
+    <layout class="QGridLayout" name="gridLayout_2">
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Length:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QSpinBox" name="intLength">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0" colspan="2">
+      <widget class="QCheckBox" name="checkBox">
+       <property name="layoutDirection">
+        <enum>Qt::RightToLeft</enum>
+       </property>
+       <property name="text">
+        <string>Do you know the length 
  of your sequence?</string>
-   </property>
-  </widget>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Start Position:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QSpinBox" name="intPosition">
+       <property name="minimum">
+        <number>1</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="6" column="1">
+    <spacer name="horizontalSpacer_7">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="0" column="2">
+    <spacer name="verticalSpacer_3">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="4" column="3">
+    <spacer name="verticalSpacer_4">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="1">
+    <spacer name="verticalSpacer_6">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>
