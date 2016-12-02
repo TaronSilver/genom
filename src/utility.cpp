@@ -707,3 +707,181 @@ std::string sequence_string_from_nuc_list(std::list<nuc> sequence) {
         output += backwardsmap[*iterator];
     return output;
 }
+
+
+//==========================================================================================
+
+std::string relativePath(std::string file){
+    size_t position(file.find_last_of("/"));
+    file=".."+file.substr(position);
+    return file;
+}
+
+
+//==========================================================================================
+
+Matrix_Neo matrix_from_same_length_sequences_not_weighted(std::vector<SearchResults>  input, Base_Prob base_prob) {
+    Matrix_Neo output_matrix;
+    
+    assert(input.size() >= 1);
+
+    unsigned int nb_search_results;
+    unsigned int length_sequence( searchResults_same_length(input) );
+    
+    if(length_sequence == 0) {
+        error_input_sequence();
+        return output_matrix;
+    }
+
+    
+    char character;
+    
+    // Initialization of matrix with proper size, with corresponding baseprob for
+    // every nucleotide position
+    std::vector <double> line;
+    
+    for (unsigned int index(0); index<NUMBER_NUCLEOTIDES; index++) {
+        line.push_back(base_prob[index]);
+    }
+    
+    for (unsigned int index(0); index<length_sequence; index++) {
+        output_matrix.push_back(line);
+    }
+    
+    // Counter for every search result
+    for (unsigned int k(0); k<input.size(); k++) {
+        nb_search_results = input[k].searchResults.size();
+
+        for (unsigned int i(0); i<nb_search_results; i++) {
+            
+            for (unsigned int j(0); j<length_sequence; j++) {
+                character = input[k].searchResults[i].sequence[j];
+                output_matrix[j][charmap[character]] += 1;
+            }
+        }
+    }
+    
+    // Division by sum of each line
+    double line_sum = sum_of_line(output_matrix[0]);
+    
+    for (unsigned int i(0); i<length_sequence; i++) {
+        for (unsigned int j(0); j<NUMBER_NUCLEOTIDES; j++) {
+            output_matrix[i][j] /= line_sum;
+        }
+    }
+    
+    
+    
+    
+    
+    return output_matrix;
+}
+
+
+//==========================================================================================
+
+Matrix_Neo matrix_from_same_length_sequences_weighted(std::vector<SearchResults>  input, Base_Prob base_prob) {
+    Matrix_Neo output_matrix;
+    
+    assert(input.size() >= 1);
+    
+    unsigned int length_sequence( searchResults_same_length(input) );
+    
+    if(length_sequence == 0) {
+        error_input_sequence();
+        return output_matrix;
+    }
+        
+    
+    unsigned int nb_search_results;
+    double line_min;
+    double line_sum;
+    
+    char character;
+    
+    // Initialization of matrix with proper size, all zero
+    for (unsigned int index(0); index<length_sequence; index++) {
+        output_matrix.push_back({0,0,0,0});
+    }
+    
+    // Counter for every search result, score is added for each match
+    for (unsigned int k(0); k<input.size(); k++) {
+        
+        nb_search_results = input[k].searchResults.size();
+        
+        for (unsigned int i(0); i<nb_search_results; i++) {
+            for (unsigned int j(0); j<length_sequence; j++) {
+                character = input[k].searchResults[i].sequence[j];
+                output_matrix[j][charmap[character]] += input[k].searchResults[i].score;
+            }
+        }
+    }
+    
+    
+    // If the smallest number is less or equal 0, it is subtracted from all values from the line
+    // To avoid havnig a probability of 0, the base probability for each nucleotide is added to
+    // each such line (or should we do this to every line?)
+    for (unsigned int i(0); i<length_sequence; i++) {
+        line_min = min_of_line(output_matrix[i]);
+        
+        if (min_of_line<=0) {
+            for (unsigned int j(0); j<NUMBER_NUCLEOTIDES; j++) {
+                output_matrix[i][j] -= line_min;
+                output_matrix[i][j] += base_prob[j];
+            }
+        }
+    }
+    
+    // Every value of the line is divided by the sum of each line, yielding a probability
+    for (unsigned int i(0); i<length_sequence; i++) {
+        line_sum = sum_of_line(output_matrix[i]);
+        
+        for (unsigned int j(0); j<NUMBER_NUCLEOTIDES; j++) {
+            output_matrix[i][j] /= line_sum;
+        }
+    }
+    
+    return output_matrix;
+}
+
+//==========================================================================================
+Matrix_Neo matrix_from_same_length( std::vector<SearchResults>  input, Base_Prob base_prob, bool weighed ) {
+        
+    if (weighed)
+        return matrix_from_same_length_sequences_weighted( input, base_prob);
+    else
+        return matrix_from_same_length_sequences_not_weighted( input, base_prob);
+    
+}
+
+
+//==========================================================================================
+unsigned int searchResults_same_length(std::vector<SearchResults> input) {
+    
+    unsigned int nb_sequences(input.size());
+    unsigned int nb_results;
+    
+    assert(nb_sequences);
+    
+    unsigned int length_result_0(0);
+    
+    for (unsigned int index(0); index<nb_sequences; index++) {
+        if(input[index].searchResults.size()) {
+            length_result_0 = input[0].searchResults[0].sequence.size();
+            break;
+        }
+    }
+    
+    for (unsigned int k(0); k<nb_sequences; k++) {
+        nb_results = input[k].searchResults.size();
+
+        
+        for (unsigned int i(0); i<nb_results; i++) {
+            if (input[k].searchResults[i].sequence.size() != length_result_0) {
+                return false;
+            }
+        }
+    }
+    
+    return length_result_0;
+}

@@ -93,17 +93,40 @@ double Matrix::sequence_score(std::list<nuc> sequence) {
 }
 
 
+//-----------------------------------------------------------------------
+// SAVING MATRIX
+//-----------------------------------------------------------------------
+
+
+void Matrix::save(std::string fileName, MATRIX_TYPE type) {
+    Matrix_Neo outputmatrix(log_to_matrix(logMatrix, type));
+
+    std::ofstream outputfile;
+    outputfile.open(fileName);
+
+    unsigned int size(outputmatrix.size());
+
+    for (unsigned int i(0); i<size; i++) {
+        for (unsigned int j(0); j<NUMBER_NUCLEOTIDES; j++) {
+            outputfile << outputmatrix[i][j] << "\t";
+        }
+        outputfile << "\n";
+    }
+    outputfile.close();
+}
+
+
 
 //-----------------------------------------------------------------------
 // DEBUGGING FUNCTIONS
 //-----------------------------------------------------------------------
 void Matrix::print_log_matrix() {
-    for(size_t i(0); i<length; i++) {
+    /*for(size_t i(0); i<length; i++) {
         for(size_t j(0); j<NUMBER_NUCLEOTIDES; j++) {
             std::cout << logMatrix[i][j] << "\t";
         }
         std::cout << std::endl;
-    }
+    }*/
 }
 
 
@@ -285,12 +308,12 @@ bool Matrix::line_is_normed_ppm(double min, double max, double sum) {
 Matrix_Neo Matrix::matrix_to_log(Matrix_Neo input_matrix, MATRIX_TYPE type) {
 
     // DEBUG_
-    for(size_t i(0); i<input_matrix.size(); i++) {
+    /*for(size_t i(0); i<input_matrix.size(); i++) {
         for(size_t j(0); j<NUMBER_NUCLEOTIDES; j++) {
             std::cout << input_matrix[i][j] << "\t";
         }
         std::cout << std::endl;
-    }
+    }*/
     Matrix_Neo outputmatrix(logMatrix_from_probMatrix(input_matrix));
 
     switch (type) {

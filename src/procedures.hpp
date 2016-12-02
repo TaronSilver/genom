@@ -1,6 +1,6 @@
 //
 //  procedures.hpp
-//  
+//
 //
 //  Created by Mättu on 15.11.16.
 //
@@ -18,7 +18,7 @@
 
 //-----------------------------------------------------------------------
 
-/* @Brief   Handles everything if the user wants to determine on 
+/* @Brief   Handles everything if the user wants to determine on
  *          what position a given enzyme binds, with given probability
  *          matrix and sequence
  */

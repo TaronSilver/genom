@@ -14,6 +14,8 @@
 #include <fstream>
 #include <vector>
 
+#include "Matrix.hpp"
+
 class SearchResult {
 public:
     std::string sequence;
@@ -31,6 +33,7 @@ public:
 
 
 enum PROCEDURE { MatrixFromSequences, SequencesFromMatrix, Exit };
+enum BP_FILL { AllEqual, UserDefined, FromSequence, NotUsed };
 
 //-----------------------------------------------------------------------
 
@@ -145,9 +148,9 @@ void Cout_NewSeq(std::string);
 /*!
  * @brief Ask the choice ( 0 or 1 or 2 ) corresponding to the question "what we want to do"
  *
- * @return the Choice made by the user.
+ * @return the Choice made by the user, as enum BP_FILL.
  */
-int CoutCin_AskBaseProb();
+BP_FILL CoutCin_AskBaseProb();
 
 /*!
  * @brief Ask the Prob corresponding to the nucleotide.
@@ -163,6 +166,70 @@ double CoutCin_AskBaseProb0(char);
  * @return Name of the outputfile
  */
 std::string Ask_Outputfile_Name();
+
+/*!
+ * @brief Handles everything concerning base probabilities, returns a vector of doubles
+ *          with the base probabilities
+ *
+ * @return  Vector with base probabilities
+ */
+std::vector<double> AskBaseProb();
+
+/*!
+ * @brief   Lets the user choose the base probabilities, checks for their 
+ *          validity.
+ *
+ * @return  Vector with base probabilities
+ */
+std::vector<double> User_Defined_Base_Prob();
+
+/*!
+ * @brief   Asks the user as what kind of matrix he wants to save his matrix as.
+ *
+ * @return  MATRIX_TYPE with the corresponding type
+ */
+MATRIX_TYPE Ask_Return_Matrix_Type();
+
+/*!
+ * @brief   Asks the user if he wants to weigh each sequence by its score for 
+ *          the calculation of the matrix
+ *
+ * @return  1 if yes, else 0
+ */
+bool ask_matrix_from_sequences_weighed();
+
+/*!
+ * @brief   Asks the user if he wants to create a new matrix based on the 
+ *          matches found in the previous search
+ *
+ * @return  1 if yes, else 0
+ */
+bool ask_matrix_from_search_matches();
+
+/*!
+ * @brief   Warns the user that there are either no sequences found or that
+ *          they are of different length
+ *
+ */
+void error_input_sequence();
+
+/*!
+ * @brief   Informs the user that there was an error reading a coordinate file
+ *
+ * @param   Line on which it failed
+ */
+
+void error_reading_coordiates(unsigned int line);
+
+/*!
+ * @brief   Ask the name of a coordinate files
+ *
+ * @return  Name of user input
+ */
+std::string ask_coordinate_filename();
+
+
+
 //-----------------------------------------------------------------------
 
 

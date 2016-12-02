@@ -316,6 +316,18 @@ class Matrix
     double sequence_score(std::list<nuc> sequence);
 
     
+    //-----------------------------------------------------------------------
+    // SAVING MATRIX
+
+    /*!
+     * @brief 	Saves the matrix to a specified file
+     *
+     * @param   Name of the file to save it to, type to save it as
+     *
+     */
+    void save(std::string fileName, MATRIX_TYPE type);
+    
+    
     
     //-----------------------------------------------------------------------
     // DEBUGGING FUNCTIONS
