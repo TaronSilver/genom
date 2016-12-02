@@ -25,7 +25,7 @@ SOURCES += \
     matrixFromSequence.cpp \
     sequenceFromMatrix.cpp \
     resultsWindow.cpp \
-    matrix_line_operations.hpp
+    matrix_line_operations.cpp
 
 FORMS += \
     saveSequence.ui \
