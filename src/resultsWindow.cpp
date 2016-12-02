@@ -25,3 +25,7 @@ resultsWindow::~resultsWindow()
 {
     delete ui;
 }
+
+void resultsWindow::on_buttonLeave_clicked(){
+    this->close();
+}

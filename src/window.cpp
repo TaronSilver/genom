@@ -64,6 +64,7 @@ void Window::on_matrixFromSequenceButton_clicked() {
     }
     else {
     fastaFilePath = fastaLocation.toStdString();
+
     matrixFromSequence glass;
     glass.show();
     glass.exec();

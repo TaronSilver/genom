@@ -4,6 +4,7 @@
 #include <QDialog>
 
 #include "resultsWindow.hpp"
+#include "procedures.hpp"
 
 namespace Ui {
 class sequenceFromMatrix;
@@ -18,10 +19,10 @@ public:
     ~sequenceFromMatrix();
 
     static double getCutoff();
-    void setCutoff();
 
 public slots:
     void on_buttonSave_clicked();
+    void on_spinDouble_valueChanged();
 
 private:
     Ui::sequenceFromMatrix *ui;

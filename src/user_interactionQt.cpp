@@ -106,7 +106,7 @@ void print_results(SearchResults results, std::string filename) {
     
     for (unsigned int i(0); i < size; i++) {
         outputfile << results.searchResults[i].sequence << " found at position "
-                   << results.searchResults[i].position << " in "
+                   << results.searchResults[i].position +1 << " in "
                    << results.searchResults[i].direction << " direction with the score "
                    << results.searchResults[i].score << std::endl;
     }

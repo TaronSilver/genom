@@ -23,7 +23,6 @@ public:
     unsigned int getMatrixChoice();
     static unsigned int getPosition();
     static unsigned int getLength();
-    void getCheckState();
     static bool getBool();
     static unsigned int getBaseChoiceFinal();
 

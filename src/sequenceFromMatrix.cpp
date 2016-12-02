@@ -14,7 +14,7 @@ sequenceFromMatrix::~sequenceFromMatrix()
 }
 
 double cutoff;
-void sequenceFromMatrix::setCutoff(){
+void sequenceFromMatrix::on_spinDouble_valueChanged(){
     cutoff = ui->spinDouble->value();
 }
 

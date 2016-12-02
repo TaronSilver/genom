@@ -16,6 +16,9 @@ public:
     explicit resultsWindow(QWidget *parent = 0);
     ~resultsWindow();
 
+public slots:
+    void on_buttonLeave_clicked();
+
 
 private:
     Ui::resultsWindow *ui;

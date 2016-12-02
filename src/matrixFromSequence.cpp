@@ -72,9 +72,15 @@ unsigned int matrixFromSequence::getMatrixChoice(){
     return matrixChoice;
 }
 
+bool checkBox(false);
 void matrixFromSequence::on_checkBox_stateChanged(){
     if(ui->checkBox->isChecked()){
         ui->intLength->setEnabled(true);
+        checkBox = !checkBox;
+    }
+    else{
+        ui->intLength->setEnabled(false);
+        checkBox = !checkBox;
     }
 }
 
@@ -99,10 +105,6 @@ unsigned int matrixFromSequence::getPosition(){
 
 unsigned int matrixFromSequence::getLength(){
     return length;
-}
-bool checkBox;
-void matrixFromSequence::getCheckState(){
-    checkBox = ui->checkBox->isChecked();
 }
 
 bool matrixFromSequence::getBool(){
