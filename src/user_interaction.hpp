@@ -33,7 +33,7 @@ public:
 
 
 enum PROCEDURE { MatrixFromSequences, SequencesFromMatrix, Exit };
-enum BP_FILL { AllEqual, UserDefined, FromSequence, NotUsed };
+enum BP_FILL { NotUsed, AllEqual, UserDefined, FromSequence  };
 
 //-----------------------------------------------------------------------
 

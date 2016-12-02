@@ -137,9 +137,13 @@ void Cout_NewSeq(std::string new_sequence)
 }
 
 //----------------------------------------------------------------------
-int CoutCin_AskBaseProb()
+BP_FILL CoutCin_AskBaseProb()
 {
-    return matrixFromSequence::getBaseChoiceFinal();
+    int choice = matrixFromSequence::getBaseChoiceFinal();
+    if (choice == 0) return AllEqual;
+    else if (choice == 1) return FromSequence;
+    else if (choice == 2 ) return UserDefined;
+    else if (choice == 3) return NotUsed;
 }
 
 //----------------------------------------------------------------------
