@@ -139,43 +139,24 @@ void Cout_NewSeq(std::string new_sequence)
 //----------------------------------------------------------------------
 BP_FILL CoutCin_AskBaseProb()
 {
-	int choice;
-	
-    while (true) {
-        std::cout << "What would you like to use as the base probabilities for each type of nucleotide in your sequence? " <<
-        std::endl << "The base probabilities are used to normalize the logarithmic probability weight matrix. " <<
-        std::endl << "Enter 0 to not use any base probabilities"<<
-        std::endl << "Enter 1 to use a base probability of 0.25 for all nucleotides"<<
-        std::endl << "Enter 2 to use custom base probabilities" <<
-        //   std::endl << "Enter 3 to use base probabilities calculated from the input sequence" <<
+    int choice = matrixFromSequence::getBaseChoiceFinal();
 
-        std::endl;
-        
-        std::cin>>choice;
-        
-        switch (choice) {
-        case 0:
-            return BP_FILL::NotUsed;
-        case 1:
-            return BP_FILL::AllEqual;
-        case 2:
-            return BP_FILL::UserDefined;
+    switch (choice) {
+    case 2:
+        return BP_FILL::UserDefined;
 
-                
+    case 0:
+        return BP_FILL::AllEqual;
 
-                
+    case 3:
+        return BP_FILL::NotUsed;
 
-
-        /*
-            case 3:
-                return BP_FILL::FromSequence;
-        */
-                
-            default:
-                std::cout << "Invalid input, try again. " << std::endl;
-        }
-        
+/*
+    case 1:
+        return BP_FILL::FromSequence;
+*/
     }
+
     
 }
 //----------------------------------------------------------------------
@@ -287,15 +268,15 @@ bool ask_matrix_from_sequences_weighed() {
     std::endl << "in order to calculate the probability weight matrix?" <<
     std::endl << "Enter 1 for yes, 0 for no." <<
     std::endl;
-    
+
     std::cin >> answer;
-    
+
     std::cout << "You answered ";
     switch (answer) {
         case true:
             std::cout <<"YES";
             break;
-            
+
         default:
             std::cout <<"NO";
             break;
@@ -308,25 +289,7 @@ bool ask_matrix_from_sequences_weighed() {
 //----------------------------------------------------------------------
 
 bool ask_matrix_from_search_matches() {
-    bool answer;
-    std::cout << "Would you like to create a new matrix based on the search matches?" <<
-    std::endl << "Enter 1 for yes, 0 for no." <<
-    std::endl;
-    
-    std::cin >> answer;
-    
-    std::cout << "You answered ";
-    switch (answer) {
-        case true:
-            std::cout <<"YES";
-            break;
-            
-        default:
-            std::cout <<"NO";
-            break;
-    }
-    std::cout << std::endl;
-    return answer;
+    return sequenceFromMatrix::getBool();
 }
 
 

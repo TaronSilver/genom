@@ -28,9 +28,7 @@ void matrixFromSequence::on_chooseBase_currentIndexChanged(int){
 }
 
 unsigned int matrixFromSequence::getBaseChoiceFinal(){
-    if (baseChoiceFinal == 0) return 1;
-    else if (baseChoiceFinal == 1) return 2;
-    else if (baseChoiceFinal == 2 ) return 0;
+   return  baseChoiceFinal;
 }
 
 int matrixFromSequence::getBaseChoice(){

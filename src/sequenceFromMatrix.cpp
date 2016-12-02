@@ -25,3 +25,18 @@ double sequenceFromMatrix::getCutoff(){
 void sequenceFromMatrix::on_buttonSave_clicked(){
     this->close();
 }
+
+
+bool boule(false);
+void sequenceFromMatrix::on_checkBox_stateChanged(){
+    if(ui->checkBox->isChecked()){
+        boule = !boule;
+    }
+    else{
+        boule = !boule;
+    }
+}
+
+bool sequenceFromMatrix::getBool(){
+    return boule;
+}

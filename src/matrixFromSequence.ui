@@ -218,6 +218,11 @@
        </item>
        <item>
         <property name="text">
+         <string>No base Probability</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
          <string>Base Probability calculated from the input sequence</string>
         </property>
        </item>
