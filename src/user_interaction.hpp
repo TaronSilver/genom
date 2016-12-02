@@ -219,7 +219,7 @@ void error_input_sequence();
  * @param   Line on which it failed
  */
 
-void error_reading_coordiates(unsigned int line);
+void error_reading_coordinates(unsigned int line);
 
 /*!
  * @brief   Ask the name of a coordinate files

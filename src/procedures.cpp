@@ -48,7 +48,7 @@ void enzyme_from_sequences() {
 void binding_length_known() {
     std::vector <Sequence> sequence_list;
     sequence_list = Initialization();
-    Matrix enzyme(generate_PWM_from_Seq_list(sequence_list, false),absoluteMatrix);
+    Matrix enzyme(generate_PWM_from_Seq_list(sequence_list, false), absoluteMatrix);
     std::string file_name(Ask_Outputfile_Name());
     enzyme.save(file_name, absoluteMatrix);
 }
