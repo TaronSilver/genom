@@ -32,27 +32,27 @@ STUFF TO DO:
 
 	To do this: 
 
-	* Create a function in user interaction which asks how the user would like
+DONE	* Create a function in user interaction which asks how the user would like
 	  to fill the base probabilities. It should return some kind of enum.
 
-	* Create a function in user interaction which asks for the specific base
+DONE	* Create a function in user interaction which asks for the specific base
 	  probabilities, if the user wants to do this. 
 
-	* Create a function in utility that handles all this, and that returns a 
+DONE	* Create a function in utility that handles all this, and that returns a 
 	  vector of base probabilities.
 
-	* Add this function at the beginning of each procedure that includes Matrices
+DONE	* Add this function at the beginning of each procedure that includes Matrices
 
-	* Put the base probabilities in every constructor of Matrices. 
+DONE	* Put the base probabilities in every constructor of Matrices. 
 
 	The feature in which the base probabilities are calculated based on a 
 	sequence isn’t very important at this point, and still quite a pain to 
 	implement. I therefore suggest only to do this if we have too much time.
 
-Done by:
+Done by: mattminder
 InProg:
 
-Function names:
+Function names: user_interaction/AskBaseProb()
 Gtest:
 
 
@@ -60,14 +60,14 @@ Gtest:
 
 	To do this:
 
-	* Write a function in user_interaction that asks the user for the 
+DONE	* Write a function in user_interaction that asks the user for the 
 	  filename of the output matrix
 	  Check if there is a format, if not add .mat
 
-	* Write a function in user_interaction that asks the user for the 
+DONE	* Write a function in user_interaction that asks the user for the 
 	  type of the output matrix, return it as a MATRIX_TYPE
 
-	* Create a public function Matrix::save_matrix(), which uses the two 
+DONE	* Create a public function Matrix::save_matrix(), which uses the two 
 	  functions listed above, and saves the matrix to a file. Use the private
 	  function 
 	  	log_to_matrix(Matrix_Neo input_matrix, MATRIX_TYPE type)
@@ -80,13 +80,16 @@ Gtest:
 	  Note that the name is important in this case to allow for the proper 
 	  functioning of other functions
 
-	* If the function to create an image exists, give the user also the choice
+TODO	* If the function to create an image exists, give the user also the choice
 	  of saving the matrix as image. 
 
-Done by:
+Done by: mattminder
 InProg:
 
-Function names:
+Function names: 
+	* Ask for type: Ask_Return_Matrix_Type()
+	* Ask for filename: Ask_Outputfile_Name()
+	* Save matrix: Matrix::save()
 Gtest:
 
 
@@ -127,8 +130,9 @@ Gtest:
 
 	To do this:
 
-	* Write a function that takes a vector of SearchResult as argument and
-	  that returns a probability weight matrix based on the sequences in the 		  SequenceResult. 
+DONE	* Write a function that takes a vector of SearchResult as argument and
+	  that returns a probability weight matrix based on the sequences in the 		  
+	  SequenceResult. 
 
 	  A similar thing was done in the old version, but it loaded it from a file
 	  while we now have them stored. But it might inspire you.	

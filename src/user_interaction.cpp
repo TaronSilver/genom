@@ -287,17 +287,14 @@ BP_FILL CoutCin_AskBaseProb()
         std::cin>>choice;
         
         switch (choice) {
-        case 0:
-            return BP_FILL::NotUsed;
-        case 1:
-            return BP_FILL::AllEqual;
-        case 2:
-            return BP_FILL::UserDefined;
-
+            case 2:
+                return BP_FILL::UserDefined;
                 
-
+            case 1:
+                return BP_FILL::AllEqual;
                 
-
+            case 0:
+                return BP_FILL::NotUsed;
 
         /*
             case 3:

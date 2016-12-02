@@ -13,6 +13,8 @@
 #include <map>
 #include <algorithm>
 
+#include "matrix_line_operations.hpp"
+
 /* Defines number of different nucleotides in DNA sequnece (always 4) */
 #define NUMBER_NUCLEOTIDES 4
 #define MINUSINFINI -1000.0

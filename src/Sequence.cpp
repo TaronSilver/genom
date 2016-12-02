@@ -3,6 +3,9 @@
 
 Sequence::Sequence(const std::string new_sequence) :sequence(new_sequence)
 {
+	/*
+	std::cout <<"Creation of a new sequence: " << new_sequence << std::endl;
+	*/
 	Cout_NewSeq(new_sequence);
 	AskBaseProb();
 }
@@ -14,6 +17,9 @@ std::vector<Seq_and_pos> Sequence::find_sequence(const std::string& string_to_fi
 
     size_t starting_position(-1);
     std::string Translated_String(TranslateSeq(string_to_find));
+
+
+    // std::cout << "SEARCHING '" << string_to_find << "' in the sequence"<< std::endl;
 
     do {
         starting_position = sequence.find(string_to_find, starting_position+1); //the function "find" returns the first position of the first character of the first match
@@ -150,7 +156,16 @@ void Sequence::setBaseProbs(double baseProbA, double baseProbC, double baseProbG
 }
 
 void Sequence::AskBaseProb() {
+	/*
+	int choice;
 
+	std::cout<<"What base probability would you like to use for the log matrix?"<<std::endl;
+	std::cout<<"Enter 1 to use a base probability of 0.25 for all nucleotides"<<std::endl;
+	std::cout<<"Enter 2 to use base probabilities calculated from the input sequence"<<std::endl;
+	std::cout<<"Enter 0 to use custom base probabilities"<<std::endl;
+
+	std::cin>>choice;
+	*/
 	int choice = CoutCin_AskBaseProb();
 
 	if (choice == 0) {
@@ -158,7 +173,19 @@ void Sequence::AskBaseProb() {
 
 		std::vector<double> BaseProbs ={0.0,0.0,0.0,0.0};
 		std::vector<char> Base ={'A','C','G','T'};
+		/*
+		std::cout << "Enter the base probability for A ";
+		std::cin >> baseProbA;
 
+		std::cout << "Enter the base probability for C ";
+		std::cin >> baseProbC;
+
+		std::cout << "Enter the base probability for G ";
+		std::cin >> baseProbG;
+
+		std::cout << "Enter the base probability for T ";
+		std::cin >> baseProbT;
+		*/
 		for(size_t i=0; i<Base.size(); ++i)
 		{
 			BaseProbs[i] = CoutCin_AskBaseProb0(Base[i]);
