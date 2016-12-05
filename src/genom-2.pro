@@ -10,8 +10,7 @@ HEADERS += \
     window.hpp \
     matrixFromSequence.hpp \
     sequenceFromMatrix.hpp \
-    resultsWindow.hpp \
-    genomic_coordinates.hpp
+    resultsWindow.hpp
 
 SOURCES += \
     mainQt.cpp \
@@ -24,9 +23,7 @@ SOURCES += \
     window.cpp \
     matrixFromSequence.cpp \
     sequenceFromMatrix.cpp \
-    resultsWindow.cpp \
-    genomic_coordinates.cpp \
-    user_interactionQt_copy.cpp
+    resultsWindow.cpp
 
 FORMS += \
     saveSequence.ui \
