@@ -473,6 +473,7 @@ void error_reading_coordiates(unsigned int line) {
     std::endl;
 }
 
+//----------------------------------------------------------------------
 
 std::string ask_coordinate_filename() {
     std::string answer;
@@ -480,4 +481,134 @@ std::string ask_coordinate_filename() {
     std::cin >> answer;
     return answer;
 }
+
+
+//----------------------------------------------------------------------
+
+bool ask_line_description_present() {
+    bool answer;
+    std::cout << "Is a descritpion of the coordinates present in the third question?" << std::endl;
+    
+    while (not(std::cin >> answer)) {
+        std::cout << "Error: Invalid input. Please try again." << std::endl;
+    }
+    return answer;
+}
+
+
+//----------------------------------------------------------------------
+
+Association_Table associate_genomic_with_sequences(std::vector<std::string> coordinate_description,
+                                                   std::vector<std::string> sequence_description) {
+    Association_Table output;
+    unsigned int coord_intermed;
+    unsigned int seq_intermed;
+    unsigned int startpos_intermed;
+    
+    if (coordinate_description.size() == 1 and sequence_description.size() == 1) {
+        while (true) {
+            std::cout << "At what position of the genomic coordinates does the sequence " <<
+            std::endl << "start?" << std::endl;
+            
+            if (std::cin >> startpos_intermed) {
+                break;
+            }
+            std::cout << "Error, please try again." << std::endl;
+
+        }
+        return {{0, 0, startpos_intermed}};
+    }
+    
+    std::cout << "The following coordinates could be found in the given files: " << std::endl;
+    for (unsigned int id(0); id<coordinate_description.size(); id++) {
+        std::cout << "No. "<< id+1 << "\t" << coordinate_description[id] << std::endl;
+    }
+    
+    std::cout << "The following sequences could be found in the given files: " << std::endl;
+    for (unsigned int id(0); id<sequence_description.size(); id++) {
+        std::cout << "No. "<< id+1 << "\t" << sequence_description[id] << std::endl;
+    }
+    
+    if (coordinate_description.size() == sequence_description.size()) {
+        bool answer;
+        std::cout << "You have as many sequences as genomic coordinates. Would you like to " <<
+        std::endl << "analyze them in order?" <<
+        std::endl << "Enter 1 for yes, 0 for no." <<
+        std::endl;
+        std::cin >> answer;
+        if (answer) {
+            std::cout << "For each sequence, enter its starting position in the genomic " <<
+            std::endl << "coordinates. " <<
+            std::endl;
+            for (unsigned int id(0); id<coordinate_description.size(); id++) {
+                while (not(std::cin >> startpos_intermed)) {
+                    std::cout << "Error for position " << id << ". Please try again." << std::endl;
+                }
+                output.push_back({id, id, startpos_intermed});
+            }
+            return output;
+        }
+    }
+    
+    std::cout << "Which sequences would you like to analyze with which sequences?" <<
+    std::endl << "Associate sequences with genomic coordinates by entering first the " <<
+    std::endl << "number of the sequence and then the number of the genomic coordinates." <<
+    std::endl << "You can combine them any way you'd like. " <<
+    std::endl << "As a third value, give the starting position of the sequence in the " <<
+    std::endl << "genomic coordinates." <<
+    std::endl << "As soon as you are done, enter 0." <<
+    std::endl;
+    
+    while (true) {
+        if(not(std::cin >> seq_intermed >> coord_intermed >> startpos_intermed)) {
+            std::cout << "Error, please try again. " << std::endl;
+        }
+        else if(seq_intermed == 0 or coord_intermed == 0)
+            break;
+        else {
+            output.push_back({coord_intermed-1, seq_intermed-1});
+        }
+    }
+    return output;
+    
+
+}
+
+//----------------------------------------------------------------------
+void error_sequence_doesnt_exist() {
+    std::cout << "Error: The desired sequence doesn't exist" << std::endl;
+}
+
+
+//----------------------------------------------------------------------
+
+SEQ_SOURCE ask_source_sequence() {
+    std::cout << "How would you like to obtain the binding sequences to analyze?" <<
+    std::endl << "Enter 1 if you have the binding sequences seperately in a fasta file." <<
+    std::endl << "Enter 2 if you have a file with genomic coordinates of the sequences." <<
+    std::endl << "Enter 3 if you want to analyze the result of a previous analysis." <<
+    std::endl;
+    
+    unsigned int answer(0);
+    while (true) {
+        std::cin >> answer;
+        
+        switch (answer) {
+            case 1:
+                return SEQ_SOURCE::OnlySeq;
+            
+            case 2:
+                return SEQ_SOURCE::CoordAndSeq;
+            
+            case 3:
+                return SEQ_SOURCE::FromSearchResult;
+                
+            default:
+                std::cout << "Invalid input, please try again." << std::endl;
+                break;
+
+        }
+    }
+}
+
 

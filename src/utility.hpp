@@ -1,9 +1,11 @@
 #ifndef UTILITY_H
 #define UTILITY_H
 
+#include <vector>
 #include "Matrix.hpp"
 #include "Sequence.hpp"
 #include "user_interaction.hpp"
+#include "matrix_line_operations.hpp"
 #include "genomic_coordinates.hpp"
 
 
@@ -178,5 +180,32 @@ Matrix_Neo matrix_from_same_length( std::vector<SearchResults> input, Base_Prob 
  */
 unsigned int searchResults_same_length(std::vector<SearchResults> input);
 
+
+/*!
+ * @brief   Fills a vector of coordinates from a input file
+ *
+ * @param   The name of the genomic file, a bool saying whether the file contains a column with 
+ *          information on every sequence.
+ * @return  A vector of coordinates.
+ */
+std::vector <Coordinates> read_coordinates(std::string filename, bool line_description_present);
+
+
+/*!
+ * @brief   Goes through files and extracts all sequence descriptions present
+ *
+ * @param   The name of the sequence file.
+ * @return  A vector of strings with all sequence descriptions.
+ */
+std::vector<std::string> extract_sequence_descriptions(std::string filename);
+
+
+/*!
+ * @brief   Returns a vector of coordinates
+ *
+ * @param   The name of the sequence file.
+ * @return  A vector of strings with all sequence descriptions.
+ */
+std::vector<std::string> get_descriptions_from_coord_list(std::vector<Coordinates> coord_list);
 
 #endif

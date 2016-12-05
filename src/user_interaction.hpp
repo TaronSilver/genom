@@ -16,6 +16,10 @@
 
 #include "Matrix.hpp"
 
+#define COORD 0
+#define SEQ 1
+#define START 2
+
 class SearchResult {
 public:
     std::string sequence;
@@ -31,9 +35,12 @@ public:
 };
 
 
+// Three columned table which associates two objects.
+typedef std::vector<std::vector<unsigned int >> Association_Table;
 
 enum PROCEDURE { MatrixFromSequences, SequencesFromMatrix, Exit };
 enum BP_FILL { AllEqual, UserDefined, FromSequence, NotUsed };
+enum SEQ_SOURCE { CoordAndSeq, OnlySeq, FromSearchResult }; 
 
 //-----------------------------------------------------------------------
 
@@ -227,6 +234,41 @@ void error_reading_coordinates(unsigned int line);
  * @return  Name of user input
  */
 std::string ask_coordinate_filename();
+
+/*!
+ * @brief   Asks the user if a line description is present
+ *
+ * @return  1 if yes, 0 if no.
+ */
+bool ask_line_description_present();
+
+/*!
+ * @brief   Ask the user to determine which sequence he wants to analyze with which set of 
+ *          genomic coordinates
+ *
+ * @param   Vector of strings with all coordinate descriptions, a vector of strings with all 
+ *          sequence descriptions
+ *
+ * @return  Association table, with number of coordinates in column 0 (COORD) and number of sequences
+ *          in column 1 (SEQ)
+ */
+Association_Table associate_genomic_with_sequences(std::vector<std::string> coordinate_description,
+                                                   std::vector<std::string> sequence_description);
+
+/*!
+ * @brief   Prints warning if sequence to analyze doesnt exist
+ */
+void error_sequence_doesnt_exist();
+
+/*!
+ * @brief   Asks the user, where he wants to get the sequences from that he wants to analyze
+ *          (to create a PWM)
+ *
+ * @return  Answer as type SEQ_SOURCE
+ */
+SEQ_SOURCE ask_source_sequence();
+
+
 
 
 

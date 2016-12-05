@@ -38,22 +38,95 @@ void enzyme_on_sequence() {
 
 
 void enzyme_from_sequences() {
-    if(ask_binding_length_known()){
-        binding_length_known();
+    
+    SEQ_SOURCE seq_source(ask_source_sequence());
+    std::vector<SearchResults> seq_to_analyze;
+    
+    switch (seq_source) {
+        case SEQ_SOURCE::CoordAndSeq:
+            seq_to_analyze = seq_source_CoordAndSeq();
+            break;
+            
+        case SEQ_SOURCE::OnlySeq:
+            
+            break;
+            
+        case SEQ_SOURCE::FromSearchResult:
+            
+            break;
+            
+        default:
+            break;
     }
-    else binding_length_unknown();
+    
+    if(ask_binding_length_known())
+        Matrix result(binding_length_known(seq_to_analyze));
+    else
+        binding_length_unknown();
 }
 
 
-void binding_length_known() {
-    std::vector <Sequence> sequence_list;
-    sequence_list = Initialization();
-    Matrix enzyme(generate_PWM_from_Seq_list(sequence_list, false), absoluteMatrix);
-    std::string file_name(Ask_Outputfile_Name());
-    enzyme.save(file_name, absoluteMatrix);
+//=======================================================================
+
+Matrix binding_length_known(std::vector<SearchResults> seq_to_analyze) {
+    Base_Prob base_probabilities = AskBaseProb();
+    
+    return Matrix(matrix_from_same_length(
+                                          seq_to_analyze,
+                                          base_probabilities,
+                                          ask_matrix_from_sequences_weighed()
+                                          ),
+                  MATRIX_TYPE::absoluteMatrix);
 }
+
+
+//=======================================================================
 
 void binding_length_unknown() {
   //EM implementation
 
 }
+
+//=======================================================================
+
+std::vector<SearchResults> seq_source_CoordAndSeq() {
+    
+    std::vector<Coordinates> coordinate_list;
+    std::vector<SearchResults> output;
+    
+    std::string seq_filename = ask_name_fasta();
+    
+    coordinate_list = read_coordinates(ask_coordinate_filename(),
+                                       ask_line_description_present());
+    
+    std::vector<std::string> sequence_descriptions;
+    std::vector<std::string> coordinate_descriptions;
+    
+    sequence_descriptions = extract_sequence_descriptions(seq_filename);
+    coordinate_descriptions = get_descriptions_from_coord_list(coordinate_list);
+    
+    Association_Table association;
+    association = associate_genomic_with_sequences(coordinate_descriptions,
+                                                   sequence_descriptions);
+    
+    
+    
+    for (unsigned int i(0); i<association.size(); i++) {
+        output.push_back(coordinate_list[association[i][COORD]].get_search_results(seq_filename,
+                                                                                association[i][SEQ],
+                                                                                association[i][START]));
+    }
+    
+    return output;
+}
+
+//=======================================================================
+
+std::vector<SearchResults> seq_source_OnlySeq();
+
+//=======================================================================
+
+std::vector<SearchResults> seq_source_FromSearchResult();
+
+//=======================================================================
+

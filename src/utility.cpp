@@ -892,3 +892,72 @@ unsigned int searchResults_same_length(std::vector<SearchResults> input) {
     
     return length_result_0;
 }
+
+
+//==========================================================================================
+std::vector <Coordinates> read_coordinates(std::string filename, bool line_description_present) {
+    std::ifstream file;
+    file.open(filename);
+    
+    std::string file_description;
+    std::string seq_description;
+    std::string seq_descr_intermediate;
+    std::string line;
+    
+    // File description in first line is disregarded. 
+    // getline(file, file_description);
+    
+    std::vector <Coordinates> output;
+    
+    file >> seq_description;
+    Coordinates intermediate(file_description, seq_description, line_description_present);
+    getline(file, line, '\n');
+    intermediate.fillNewLine(line);
+    
+    
+    while (file >> seq_descr_intermediate) {
+        if (seq_description != seq_descr_intermediate) {
+            seq_description = seq_descr_intermediate;
+            output.push_back(intermediate);
+            intermediate = Coordinates(file_description, seq_description, line_description_present);
+        }
+        
+        getline(file, line, '\n');
+        intermediate.fillNewLine(line);
+    }
+    
+    output.push_back(intermediate);
+    return output;
+}
+
+
+//==========================================================================================
+
+std::vector<std::string> extract_sequence_descriptions(std::string filename) {
+    std::ifstream file;
+    file.open(filename);
+    
+    std::vector<std::string> output;
+    std::string intermediate;
+    
+    unsigned int streamsize(file.tellg());
+    
+    do {
+        getline(file, intermediate);
+        output.push_back(intermediate);
+        
+    } while (file.ignore(streamsize, '>'));
+    
+    return output;
+}
+
+//==========================================================================================
+
+std::vector<std::string> get_descriptions_from_coord_list(std::vector<Coordinates> coord_list) {
+    std::vector<std::string> output;
+    for (size_t id(0); id<coord_list.size(); id++) {
+        output.push_back(coord_list[id].get_location());
+    }
+    return output;
+}
+
