@@ -25,15 +25,44 @@ Matrix_Neo lcm_1({{-1.947529,MINUSINFINI,-2.754889,0.000},
 											
 const std::vector<double> base_probabilities ({0.25,0.25,0.25,0.25});
 
+Matrix_Neo r({{0.259260,0.000000,0.148148,1.000}});
+Matrix ma_matrice_1(r, relativeMatrix, base_probabilities);
+
+Matrix_Neo a({{0.184211,0.000,0.105263, 0.710526}});
+Matrix ma_matrice_2(a, absoluteMatrix, base_probabilities);
+
+Matrix_Neo lm({{-0.440569,MINUSINFINI,-1.247930,1.506960}});
+Matrix ma_matrice_3(lm,logMatrix, base_probabilities);
+
+Matrix_Neo lcm({{-1.947529,MINUSINFINI,-2.754889,0.000}});
+Matrix ma_matrice_4(lcm,logConstMatrix, base_probabilities);
+
+Matrix_Neo wrong({{1.506960,0.105263,0.148148,-2.754889}});
+
+Matrix_Neo DBP_PPM{ {0.991265586410457  , 0.00188241672188422, 0.00438979579543401, 0.00246220107222457}, 
+					 {0.00454038913318475, 0.00308716342389013, 0.961116800192759  , 0.0312556472501656}, 
+					 {0.00319260279955123, 0.991529060968172  ,0.00188243089596181 , 0.0033959053363151},
+					 {0.891738449490994  ,0.00188241672188422 , 0.00883982892596831, 0.0975393048611529},
+					 {0.624171736642371  ,0.251091801698693   ,0.00595596650804169 ,0.118780495150895},
+					 {0.728886814047346  ,0.10454942473345	  ,0.0115881573399193  ,0.154975603879284},
+					 {0.304793385940606  ,0.491122522739594	  ,0.00446509246430938 ,0.199618998855491}   };
+					 
+Matrix_Neo DBP_PSSM {{1.98734355068112	,-7.05319824318173	,-5.83163045464332	,-6.66583570234573},
+					{-5.78296833594373	,-6.33950242833837	,1.94278367099148	,-2.99973931124021},
+					{-6.29105121022664	,1.98772696248885	,-7.05318738012775	,-6.20198804153446},
+					{1.83469252898669	,-7.05319824318173	,-4.82176583473376	,-1.35787249910015},
+					{1.32001493662631	,0.00628682961322058,-5.39144864337102	,-1.07363014308654},
+					{1.54376670664635	,-1.25774297113760	,-4.4312050115156	,-0.689886969274964},
+					{0.285903501598009	,0.97415489074836	,-5.80709423329781	,-0.324679058329434} };
+
+
 Matrix ma_matrice_A	(a_1,absoluteMatrix, base_probabilities);
 
 Matrix ma_matrice_R	(r_1,relativeMatrix, base_probabilities);
 
 Matrix ma_matrice_LOG (lm_1,logMatrix,base_probabilities);
 
-//enum MATRIX_TYPE { absoluteMatrix, relativeMatrix, logMatrix, logConstMatrix, ERROR};
-
-
+Matrix test_matrix(DBP_PSSM, MATRIX_TYPE::logMatrix);
 /*!======================	Matrix_gTests		========================*/
 
 
@@ -301,6 +330,70 @@ TEST (normed_PPM_from_logMatrix_Test, Good_relativeMatrix)
 		}
 
 	}
+}
+
+
+/*!
+ *@brief Testing the getters funtions get_length(), get_base_probabilities() and get_logMatrix()
+ */
+TEST (getters_functions, good_initialisation)
+{
+	for(size_t i(0) ; i<4 ; ++i)
+	{
+		ASSERT_EQ(base_probabilities[i], ma_matrice_1.get_base_probabilities()[i]);
+		ASSERT_EQ(base_probabilities[i], ma_matrice_2.get_base_probabilities()[i]);
+		ASSERT_EQ(base_probabilities[i], ma_matrice_3.get_base_probabilities()[i]);
+		ASSERT_EQ(base_probabilities[i], ma_matrice_4.get_base_probabilities()[i]);
+		
+		ASSERT_EQ(lm.size(), ma_matrice_1.get_length());
+		ASSERT_EQ(lm.size(), ma_matrice_2.get_length());
+		ASSERT_EQ(lm.size(), ma_matrice_3.get_length());
+		ASSERT_EQ(lm.size(), ma_matrice_4.get_length());
+		
+		ASSERT_EQ(lm[0][i], ma_matrice_3.get_logMatrix()[0][i]);
+	};
+	
+}
+
+/*!
+ *@brief Read from file testing 
+ */
+TEST (read_matrix_test, good_reading_file)
+{
+	std::string outputfile("../DBP_PPM.mat");
+	
+	Matrix_Neo tmp = Matrix::read_matrix(outputfile);
+	
+	for (size_t i(0) ; i<DBP_PPM.size() ; ++i)
+	{
+		for ( size_t j(0) ; j<DBP_PPM[i].size() ; ++j)
+		
+		ASSERT_EQ(DBP_PPM[i][j], tmp[i][j]); /// really not sure
+		
+	};
+}
+
+/*!
+ *@brief Testing the the "score" of a possible nucleotide binding site sequence_score(std::list<nuc> sequence);
+ */
+TEST (sequence_score_test, good_score)
+{
+	double our_score(0.0);
+	std::list<nuc> sequence {nuc::A,nuc::A,nuc::A,nuc::A,nuc::A,nuc::A,nuc::A};
+	double calc_score(0.0);
+	
+	
+	
+	for(size_t i(0) ; i < DBP_PSSM.size() ; ++i) 
+	{
+		our_score += DBP_PSSM[i][0];
+		
+	}
+	test_matrix.print_log_matrix();
+	calc_score =  test_matrix.sequence_score(sequence);
+	std::cout << our_score << std::endl;
+	std::cout << calc_score << std::endl;
+	ASSERT_TRUE(std::abs(-5.10229832163 - calc_score) < 0.001);
 }
 
 
