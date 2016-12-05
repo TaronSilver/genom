@@ -14,9 +14,10 @@ if (main)
 include_directories(src)
 link_directories("/usr/local/lib") #Tells cmake where some libs could potentially be located
 link_directories("/usr/lib")
+add_executable(Main src/main.cpp src/Matrix.cpp src/procedures.cpp src/Sequence.cpp src/utility.cpp src/user_interaction.cpp)
 
-add_executable(Main src/main.cpp src/Matrix.cpp src/Sequence.cpp src/utility.cpp src/user_interaction.cpp src/procedures.cpp src/matrix_line_operations.cpp src/genomic_coordinates.cpp)
-#target_link_libraries(PopulationSimul m)
+target_link_libraries(Main png pthread)
+
 endif (main)
 
 if (test)
@@ -35,7 +36,7 @@ if (QT4_FOUND AND Qt)
 	execute_process(COMMAND bash ../qt.sh )
 	include_directories(src /usr/include/qt4/Qt)
 	link_directories("/usr/local/lib" "/usr/lib") #Tells cmake where some libs could potentially be located
-	add_executable(MainQt src/mainQt.cpp src/Matrix.cpp src/matrixFromSequence.cpp src/matrix_line_operations.cpp src/procedures.cpp src/resultsWindow.cpp src/saveSequence.cpp src/Sequence.cpp src/user_interactionQt.cpp src/utility.cpp src/window.cpp)
+	add_executable(MainQt src/mainQt.cpp src/Matrix.cpp src/matrixFromSequence.cpp src/procedures.cpp src/resultsWindow.cpp src/saveSequence.cpp src/Sequence.cpp src/user_interactionQt.cpp src/utility.cpp src/window.cpp)
 	target_link_libraries(MainQt Qt4::QtGui)
 endif (QT4_FOUND AND Qt)
 
