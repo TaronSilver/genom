@@ -60,15 +60,6 @@ class Matrix
      */
 	void probToLog();
     
-    /*!
-     * @brief   Opens up file (checks if possible), gives out matrix stocked in file
-     *
-     * @param   Name of the file containing the matrix
-     *
-     * @return  Matrix in file, in type Matrix_Neo
-     */
-    Matrix_Neo read_matrix(std::string const& fileName);
-    
 
     //-----------------------------------------------------------------------
     // MATRIX CONVERSIONS
@@ -91,6 +82,15 @@ class Matrix
 	public:
     //=======================================================================
     //                            PUBLIC FUNCTIONS
+    
+    /*!
+     * @brief   Opens up file (checks if possible), gives out matrix stocked in file
+     *
+     * @param   Name of the file containing the matrix
+     *
+     * @return  Matrix in file, in type Matrix_Neo
+     */
+    static Matrix_Neo read_matrix(std::string const& fileName);
     
     /*!
      * @brief   Converts a log matrix to a given matrix type
