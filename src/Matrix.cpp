@@ -327,8 +327,8 @@ Matrix_Neo Matrix::matrix_to_log(Matrix_Neo input_matrix, MATRIX_TYPE type) {
             return logMatrix_from_normed_PPM( input_matrix );
 
         case MATRIX_TYPE::logConstMatrix:
-            return logMatrix_from_logConstMatrix( input_matrix );
-
+            return Matrix::logMatrix_from_logConstMatrix( input_matrix );
+            
         default:
             return input_matrix;
     }
@@ -348,11 +348,11 @@ Matrix_Neo Matrix::log_to_matrix(Matrix_Neo input_matrix, MATRIX_TYPE type) {
             return probMatrix_from_logMatrix( input_matrix );
 
         case MATRIX_TYPE::relativeMatrix:
-            return normed_PPM_from_logMatrix( input_matrix );
-
+            return Matrix::normed_PPM_from_logMatrix( input_matrix );
+            
         case MATRIX_TYPE::logConstMatrix:
-            return logConstMatrix_from_logMatrix( input_matrix );
-
+            return Matrix::logConstMatrix_from_logMatrix( input_matrix );
+            
         default:
             return input_matrix;
     }
@@ -412,8 +412,13 @@ Matrix_Neo Matrix::absolute_from_normed_PPM( Matrix_Neo input_matrix  )
     {
         new_line.clear();
         line_sum = sum_of_line(input_matrix[i]);
-        assert(line_sum > 1);
-
+        
+        for(int L = 0; L < input_matrix[i].size(); L++)
+			std::cout << input_matrix[i][L] << " ";
+		std::cout <<  "SUM " << line_sum << std::endl;
+        
+        //assert(line_sum >= 1);
+        
         for (size_t j(0);j < NUMBER_NUCLEOTIDES; ++j)/*Read the absoluteMatrix*/
         {
             new_line.push_back(input_matrix[i][j]/line_sum);
@@ -430,7 +435,7 @@ Matrix_Neo Matrix::absolute_from_normed_PPM( Matrix_Neo input_matrix  )
 Matrix_Neo Matrix::logMatrix_from_normed_PPM( Matrix_Neo input_matrix ) {
     Matrix_Neo absoluteMatrix;
     absoluteMatrix = ( absolute_from_normed_PPM( input_matrix ));
-    return logMatrix_from_probMatrix( input_matrix );
+    return logMatrix_from_probMatrix( absoluteMatrix );
 }
 
 
@@ -453,13 +458,13 @@ Matrix_Neo Matrix::probMatrix_from_logMatrix( Matrix_Neo input_matrix )
         for (size_t j(0);j<NUMBER_NUCLEOTIDES;++j)/*Read the logMatrix*/
         {
             intermediate=input_matrix[i][j];
-
-            if(intermediate<MINUSINFINI)// Solve the problem of -infini cases
+            
+            if(intermediate<=MINUSINFINI)// Solve the problem of -infini cases
             {
                 new_line.push_back(0.0);
 
             } else {
-                new_line.push_back(base_prob[j]*exp(log(2)*intermediate));/*Calcul the new values we need*/
+                new_line.push_back(base_prob[j]*std::pow(2, intermediate));/*Calcul the new values we need*/
             }
         }
 
@@ -473,7 +478,8 @@ Matrix_Neo Matrix::probMatrix_from_logMatrix( Matrix_Neo input_matrix )
 
 Matrix_Neo Matrix::logMatrix_from_logConstMatrix( Matrix_Neo input_matrix )
 {
-    Matrix_Neo normed_prob_matrix( probMatrix_from_logMatrix(input_matrix));
+	
+    Matrix_Neo normed_prob_matrix( Matrix::probMatrix_from_logMatrix(input_matrix));
     return logMatrix_from_normed_PPM(normed_prob_matrix);
 }
 
@@ -492,8 +498,7 @@ Matrix_Neo Matrix::normed_from_absolute_PPM( Matrix_Neo input_matrix  )
     for(size_t i(0);i < size; ++i)
     {
         new_line.clear();
-        line_sum = sum_of_line(input_matrix[i]);
-        assert(line_sum > 1);
+        line_sum = max_of_line(input_matrix[i]);
 
         for (size_t j(0);j < NUMBER_NUCLEOTIDES; ++j)/*Read the absoluteMatrix*/
         {
@@ -511,7 +516,7 @@ Matrix_Neo Matrix::normed_from_absolute_PPM( Matrix_Neo input_matrix  )
 Matrix_Neo Matrix::logConstMatrix_from_logMatrix( Matrix_Neo input_matrix )
 {
     Matrix_Neo absoluteMatrix(probMatrix_from_logMatrix(input_matrix));
-    Matrix_Neo normedMatrix(normed_from_absolute_PPM(absoluteMatrix));
+    Matrix_Neo normedMatrix(Matrix::normed_from_absolute_PPM(absoluteMatrix));
     return logMatrix_from_probMatrix(normedMatrix);
 }
 
