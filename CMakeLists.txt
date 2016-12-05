@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.6)
 
-project(genom-2 CXX C)
+project(genom-2 CXX)
 
 option(main "Build main version." ON)
 option(test "Build tests." OFF) #declares a boolean that tells that we are doing a test version.
@@ -14,7 +14,7 @@ if (main)
 include_directories(src)
 link_directories("/usr/local/lib") #Tells cmake where some libs could potentially be located
 link_directories("/usr/lib")
-add_executable(Main src/main.cpp src/Matrix.cpp src/matrix_line_operations.cpp src/procedures.cpp src/Sequence.cpp src/utility.cpp src/user_interaction.cpp)
+add_executable(Main src/main.cpp src/Matrix.cpp src/procedures.cpp src/Sequence.cpp src/utility.cpp src/user_interaction.cpp)
 
 target_link_libraries(Main png pthread)
 
