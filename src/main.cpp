@@ -11,6 +11,7 @@
 
 #include "procedures.hpp"
 #include "user_interaction.hpp"
+#include "../logo/logo_main.hpp"
 
 
 
@@ -33,6 +34,11 @@ int main() {
 	    if (procedure == MatrixFromSequences) {
 	        enzyme_from_sequences();
 	    }
+	    
+	    if (procedure == Logo) {
+			logo();
+		}
+		
 	 } while (procedure != Exit);
 	
 	return 0;

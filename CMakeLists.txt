@@ -14,8 +14,10 @@ if (main)
 include_directories(src)
 link_directories("/usr/local/lib") #Tells cmake where some libs could potentially be located
 link_directories("/usr/lib")
-add_executable(Main src/main.cpp src/Matrix.cpp src/procedures.cpp src/Sequence.cpp src/utility.cpp src/user_interaction.cpp)
-#target_link_libraries(PopulationSimul m)
+add_executable(Main src/main.cpp src/Matrix.cpp src/matrix_line_operations.cpp src/procedures.cpp src/Sequence.cpp src/utility.cpp src/user_interaction.cpp)
+
+target_link_libraries(Main png pthread)
+
 endif (main)
 
 if (test)
