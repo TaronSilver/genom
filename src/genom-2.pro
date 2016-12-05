@@ -11,7 +11,7 @@ HEADERS += \
     matrixFromSequence.hpp \
     sequenceFromMatrix.hpp \
     resultsWindow.hpp \
-    matrix_line_operations.hpp
+    genomic_coordinates.hpp
 
 SOURCES += \
     mainQt.cpp \
@@ -25,7 +25,8 @@ SOURCES += \
     matrixFromSequence.cpp \
     sequenceFromMatrix.cpp \
     resultsWindow.cpp \
-    matrix_line_operations.cpp
+    genomic_coordinates.cpp \
+    user_interactionQt_copy.cpp
 
 FORMS += \
     saveSequence.ui \

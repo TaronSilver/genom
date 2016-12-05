@@ -48,11 +48,11 @@ Coordinates::Coordinates(std::string filename) {
     if(line_description_present) {
         while (getline(file, line_location, ' ')) {
             if(not(file >> startpos >> endpos))
-                error_reading_coordiates(line);
+                error_reading_coordinates(line);
             if(not(getline(file, line_description, ' ')))
-                error_reading_coordiates(line);
+                error_reading_coordinates(line);
             if(not(file >> line_score))
-                error_reading_coordiates(line);
+                error_reading_coordinates(line);
             fillNewLine(startpos, endpos, line_location, line_description, line_score);
             line++;
         }
@@ -61,7 +61,7 @@ Coordinates::Coordinates(std::string filename) {
     if(line_description_present) {
         while (getline(file, line_location, ' ')) {
             if(not(file >> startpos >> endpos >> line_score))
-                error_reading_coordiates(line);
+                error_reading_coordinates(line);
             fillNewLine(startpos, endpos, line_location, line_description, line_score);
             line++;
         }
@@ -81,12 +81,12 @@ void Coordinates::fillNewLine(unsigned int startpos,
                               std::string line_description,
                               double line_score) {
     
-    location.pushback(line_location);
-    start_pos.pushback(startpos);
-    length.pushback(endpos - startpos);
+    location.push_back(line_location);
+    start_pos.push_back(startpos);
+    length.push_back(endpos - startpos);
     
     if(line_description_present)
-        description.pushback(line_description);
+        description.push_back(line_description);
     
-    score.pushback(line_score);
+    score.push_back(line_score);
 }

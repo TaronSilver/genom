@@ -769,7 +769,7 @@ Matrix_Neo matrix_from_same_length_sequences_not_weighted(std::vector<SearchResu
     }
     
     // Division by sum of each line
-    double line_sum = sum_of_line(output_matrix[0]);
+    double line_sum = Matrix::sum_of_line(output_matrix[0]);
     
     for (unsigned int i(0); i<length_sequence; i++) {
         for (unsigned int j(0); j<NUMBER_NUCLEOTIDES; j++) {
@@ -829,9 +829,9 @@ Matrix_Neo matrix_from_same_length_sequences_weighted(std::vector<SearchResults>
     // To avoid havnig a probability of 0, the base probability for each nucleotide is added to
     // each such line (or should we do this to every line?)
     for (unsigned int i(0); i<length_sequence; i++) {
-        line_min = min_of_line(output_matrix[i]);
+        line_min = Matrix::min_of_line(output_matrix[i]);
         
-        if (min_of_line<=0) {
+        if (Matrix::min_of_line<=0) {
             for (unsigned int j(0); j<NUMBER_NUCLEOTIDES; j++) {
                 output_matrix[i][j] -= line_min;
                 output_matrix[i][j] += base_prob[j];
@@ -841,7 +841,7 @@ Matrix_Neo matrix_from_same_length_sequences_weighted(std::vector<SearchResults>
     
     // Every value of the line is divided by the sum of each line, yielding a probability
     for (unsigned int i(0); i<length_sequence; i++) {
-        line_sum = sum_of_line(output_matrix[i]);
+        line_sum = Matrix::sum_of_line(output_matrix[i]);
         
         for (unsigned int j(0); j<NUMBER_NUCLEOTIDES; j++) {
             output_matrix[i][j] /= line_sum;

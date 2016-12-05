@@ -14,6 +14,8 @@
 #include <iostream>
 #include <fstream>
 
+#include "user_interaction.hpp"
+
 class Coordinates {
 
 private:
