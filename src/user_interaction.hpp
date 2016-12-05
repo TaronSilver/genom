@@ -38,7 +38,7 @@ public:
 // Three columned table which associates two objects.
 typedef std::vector<std::vector<unsigned int >> Association_Table;
 
-enum PROCEDURE { MatrixFromSequences, SequencesFromMatrix, Exit };
+enum PROCEDURE { MatrixFromSequences, SequencesFromMatrix, Logo, Exit };
 enum BP_FILL { AllEqual, UserDefined, FromSequence, NotUsed };
 enum SEQ_SOURCE { CoordAndSeq, OnlySeq, FromSearchResult }; 
 

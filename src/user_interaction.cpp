@@ -23,6 +23,8 @@ PROCEDURE whatToDo() {
     << "sequences." << std::endl;
     std::cout << "Enter 2 to obtain all binding positions of a protein from a " << std::endl
     << "probability matrix on a given nucleotide sequence." << std::endl;
+    std::cout << "Enter 3 to obtain a logo" << std::endl;
+
     std::cout << "Enter 0 to exit the program." << std::endl;
     
     while (true) {
@@ -34,6 +36,10 @@ PROCEDURE whatToDo() {
         }
         else if (answer == 2) {
             whatToDo = SequencesFromMatrix;
+            break;
+        }
+        else if (answer == 3) {
+            whatToDo = Logo;
             break;
         }
         else if (answer == 0) {

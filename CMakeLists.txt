@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.6)
 
-project(genom-2 CXX C)
+project(genom-2 CXX)
 
 option(main "Build main version." ON)
 option(test "Build tests." OFF) #declares a boolean that tells that we are doing a test version.
