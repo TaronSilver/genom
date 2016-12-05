@@ -63,7 +63,7 @@ void logo() {
 		
 	}
 	
-	background.save_png("yourlogo.png");
+	background.save_png("../yourlogo.png");
 }
 
 
