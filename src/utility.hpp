@@ -5,7 +5,6 @@
 #include "Matrix.hpp"
 #include "Sequence.hpp"
 #include "user_interaction.hpp"
-#include "matrix_line_operations.hpp"
 #include "genomic_coordinates.hpp"
 
 

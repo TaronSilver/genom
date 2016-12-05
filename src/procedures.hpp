@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <vector>
+
 #include "Matrix.hpp"
 #include "Sequence.hpp"
 #include "utility.hpp"
