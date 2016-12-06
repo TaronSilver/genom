@@ -33,11 +33,12 @@ public:
     void getFileName();
 
 public slots:
-    void on_chooseFasta_clicked();
-    void on_chooseMatrix_clicked();
+    void on_buttonFasta_clicked();
+    void on_buttonMatrix_clicked();
     void on_buttonLeave_clicked();
-    void on_sequenceFromMatrixButton_clicked();
-    void on_matrixFromSequenceButton_clicked();
+    void on_buttonSequenceFromMatrix_clicked();
+    void on_buttonMatrixFromSequence_clicked();
+    void on_buttonLogo_clicked();
 
 
 private:

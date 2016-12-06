@@ -2,6 +2,7 @@
 #include "../build/ui_window.h"
 
 #include "utility.hpp"
+#include "../logo/logo_main.hpp"
 
 Window::Window(QWidget *parent) :
     QDialog(parent),
@@ -18,14 +19,14 @@ void Window::on_buttonLeave_clicked() {
     qApp->quit();
 }
 
-void Window::on_chooseFasta_clicked() {
+void Window::on_buttonFasta_clicked() {
     fastaLocation = QFileDialog::getOpenFileName(this, "Open a Sequence File", fastaLocation, "Fasta files only! ( *.fasta *.fas *.ffn *.faa *.frn )");
 
     ui->showFastaLocation->setText(fastaLocation);
     ui->showFastaLocation->adjustSize();
 }
 
-void Window::on_chooseMatrix_clicked() {
+void Window::on_buttonMatrix_clicked() {
     matrixLocation = QFileDialog::getOpenFileName(this, "Open a Matrix File", matrixLocation, "(*.mat)");
     ui->showMatrixLocation->setText(matrixLocation);
     ui->showMatrixLocation->adjustSize();
@@ -37,7 +38,7 @@ std::string fastaFilePath;
 std::string output;
 
 
-void Window::on_sequenceFromMatrixButton_clicked() {
+void Window::on_buttonSequenceFromMatrix_clicked() {
     if(fastaLocation.isEmpty() or matrixLocation.isEmpty()) {
         QMessageBox::critical(this, "Error: Files not chosen", "You havent chosen your Sequence or your Matrix file.");
     }
@@ -58,7 +59,7 @@ void Window::on_sequenceFromMatrixButton_clicked() {
     }
 }
 
-void Window::on_matrixFromSequenceButton_clicked() {
+void Window::on_buttonMatrixFromSequence_clicked() {
     if(fastaLocation.isEmpty()) {
         QMessageBox::critical(this, "Error: File not chosen", "You havent chosen your Sequence file.");
     }
@@ -71,6 +72,10 @@ void Window::on_matrixFromSequenceButton_clicked() {
 
     enzyme_from_sequences();
     }
+}
+
+void Window::on_buttonLogo_clicked(){
+    logo();
 }
 
 std::string Window::getFastaLocation(){

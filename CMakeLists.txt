@@ -4,7 +4,7 @@ project(genom-2 CXX)
 
 option(main "Build main version." ON)
 option(test "Build tests." OFF) #declares a boolean that tells that we are doing a test version.
-option(Qt "Building Graphic Interface." OFF)
+option(Qt "Building Graphic Interface." ON)
 
 set(CMAKE_BUILD_TYPE Debug) #Allows to debug
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wall -pedantic -std=c++11")
@@ -36,8 +36,8 @@ if (QT4_FOUND AND Qt)
 	execute_process(COMMAND bash ../qt.sh )
 	include_directories(src /usr/include/qt4/Qt)
 	link_directories("/usr/local/lib" "/usr/lib") #Tells cmake where some libs could potentially be located
-	add_executable(MainQt src/mainQt.cpp src/Matrix.cpp src/matrixFromSequence.cpp src/procedures.cpp src/resultsWindow.cpp src/saveSequence.cpp src/Sequence.cpp src/user_interactionQt.cpp src/utility.cpp src/window.cpp)
-	target_link_libraries(MainQt Qt4::QtGui)
+	add_executable(genom-2 src/genomic_coordinates.cpp src/mainQt.cpp src/Matrix.cpp src/matrixFromSequence.cpp src/procedures.cpp src/resultsWindow.cpp src/saveSequence.cpp src/Sequence.cpp src/sequenceFromMatrix.cpp src/user_interaction.cpp src/utility.cpp src/window.cpp)
+	target_link_libraries(genom-2 Qt4::QtGui png pthread)
 endif (QT4_FOUND AND Qt)
 
 find_package(Doxygen)

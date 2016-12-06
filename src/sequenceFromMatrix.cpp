@@ -1,5 +1,5 @@
 #include "sequenceFromMatrix.hpp"
-#include "ui_sequenceFromMatrix.h"
+#include "../build/ui_sequenceFromMatrix.h"
 
 sequenceFromMatrix::sequenceFromMatrix(QWidget *parent) :
     QDialog(parent),
@@ -27,16 +27,16 @@ void sequenceFromMatrix::on_buttonSave_clicked(){
 }
 
 
-bool boule(false);
+bool rex(false);
 void sequenceFromMatrix::on_checkBox_stateChanged(){
     if(ui->checkBox->isChecked()){
-        boule = !boule;
+        rex = !rex;
     }
     else{
-        boule = !boule;
+        rex = !rex;
     }
 }
 
 bool sequenceFromMatrix::getBool(){
-    return boule;
+    return rex;
 }
