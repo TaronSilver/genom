@@ -11,7 +11,8 @@ HEADERS += \
     matrixFromSequence.hpp \
     sequenceFromMatrix.hpp \
     resultsWindow.hpp \
-    genomic_coordinates.hpp
+    genomic_coordinates.hpp \
+    askBaseProb.hpp
 
 SOURCES += \
     mainQt.cpp \
@@ -25,11 +26,13 @@ SOURCES += \
     matrixFromSequence.cpp \
     sequenceFromMatrix.cpp \
     resultsWindow.cpp \
-    genomic_coordinates.cpp
+    genomic_coordinates.cpp \
+    askBaseProb.cpp
 
 FORMS += \
     saveSequence.ui \
     window.ui \
     matrixFromSequence.ui \
     sequenceFromMatrix.ui \
-    resultsWindow.ui
+    resultsWindow.ui \
+    askBaseProb.ui

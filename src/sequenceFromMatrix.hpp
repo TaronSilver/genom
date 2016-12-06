@@ -20,11 +20,13 @@ public:
 
     static double getCutoff();
     static bool getBool();
+    static bool isEM();
 
 public slots:
     void on_buttonSave_clicked();
-    void on_spinDouble_valueChanged();
-    void on_checkBox_stateChanged();
+    void on_spinCutoff_valueChanged();
+    void on_checkBoxSaveResults_stateChanged();
+    void on_checkBoxUseEM_stateChanged();
 
 private:
     Ui::sequenceFromMatrix *ui;

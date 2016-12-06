@@ -1,7 +1,7 @@
 #include "window.hpp"
 #include "../build/ui_window.h"
 
-#include "utility.hpp"
+
 #include "../logo/logo_main.hpp"
 
 Window::Window(QWidget *parent) :
@@ -51,6 +51,10 @@ void Window::on_buttonSequenceFromMatrix_clicked() {
         mac.show();
         mac.exec();
 
+        askBaseProb base;
+        base.show();
+        base.exec();
+
         enzyme_on_sequence();
 
         resultsWindow results;
@@ -91,5 +95,5 @@ void Window::getFileName(){
 }
 
 std::string Window::getOutputName(){
-    return output;
+    return "../" + output;
 }

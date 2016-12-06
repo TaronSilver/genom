@@ -233,7 +233,6 @@ void print_results(SearchResults results, std::string filename) {
     unsigned int size = results.searchResults.size();
     
     outputfile << results.description << std::endl;
-    std::cout << "HELLO" << std::endl;
     
     for (unsigned int i(0); i < size; i++) {
         outputfile << results.searchResults[i].sequence << " found at position "

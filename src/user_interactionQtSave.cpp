@@ -1,144 +1,41 @@
-//
-//  user_interaction.cpp
-//
-//
-//  Created by Mättu on 15.11.16.
-//
-//
-
 #include "user_interaction.hpp"
 
-
-
-//-----------------------------------------------------------------------
-
-PROCEDURE whatToDo() {
-
-    system("Clear");
-    PROCEDURE whatToDo;
-    unsigned int answer;
-
-    std::cout << "Welcome to our program. What would you like to do? \n";
-    std::cout << "Enter 1 to obtain a probability weight matrix from multiple" << std::endl
-    << "sequences." << std::endl;
-    std::cout << "Enter 2 to obtain all binding positions of a protein from a " << std::endl
-    << "probability matrix on a given nucleotide sequence." << std::endl;
-    std::cout << "Enter 0 to exit the program." << std::endl;
-
-    while (true) {
-        std::cin >> answer;
-
-        if (answer == 1) {
-            whatToDo = MatrixFromSequences;
-            break;
-        }
-        else if (answer == 2) {
-            whatToDo = SequencesFromMatrix;
-            break;
-        }
-        else if (answer == 0) {
-            whatToDo = Exit;
-            break;
-        }
-        else {
-            std::cout << "Unrecognized input. Please try again." << std::endl;
-        }
-    }
-
-    return whatToDo;
-
-}
+#include "matrixFromSequence.hpp"
+#include "sequenceFromMatrix.hpp"
+#include "resultsWindow.hpp"
+#include "saveSequence.hpp"
+#include "window.hpp"
 
 
 //-----------------------------------------------------------------------
 double ask_cutoff() {
-    double cutoff;
-    std::cout << "What cutoff would you like to use?" << std::endl;
-    std::cin >> cutoff;
-    return cutoff;
+    return sequenceFromMatrix::getCutoff();
 }
 
 
 //-----------------------------------------------------------------------
 
 bool ask_binding_length_known() {
-    bool known;
-    std::cout << "Do you know the length of the enzyme binding site? " << std::endl
-              << "enter 1 for yes, 0 for no. ";
-    std::cin >> known;
-    return known;
+    return matrixFromSequence::getBool();
 }
 
 
 //-----------------------------------------------------------------------
 
 unsigned int ask_position() {
-
-    unsigned int position;
-
-    while (true) {
-        std::cout << "At what position is the binding site (starts at 1)?";
-        std::cin >> position;
-
-        if (position <= 0) {
-            std::cout << "Position must be positive" << std::endl;
-            continue;
-        }
-
-        break;
-    }
-
-    return position;
-
+    return matrixFromSequence::getPosition();
 }
 
 //-----------------------------------------------------------------------
 
 unsigned int ask_length() {
-
-    unsigned int length;
-    while (true) {
-        std::cout << "How long is the enzyme binding site? ";
-        std::cin >> length;
-
-        if (length <= 0) {
-            std::cout << "Lenght must be positive" << std::endl;
-            continue;
-        }
-
-        break;
-    }
-
-    return length;
-
+    return matrixFromSequence::getLength();
 }
 
 //-----------------------------------------------------------------------
 std::string ask_name_fasta()
 {
-    std::string entry_name;
-
-    while (true) {
-        std::cout <<"Please give the name of your sequence file: ";
-        std::cin >> entry_name;
-
-        std::ifstream entry(entry_name.c_str());
-
-        if (entry.fail()) {
-            std::cout << "Impossible to read the file, please try again. " << std::endl;
-            continue;
-        }
-
-        if(InvalidFormat(entry_name)) {
-            std::cout << "Unknown file format, please try again. " << std::endl;
-            continue;
-        }
-
-        entry.close();
-        break;
-    }
-
-    return entry_name;
+    return Window::getFastaLocation();
 }
 
 
@@ -148,40 +45,17 @@ std::string ask_name_fasta()
 
 std::string ask_name_matrix()
 {
-    std::string entry_name;
-
-    while (true) {
-        std::cout <<"Please give the name of your matrix file: ";
-        std::cin >> entry_name;
-
-        std::ifstream entry(entry_name.c_str());
-
-
-        if (entry.fail()) {
-            std::cout << "Impossible to read the file, please try again." << std::endl;
-            continue;
-        }
-
-        if (InvalidFormatMat(entry_name)) {
-            std::cout << "Unknown file format, please try again." << std::endl;
-            continue;
-        }
-
-        entry.close();
-        break;
-    }
-
-    return entry_name;
+    return Window::getMatrixLocation();
 }
 //-------------------------------------------------------------------------
 
 bool InvalidFormatMat(std::string file_name)
 {
-    if (file_name.find(".mat") != std::string::npos)
-    {
-        return 0;
-    }
-    else return 1;
+        if (file_name.find(".mat") != std::string::npos)
+        {
+                return 0;
+        }
+        else return 1;
 }
 
 //-----------------------------------------------------------------------
@@ -199,10 +73,11 @@ bool InvalidFormat(std::string file_name)
 
     return 1;
 }
+
 //-----------------------------------------------------------------------
 void nucleotide_warning(char c)
 {
-    std::cout << "WARNING, nucleotide " << c
+        std::cout << "WARNING, nucleotide " << c
                           << " not recognized" << std::endl;
 }
 
@@ -231,7 +106,7 @@ void print_results(SearchResults results, std::string filename) {
 
     for (unsigned int i(0); i < size; i++) {
         outputfile << results.searchResults[i].sequence << " found at position "
-                   << results.searchResults[i].position << " in "
+                   << results.searchResults[i].position +1 << " in "
                    << results.searchResults[i].direction << " direction with the score "
                    << results.searchResults[i].score << std::endl;
     }
@@ -254,64 +129,40 @@ void print_results(SearchResults results) {
     }
 }
 
-//==========================================================================================
-std::string Ask_Outputfile_Name() {
-    std::string filename;
-
-    std::cout <<"What would you like to call your outpufile?"<< std::endl;
-    std::cin>>filename;
-
-    return filename;
-}
 
 //----------------------------------------------------------------------
 void Cout_NewSeq(std::string new_sequence)
 {
-    std::cout <<"Creation of a new sequence: " << new_sequence << std::endl;
+        std::cout <<"Creation of a new sequence: " << new_sequence << std::endl;
 }
+
 //----------------------------------------------------------------------
 BP_FILL CoutCin_AskBaseProb()
 {
-    int choice;
+    int choice = matrixFromSequence::getBaseChoiceFinal();
 
-    while (true) {
-        std::cout << "What would you like to use as the base probabilities for each type of nucleotide in your sequence? " <<
-        std::endl << "The base probabilities are used to normalize the logarithmic probability weight matrix. " <<
-        std::endl << "Enter 0 to not use any base probabilities"<<
-        std::endl << "Enter 1 to use a base probability of 0.25 for all nucleotides"<<
-        std::endl << "Enter 2 to use custom base probabilities" <<
-        //   std::endl << "Enter 3 to use base probabilities calculated from the input sequence" <<
+    switch (choice) {
+    case 2:
+        return BP_FILL::UserDefined;
 
-        std::endl;
+    case 0:
+        return BP_FILL::AllEqual;
 
-        std::cin>>choice;
+    case 3:
+        return BP_FILL::NotUsed;
 
-        switch (choice) {
-            case 2:
-                return BP_FILL::UserDefined;
-
-            case 1:
-                return BP_FILL::AllEqual;
-
-            case 0:
-                return BP_FILL::NotUsed;
-
-        /*
-            case 3:
-                return BP_FILL::FromSequence;
-        */
-
-            default:
-                std::cout << "Invalid input, try again. " << std::endl;
-        }
-
+/*
+    case 1:
+        return BP_FILL::FromSequence;
+*/
     }
+
 
 }
 //----------------------------------------------------------------------
 double CoutCin_AskBaseProb0(char C)
 {
-    double baseProb;
+        double baseProb;
 
     while (true) {
         std::cout << "Enter the base probability for "<< C ;
@@ -327,9 +178,13 @@ double CoutCin_AskBaseProb0(char C)
             return baseProb;
     }
 
-    return baseProb;
+        return baseProb;
 }
-//----------------------------------------------------------------------
+
+
+std::string Ask_Outputfile_Name(){
+    return "../"+Window::getOutputName();
+}
 
 
 std::vector<double> AskBaseProb()
@@ -345,8 +200,6 @@ std::vector<double> AskBaseProb()
             return {1, 1, 1, 1};
     }
 }
-
-
 
 //----------------------------------------------------------------------
 
@@ -436,25 +289,7 @@ bool ask_matrix_from_sequences_weighed() {
 //----------------------------------------------------------------------
 
 bool ask_matrix_from_search_matches() {
-    bool answer;
-    std::cout << "Would you like to create a new matrix based on the search matches?" <<
-    std::endl << "Enter 1 for yes, 0 for no." <<
-    std::endl;
-
-    std::cin >> answer;
-
-    std::cout << "You answered ";
-    switch (answer) {
-        case true:
-            std::cout <<"YES";
-            break;
-
-        default:
-            std::cout <<"NO";
-            break;
-    }
-    std::cout << std::endl;
-    return answer;
+    return sequenceFromMatrix::getBool();
 }
 
 
@@ -480,4 +315,3 @@ std::string ask_coordinate_filename() {
     std::cin >> answer;
     return answer;
 }
-

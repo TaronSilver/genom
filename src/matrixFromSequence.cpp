@@ -15,60 +15,7 @@ matrixFromSequence::~matrixFromSequence()
 {
     delete ui;
 }
-    unsigned int baseChoiceFinal;
-void matrixFromSequence::on_chooseBase_currentIndexChanged(int){
-    if(ui->chooseBase->currentIndex()==2){
-        ui->spinA->setEnabled(true);
-        ui->spinC->setEnabled(true);
-        ui->spinG->setEnabled(true);
-        ui->spinT->setEnabled(true);
-    }
-    baseChoice = ui->chooseBase->currentIndex();
-    baseChoiceFinal=baseChoice;
-}
 
-unsigned int matrixFromSequence::getBaseChoiceFinal(){
-   return  baseChoiceFinal;
-}
-
-int matrixFromSequence::getBaseChoice(){
-    return baseChoice;
-}
-
-double matrixFromSequence::getProbA() {
-    return probA;
-}
-double matrixFromSequence::getProbC(){
-    return probC;
-}
-
-double matrixFromSequence::getProbG(){
-    return probG;
-}
-
-double matrixFromSequence::getProbT(){
-    return probG;
-}
-
-void matrixFromSequence::on_spinA_valueChanged(double){
-    probA = ui->spinA->value();
-}
-
-void matrixFromSequence::on_spinC_valueChanged(double){
-    probC = ui->spinC->value();
-}
-
-void matrixFromSequence::on_spinG_valueChanged(double){
-    probG = ui->spinG->value();
-}
-
-void matrixFromSequence::on_spinT_valueChanged(double){
-    probT = ui->spinT->value();
-}
-
-unsigned int matrixFromSequence::getMatrixChoice(){
-    return matrixChoice;
-}
 
 bool checkBox(false);
 void matrixFromSequence::on_checkBox_stateChanged(){
@@ -81,9 +28,13 @@ void matrixFromSequence::on_checkBox_stateChanged(){
         checkBox = !checkBox;
     }
 }
-
+    unsigned int matrixChoice = 1;
 void matrixFromSequence::on_chooseMatrix_currentIndexChanged(int){
     matrixChoice = ui->chooseMatrix->currentIndex()+1;
+}
+
+unsigned int matrixFromSequence::getMatrixChoice(){
+    return matrixChoice;
 }
 
 unsigned int position=1;

@@ -14,8 +14,8 @@ sequenceFromMatrix::~sequenceFromMatrix()
 }
 
 double cutoff;
-void sequenceFromMatrix::on_spinDouble_valueChanged(){
-    cutoff = ui->spinDouble->value();
+void sequenceFromMatrix::on_spinCutoff_valueChanged(){
+    cutoff = ui->spinCutoff->value();
 }
 
 double sequenceFromMatrix::getCutoff(){
@@ -26,17 +26,31 @@ void sequenceFromMatrix::on_buttonSave_clicked(){
     this->close();
 }
 
-
-bool rex(false);
-void sequenceFromMatrix::on_checkBox_stateChanged(){
-    if(ui->checkBox->isChecked()){
-        rex = !rex;
+bool saveM(false);
+bool useEM(false);
+void sequenceFromMatrix::on_checkBoxSaveResults_stateChanged(){
+    if(ui->checkBoxSaveResults->isChecked()){
+        saveM = true;
+        ui->checkBoxUseEM->setEnabled(true);
     }
     else{
-        rex = !rex;
+        saveM = false;
+        ui->checkBoxUseEM->setEnabled(false);
+        useEM = false;
     }
 }
 
 bool sequenceFromMatrix::getBool(){
-    return rex;
+    return saveM;
+}
+
+void sequenceFromMatrix::on_checkBoxUseEM_stateChanged(){
+    if(ui->checkBoxSaveResults->isChecked() and ui->checkBoxUseEM->isCheckable() and ui->checkBoxUseEM->isChecked()){
+        useEM = true;
+    }
+    else useEM = false;
+}
+
+bool sequenceFromMatrix::isEM(){
+    return useEM;
 }
