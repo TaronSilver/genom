@@ -1,18 +1,18 @@
 #define cimg_use_png
 #define cimg_display 0
-#include "CImg-1.7.9/CImg.h"
+#include "../logo/CImg-1.7.9/CImg.h"
 #include <vector>
 #include <iostream>
 #include <string>
 #include <fstream>
 #include <sstream>
+#include "user_interaction.hpp"
+
 
 using namespace cimg_library;
 
 std::vector<std::vector<double>> read_logo_matrix(std::string const& fileName);
-std::string ask_logo_matrix();
 double size(std::vector<std::vector<double>> const& PWM, unsigned N, unsigned pos);
-
 
 void logo() {
 	
@@ -24,6 +24,8 @@ void logo() {
 	CImg<unsigned char> background(1, 1, 1, 3, 255, 255, 255);
 	background.resize(size_motif*500, 1000);
 	
+	logo_in_process();
+	
 	for (unsigned pos(0); pos<size_motif; ++pos)
 	{ 
 		CImg<unsigned char> iconA("../logo/icons/A.png");
@@ -33,31 +35,24 @@ void logo() {
 		
 		CImg<unsigned char> column(1, 1, 1, 3, 255, 255, 255);
 		column.resize(500, 1000);
-
-		
-		std::cout<<"Enter position: " << pos +1 << std::endl;
 		
 		double height(0);
 		
 		iconA.resize(500, size(PWM,0,pos), -100, -100, 2);
 		column.draw_image(0, height, 0, 0, iconA);
 		height = size(PWM,0,pos);
-		std::cout<<"	Printed A" << std::endl;
 
 		iconC.resize(500, size(PWM,1,pos), -100, -100, 2);
 		column.draw_image(0, height, 0, 0, iconC);
 		height += size(PWM,1,pos);
-		std::cout<<"	Printed C" << std::endl;		
 		
 		iconG.resize(500, size(PWM,2,pos), -100, -100, 2);
 		column.draw_image(0, height, 0, 0, iconG);
 		height += size(PWM,2,pos);
-		std::cout<<"	Printed G" << std::endl;
 		
 		
 		iconT.resize(500, size(PWM,3,pos), -100, -100, 2);
 		column.draw_image(0, height, 0, 0, iconT);
-		std::cout<<"	Printed T" << std::endl;
 		
 		background.draw_image(pos*500, 0, 0, 0, column);
 		
@@ -107,29 +102,6 @@ std::vector<std::vector<double>> read_logo_matrix(std::string const& fileName)
 
         return input_matrix;
     }
-}
-
-std::string ask_logo_matrix()
-{
-    std::string entry_name;
-    
-    while (true) {
-	    std::cout <<"Please give the name of your probability weight matrix file: ";
-	    std::cin >> entry_name;
-	    
-	    std::ifstream entry(entry_name.c_str());
-	
-	    
-	    if (entry.fail()) {
-	        std::cout << "Impossible to read the file, please try again." << std::endl;
-	        continue;
-	    }
-	    
-	    entry.close();
-	    break;
-	}
-
-    return entry_name;
 }
 
 double size(std::vector<std::vector<double>> const& PWM, unsigned N, unsigned pos)
