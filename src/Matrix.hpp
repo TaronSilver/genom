@@ -344,7 +344,7 @@ void save(std::string fileName, MATRIX_TYPE type);
      *
      * @return  1 if they correspond, 0 if not
      */
-    static bool line_is_normed_ppm(double min, double max, double sum);
+    static bool line_is_normed_ppm(double min, double max);//, double sum
 
         
     

@@ -311,7 +311,7 @@ BP_FILL CoutCin_AskBaseProb()
         }
         
     }
-    
+     return BP_FILL::NotUsed;
 }
 //----------------------------------------------------------------------
 double CoutCin_AskBaseProb0(char C)
@@ -409,6 +409,7 @@ MATRIX_TYPE Ask_Return_Matrix_Type() {
         
         std::cout << "Invalid input. Please try again. " << std::endl;
     }
+    return MATRIX_TYPE::logMatrix;
 }
 
 

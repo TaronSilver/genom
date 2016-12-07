@@ -215,7 +215,7 @@ MATRIX_TYPE Matrix::determine_matrix_type(Matrix_Neo input) {
         if(line_is_reg_ppm(minimum_of_line, maximum_of_line, line_sum))
             return MATRIX_TYPE::absoluteMatrix;
 
-        if(line_is_normed_ppm(minimum_of_line, maximum_of_line, line_sum))
+        if(line_is_normed_ppm(minimum_of_line, maximum_of_line))//, line_sum
             return MATRIX_TYPE::relativeMatrix;
 
         id++;
@@ -235,7 +235,7 @@ MATRIX_TYPE Matrix::determine_matrix_type(Matrix_Neo input) {
         if(line_is_reg_ppm(minimum_of_line, maximum_of_line, line_sum))
             return MATRIX_TYPE::logMatrix;
 
-        if(line_is_normed_ppm(minimum_of_line, maximum_of_line, line_sum))
+        if(line_is_normed_ppm(minimum_of_line, maximum_of_line))//, line_sum
             return MATRIX_TYPE::logConstMatrix;
 
         id++;
@@ -292,7 +292,7 @@ bool Matrix::line_is_reg_ppm(double min, double max, double sum) {
 // A line is considered as part of a weighed position probability
 // matrix if the maximum is 1 and all values are between 0 and 1
 
-bool Matrix::line_is_normed_ppm(double min, double max, double sum) {
+bool Matrix::line_is_normed_ppm(double min, double max) { // the following argument : "double sum" was not used and created warnings - Souhail
     return ((min > 0)
             and (max >= 1 - TOLERANCE)
             and (min <= 1 + TOLERANCE));
@@ -413,7 +413,7 @@ Matrix_Neo Matrix::absolute_from_normed_PPM( Matrix_Neo input_matrix  )
         new_line.clear();
         line_sum = sum_of_line(input_matrix[i]);
         
-        for(int L = 0; L < input_matrix[i].size(); L++)
+        for(size_t L = 0; L < input_matrix[i].size(); L++)
 			std::cout << input_matrix[i][L] << " ";
 		std::cout <<  "SUM " << line_sum << std::endl;
         

@@ -222,280 +222,7 @@ Matrix_Neo matrix_from_sequence_results(std::string filename) {
 // TODO: Doesn't work if at position 0; reverse strand doesnt work
 // TODO: Progress bar
 
-std::vector<SearchResults> analyze_sequence(std::string filename, Matrix matrix, double cutoff) {
-
-    // File to read
-    std::ifstream entry_file(filename);
-
-    // Search results of all sequences
-    std::vector <SearchResults> output;
-
-    // Search results of one sequence
-    SearchResults sequence_matches;
-
-    std::list<nuc> forwardSequence;
-    std::list<nuc> backwardSequence;
-
-    bool fill(true);
-
-    char character;
-
-    unsigned int char_counter(0);
-    unsigned int length(matrix.get_length());
-    unsigned int position_counter(0);
-    int size_of_file;
-    size_of_file = filesize(filename);
-    int size_base_element(size_of_file/100 * sizeof(char));
-
-    bool first_line(true);
-
-    double score;
-
-    while(entry_file.get(character)) {
-
-        print_progress(entry_file.tellg(), size_of_file);
-
-        // Skip if endline is found
-        if(character == '\n')
-            continue;
-
-        // What to do if current line is description
-        if(character == '>' or character == ';') {
-            if (!first_line) {
-                output.push_back(sequence_matches);
-                sequence_matches = SearchResults(); // Reset to 0
-                position_counter = 0;
-            }
-
-            first_line = false;
-
-            getline(entry_file, sequence_matches.description);
-            sequence_matches.description += "\n";
-            continue;
-        }
-
-        // What to do if the sequence hasn't been filled yet with sufficient characters
-        if(fill) {
-            forwardSequence.push_back(charmap[character]);
-            backwardSequence.push_front(complementmap[character]);
-            char_counter++;
-
-            if(char_counter >= length)
-                fill = false;
-        }
-
-        // Go to next cycle if it is still not full
-        if(fill)
-            continue;
-
-        // Skips if character is not valid
-        if(!valid_character(character))
-            continue;
-
-        position_counter++;
-
-        // Updates sequence with the new character
-        forwardSequence.pop_front();
-        forwardSequence.push_back(charmap[character]);
-        backwardSequence.pop_back();
-        backwardSequence.push_front(complementmap[character]);
-
-        // What to do if forward is binding
-        score = matrix.sequence_score(forwardSequence);
-
-        if(score >= cutoff) {
-
-            SearchResult sequence_match(fill_search_result(forwardSequence, position_counter, score, '+'));
-            sequence_matches.searchResults.push_back(sequence_match);
-        }
-
-        // What to do if backward is binding
-        score = matrix.sequence_score(backwardSequence);
-
-        if(score >= cutoff) {
-            SearchResult sequence_match(fill_search_result(backwardSequence, position_counter, score, '-'));
-            sequence_matches.searchResults.push_back(sequence_match);
-        }
-    }
-
-    output.push_back(sequence_matches);
-
-    entry_file.close();
-    return output;
-}
-
-
-
-//==========================================================================================
-// Optimized version of the function
-//
-// TODO: Progress bar
-
-std::vector<SearchResults> analyze_sequence_opt(std::string filename, Matrix matrix, double cutoff) {
-
-
-
-    // File to read
-    std::ifstream entry_file(filename);
-
-    // Search results of all sequences
-    std::vector <SearchResults> output;
-
-    // Search results of one sequence
-    SearchResults sequence_matches;
-
-    std::list<nuc> forwardSequence;
-    std::list<nuc> backwardSequence;
-
-    bool fill(true);
-    bool description(true);
-
-
-    unsigned int char_counter(0);
-    unsigned int length(matrix.get_length());
-    unsigned int position_counter(0);
-    unsigned int line_size;
-
-    unsigned int print_counter(0);
-
-
-    int size_of_file;
-    size_of_file = filesize(filename);
-
-    bool first_line(true);
-    unsigned int index(0);
-
-    double score;
-
-    char line[LINE_SIZE];
-
-
-
-
-    // ----
-
-    while(entry_file.get(line, LINE_SIZE, '\n')) {
-        // Sets line_size to amount of characters read in get
-        line_size = entry_file.gcount();
-        index = 0;
-
-        if (print_counter > 5000) {
-            print_progress(entry_file.tellg(), size_of_file);
-            print_counter = 0;
-
-        }
-
-        print_counter++;
-
-
-        if (line[index] == '>' or line[index] == ';') {
-
-            if (!first_line) {
-                output.push_back(sequence_matches);
-                sequence_matches = SearchResults(); // Reset to 0
-            }
-
-            if(!forwardSequence.empty())
-                forwardSequence.clear();
-            if(!backwardSequence.empty())
-                backwardSequence.clear();
-
-            position_counter = 0;
-            char_counter = 0;
-            first_line = false;
-            fill = true;
-            sequence_matches.description += line;
-
-        }
-
-        else {
-            while (fill) {
-                if (valid_character(line[index])) {
-                    forwardSequence.push_back(charmap[line[index]]);
-                    backwardSequence.push_front(complementmap[line[index]]);
-                    char_counter++;
-
-                }
-
-                if(char_counter >= length) {
-                    fill = false;
-                }
-
-
-                index++;
-
-
-            }
-
-            // For initialized sequence
-            // What to do if forward is binding
-            score = matrix.sequence_score(forwardSequence);
-
-            if(score >= cutoff) {
-
-                SearchResult sequence_match(fill_search_result(forwardSequence, position_counter, score, '+'));
-                sequence_matches.searchResults.push_back(sequence_match);
-            }
-
-            // What to do if backward is binding
-            score = matrix.sequence_score(backwardSequence);
-
-            if(score >= cutoff) {
-                SearchResult sequence_match(fill_search_result(backwardSequence, position_counter, score, '-'));
-                sequence_matches.searchResults.push_back(sequence_match);
-            }
-
-
-            // For all following combinations
-            while (index < line_size) {
-
-                // Skips if character is not valid
-                if(valid_character(line[index]))
-                {
-                    position_counter++;
-
-                    // Updates sequence with the new character
-                    forwardSequence.pop_front();
-                    forwardSequence.push_back(charmap[line[index]]);
-                    backwardSequence.pop_back();
-                    backwardSequence.push_front(complementmap[line[index]]);
-
-                    // What to do if forward is binding
-                    score = matrix.sequence_score(forwardSequence);
-
-                    if(score >= cutoff) {
-
-                        SearchResult sequence_match(fill_search_result(forwardSequence, position_counter, score, '+'));
-                        sequence_matches.searchResults.push_back(sequence_match);
-                    }
-
-                    // What to do if backward is binding
-                    score = matrix.sequence_score(backwardSequence);
-
-                    if(score >= cutoff) {
-                        SearchResult sequence_match(fill_search_result(backwardSequence, position_counter, score, '-'));
-                        sequence_matches.searchResults.push_back(sequence_match);
-                    }
-                }
-                index++;
-            }
-
-        }
-
-        if(entry_file.peek() == '\n')
-            entry_file.get();
-
-    }
-
-    output.push_back(sequence_matches);
-
-    entry_file.close();
-    return output;
-}
-
-
-
-
+// Souhail : I deleted the not used functions
 //==========================================================================================
 // Even further optimized version of the function, INPROGRESS
 //
@@ -516,7 +243,8 @@ std::vector<SearchResults> analyze_sequence_opt2(std::string filename, Matrix ma
     std::list<nuc> backwardSequence;
 
     bool fill(true);
-    bool description(true);
+    //The following variable is commented because it's not used and create warnings - SOuhail
+   // bool description(true);
 
 
     unsigned int char_counter(0);
@@ -530,7 +258,7 @@ std::vector<SearchResults> analyze_sequence_opt2(std::string filename, Matrix ma
     int size_of_file;
     size_of_file = filesize(filename);
 
-    bool first_line(true);
+    //bool first_line(true); // not used ? Souhail
     unsigned int index(0);
 
     double score;
@@ -645,7 +373,7 @@ std::vector<SearchResults> analyze_sequence_opt2(std::string filename, Matrix ma
 
             position_counter = 0;
             char_counter = 0;
-            first_line = false;
+            //first_line = false;
             fill = true;
 
             while (entry_file.peek() == '>' or entry_file.peek() == ';') {
@@ -831,7 +559,7 @@ Matrix_Neo matrix_from_same_length_sequences_weighted(std::vector<SearchResults>
     for (unsigned int i(0); i<length_sequence; i++) {
         line_min = Matrix::min_of_line(output_matrix[i]);
 
-        if (Matrix::min_of_line<=0) {
+        if (line_min<=0) { //modified by Souhail to avoid warnings
             for (unsigned int j(0); j<NUMBER_NUCLEOTIDES; j++) {
                 output_matrix[i][j] -= line_min;
                 output_matrix[i][j] += base_prob[j];
