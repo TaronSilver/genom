@@ -46,15 +46,73 @@ int main() {
 
 
 
-/*! \mainpage My Personal Index Page
+/*! \mainpage Welcome!
  *
- * \section intro_sec Introduction
+ * \section intro_sec Presenting OurReallyCoolProgram
  *
- * This is the introduction.
+ * Welcome to the Doxygen documentation for OurReallyCoolProgram! 
+ * 
+ * This program will help you by providing the tools necessary to analyse 
+ * a DNA sequence or a DNA-binding protein of interest.
+ * 
+ * In our program you will find three useful functionalities:
+ * 
+ * (1) You can obtain a probability matrix (or a weighted probability, 
+ * logarithmic or weighted logarithmic matrix) from a file containing the 
+ * sequences of binding sites you have found. These sequences can be of 
+ * a fixed length or of variable length as we have implemented an 
+ * algorithm that can identify the consensus sequence length as well as 
+ * the sequence.
+ * 
+ * needed inputs: file with sequences (.fasta, .fas, .fna, .ffn)
+ * 
+ * (2) You can obtain all the binding positions of a protein to a DNA sequence
+ * of your choosing. You may even specify the cutoff value you prefer: 0.25,
+ * calculated based on the input sequence or customised by you.
+ * 
+ * needed inputs: a matrix file (.mat) and
+ * a sequence file (.fasta, .fas, .fna, .ffn)
+ * 
+ * (3) Our last tool will generate a consensus sequence logo for a DNA protein
+ * of your choosing: just give us the file name and we will take care of 
+ * the rest.
+ * 
+ * needed inputs: a probability weight matrix file (.mat)
+ * 
+ * We hope you enjoy!
+ * 
+ * 
+ * 
  *
- * \section install_sec Installation
+ * \section install_sec Running the program
+ * 
+ * Our program is easy to use you'll be analysing sequences in no time! Just follow these 3 steps:
  *
- * \subsection step1 Step 1: Opening the box
+ * STEP 1: Clone our github project
+ * 
+ * --> git clone https://github.com/EPFL-SV-cpp-projects/genom-2.git
  *
- * etc...
+ * STEP 2: Make a build folder and build the program
+ * 
+ * --> mkdir build 
+ * 
+ * --> cd build
+ * 
+ * --> cmake ../
+ * 
+ * --> make
+ * 
+ * STEP 3: Execute the program
+ * 
+ * --> ./Main
+ * 
+ * and voilà!
+ * 
+ * \section authors Brought to you by
+ * 
+ * Angela Saudan, Erica Geneletti, Jérémy Alexandre, Katia Schalk, Lucas 
+ * Zweili, Matthias Minder, Marion Peter, Souhail Elaissaoui, 
+ * Tristan Vyvyan-Robinson aaaaand Gokcen Nurlu!
+ * 
+ * 
  */
