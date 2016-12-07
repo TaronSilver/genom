@@ -268,9 +268,21 @@ void error_sequence_doesnt_exist();
  */
 SEQ_SOURCE ask_source_sequence();
 
+//-----------------------------------------------------------------------
+// 							LOGO USER INTERACTION
+//-----------------------------------------------------------------------
 
+/*!
+ * @brief   prints the update on creation of the logo
+ */
+void logo_in_process();
 
-
+/*!
+ * @brief   Asks the user, what the name of the file with the probability matrix is
+ *
+ * @return  file name as a string
+ */
+std::string ask_logo_matrix();
 
 //-----------------------------------------------------------------------
 

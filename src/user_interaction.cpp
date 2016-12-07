@@ -616,4 +616,39 @@ SEQ_SOURCE ask_source_sequence() {
     }
 }
 
+//-----------------------------------------------------------------------
+// 							LOGO USER INTERACTION
+//-----------------------------------------------------------------------
+
+void logo_in_process()
+{
+	std::cout << "Your logo is being generated, this should take a couple of seconds" << std::endl;
+	std::cout << "Your logo will be saved in genom-2 with the name yourlogo.png" << std::endl;
+}
+
+std::string ask_logo_matrix()
+{
+    std::string entry_name;
+    
+    while (true) {
+	    std::cout <<"Please give the name of your probability weight matrix file: ";
+	    std::cin >> entry_name;
+	    
+	    std::ifstream entry(entry_name.c_str());
+	
+	    
+	    if (entry.fail()) {
+	        std::cout << "Impossible to read the file, please try again." << std::endl;
+	        continue;
+	    }
+	    
+	    entry.close();
+	    break;
+	}
+
+    return entry_name;
+}
+
+//-----------------------------------------------------------------------
+
 
