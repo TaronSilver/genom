@@ -1,21 +1,18 @@
 #define cimg_use_png
 #define cimg_display 0
-#include "CImg-1.7.9/CImg.h"
+#include "../logo/CImg-1.7.9/CImg.h"
 #include <vector>
 #include <iostream>
 #include <string>
 #include <fstream>
 #include <sstream>
-#include "../src/user_interaction.hpp"
+#include "user_interaction.hpp"
 
 
 using namespace cimg_library;
 
 std::vector<std::vector<double>> read_logo_matrix(std::string const& fileName);
 double size(std::vector<std::vector<double>> const& PWM, unsigned N, unsigned pos);
-
-
-
 
 void logo() {
 	
