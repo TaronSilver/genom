@@ -2,7 +2,7 @@
 #include "../build/ui_window.h"
 
 
-#include "../logo/logo_main.hpp"
+#include "logo.hpp"
 
 Window::Window(QWidget *parent) :
     QDialog(parent),
