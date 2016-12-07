@@ -24,12 +24,9 @@ private:
     std::vector <unsigned int> length;
     std::vector <std::string> description;
     std::vector <double> score;
-    
-    bool line_description_present;
-    
     std::string file_description;
     std::string location;
-
+    bool line_description_present;
 
     
 public:
