@@ -3,7 +3,6 @@
 #include "askBaseProb.hpp"
 #include "matrixFromSequence.hpp"
 #include "resultsWindow.hpp"
-#include "saveSequence.hpp"
 #include "sequenceFromMatrix.hpp"
 #include "user_interaction.hpp"
 #include "window.hpp"
@@ -230,7 +229,7 @@ std::vector<double> User_Defined_Base_Prob() {
 //----------------------------------------------------------------------
 
 MATRIX_TYPE Ask_Return_Matrix_Type() {
-    unsigned int answer=askBaseProb::getBaseChoiceFinal();
+    unsigned int answer=askBaseProb::getMatrixChoice();
 
         switch (answer) {
             case 1:

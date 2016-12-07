@@ -3,7 +3,6 @@ QT += widgets
 HEADERS += \
     Matrix.hpp \
     procedures.hpp \
-    saveSequence.hpp \
     Sequence.hpp \
     user_interaction.hpp \
     utility.hpp \
@@ -18,7 +17,6 @@ SOURCES += \
     mainQt.cpp \
     Matrix.cpp \
     procedures.cpp \
-    saveSequence.cpp \
     Sequence.cpp \
     user_interactionQt.cpp \
     utility.cpp \
@@ -30,7 +28,6 @@ SOURCES += \
     askBaseProb.cpp
 
 FORMS += \
-    saveSequence.ui \
     window.ui \
     matrixFromSequence.ui \
     sequenceFromMatrix.ui \

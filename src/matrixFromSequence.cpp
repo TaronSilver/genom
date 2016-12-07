@@ -34,7 +34,9 @@ void matrixFromSequence::on_chooseMatrix_currentIndexChanged(int){
 }
 
 unsigned int matrixFromSequence::getMatrixChoice(){
-    return matrixChoice;
+    unsigned int choice = matrixChoice;
+    matrixChoice = 1;
+    return choice;
 }
 
 unsigned int position=1;
@@ -49,15 +51,21 @@ void matrixFromSequence::on_intLength_valueChanged(int){
 }
 
 unsigned int matrixFromSequence::getPosition(){
-    return position;
+    unsigned int pos = position;
+    position = 1;
+    return pos;
 }
 
 unsigned int matrixFromSequence::getLength(){
-    return length;
+    unsigned le = length;
+    length = 0;
+    return le;
 }
 
 bool matrixFromSequence::getBool(){
-    return checkBox;
+    bool check = checkBox;
+    checkBox = false;
+    return check;
 }
 
 void matrixFromSequence::on_buttonSave_clicked(){

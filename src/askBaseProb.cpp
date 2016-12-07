@@ -13,9 +13,9 @@ askBaseProb::~askBaseProb()
     delete ui;
 }
 
-unsigned int baseChoice;
+unsigned int baseChoice(0);
 void askBaseProb::on_chooseBase_currentIndexChanged(int){
-    if(ui->chooseBase->currentIndex()==2){
+    if(ui->chooseBase->currentIndex()==3){
         ui->spinA->setEnabled(true);
         ui->spinC->setEnabled(true);
         ui->spinG->setEnabled(true);
@@ -31,30 +31,41 @@ void askBaseProb::on_chooseBase_currentIndexChanged(int){
 }
 
 unsigned int askBaseProb::getBaseChoiceFinal(){
-    if (baseChoice == 0) return 1;
-    else if (baseChoice == 1) return 3;
-    else if(baseChoice ==2) return 2;
-    else if(baseChoice==3) return 0;
+    unsigned int value=baseChoice;
+    baseChoice=0;
+    if (value == 0) return 1;
+    else if (value == 1) return 3;
+    else if(value ==2) return 2;
+    else if(value==3) return 0;
+    else return 1;
 }
 
-double probA;
-double probC;
-double probG;
-double probT;
+double probA(0);
+double probC(0);
+double probG(0);
+double probT(0);
 
 double askBaseProb::getProbA() {
-    return probA;
+    double prob1=probA;
+    probA=0;
+    return prob1;
 }
 double askBaseProb::getProbC(){
-    return probC;
+    double prob2=probC;
+    probC=0;
+    return prob2;
 }
 
 double askBaseProb::getProbG(){
-    return probG;
+    double prob3=probG;
+    probG=0;
+    return prob3;
 }
 
 double askBaseProb::getProbT(){
-    return probG;
+    double prob4=probT;
+    probT=0;
+    return prob4;
 }
 
 void askBaseProb::on_spinA_valueChanged(double){
@@ -79,9 +90,11 @@ void askBaseProb::on_buttonSave_clicked(){
 
 unsigned int matrixChoiceS = 1;
 void askBaseProb::on_chooseMatrix_currentIndexChanged(int){
-matrixChoiceS = ui->chooseMatrix->currentIndex()+1;
+    matrixChoiceS = ui->chooseMatrix->currentIndex()+1;
 }
 
 unsigned int askBaseProb::getMatrixChoice(){
-return matrixChoiceS;
+    unsigned int choice1 = matrixChoiceS;
+    matrixChoiceS = 1;
+    return choice1;
 }

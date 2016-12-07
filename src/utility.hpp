@@ -183,7 +183,7 @@ unsigned int searchResults_same_length(std::vector<SearchResults> input);
 /*!
  * @brief   Fills a vector of coordinates from a input file
  *
- * @param   The name of the genomic file, a bool saying whether the file contains a column with 
+ * @param   The name of the genomic file, a bool saying whether the file contains a column with
  *          information on every sequence.
  * @return  A vector of coordinates.
  */

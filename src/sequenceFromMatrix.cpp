@@ -13,13 +13,15 @@ sequenceFromMatrix::~sequenceFromMatrix()
     delete ui;
 }
 
-double cutoff;
+double cutoff(0);
 void sequenceFromMatrix::on_spinCutoff_valueChanged(){
     cutoff = ui->spinCutoff->value();
 }
 
 double sequenceFromMatrix::getCutoff(){
-    return cutoff;
+    double cut = cutoff;
+    cutoff = 0;
+    return cut;
 }
 
 void sequenceFromMatrix::on_buttonSave_clicked(){
@@ -52,5 +54,7 @@ void sequenceFromMatrix::on_checkBoxUseEM_stateChanged(){
 }
 
 bool sequenceFromMatrix::isEM(){
-    return useEM;
+    bool doEM = useEM;
+    useEM = false;
+    return doEM;
 }
