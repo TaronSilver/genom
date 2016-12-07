@@ -60,7 +60,17 @@ PROCEDURE whatToDo() {
 double ask_cutoff() {
     double cutoff;
     std::cout << "What cutoff would you like to use?" << std::endl;
-    std::cin >> cutoff;
+    
+    while (true)
+    {
+		std::cin >> cutoff;
+		if (cutoff > 0) break;
+		else 
+		{
+			std::cout << "Cutoff must be positive, please try again." << std::endl;
+		}
+	}
+
     return cutoff;
 }
 
@@ -71,7 +81,17 @@ bool ask_binding_length_known() {
     bool known;
     std::cout << "Do you know the length of the enzyme binding site? " << std::endl
               << "enter 1 for yes, 0 for no. ";
-    std::cin >> known;
+	while (true)
+	{	
+		std::cin >> known;
+		
+		if (known == 1 or known == 0) break;
+		else
+		{
+			std::cout << "Unrecognized input. Please try again." << std::endl;
+		}
+	}
+
     return known;
 }
 
@@ -81,9 +101,11 @@ bool ask_binding_length_known() {
 unsigned int ask_position() {
     
 	unsigned int position;
+	
+	std::cout << "At what position is the binding site (starts at 1)?";
+
 
 	while (true) {   
-	    std::cout << "At what position is the binding site (starts at 1)?";
 	    std::cin >> position;
 	    
 	    if (position <= 0) {
@@ -103,8 +125,9 @@ unsigned int ask_position() {
 unsigned int ask_length() {
     
     unsigned int length;
+	std::cout << "How long is the enzyme binding site? ";
+
     while (true) {  
-	    std::cout << "How long is the enzyme binding site? ";
 	    std::cin >> length;
 	    
 	    if (length <= 0) {
