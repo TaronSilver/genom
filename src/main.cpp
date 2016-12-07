@@ -11,7 +11,7 @@
 
 #include "procedures.hpp"
 #include "user_interaction.hpp"
-#include "../logo/logo_main.hpp"
+#include "logo.hpp"
 
 
 
