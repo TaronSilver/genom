@@ -33,3 +33,6 @@ FORMS += \
     sequenceFromMatrix.ui \
     resultsWindow.ui \
     askBaseProb.ui
+
+
+INCLUDEPATH += ../logo

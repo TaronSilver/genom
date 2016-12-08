@@ -20,37 +20,91 @@
 
 
 namespace Ui {
-    class Window;
+  class Window;
 }
 
 class Window : public QDialog
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    explicit Window(QWidget *parent = 0);
-    ~Window();
-    static std::string getFastaLocation();
-    static std::string getMatrixLocation();
-    static std::string getOutputName();
-    void getFileName();
+  /*!
+  * @brief Constructor
+  */
+  explicit Window(QWidget *parent = 0);
 
-public slots:
-    void on_buttonFasta_clicked();
-    void on_buttonMatrix_clicked();
-    void on_buttonLeave_clicked();
-    void on_buttonSequenceFromMatrix_clicked();
-    void on_buttonMatrixFromSequence_clicked();
-    void on_buttonLogo_clicked();
+  /*!
+  * @brief Destructor
+  */
+  ~Window();
+
+  /*!
+  * @brief Returns the latest Fasta location specified by the user.
+  */
+  static std::string getFastaLocation();
+  
+  /*!
+  * @brief Returns the latest Matrix location specified by the user.
+  */
+  static std::string getMatrixLocation();
+
+  /*!
+  * @brief Returns the latest location and name of the file the user wants
+  * the results to be saved to.
+  */
+  static std::string getOutputName();
+
+  /*!
+  * @brief Sets the value of the output parameter.
+  */
+  void getFileName();
+
+  public slots:
+  /*!
+  * @brief When this button is clicked, it opens a dialog that allows the user
+  * to choose a fasta file.
+  */
+  void on_buttonFasta_clicked();
+
+  /*!
+  * @brief When this button is clicked, it opens a dialog that allows the
+  * user to choose a matrix file.
+  */
+  void on_buttonMatrix_clicked();
+
+  /*!
+  * @brief When this button is clicked, the program closes.
+  */
+  void on_buttonLeave_clicked();
+
+  /*!
+  * @brief When this button is clicked, the program will start the
+  * algorithms to obtain the binding positions of a protein from a
+  * probability matrix.
+  */
+  void on_buttonSequenceFromMatrix_clicked();
+
+  /*!
+  * @brief When this button is clicked, the program will start the
+  * algorithms to obtain a probability weigth matrix from sequences
+  * obtained from a fasta file.
+  */
+  void on_buttonMatrixFromSequence_clicked();
+
+  /*!
+  * @brief When this button is clicked, the program will lainch the
+  * algorithms to create a logo based on a probability weigth matrix.
+  */
+  void on_buttonLogo_clicked();
 
 
 private:
-    Ui::Window *ui;
+  Ui::Window *ui;
 
-    QString fastaLocation;
-    QString matrixLocation;
-    std::string fastaLocationFromWindow;
-    std::string matrixLocationFromWindow;
+  QString fastaLocation;
+  QString matrixLocation;
+  std::string fastaLocationFromWindow;
+  std::string matrixLocationFromWindow;
 };
 
 #endif // WINDOW_H

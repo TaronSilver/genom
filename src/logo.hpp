@@ -15,29 +15,29 @@ std::vector<std::vector<double>> read_logo_matrix(std::string const& fileName);
 double size(std::vector<std::vector<double>> const& PWM, unsigned N, unsigned pos);
 
 void logo() {
-	
+
 	std::string fileName(ask_logo_matrix());
 	std::vector<std::vector<double>> PWM(read_logo_matrix(fileName));
-	
+
 	unsigned size_motif(PWM.size());
-		
+
 	CImg<unsigned char> background(1, 1, 1, 3, 255, 255, 255);
 	background.resize(size_motif*500, 1000);
-	
+
 	logo_in_process();
-	
+
 	for (unsigned pos(0); pos<size_motif; ++pos)
-	{ 
+	{
 		CImg<unsigned char> iconA("../logo/icons/A.png");
 		CImg<unsigned char> iconC("../logo/icons/C.png");
 		CImg<unsigned char> iconG("../logo/icons/G.png");
 		CImg<unsigned char> iconT("../logo/icons/T.png");
-		
+
 		CImg<unsigned char> column(1, 1, 1, 3, 255, 255, 255);
 		column.resize(500, 1000);
-		
+
 		double height(0);
-		
+
 		iconA.resize(500, size(PWM,0,pos), -100, -100, 2);
 		column.draw_image(0, height, 0, 0, iconA);
 		height = size(PWM,0,pos);
@@ -45,17 +45,17 @@ void logo() {
 		iconC.resize(500, size(PWM,1,pos), -100, -100, 2);
 		column.draw_image(0, height, 0, 0, iconC);
 		height += size(PWM,1,pos);
-		
+
 		iconG.resize(500, size(PWM,2,pos), -100, -100, 2);
 		column.draw_image(0, height, 0, 0, iconG);
 		height += size(PWM,2,pos);
-		
-		
+
+
 		iconT.resize(500, size(PWM,3,pos), -100, -100, 2);
 		column.draw_image(0, height, 0, 0, iconT);
-		
+
 		background.draw_image(pos*500, 0, 0, 0, column);
-		
+
 	}
 	
 	background.save_png("../yourlogo.png");
@@ -70,11 +70,11 @@ std::vector<std::vector<double>> read_logo_matrix(std::string const& fileName)
     std::ifstream PWM;
     PWM.open(fileName);
 
-    if (PWM.fail()) 
+    if (PWM.fail())
     {
         throw std::string("Error: Cannot read PWM file");
-    } 
-    else 
+    }
+    else
     {
         std::string line;
         double A, T, C, G;
@@ -97,7 +97,7 @@ std::vector<std::vector<double>> read_logo_matrix(std::string const& fileName)
 
             input_matrix.push_back(rowi);
         }
-        
+
         PWM.close();
 
         return input_matrix;
@@ -113,24 +113,24 @@ double size(std::vector<std::vector<double>> const& PWM, unsigned N, unsigned po
 double size(std::vector<std::vector<double>> const& PWM, unsigned N, unsigned pos)
 {
 	double info_content(0);
-	
+
 	for (unsigned i(0); pos<4; ++pos)
 	{
 		info_content += ((PWM[pos][i])*(log2(4*PWM[pos][i])));
 	}
-	
-	
+
+
 	std::cout<<"info_content: " << info_content << std::endl;
-	
+
 	return (PWM[pos][N])*1000/info_content;
 }
 */
 
 
 /*
-	
-	reasons for choices: if the declaration of the icons is in the for loop 
-		then they don't lose resolution but the program is slower, otherwise they 
+
+	reasons for choices: if the declaration of the icons is in the for loop
+		then they don't lose resolution but the program is slower, otherwise they
 		become "ruined" but the program is faster
 
 	final things to implement:

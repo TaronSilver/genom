@@ -46,7 +46,7 @@ void Window::on_buttonSequenceFromMatrix_clicked() {
     else {
         matrixFilePath = matrixLocation.toStdString();
         fastaFilePath = fastaLocation.toStdString();
-       this->getFileName();
+        this->getFileName(); //Charges the name input by the user in the output string
 
         sequenceFromMatrix mac;
         mac.show();
@@ -85,6 +85,7 @@ void Window::on_buttonLogo_clicked(){
   }
   else{
     matrixFilePath = matrixLocation.toStdString();
+    QMessageBox::information(this, "Generation of the image", "Your logo will be saved in genom-2 with the name yourlogo.png");
     logo();
   }
 }

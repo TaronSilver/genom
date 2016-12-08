@@ -418,8 +418,7 @@ SEQ_SOURCE ask_source_sequence() {
 
 void logo_in_process()
 {
-	std::cout << "Your logo is being generated, this should take a couple of seconds" << std::endl;
-	std::cout << "Your logo will be saved in genom-2 with the name yourlogo.png" << std::endl;
+  
 }
 
 std::string ask_logo_matrix()
