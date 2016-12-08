@@ -17,7 +17,6 @@ public:
     explicit matrixFromSequence(QWidget *parent = 0);
     ~matrixFromSequence();
 
-    static unsigned int getMatrixChoice();
     static unsigned int getPosition();
     static unsigned int getLength();
     static bool getBool();

@@ -157,7 +157,7 @@ BP_FILL CoutCin_AskBaseProb() {
                 return BP_FILL::FromSequence;
         */
         }
-
+        return BP_FILL::AllEqual;
 }
 //----------------------------------------------------------------------
 double CoutCin_AskBaseProb0(char C) {
@@ -241,6 +241,7 @@ MATRIX_TYPE Ask_Return_Matrix_Type() {
             case 4:
                 return MATRIX_TYPE::logConstMatrix;
         }
+        return MATRIX_TYPE::logMatrix;
 }
 
 
@@ -440,7 +441,6 @@ std::string ask_logo_matrix()
 	    entry.close();
 	    break;
 	}
-
     return entry_name;
 }
 

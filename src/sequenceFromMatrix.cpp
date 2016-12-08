@@ -1,11 +1,18 @@
 #include "sequenceFromMatrix.hpp"
 #include "../build/ui_sequenceFromMatrix.h"
 
+double cutoff;
+bool saveM;
+bool useEM;
+
 sequenceFromMatrix::sequenceFromMatrix(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::sequenceFromMatrix)
 {
     ui->setupUi(this);
+    cutoff=0;
+    saveM=false;
+    useEM=false;
 }
 
 sequenceFromMatrix::~sequenceFromMatrix()
@@ -13,23 +20,18 @@ sequenceFromMatrix::~sequenceFromMatrix()
     delete ui;
 }
 
-double cutoff(0);
 void sequenceFromMatrix::on_spinCutoff_valueChanged(){
     cutoff = ui->spinCutoff->value();
 }
 
 double sequenceFromMatrix::getCutoff(){
-    double cut = cutoff;
-    cutoff = 0;
-    return cut;
+    return cutoff;
 }
 
 void sequenceFromMatrix::on_buttonSave_clicked(){
     this->close();
 }
 
-bool saveM(false);
-bool useEM(false);
 void sequenceFromMatrix::on_checkBoxSaveResults_stateChanged(){
     if(ui->checkBoxSaveResults->isChecked()){
         saveM = true;
@@ -37,8 +39,8 @@ void sequenceFromMatrix::on_checkBoxSaveResults_stateChanged(){
     }
     else{
         saveM = false;
-        ui->checkBoxUseEM->setEnabled(false);
         useEM = false;
+        ui->checkBoxUseEM->setEnabled(false);
     }
 }
 
@@ -54,7 +56,5 @@ void sequenceFromMatrix::on_checkBoxUseEM_stateChanged(){
 }
 
 bool sequenceFromMatrix::isEM(){
-    bool doEM = useEM;
-    useEM = false;
-    return doEM;
+    return useEM;
 }

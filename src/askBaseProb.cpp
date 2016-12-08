@@ -1,11 +1,23 @@
 #include "askBaseProb.hpp"
 #include "ui_askBaseProb.h"
 
+unsigned int matrixChoiceS;
+double probA;
+double probC;
+double probG;
+double probT;
+unsigned int baseChoice;
 askBaseProb::askBaseProb(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::askBaseProb)
 {
     ui->setupUi(this);
+    matrixChoiceS =1;
+    probA=0;
+    probC=0;
+    probG=0;
+    probT=0;
+    baseChoice=0;
 }
 
 askBaseProb::~askBaseProb()
@@ -13,7 +25,7 @@ askBaseProb::~askBaseProb()
     delete ui;
 }
 
-unsigned int baseChoice(0);
+
 void askBaseProb::on_chooseBase_currentIndexChanged(int){
     if(ui->chooseBase->currentIndex()==3){
         ui->spinA->setEnabled(true);
@@ -31,41 +43,26 @@ void askBaseProb::on_chooseBase_currentIndexChanged(int){
 }
 
 unsigned int askBaseProb::getBaseChoiceFinal(){
-    unsigned int value=baseChoice;
-    baseChoice=0;
-    if (value == 0) return 1;
-    else if (value == 1) return 3;
-    else if(value ==2) return 2;
-    else if(value==3) return 0;
+    if (baseChoice == 0) return 1;
+    else if (baseChoice == 1) return 3;
+    else if(baseChoice ==2) return 2;
+    else if(baseChoice==3) return 0;
     else return 1;
 }
 
-double probA(0);
-double probC(0);
-double probG(0);
-double probT(0);
-
 double askBaseProb::getProbA() {
-    double prob1=probA;
-    probA=0;
-    return prob1;
+    return probA;
 }
 double askBaseProb::getProbC(){
-    double prob2=probC;
-    probC=0;
-    return prob2;
+    return probC;
 }
 
 double askBaseProb::getProbG(){
-    double prob3=probG;
-    probG=0;
-    return prob3;
+    return probG;
 }
 
 double askBaseProb::getProbT(){
-    double prob4=probT;
-    probT=0;
-    return prob4;
+    return probT;
 }
 
 void askBaseProb::on_spinA_valueChanged(double){
@@ -88,13 +85,10 @@ void askBaseProb::on_buttonSave_clicked(){
     this->close();
 }
 
-unsigned int matrixChoiceS = 1;
 void askBaseProb::on_chooseMatrix_currentIndexChanged(int){
     matrixChoiceS = ui->chooseMatrix->currentIndex()+1;
 }
 
 unsigned int askBaseProb::getMatrixChoice(){
-    unsigned int choice1 = matrixChoiceS;
-    matrixChoiceS = 1;
-    return choice1;
+    return matrixChoiceS;
 }
