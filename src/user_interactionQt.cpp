@@ -424,24 +424,7 @@ void logo_in_process()
 
 std::string ask_logo_matrix()
 {
-    std::string entry_name;
-
-    while (true) {
-	    std::cout <<"Please give the name of your probability weight matrix file: ";
-	    std::cin >> entry_name;
-
-	    std::ifstream entry(entry_name.c_str());
-
-
-	    if (entry.fail()) {
-	        std::cout << "Impossible to read the file, please try again." << std::endl;
-	        continue;
-	    }
-
-	    entry.close();
-	    break;
-	}
-    return entry_name;
+  return Window::getMatrixLocation();
 }
 
 //-----------------------------------------------------------------------

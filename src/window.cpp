@@ -4,11 +4,18 @@
 
 #include "logo.hpp"
 
+std::string matrixFilePath;
+std::string fastaFilePath;
+std::string output;
+
 Window::Window(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Window)
 {
     ui->setupUi(this);
+    matrixFilePath="";
+    fastaFilePath="";
+    output="";
 }
 
 Window::~Window() {
@@ -31,12 +38,6 @@ void Window::on_buttonMatrix_clicked() {
     ui->showMatrixLocation->setText(matrixLocation);
     ui->showMatrixLocation->adjustSize();
 }
-
-
-std::string matrixFilePath;
-std::string fastaFilePath;
-std::string output;
-
 
 void Window::on_buttonSequenceFromMatrix_clicked() {
     if(fastaLocation.isEmpty() or matrixLocation.isEmpty()) {
@@ -79,7 +80,13 @@ void Window::on_buttonMatrixFromSequence_clicked() {
 }
 
 void Window::on_buttonLogo_clicked(){
+  if(matrixLocation.isEmpty()) {
+      QMessageBox::critical(this, "Error: File not chosen", "You havent chosen your Matrix file.");
+  }
+  else{
+    matrixFilePath = matrixLocation.toStdString();
     logo();
+  }
 }
 
 std::string Window::getFastaLocation(){
