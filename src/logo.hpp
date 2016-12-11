@@ -28,6 +28,8 @@ void logo() {
 
 	for (unsigned pos(0); pos<size_motif; ++pos)
 	{
+		position_in_process(pos+1);
+		
 		CImg<unsigned char> iconA("../logo/icons/A.png");
 		CImg<unsigned char> iconC("../logo/icons/C.png");
 		CImg<unsigned char> iconG("../logo/icons/G.png");
@@ -41,18 +43,25 @@ void logo() {
 		iconA.resize(500, size(PWM,0,pos), -100, -100, 2);
 		column.draw_image(0, height, 0, 0, iconA);
 		height = size(PWM,0,pos);
+		
+		nuc_in_process('A');
 
 		iconC.resize(500, size(PWM,1,pos), -100, -100, 2);
 		column.draw_image(0, height, 0, 0, iconC);
 		height += size(PWM,1,pos);
 
+		nuc_in_process('C');
+
 		iconG.resize(500, size(PWM,2,pos), -100, -100, 2);
 		column.draw_image(0, height, 0, 0, iconG);
 		height += size(PWM,2,pos);
 
+		nuc_in_process('G');
 
 		iconT.resize(500, size(PWM,3,pos), -100, -100, 2);
 		column.draw_image(0, height, 0, 0, iconT);
+		
+		nuc_in_process('T');
 
 		background.draw_image(pos*500, 0, 0, 0, column);
 
