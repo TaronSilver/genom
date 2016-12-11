@@ -6,6 +6,7 @@ double probA;
 double probC;
 double probG;
 double probT;
+double total;
 unsigned int baseChoice;
 askBaseProb::askBaseProb(QWidget *parent) :
     QDialog(parent),
@@ -32,21 +33,23 @@ void askBaseProb::on_chooseBase_currentIndexChanged(int){
         ui->spinC->setEnabled(true);
         ui->spinG->setEnabled(true);
         ui->spinT->setEnabled(true);
+        ui->showTotal->setEnabled(true);
     }
     else{
         ui->spinA->setEnabled(false);
         ui->spinC->setEnabled(false);
         ui->spinG->setEnabled(false);
         ui->spinT->setEnabled(false);
+        ui->showTotal->setEnabled(false);
     }
     baseChoice = ui->chooseBase->currentIndex();
 }
 
 unsigned int askBaseProb::getBaseChoiceFinal(){
     if (baseChoice == 0) return 1;
-    else if (baseChoice == 1) return 3;
-    else if(baseChoice ==2) return 2;
-    else if(baseChoice==3) return 0;
+    else if (baseChoice == 1) return 0;
+    else if(baseChoice ==2) return 3;
+    else if(baseChoice==3) return 2;
     else return 1;
 }
 
@@ -67,22 +70,22 @@ double askBaseProb::getProbT(){
 
 void askBaseProb::on_spinA_valueChanged(double){
     probA = ui->spinA->value();
+    setTotal();
 }
 
 void askBaseProb::on_spinC_valueChanged(double){
     probC = ui->spinC->value();
+    setTotal();
 }
 
 void askBaseProb::on_spinG_valueChanged(double){
     probG = ui->spinG->value();
+    setTotal();
 }
 
 void askBaseProb::on_spinT_valueChanged(double){
     probT = ui->spinT->value();
-}
-
-void askBaseProb::on_buttonSave_clicked(){
-    this->close();
+    setTotal();
 }
 
 void askBaseProb::on_chooseMatrix_currentIndexChanged(int){
@@ -91,4 +94,28 @@ void askBaseProb::on_chooseMatrix_currentIndexChanged(int){
 
 unsigned int askBaseProb::getMatrixChoice(){
     return matrixChoiceS;
+}
+
+void askBaseProb::setTotal(){
+    total = probA + probC + probG + probT;
+    ui->showTotal->setValue(total);
+}
+
+bool askBaseProb::checkCustomTotal(){
+    if (total == 1) return true;
+    else return false;
+}
+
+void askBaseProb::on_buttonSave_clicked(){
+    if (ui->chooseBase->currentIndex()!=3){
+        this->close();
+    }
+    else if (ui->chooseBase->currentIndex()==3 and checkCustomTotal()){
+    this->close();
+    }
+    //QT TO DO EM IMPLEMENTATION
+    else if (ui->chooseBase->currentIndex()==2) QMessageBox::information(this, "No implementation", "Please choose another base, the EM algorithm has not been implemented yet");
+    else{
+        QMessageBox::information(this, "Invalid Base", "Your bases must add up to 1.00 .");
+    }
 }

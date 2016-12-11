@@ -160,28 +160,14 @@ BP_FILL CoutCin_AskBaseProb() {
         return BP_FILL::AllEqual;
 }
 //----------------------------------------------------------------------
-double CoutCin_AskBaseProb0(char C) {
-    double baseProb;
+double CoutCin_AskBaseProb0(char letter) {
+    if (letter == A) return askBaseProb::getProbA();
+    else if (letter == C) return askBaseProb::getProbC();
+    else if (letter == G) return askBaseProb::getProbG();
+    else return askBaseProb::getProbT();
 
-    while (true) {
-        std::cout << "Enter the base probability for "<< C ;
-        std::cin >> baseProb;
-
-        if(baseProb < 0 || baseProb > 1) {
-            std::cout << "Invalid value for base probability. All values "
-            << std::endl << "for base probabilities must be between 0 and 1 "
-            << std::endl << "and must add up to one."
-            << std::endl << "Please try again." << std::endl;
-        }
-        else
-            return baseProb;
-    }
-
-    return baseProb;
 }
 //----------------------------------------------------------------------
-
-
 std::vector<double> AskBaseProb()
 {
     switch (CoutCin_AskBaseProb()) {
@@ -199,8 +185,6 @@ std::vector<double> AskBaseProb()
 
 
 //----------------------------------------------------------------------
-
-
 std::vector<double> User_Defined_Base_Prob() {
     double A, C, G, T;
     std::vector<double> base_probabilities;
@@ -227,7 +211,6 @@ std::vector<double> User_Defined_Base_Prob() {
 
 
 //----------------------------------------------------------------------
-
 MATRIX_TYPE Ask_Return_Matrix_Type() {
     unsigned int answer=askBaseProb::getMatrixChoice();
 
@@ -246,21 +229,18 @@ MATRIX_TYPE Ask_Return_Matrix_Type() {
 
 
 //----------------------------------------------------------------------
-
 bool ask_matrix_from_sequences_weighed() {
     return sequenceFromMatrix::isEM();
 }
 
 
 //----------------------------------------------------------------------
-
 bool ask_matrix_from_search_matches() {
     return  sequenceFromMatrix::getBool();
 }
 
 
 //----------------------------------------------------------------------
-
 void error_input_sequence() {
     std::cout << "Error: Either there was no sequence found to analyze, or the " <<
     std::endl << "sequences to analyze are of different length." << std::endl;
@@ -268,14 +248,12 @@ void error_input_sequence() {
 
 
 //----------------------------------------------------------------------
-
 void error_reading_coordiates(unsigned int line) {
     std::cout << "Error: Reading genomic coordinate files failed on line " << line <<
     std::endl;
 }
 
 //----------------------------------------------------------------------
-
 std::string ask_coordinate_filename() {
     std::string answer;
     std::cout << "What file would you like to open for the genomic coordinates." << std::endl;
@@ -283,9 +261,7 @@ std::string ask_coordinate_filename() {
     return answer;
 }
 
-
 //----------------------------------------------------------------------
-
 bool ask_line_description_present() {
     bool answer;
     std::cout << "Is a descritpion of the coordinates present in the third question?" << std::endl;
@@ -298,7 +274,6 @@ bool ask_line_description_present() {
 
 
 //----------------------------------------------------------------------
-
 Association_Table associate_genomic_with_sequences(std::vector<std::string> coordinate_description,
                                                    std::vector<std::string> sequence_description) {
     Association_Table output;
@@ -380,9 +355,7 @@ void error_sequence_doesnt_exist() {
     std::cout << "Error: The desired sequence doesn't exist" << std::endl;
 }
 
-
 //----------------------------------------------------------------------
-
 SEQ_SOURCE ask_source_sequence() {
     std::cout << "How would you like to obtain the binding sequences to analyze?" <<
     std::endl << "Enter 1 if you have the binding sequences seperately in a fasta file." <<

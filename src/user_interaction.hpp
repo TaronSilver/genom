@@ -165,7 +165,7 @@ BP_FILL CoutCin_AskBaseProb();
  * @param the nucleotide needed (A or C or G or T)
  * @return the Prob enter by the user for this nucleotide
  */
-double CoutCin_AskBaseProb0(char);
+double CoutCin_AskBaseProb0(char letter);
 
 /*!
  * @brief Ask the name for the outputfile 

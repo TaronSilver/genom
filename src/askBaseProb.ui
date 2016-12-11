@@ -19,7 +19,7 @@
      <x>13</x>
      <y>65</y>
      <width>346</width>
-     <height>82</height>
+     <height>111</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout_3">
@@ -35,7 +35,7 @@
        <double>1.000000000000000</double>
       </property>
       <property name="singleStep">
-       <double>0.100000000000000</double>
+       <double>0.050000000000000</double>
       </property>
      </widget>
     </item>
@@ -58,7 +58,7 @@
        <double>1.000000000000000</double>
       </property>
       <property name="singleStep">
-       <double>0.100000000000000</double>
+       <double>0.050000000000000</double>
       </property>
      </widget>
     </item>
@@ -74,7 +74,7 @@
        <double>1.000000000000000</double>
       </property>
       <property name="singleStep">
-       <double>0.100000000000000</double>
+       <double>0.050000000000000</double>
       </property>
      </widget>
     </item>
@@ -163,7 +163,7 @@
        <double>1.000000000000000</double>
       </property>
       <property name="singleStep">
-       <double>0.100000000000000</double>
+       <double>0.050000000000000</double>
       </property>
      </widget>
     </item>
@@ -195,6 +195,9 @@
     </item>
     <item row="1" column="0" colspan="8">
      <widget class="QComboBox" name="chooseBase">
+      <property name="toolTip">
+       <string/>
+      </property>
       <item>
        <property name="text">
         <string>Base Probability of 0.25</string>
@@ -217,6 +220,38 @@
       </item>
      </widget>
     </item>
+    <item row="4" column="6">
+     <widget class="QDoubleSpinBox" name="showTotal">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="frame">
+       <bool>false</bool>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="keyboardTracking">
+       <bool>true</bool>
+      </property>
+      <property name="maximum">
+       <double>999.000000000000000</double>
+      </property>
+      <property name="singleStep">
+       <double>0.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="2" colspan="3">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>Total:</string>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QPushButton" name="buttonSave">
@@ -235,8 +270,8 @@
   <widget class="QWidget" name="layoutWidget_2">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>170</y>
+     <x>20</x>
+     <y>190</y>
      <width>314</width>
      <height>24</height>
     </rect>

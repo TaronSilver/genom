@@ -2,6 +2,7 @@
 #define ASKBASEPROB_HPP
 
 #include <QDialog>
+#include <QMessageBox>
 
 namespace Ui {
 class askBaseProb;
@@ -21,6 +22,8 @@ public:
     static double getProbG();
     static double getProbT();
     static unsigned int getMatrixChoice();
+    bool checkCustomTotal();
+    void setTotal();
 
 public slots:
     void on_chooseBase_currentIndexChanged(int);
