@@ -40,13 +40,13 @@ void Window::on_buttonMatrix_clicked() {
 }
 
 void Window::on_buttonSequenceFromMatrix_clicked() {
-    if(fastaLocation.isEmpty() or matrixLocation.isEmpty()) {
-        QMessageBox::critical(this, "Error: Files not chosen", "You havent chosen your Sequence or your Matrix file.");
-    }
+    if(fastaLocation.isEmpty()) QMessageBox::critical(this, "Error: Files not chosen", "You haven't chosen your sequence file.");
+    else if(matrixLocation.isEmpty()) QMessageBox::critical(this, "Error: Files not chosen", "You haven't chosen your matrix file.");
+    else if(ui->editFileName->text().isEmpty()) QMessageBox::critical(this, "Error: Files not chosen", "You havent chosen your output name.");
     else {
         matrixFilePath = matrixLocation.toStdString();
         fastaFilePath = fastaLocation.toStdString();
-        this->getFileName(); //Charges the name input by the user in the output string
+        output = ui->editFileName->text().toStdString();
 
         sequenceFromMatrix mac;
         mac.show();
@@ -66,7 +66,10 @@ void Window::on_buttonSequenceFromMatrix_clicked() {
 
 void Window::on_buttonMatrixFromSequence_clicked() {
     if(fastaLocation.isEmpty()) {
-        QMessageBox::critical(this, "Error: File not chosen", "You havent chosen your Sequence file.");
+        QMessageBox::critical(this, "Error: File not chosen", "You haven't chosen your Sequence file.");
+    }
+    else if(ui->editFileName->text().isEmpty()) {
+        QMessageBox::critical(this, "Error: Files not chosen", "You haven't chosen your output name.");
     }
     else {
     fastaFilePath = fastaLocation.toStdString();
@@ -81,7 +84,7 @@ void Window::on_buttonMatrixFromSequence_clicked() {
 
 void Window::on_buttonLogo_clicked(){
   if(matrixLocation.isEmpty()) {
-      QMessageBox::critical(this, "Error: File not chosen", "You havent chosen your Matrix file.");
+      QMessageBox::critical(this, "Error: File not chosen", "You haven't chosen your Matrix file.");
   }
   else{
     matrixFilePath = matrixLocation.toStdString();
@@ -96,10 +99,6 @@ std::string Window::getFastaLocation(){
 
 std::string Window::getMatrixLocation(){
     return matrixFilePath;
-}
-
-void Window::getFileName(){
-    output = ui->editFileName->text().toStdString();
 }
 
 std::string Window::getOutputName(){

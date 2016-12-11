@@ -31,7 +31,7 @@ void enzyme_on_sequence() {
     
     if(ask_matrix_from_search_matches()) {
         Matrix enzyme_renewed(matrix_from_same_length(enzyme_matches, base_prob, ask_matrix_from_sequences_weighed()),MATRIX_TYPE::absoluteMatrix);
-        enzyme_renewed.save(file_name+"M",  Ask_Return_Matrix_Type());
+        enzyme_renewed.save(file_name+".mat",  Ask_Return_Matrix_Type());
     }
 }
 

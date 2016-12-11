@@ -34,6 +34,7 @@ void askBaseProb::on_chooseBase_currentIndexChanged(int){
         ui->spinG->setEnabled(true);
         ui->spinT->setEnabled(true);
         ui->showTotal->setEnabled(true);
+        ui->label_3->setEnabled(true);
     }
     else{
         ui->spinA->setEnabled(false);
@@ -41,6 +42,7 @@ void askBaseProb::on_chooseBase_currentIndexChanged(int){
         ui->spinG->setEnabled(false);
         ui->spinT->setEnabled(false);
         ui->showTotal->setEnabled(false);
+        ui->label_3->setEnabled(false);
     }
     baseChoice = ui->chooseBase->currentIndex();
 }

@@ -20,7 +20,7 @@
    <string>genom-2</string>
   </property>
   <property name="toolTip">
-   <string/>
+   <string notr="true"/>
   </property>
   <layout class="QGridLayout" name="gridLayout_3">
    <item row="0" column="0">
@@ -72,6 +72,9 @@
          <height>20</height>
         </size>
        </property>
+       <property name="toolTipDuration">
+        <number>5</number>
+       </property>
        <property name="text">
         <string>Choose Matrix File</string>
        </property>
@@ -101,6 +104,9 @@
          <height>20</height>
         </size>
        </property>
+       <property name="toolTipDuration">
+        <number>5</number>
+       </property>
        <property name="text">
         <string>Choose Sequence File</string>
        </property>
@@ -116,6 +122,9 @@
        </property>
        <property name="toolTip">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Once you have chosen your matrix file, its location will be shown here.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="toolTipDuration">
+        <number>5</number>
        </property>
        <property name="verticalScrollBarPolicy">
         <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -142,6 +151,9 @@ p, li { white-space: pre-wrap; }
        </property>
        <property name="toolTip">
         <string>Once you have chosen your sequence file, its location will be shown here.</string>
+       </property>
+       <property name="toolTipDuration">
+        <number>5</number>
        </property>
        <property name="verticalScrollBarPolicy">
         <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -176,6 +188,12 @@ p, li { white-space: pre-wrap; }
          <height>16777215</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Obtain a logo based on a probability matrix file.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="toolTipDuration">
+        <number>5</number>
+       </property>
        <property name="text">
         <string>Obtain a logo</string>
        </property>
@@ -194,6 +212,12 @@ p, li { white-space: pre-wrap; }
          <width>250</width>
          <height>16777215</height>
         </size>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Obtain a probability weight matrix from multiple sequences, obtained from a fasta file.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="toolTipDuration">
+        <number>5</number>
        </property>
        <property name="text">
         <string>Extract Matrix from Sequences</string>
@@ -246,6 +270,9 @@ p, li { white-space: pre-wrap; }
        </property>
        <property name="toolTip">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Calculates all binding positions of a protein from a probability matrix on a given nucleotide sequence.&lt;/p&gt;&lt;p&gt;The binding positions will be saved in an output file, whose name you have to choose.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="toolTipDuration">
+        <number>5</number>
        </property>
        <property name="text">
         <string>Extract Sequences from a Matrix</string>

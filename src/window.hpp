@@ -54,10 +54,6 @@ public:
   */
   static std::string getOutputName();
 
-  /*!
-  * @brief Sets the value of the output parameter.
-  */
-  void getFileName();
 
   public slots:
   /*!
