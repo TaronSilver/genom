@@ -391,7 +391,8 @@ SEQ_SOURCE ask_source_sequence() {
 
 void logo_in_process()
 {
-  
+  std::cout << "Your logo is being generated, this should take a couple of seconds" << std::endl;
+  std::cout << "Your logo will be saved in genom-2 with the name yourlogo.png" << std::endl;
 }
 
 std::string ask_logo_matrix()
@@ -399,4 +400,13 @@ std::string ask_logo_matrix()
   return Window::getMatrixLocation();
 }
 
+void position_in_process(int pos)
+{
+	std::cout << "Drawing position: " << pos << std::endl;
+}
+
+void nuc_in_process(char N)
+{
+	std::cout << "	Printed " << N << std::endl;
+}
 //-----------------------------------------------------------------------
