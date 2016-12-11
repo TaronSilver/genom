@@ -673,6 +673,16 @@ std::string ask_logo_matrix()
     return entry_name;
 }
 
+void position_in_process(int pos)
+{
+	std::cout << "Drawing position: " << pos << std::endl;
+}
+
+void nuc_in_process(char N)
+{
+	std::cout << "	Printed " << N << std::endl;
+}
+
 //-----------------------------------------------------------------------
 
 

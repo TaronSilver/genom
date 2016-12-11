@@ -278,12 +278,25 @@ SEQ_SOURCE ask_source_sequence();
 void logo_in_process();
 
 /*!
- * @brief   Asks the user, what the name of the file with the probability matrix is
+ * @brief   Asks the user what the name of the file with the probability matrix is
  *
  * @return  file name as a string
  */
 std::string ask_logo_matrix();
 
+/*!
+ * @brief   prints logo process for user
+ *
+ * @param   position being processed 
+ */
+void position_in_process(int pos);
+
+/*!
+ * @brief   prints logo process for user
+ *
+ * @param   nucleotide being processed 
+ */
+void nuc_in_process(char N);
 //-----------------------------------------------------------------------
 
 
