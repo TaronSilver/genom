@@ -8,6 +8,7 @@
 #include <sstream>
 #include "user_interaction.hpp"
 #include <algorithm>
+#include <cmath>
 
 using namespace cimg_library;
 
@@ -35,7 +36,7 @@ void logo() {
 
 	unsigned size_motif(PWM.size());
 
-	CImg<unsigned char> background(1, 1, 1, 3, 0, 0, 0);
+	CImg<unsigned char> background(1, 1, 1, 3, 255, 255, 255);
 	background.resize(size_motif*500, 1000);
 
 	logo_in_process();
@@ -52,7 +53,7 @@ void logo() {
 		CImg<unsigned char> column(1, 1, 1, 3, 255, 255, 255);
 		column.resize(500, 1000);
 
-		double height(0);
+		double height(1000-size(PWM,0,pos)-size(PWM,1,pos)-size(PWM,2,pos)-size(PWM,3,pos));
 		
 		
 		std::vector<nuc_prob_pair> nuc_pairs;
@@ -66,7 +67,7 @@ void logo() {
 		
 		for(unsigned i = 0; i < nuc_pairs.size(); i++){
 			nuc_pairs[i].icon.resize(500, nuc_pairs[i].prob, -100, -100, 2);
-			column.draw_image(0, height, 0, 0, nuc_pairs[i].icon);
+			column.draw_image(0, height, 0, 0, nuc_pairs[i].icon, nuc_pairs[i].icon.get_channel(3),1,255);
 			height += nuc_pairs[i].prob;
 		}
 		
@@ -132,27 +133,24 @@ std::vector<std::vector<double>> read_logo_matrix(std::string const& fileName)
     return result;
 }
 
-double size(std::vector<std::vector<double>> const& PWM, unsigned N, unsigned pos)
+/*double size(std::vector<std::vector<double>> const& PWM, unsigned N, unsigned pos)
 {
 	return (PWM[pos][N])*1000;
-}
+}*/
 
-/* commented out because formula causes weird logo
+// commented out because formula causes weird logo
 double size(std::vector<std::vector<double>> const& PWM, unsigned N, unsigned pos)
 {
-	double info_content(0);
+	double info_content(2);
 
-	for (unsigned i(0); pos<4; ++pos)
+	for (unsigned i(0); i<4; i++)
 	{
-		info_content += ((PWM[pos][i])*(log2(4*PWM[pos][i])));
+		info_content += ((PWM[pos][i])*(std::log2(PWM[pos][i])));
 	}
 
-
-	std::cout<<"info_content: " << info_content << std::endl;
-
-	return (PWM[pos][N])*1000/info_content;
+	return (PWM[pos][N])*info_content*500;
 }
-*/
+
 
 
 /*
