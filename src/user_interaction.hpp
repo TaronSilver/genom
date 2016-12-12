@@ -316,12 +316,6 @@ std::string ask_logo_matrix();
  */
 void position_in_process(int pos, int size);
 
-/*!
- * @brief   prints logo process for user
- *
- * @param   nucleotide being processed 
- */
-void nuc_in_process(char N);
 //-----------------------------------------------------------------------
 
 
