@@ -7,12 +7,26 @@
 #include <fstream>
 #include <sstream>
 #include "user_interaction.hpp"
-
+#include <algorithm>
 
 using namespace cimg_library;
 
 std::vector<std::vector<double>> read_logo_matrix(std::string const& fileName);
 double size(std::vector<std::vector<double>> const& PWM, unsigned N, unsigned pos);
+
+typedef struct nuc_prob_pair{
+    double prob;
+    CImg<unsigned char> icon;
+    int index;
+    nuc_prob_pair(CImg<unsigned char> icon, double prob) : prob(prob), icon(icon){
+		
+	}
+}nuc_prob_pair;
+
+bool compareByProb(const nuc_prob_pair &a, const nuc_prob_pair &b)
+{
+    return a.prob > b.prob;
+}
 
 void logo() {
 
@@ -21,14 +35,14 @@ void logo() {
 
 	unsigned size_motif(PWM.size());
 
-	CImg<unsigned char> background(1, 1, 1, 3, 255, 255, 255);
+	CImg<unsigned char> background(1, 1, 1, 3, 0, 0, 0);
 	background.resize(size_motif*500, 1000);
 
 	logo_in_process();
 
 	for (unsigned pos(0); pos<size_motif; ++pos)
 	{
-		position_in_process(pos+1);
+		position_in_process(pos+1,PWM.size());
 		
 		CImg<unsigned char> iconA("../logo/icons/A.png");
 		CImg<unsigned char> iconC("../logo/icons/C.png");
@@ -39,30 +53,23 @@ void logo() {
 		column.resize(500, 1000);
 
 		double height(0);
-
-		iconA.resize(500, size(PWM,0,pos), -100, -100, 2);
-		column.draw_image(0, height, 0, 0, iconA);
-		height = size(PWM,0,pos);
 		
-		nuc_in_process('A');
-
-		iconC.resize(500, size(PWM,1,pos), -100, -100, 2);
-		column.draw_image(0, height, 0, 0, iconC);
-		height += size(PWM,1,pos);
-
-		nuc_in_process('C');
-
-		iconG.resize(500, size(PWM,2,pos), -100, -100, 2);
-		column.draw_image(0, height, 0, 0, iconG);
-		height += size(PWM,2,pos);
-
-		nuc_in_process('G');
-
-		iconT.resize(500, size(PWM,3,pos), -100, -100, 2);
-		column.draw_image(0, height, 0, 0, iconT);
 		
-		nuc_in_process('T');
+		std::vector<nuc_prob_pair> nuc_pairs;
+		
+		nuc_pairs.push_back(nuc_prob_pair(iconA, size(PWM,0,pos)));
+		nuc_pairs.push_back(nuc_prob_pair(iconC, size(PWM,1,pos)));
+		nuc_pairs.push_back(nuc_prob_pair(iconG, size(PWM,2,pos)));
+		nuc_pairs.push_back(nuc_prob_pair(iconT, size(PWM,3,pos)));
 
+		std::sort(nuc_pairs.begin(), nuc_pairs.end(), compareByProb);
+		
+		for(unsigned i = 0; i < nuc_pairs.size(); i++){
+			nuc_pairs[i].icon.resize(500, nuc_pairs[i].prob, -100, -100, 2);
+			column.draw_image(0, height, 0, 0, nuc_pairs[i].icon);
+			height += nuc_pairs[i].prob;
+		}
+		
 		background.draw_image(pos*500, 0, 0, 0, column);
 
 	}
