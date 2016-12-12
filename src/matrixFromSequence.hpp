@@ -20,6 +20,7 @@ public:
     static unsigned int getPosition();
     static unsigned int getLength();
     static bool getBool();
+    static unsigned int getSequenceOrigin();
 
 public slots:
 
@@ -28,6 +29,7 @@ public slots:
     void on_intPosition_valueChanged(int);
     void on_intLength_valueChanged(int);
     void on_checkBox_stateChanged();
+    void on_chooseSequenceOrigin_currentIndexChanged(int);
 
 
 private:

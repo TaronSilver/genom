@@ -176,6 +176,9 @@ p, li { white-space: pre-wrap; }
          <height>16777215</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Obtain a logo from a probability matrix.&lt;/p&gt;&lt;p&gt;It will be saved to yourlogo.png in the genom-2 directory.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
        <property name="text">
         <string>Obtain a logo</string>
        </property>
@@ -194,6 +197,9 @@ p, li { white-space: pre-wrap; }
          <width>250</width>
          <height>16777215</height>
         </size>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Obtain a probability weigth matrix from multiple sequences, stored in a fasta file.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;The results will be saved in a file named after the chosen name.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="text">
         <string>Extract Matrix from Sequences</string>

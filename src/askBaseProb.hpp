@@ -4,6 +4,8 @@
 #include <QDialog>
 #include <QMessageBox>
 
+#include "sequenceFromMatrix.hpp"
+
 namespace Ui {
 class askBaseProb;
 }

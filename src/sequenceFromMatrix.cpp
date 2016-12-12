@@ -40,6 +40,7 @@ void sequenceFromMatrix::on_checkBoxSaveResults_stateChanged(){
     else{
         saveM = false;
         useEM = false;
+        ui->checkBoxUseEM->setChecked(false);
         ui->checkBoxUseEM->setEnabled(false);
     }
 }

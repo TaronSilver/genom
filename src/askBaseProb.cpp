@@ -19,6 +19,7 @@ askBaseProb::askBaseProb(QWidget *parent) :
     probG=0;
     probT=0;
     baseChoice=0;
+    if (sequenceFromMatrix::getBool()==false) ui->chooseMatrix->setEnabled(false);
 }
 
 askBaseProb::~askBaseProb()

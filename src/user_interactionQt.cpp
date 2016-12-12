@@ -357,16 +357,8 @@ void error_sequence_doesnt_exist() {
 
 //----------------------------------------------------------------------
 SEQ_SOURCE ask_source_sequence() {
-    std::cout << "How would you like to obtain the binding sequences to analyze?" <<
-    std::endl << "Enter 1 if you have the binding sequences seperately in a fasta file." <<
-    std::endl << "Enter 2 if you have a file with genomic coordinates of the sequences." <<
-    std::endl << "Enter 3 if you want to analyze the result of a previous analysis." <<
-    std::endl;
-
-    unsigned int answer(0);
+    unsigned int answer=matrixFromSequence::getSequenceOrigin();
     while (true) {
-        std::cin >> answer;
-
         switch (answer) {
             case 1:
                 return SEQ_SOURCE::OnlySeq;
@@ -376,11 +368,6 @@ SEQ_SOURCE ask_source_sequence() {
 
             case 3:
                 return SEQ_SOURCE::FromSearchResult;
-
-            default:
-                std::cout << "Invalid input, please try again." << std::endl;
-                break;
-
         }
     }
 }
