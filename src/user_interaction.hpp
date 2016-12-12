@@ -289,7 +289,7 @@ std::string ask_logo_matrix();
  *
  * @param   position being processed 
  */
-void position_in_process(int pos);
+void position_in_process(int pos, int size);
 
 /*!
  * @brief   prints logo process for user
