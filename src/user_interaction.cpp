@@ -801,7 +801,7 @@ std::string ask_logo_matrix()
     std::string entry_name;
 
     while (true) {
-	    std::cout <<"Please give the name of your probability weight matrix file: ";
+	    std::cout <<"Please give the name of your matrix file: ";
 	    std::cin >> entry_name;
 
 	    std::ifstream entry(entry_name.c_str());
@@ -822,11 +822,6 @@ std::string ask_logo_matrix()
 void position_in_process(int pos, int size)
 {
 	std::cout << "Drawing position: " << pos << "/" << size << std::endl;
-}
-
-void nuc_in_process(char N)
-{
-	std::cout << "	Printed " << N << std::endl;
 }
 
 //-----------------------------------------------------------------------
