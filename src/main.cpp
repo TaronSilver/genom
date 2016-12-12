@@ -102,11 +102,15 @@ int main() {
  * 
  * --> make
  * 
- * STEP 3: Execute the program
+ * STEP 3: Execute the program (with Qt)
  * 
- * --> ./Main
+ * --> ./genom-2
  * 
  * and voilà!
+ * 
+ * TESTS (in build):
+ * 
+ * --> ./gtests
  * 
  * \section authors Brought to you by
  * 
