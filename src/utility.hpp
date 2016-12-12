@@ -6,6 +6,9 @@
 #include "user_interaction.hpp"
 #include "genomic_coordinates.hpp"
 
+
+//==========================================================================================
+// SEQUENCE ANALYSIS
 /*!
  * @brief Goes through all sequences in the file and returns sequences with a score above 5
  *         Optimized version 2
@@ -80,6 +83,7 @@ Matrix_Neo matrix_from_same_length_sequences_not_weighted(std::vector<SearchResu
  */
 Matrix_Neo matrix_from_same_length_sequences_weighted(std::vector<SearchResults> input, Base_Prob base_prob);
 
+
 /*!
  * @brief Creates a probability weight matrix from a vector of SearchResults with all the same length
  *          Takes bool as argument if it should be weighed by the score or not
@@ -88,6 +92,7 @@ Matrix_Neo matrix_from_same_length_sequences_weighted(std::vector<SearchResults>
  * @return A regular probability weight matrix (type absoluteMatrix)
  */
 Matrix_Neo matrix_from_same_length( std::vector<SearchResults> input, Base_Prob base_prob, bool weighed );
+
 
 /*!
  * @brief Checks if all search results have the same length, returns this length
@@ -124,5 +129,126 @@ std::vector<std::string> extract_sequence_descriptions(std::string filename);
  * @return  A vector of strings with all sequence descriptions.
  */
 std::vector<std::string> get_descriptions_from_coord_list(std::vector<Coordinates> coord_list);
+
+/*!
+ * @brief   Returns a matrix 
+ *
+ * @param   One sequence and the number of iterations
+ * @return  A matrix made from the sequence according to the number of iterations
+ */
+Matrix_Neo sequence_to_PPM (std::string sequence, int n);
+	
+/*!
+ * @brief   Returns a matrix 
+ *
+ * @param   A vector of sequences, the number of iterations and the baseprobabilities for each nucleotide
+ * @return  A matrix made from the sequences according to the number of iterations and the baseprobabilities
+ */
+Matrix_Neo sequences_to_PPM (std::vector<std::string> sequences, unsigned int n);
+	
+/*!
+ * @brief   Returns a score
+ *
+ * @param   A sequence and a matrix
+ * @return  the score of the sequence according to the matrix
+ */
+double sequence_score (std::string sequence, Matrix_Neo PPM);
+
+/*!
+ * @brief   Returns a vector of sequences
+ *
+ * @param   A vector of sequences, a matrix and a number that represents the cutoff
+ * @return  A vector of sequences found from a set of sequences and its matrix, taking into account the cutoff
+ */
+std::vector<std::string> PPM_to_Sequence (std::vector<std::string> binding_sites, Matrix_Neo PPM,  double cutoff);
+	
+/*!
+ * @brief   Returns a matrix
+ *
+ * @param   A vector of sequences, a number of iterations, a number that represents the cutoff, the baseprobabilities, the maximum and the differences
+ * @return  A stabilised matrix made from the different sequences
+ */
+Matrix_Neo EM_algorithm (std::vector<std::string> Sequences, int n, double cutoff, Base_Prob base_probabilities, int max, double diff);
+	
+/*!
+ * @brief   Returns a vector of sequences
+ *
+ * @return  a vector of sequences made from a file that the user gives
+ */
+std::vector <std::string> Initialization_string();
+	
+/*!
+ * @brief   returns a score
+ *
+ * @param   a matrix
+ * @return  return the maximal score of the matrix
+ */
+double max_score (Matrix_Neo PPM);
+
+/*!
+ * @brief   Returns a bool
+ *
+ * @param   two matrices and a number that represents the differences between the 2 matrices
+ * @return  if the two matrices have a difference smaller or equal to the number of differences
+ */
+bool diff_matrices (Matrix_Neo mat1, Matrix_Neo mat2, double difference);
+
+/*!
+ * @brief   returns the size of the smallest sequence among a vector of sequences
+ *
+ * @param   a vector of sequences
+ * @return  the size of the smallest sequence among all sequences
+ */
+int smallest_length (std::vector<std::string> sequences);
+
+
+/*!
+ * @brief   Goes through sequence file, and saves each sequence as an individual search
+ *          result. Direction is always '+', score always 1 and startpos always 0.
+ *
+ * @param   The name of the sequence file.
+ * @return  A SearchResults with the result of the reading of the file.
+ */
+SearchResults read_sequencefile_to_searchresults(std::string filename);
+
+
+/*!
+ * @brief   Goes through sequence file, and saves each sequence as an individual search
+ *          result. Direction is always '+', score always 1 and startpos always 0.
+ *
+ * @param   The name of the sequence file.
+ * @return  A SearchResults with the result of the reading of the file.
+ */
+std::vector <SearchResults> read_searchresult_file(std::string filename);
+
+
+/*!
+ * @brief   Goes through file and saves each line as individual search result.
+ *          Direction is always '+', score always 1 and startpos always 0.
+ *
+ * @param   The name of the sequence file.
+ * @return  A SearchResults with the result of the reading of the file.
+ */
+SearchResults read_sequence_list_to_searchresults(std::string filename);
+
+
+/*!
+ * @brief   Goes through file and saves each sequence as individual search result.
+ *          Each sequence is separated by the character defined in the parameters
+ *
+ * @param   The name of the sequence file, the delimiting character.
+ * @return  A SearchResults with the result of the reading of the file.
+ */
+SearchResults read_char_separated_to_searchresults(std::string filename, char delim);
+
+/*!
+ * @brief   Goes through file and savec each sequence as individual string.
+ *
+ * @param   The name of the sequence file
+ * @return  A vector of strings with the result of the reading of the file.
+ */
+std::vector <std::string> ExtractSequence(std::string const& entry_name);
+
+
 
 #endif

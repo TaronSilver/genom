@@ -13,6 +13,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <iomanip> 
 
 #include "Matrix.hpp"
 
@@ -38,9 +39,11 @@ public:
 // Three columned table which associates two objects.
 typedef std::vector<std::vector<unsigned int >> Association_Table;
 
-enum PROCEDURE { MatrixFromSequences, SequencesFromMatrix, Logo, Exit };
+enum PROCEDURE { MatrixFromSequences, SequencesFromMatrix, Logo, CorrelateResults, Exit };
 enum BP_FILL { AllEqual, UserDefined, FromSequence, NotUsed };
 enum SEQ_SOURCE { CoordAndSeq, OnlySeq, FromSearchResult }; 
+enum LIST_FILE { Fasta, NormalList, SeparatedList };
+
 
 //-----------------------------------------------------------------------
 
@@ -128,6 +131,13 @@ void print_progress(int position, int filesize);
  * @param Search results, filename
  */
 void print_results(SearchResults results, std::string filename);
+
+/*!
+ * @brief Prints search results and corresponding genomic scores to file
+ *
+ * @param Search results, a vector of doubles with the genomic scores,  filename
+ */
+void print_results_correlated(SearchResults results, std::vector <double> gen_score, std::string filename);
 
 
 /*!
@@ -250,15 +260,30 @@ bool ask_line_description_present();
  *          sequence descriptions
  *
  * @return  Association table, with number of coordinates in column 0 (COORD) and number of sequences
- *          in column 1 (SEQ)
+ *          in column 1 (SEQ) and the starting position in column 2 (START)
  */
 Association_Table associate_genomic_with_sequences(std::vector<std::string> coordinate_description,
                                                    std::vector<std::string> sequence_description);
+
+
+/*!
+ * @brief   Ask the user to determine which searchResult he wants to analyze with which set of
+ *          genomic coordinates
+ *
+ * @param   Vector of strings with all coordinate descriptions, a vector of searchResults 
+ *
+ * @return  Association table, with id of coordinates in column 0 (COORD), id of corresponding
+ *          search results in column 1 (SEQ) and the starting position in column 2 (START)
+ */
+Association_Table associate_genomic_with_result(std::vector<std::string> coordinate_description,
+                                                std::vector<SearchResults> result_list);
+
 
 /*!
  * @brief   Prints warning if sequence to analyze doesnt exist
  */
 void error_sequence_doesnt_exist();
+
 
 /*!
  * @brief   Asks the user, where he wants to get the sequences from that he wants to analyze
@@ -297,6 +322,107 @@ void position_in_process(int pos, int size);
  * @param   nucleotide being processed 
  */
 void nuc_in_process(char N);
+//-----------------------------------------------------------------------
+
+
+
+/*!
+ * @brief   Asks the user what number of iterations he wants to use
+ *
+ * @return  the number of iterations the user chose
+ */
+int ask_iterations (int length);
+
+/*!
+ * @brief   Asks the user what name he wants to give to the output file
+ *
+ * @return  the name of the output file the user chose
+ */
+std::string ask_name_output_file ();
+
+/*!
+ * @brief   Print the matrix into an output file
+ *
+ * @param   an output file and a matrix
+ */
+void print_into_file(std::ostream & out, Matrix_Neo matrix);
+
+/*!
+ * @brief   Asks the user what cutoff he wants to use and takes care of the possible errors
+ *
+ * @param   a specific number. The user has to give a bigger number than this one 
+ * @return  the cutoff the user chose 
+ */
+double ask_cutoff2(double max_score);
+
+/*!
+ * @brief   tells the user where (in what file) he is
+ *
+ */
+void path ();
+
+/*!
+ * @brief   Returns a path
+ *
+ * @return 	in what directory we are at the moment
+ */
+std::string get_working_path();
+
+
+/*!
+ * @brief   Asks the user the maximum of EM_algorithm he wants to do
+ *
+ * @return 	the maximum of times the user wants to do the EM_algorithm 
+ */
+int maximum_EM ();
+
+
+/*!
+ * @brief   Asks the user what is the difference between two matrices to stop the EM_algorithm
+ *
+ * @return 	the differences between two matrices the user chose
+ */
+double differences_matrices (); 
+
+/*!
+ * @brief   If the user has a separate file with the sequence, it asks what this file looks like.
+ *
+ * @return  Answer as type LIST_FILE.
+ */
+LIST_FILE ask_list_file_type();
+
+
+/*!
+ * @brief   If the user has a file where the sequences are separated by characters other than \n, 
+ *          he can specify the separation character with this function.
+ *
+ * @return  Answer as type char.
+ */
+char ask_separation_character();
+
+
+/*!
+ * @brief   Asks the user, which file he wants to open (in general, no specific filetype)
+ *
+ * @return  Answer as string
+ */
+std::string ask_inputfile_name();
+
+/*!
+ * @brief   Prints "DONE" to terminal
+ */
+void done();
+
+/*!
+ * @brief   Prints Error if no search results were read (for procedure 1)
+ */
+void error_no_search_result_read();
+
+/*!
+ * @brief   Asks user if he wants to continue correlating
+ * @return  1 if yes, 0 if no.
+ */
+bool correlate_more();
 //-----------------------------------------------------------------------
 
 

@@ -7,6 +7,8 @@
 //
 
 #include "user_interaction.hpp"
+#include <unistd.h>
+
 
 
 
@@ -24,7 +26,8 @@ PROCEDURE whatToDo() {
     std::cout << "Enter 2 to obtain all binding positions of a protein from a " << std::endl
     << "probability matrix on a given nucleotide sequence." << std::endl;
     std::cout << "Enter 3 to obtain a logo" << std::endl;
-
+    std::cout << "Enter 4 to compare the score of sequences to the score " <<
+    std::endl << "in genomic coordinates." << std::endl;
     std::cout << "Enter 0 to exit the program." << std::endl;
     
     while (true) {
@@ -42,6 +45,10 @@ PROCEDURE whatToDo() {
             whatToDo = Logo;
             break;
         }
+        else if (answer == 4) {
+            whatToDo = CorrelateResults;
+            break;
+        }
         else if (answer == 0) {
             whatToDo = Exit;
             break;
@@ -55,6 +62,26 @@ PROCEDURE whatToDo() {
     
 }
 
+//-----------------------------------------------------------------------
+double ask_cutoff2(double max_score) {
+	
+	double cutoff;
+	while (true) {   
+	    std::cout << "What cutoff would you like to use?" << std::endl;
+		std::cin >> cutoff;
+	    
+	    if (cutoff>max_score) {
+			std::cout << "This cutoff is too high, you need to give a cutoff lower than " << max_score << " so that we can find binding sites" << std::endl;
+			continue;
+		
+		} else if (cutoff<=0) {
+			std::cout << "The cutoff must be bigger than 0" << std::endl;
+		}
+		
+		break;
+	}
+	return cutoff; 
+}
 
 //-----------------------------------------------------------------------
 double ask_cutoff() {
@@ -95,6 +122,17 @@ bool ask_binding_length_known() {
     return known;
 }
 
+//-----------------------------------------------------------------------
+
+std::string ask_name_output_file ()
+{
+	std::string name; 
+	
+	std::cout << "What name do you want to give to this file?" << std::endl; 
+	std::cin >> name; 
+	
+	return name; 
+}
 
 //-----------------------------------------------------------------------
 
@@ -251,20 +289,46 @@ void print_progress(int position, int filesize) {
 
 //==========================================================================================
 void print_results(SearchResults results, std::string filename) {
+    filename += ".csv";
     std::ofstream outputfile;
     outputfile.open(filename, std::ios_base::app);
     unsigned int size = results.searchResults.size();
     
-    outputfile << results.description << std::endl;
+    outputfile << ">" << results.description << std::endl;
+    outputfile << "Seq, Pos, Dir, Seq_Score" << std::endl;
     
     for (unsigned int i(0); i < size; i++) {
-        outputfile << results.searchResults[i].sequence << " found at position "
-                   << results.searchResults[i].position << " in "
-                   << results.searchResults[i].direction << " direction with the score "
+        outputfile << results.searchResults[i].sequence << ", "
+                   << results.searchResults[i].position << ", "
+                   << results.searchResults[i].direction << ", "
                    << results.searchResults[i].score << std::endl;
     }
     outputfile.close();
 }
+
+
+//==========================================================================================
+void print_results_correlated(SearchResults results, std::vector <double> gen_score, std::string filename) {
+    filename += ".csv";
+    std::ofstream outputfile;
+    outputfile.open(filename, std::ios_base::app);
+    unsigned int size = results.searchResults.size();
+    
+    outputfile << ">" << results.description << std::endl;
+    outputfile << "Seq, Pos, Dir, Seq_Score, Gen_Score" << std::endl;
+
+    
+    for (unsigned int i(0); i < size; i++) {
+        outputfile  << results.searchResults[i].sequence << ", "
+                    << results.searchResults[i].position << ", "
+                    << results.searchResults[i].direction << ", "
+                    << results.searchResults[i].score << ", "
+                    << gen_score[i] << std::endl;
+    }
+    outputfile.close();
+}
+
+
 
 
 //==========================================================================================
@@ -286,7 +350,7 @@ void print_results(SearchResults results) {
 std::string Ask_Outputfile_Name() {
 	std::string filename;
 	
-	std::cout <<"What would you like to call your outpufile?"<< std::endl;
+	std::cout <<"What would you like to call your outputfile? ";
 	std::cin>>filename;
 	
 	return filename; 
@@ -516,7 +580,9 @@ std::string ask_coordinate_filename() {
 
 bool ask_line_description_present() {
     bool answer;
-    std::cout << "Is a descritpion of the coordinates present in the third question?" << std::endl;
+    std::cout << "Is a descritpion of the coordinates present in the third question?" <<
+    std::endl << "Enter 1 for yes, 0 for no." <<
+    std::endl;
     
     while (not(std::cin >> answer)) {
         std::cout << "Error: Invalid input. Please try again." << std::endl;
@@ -589,19 +655,98 @@ Association_Table associate_genomic_with_sequences(std::vector<std::string> coor
     std::endl;
     
     while (true) {
-        if(not(std::cin >> seq_intermed >> coord_intermed >> startpos_intermed)) {
-            std::cout << "Error, please try again. " << std::endl;
-        }
-        else if(seq_intermed == 0 or coord_intermed == 0)
+        std::cout << "Analysis " << output.size() + 1 << ":" << std::endl;
+        std::cout << "Sequence ";
+        while(not(std::cin >> seq_intermed))
+            std::cout << "Invalid input, please try again." << std::endl;
+        
+        if(seq_intermed == 0)
             break;
-        else {
-            output.push_back({coord_intermed-1, seq_intermed-1});
-        }
+        
+        std::cout << "Coordinates ";
+        while(not(std::cin >> coord_intermed))
+            std::cout << "Invalid input, please try again." << std::endl;
+
+        std::cout << "Start position of coordinates ";
+        while(not(std::cin >> startpos_intermed))
+            std::cout << "Invalid input, please try again." << std::endl;
+
+        output.push_back({coord_intermed-1, seq_intermed-1, startpos_intermed});
     }
+    
     return output;
     
 
 }
+
+
+//----------------------------------------------------------------------
+// DOESNT WORK
+
+Association_Table associate_genomic_with_result(std::vector<std::string> coordinate_description,
+                                                std::vector<SearchResults> result_list) {
+    Association_Table output;
+    unsigned int coord_intermed;
+    unsigned int seq_intermed;
+    unsigned int startpos_intermed;
+    
+    if (coordinate_description.size() == 1 and result_list.size() == 1) {
+        while (true) {
+            std::cout << "At what position of the genomic coordinates is the position " <<
+            std::endl << "0 of the input sequences?" <<
+            std::endl << "If there is no shift, this value is 1." << std::endl;
+            
+            if (std::cin >> startpos_intermed) {
+                break;
+            }
+            std::cout << "Error, please try again." << std::endl;
+            
+        }
+        return {{0, 0, startpos_intermed}};
+    }
+    
+    std::cout << "The following coordinates could be found in the given files: " << std::endl;
+    for (unsigned int id(0); id<coordinate_description.size(); id++) {
+        std::cout << "No. "<< id+1 << "\t" << coordinate_description[id] << std::endl;
+    }
+    
+    std::cout << "The following sequence results could be found in the given files: " << std::endl;
+    for (unsigned int id(0); id<result_list.size(); id++) {
+        std::cout << "No. "<< id+1 << "\t" << result_list[id].description << std::endl;
+    }
+    
+
+    std::cout << "Which sequence result would you like to analyze with which genomic coordinate?" <<
+    std::endl << "Enter first the identification number of the sequence results followed by the " <<
+    std::endl << "number of the genomic coordinates." <<
+    std::endl << "As a third value, give the position on the genomic coordinates corresponding " <<
+    std::endl << "to position 0 of the sequence results." <<
+    std::endl << "If there is no shift, this value is 1." << std::endl;
+
+    
+    std::cout << "Sequence result: ";
+    while(not(std::cin >> seq_intermed)
+          and seq_intermed<=0
+          and seq_intermed>result_list.size())
+        std::cout << "Invalid input, please try again." << std::endl;
+    
+    std::cout << "Coordinates: ";
+    while(not(std::cin >> coord_intermed)
+          and coord_intermed<=0
+          and coord_intermed>coordinate_description.size())
+        std::cout << "Invalid input, please try again." << std::endl;
+    
+    std::cout << "Start position of coordinates: ";
+    while(not(std::cin >> startpos_intermed))
+        std::cout << "Invalid input, please try again." << std::endl;
+    
+    output.push_back({coord_intermed-1, seq_intermed-1, startpos_intermed});
+    
+    return output;
+    
+    
+}
+
 
 //----------------------------------------------------------------------
 void error_sequence_doesnt_exist() {
@@ -613,8 +758,9 @@ void error_sequence_doesnt_exist() {
 
 SEQ_SOURCE ask_source_sequence() {
     std::cout << "How would you like to obtain the binding sequences to analyze?" <<
-    std::endl << "Enter 1 if you have the binding sequences seperately in a fasta file." <<
-    std::endl << "Enter 2 if you have a file with genomic coordinates of the sequences." <<
+    std::endl << "Enter 1 if you have the binding sequences as a list in a file." <<
+    std::endl << "Enter 2 if you have a file with genomic coordinates of the sequences, " <<
+    std::endl << "and the sequences in a seperate file." <<
     std::endl << "Enter 3 if you want to analyze the result of a previous analysis." <<
     std::endl;
     
@@ -684,5 +830,206 @@ void nuc_in_process(char N)
 }
 
 //-----------------------------------------------------------------------
+
+
+//----------------------------------------------------------------------
+
+int ask_iterations (int length)
+{
+	int n=0;
+	while (true) {   
+	    std::cout << "How long do you want the enzyme binding sites to be?" << std::endl;
+		std::cout << "Choose a whole number between 1 and the length of the smallest sequence" << std::endl;
+		std::cin >> n;
+	    
+	    if (n <= 1) {
+			std::cout << "Invalid input, please try again. You must choose a whole number between 1 and the length of the smallest sequence" << std::endl;
+			continue;
+		} else if (n>length) {
+			std::cout << "Invalid input, please try again. You must choose a whole number between 1 and the length of the smallest sequence" << std::endl;
+			continue;
+		}
+		
+		break;
+	}
+	return n; 
+}
+
+//----------------------------------------------------------------------
+
+void print_into_file(std::ostream & out, Matrix_Neo matrix){
+	
+	for(unsigned int i = 0 ; i < matrix.size(); i++) {
+		for(unsigned int j = 0 ; j < matrix[i].size(); j++)
+			out << std::left << std::setw(16) << matrix[i][j];
+		out << std::endl;
+	}
+	
+	out.flush();
+	
+}
+
+//----------------------------------------------------------------------
+
+std::string get_working_path()
+{
+   char temp[1024];
+   return ( getcwd(temp, 1024) ? std::string( temp ) : std::string("") );
+}
+
+//----------------------------------------------------------------------
+
+void path ()
+{
+	std::cout << "We will create a file in: " << get_working_path() << " with the final absolute position-probability matrix" << std::endl;	
+}
+
+//----------------------------------------------------------------------
+
+int maximum_EM ()
+{
+	int n=0;
+	while (true) {   
+	    std::cout << "What's the maximum of times do you want to do the EM_algorithm?" << std::endl;
+	    std::cout << "Choose a whole number bigger than 0" << std::endl;
+		std::cin >> n;
+	    
+	    if (n <= 0) {
+			std::cout << "You need to give a whole number bigger than 0" << std::endl;
+			continue;
+		}
+		
+		break;
+	}
+	return n; 
+}
+
+//----------------------------------------------------------------------
+
+double differences_matrices ()
+{
+	double n =  0.0;
+	while (true) {   
+	    std::cout << "What is the difference between the two matrices when doing the EM_algorithm you chose to stop the EM_algorithm ?" << std::endl;
+	    std::cout << "Choose a number bigger than 0" << std::endl;
+		std::cin >> n;
+	    
+	    if (n <= 0.0) {
+			std::cout << "You need to give a whole number bigger than 0" << std::endl;
+			continue;
+		}
+		
+		break;
+	}
+	return n; 
+}
+
+//----------------------------------------------------------------------
+
+LIST_FILE ask_list_file_type() {
+    std::cout << "What does your list file look like?" <<
+    std::endl << "Enter 1 if it is in a .fasta file, with each list separated " <<
+    std::endl << "by descriptions beginning with the caracter >" <<
+    std::endl << "Enter 2 if it is a simle list, with each sequence separated by returns." <<
+    std::endl << "Enter 3 if the sequences are separated by a character other than a return." <<
+    std::endl;
+    
+    unsigned int answer(0);
+    while (true) {
+        std::cin >> answer;
+        
+        switch (answer) {
+            case 1:
+                return LIST_FILE::Fasta;
+                
+            case 2:
+                return LIST_FILE::NormalList;
+                
+            case 3:
+                return LIST_FILE::SeparatedList;
+                
+            default:
+                std::cout << "Invalid input, please try again." << std::endl;
+                break;
+                
+        }
+    }
+
+}
+
+
+
+//----------------------------------------------------------------------
+
+char ask_separation_character() {
+    char answer;
+    std::cout << "Please make sure that the delimiting character present right " <<
+    std::endl << "after each sequence, and that no character is present after the last "<<
+    std::endl << "sequence." <<
+    std::endl << "By which character are the sequences separated?" <<
+    std::endl;
+    bool rightanswer(0);
+    
+    while (not(rightanswer)) {
+        std::cin.get();
+        std::cin.get(answer);
+        std::cout <<
+        std::endl << "You entered the character '" << answer << "' with ASCII number " << (int) answer <<
+        std::endl << " (decimal). Is this the right character? " <<
+        std::endl << "Enter 1 for yes, 0 for no. ";
+        std::cin >> rightanswer;
+    }
+    return answer;
+}
+
+
+//----------------------------------------------------------------------
+
+std::string ask_inputfile_name() {
+    std::string entry_name;
+    
+    while (true) {
+        std::cout <<"Please give the name of your file: ";
+        std::cin >> entry_name;
+        
+        std::ifstream entry(entry_name.c_str());
+        
+        if (entry.fail()) {
+            std::cout << "Impossible to read the file, please try again. " << std::endl;
+            continue;
+        }
+        
+        entry.close();
+        break;
+    }
+    
+    return entry_name;
+}
+
+//----------------------------------------------------------------------
+
+void done() {
+    std::cout << "DONE" << std::endl;
+}
+
+//----------------------------------------------------------------------
+
+void error_no_search_result_read() {
+    std::cout << "Error: No sequences were read into the program." << std::endl;
+}
+
+
+//----------------------------------------------------------------------
+
+bool correlate_more() {
+    std::cout << "Would you like to correlate more sequence results to genomic coordinates?" <<
+    std::endl << "Enter 1 for yes, 0 for no." << std::endl;
+    bool answer;
+    while (not(std::cin >> answer)) {
+        std::cout << "Invalid input, please try again." << std::endl;
+    }
+    return answer;
+}
+
 
 

@@ -421,6 +421,98 @@ SearchResults t_5;
 /*!======================	 Utility_gTests		========================*/
 
 /*!
+ *@brief Function testing if the function called sequence_to_PPM returns the expected value
+ */
+TEST (sequence_to_PPM_Test, PositivePPM)
+{
+	std::string sequence = "ATCCAG";
+	int n = 3;
+	Matrix_Neo result ({{1.0,2.0,0.0,1.0},{1.0,2.0,0.0,1.0},{1.0,2.0,1.0,0.0}});
+	ASSERT_EQ(result,sequence_to_PPM(sequence, n));
+}
+
+/*!
+ *@brief Function testing if the function called sequences_to_PPM returns the expected value
+ */
+TEST (sequences_to_PPM_Test, PositivePPM)
+{
+	std::vector<std::string> sequences ({{"ATCCAG", "AATGTCG", "TCCGTAAG"}});
+	int n = 3;
+	Matrix_Neo result ({{4.0,4.0,2.0,5.0},{4.0,5.0,2.0,4.0},{3.0,4.0,5.0,3.0}});
+	ASSERT_EQ(result,sequences_to_PPM(sequences, n));
+}
+
+/*!
+ *@brief Function testing if the function called sequence_score returns the expected value
+ */
+TEST (sequence_score_Test, Positivescore)
+{
+	std::string sequence ("TCG");
+	Matrix_Neo PPM ({{4.0,4.0,2.0,5.0},{4.0,5.0,2.0,4.0},{3.0,4.0,5.0,3.0}});
+	double result = 125.0;
+	ASSERT_EQ(result,sequence_score(sequence, PPM));
+}
+
+/*!
+ *@brief Function testing if the function called PPM_to_Sequence returns the expected value
+ */
+TEST (PPM_to_Sequence_Test, PositiveSequences)
+{
+	std::vector<std::string> binding_sites ({{"ATCCAG", "AATGTCG", "TCCGTAAG"}});
+	Matrix_Neo PPM ({{4.0,4.0,2.0,5.0},{4.0,5.0,2.0,4.0},{3.0,4.0,5.0,3.0}});
+	double cutoff = 100;
+	std::vector<std::string> result ({{"TCC", "TCG", "TCC", "CCG"}});
+	ASSERT_EQ(result,PPM_to_Sequence(binding_sites, PPM, cutoff));
+}
+
+/*!
+ *@brief Function testing if the function called max_score returns the expected value
+ */
+TEST (max_score_Test, positivemaxscore)
+{
+	Matrix_Neo PPM ({{4.0,4.0,2.0,5.0},{4.0,5.0,2.0,4.0},{3.0,4.0,5.0,3.0}});
+	double result = 125;
+	ASSERT_EQ(result,max_score(PPM));
+}
+
+/*!
+ *@brief Function testing if the function called EM_algorithm returns the expected value
+ */
+TEST (EM_algorithm_Test, PositiveEM_algorithm)
+{
+	std::vector<std::string> sequences ({{"ATCCAG", "AATGTCG", "TCCGTAAG"}});
+	int n =3;
+	double cutoff = 100.0;
+	Base_Prob baseprob {0.25,0.25,0.25,0.25};
+	int max = 4;
+	double diff = 1.0;
+	Matrix_Neo result ({{0.0625, 0.3125, 0.0625, 0.8125 }, { 0.0625, 1.0625, 0.0625, 0.0625 }, { 0.0625, 0.5625, 0.5625, 0.0625 }});
+	ASSERT_EQ(result,EM_algorithm(sequences, n, cutoff, baseprob, max, diff));
+}
+
+/*!
+ *@brief Function testing if "diff_matrices" returns the expected value
+ */
+TEST (diff_matrices_Test, Good_bool)
+{
+	double difference = 1.0;
+	Matrix_Neo mat1 ({{2.9,4.0,2.0,3.0},{4.0,5.0,2.0,4.0},{3.0,4.0,5.0,3.0}});
+	Matrix_Neo mat2 ({{4.0,4.0,2.0,3.0},{4.0,5.0,2.0,4.0},{3.0,4.0,5.0,3.0}});
+	bool result = false;
+	ASSERT_EQ(result,diff_matrices(mat1, mat2, difference));
+}
+
+/*!
+ *@brief Function testing if "smallest_length" returns the expected value
+ */
+TEST (smallest_length_Test, smallest_length)
+{
+	std::vector<std::string> sequences ({{"AACGTGACG"},{"ACTG"},{"GGCAGTTTGA"}});
+	int result = 4;
+	ASSERT_EQ(result,smallest_length(sequences));
+}
+
+/*
  *@brief Testing if analyze_sequence_opt2 returns the right output
  */
 TEST ( analyze_sequence_opt2_test,valid_output)
@@ -578,7 +670,7 @@ int main(int argc, char **argv) {
 	t_3.score = 1;
 	tmp_1.push_back(t_3);
 	t_4.sequence = "GA";
-	t_4.score = 0.5;
+	t_4.score = 1.5;
 	tmp_1.push_back(t_4);
 	t_5.searchResults = tmp_1;
 	what_we_use.push_back(t_5);

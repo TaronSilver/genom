@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.6)
 project(genom-2 CXX)
 
 option(main "Build main version." ON)
-option(test "Build tests." OFF) #declares a boolean that tells that we are doing a test version.
+option(test "Build tests." ON) #declares a boolean that tells that we are doing a test version.
 option(Qt "Building Graphic Interface." ON)
 
 set(CMAKE_BUILD_TYPE Debug) #Allows to debug

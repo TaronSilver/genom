@@ -43,26 +43,92 @@ void enzyme_from_sequences() {
     
     switch (seq_source) {
         case SEQ_SOURCE::CoordAndSeq:
+            // DOESNT WORK
             seq_to_analyze = seq_source_CoordAndSeq();
             break;
             
         case SEQ_SOURCE::OnlySeq:
-            
+            seq_to_analyze = seq_source_OnlySeq();
             break;
             
         case SEQ_SOURCE::FromSearchResult:
-            
+            seq_to_analyze = seq_source_FromSearchResult();
             break;
             
         default:
             break;
     }
     
-    if(ask_binding_length_known())
+    if (seq_to_analyze.size() == 0) {
+        error_no_search_result_read();
+        return;
+    }
+    
+    
+    std::cout << "HI BEFORE FOR LOOP" << std::endl;
+    for (unsigned int h(0); h<seq_to_analyze.size(); h++) {
+        for (unsigned int i(0); i<seq_to_analyze[h].searchResults.size(); i++) {
+            std::cout << seq_to_analyze[h].searchResults[i].sequence << '\t' << std::endl;
+        }
+
+    }
+    std::cout << "HI AFTER FOR LOOP" << std::endl;
+	
+
+    
+    if(searchResults_same_length(seq_to_analyze)) {
         Matrix result(binding_length_known(seq_to_analyze));
+        result.save(Ask_Outputfile_Name(), Ask_Return_Matrix_Type());
+    }
     else
         binding_length_unknown();
+    
+    
 }
+
+
+//=======================================================================
+
+std::vector<SearchResults> input_search_results() {
+    std::vector <SearchResults> result_list;
+    result_list = read_searchresult_file(ask_inputfile_name());
+    return result_list;
+}
+
+
+//=======================================================================
+
+void correlate_coordinates_with_results(std::vector <SearchResults> result_list) {
+    
+    Association_Table associate;
+    unsigned int startpos;
+    unsigned int coord_id;
+    unsigned int seq_id;
+    
+    std::vector <double> corr_values;
+    
+    // Initializes vector of coordinates from a file.
+    std::vector <Coordinates> coord_list(read_coordinates(ask_coordinate_filename(),
+                                                           ask_line_description_present()));
+    
+    
+
+    do {
+        associate = associate_genomic_with_result(get_descriptions_from_coord_list(coord_list),
+                                                  result_list);
+        coord_id = associate[0][COORD];
+        seq_id = associate[0][SEQ];
+        startpos = associate[0][START];
+        
+        corr_values = coord_list[coord_id].position_score(result_list[seq_id], startpos);
+        print_results_correlated(result_list[seq_id], corr_values, Ask_Outputfile_Name());
+
+        
+    } while (correlate_more());
+
+}
+
+
 
 
 //=======================================================================
@@ -82,9 +148,35 @@ Matrix binding_length_known(std::vector<SearchResults> seq_to_analyze) {
 //=======================================================================
 
 void binding_length_unknown() {
-  //EM implementation
+	unsigned int n=0; 
+	std::vector<std::string> sequence_list;
+	double t=0.0; 
+	Matrix_Neo results;
+	std::ofstream outputfile;
+	double max = 0.0;
+	int i = 0;
+	int f=0;
+	double g = 0.0;
 
+    sequence_list = Initialization_string();
+    i = smallest_length(sequence_list);
+    n = ask_iterations(i);
+    Base_Prob base_probabilities = AskBaseProb();
+	max = max_score(sequences_to_PPM(sequence_list,n));
+	t = ask_cutoff2(max);
+	f = maximum_EM ();
+	g = differences_matrices ();
+	
+	results = EM_algorithm(sequence_list, n, t, base_probabilities, f, g);
+	path();
+	std::string name = ask_name_output_file();
+	outputfile.open(name);
+	print_into_file(outputfile, results);
+	outputfile.close();
+	char c;
+	std::cin >> c;
 }
+
 
 //=======================================================================
 
@@ -121,11 +213,37 @@ std::vector<SearchResults> seq_source_CoordAndSeq() {
 
 //=======================================================================
 
-std::vector<SearchResults> seq_source_OnlySeq();
+std::vector<SearchResults> seq_source_OnlySeq() {
+    
+    std::vector<SearchResults> output;
+    std::string filename;
+    
+    switch (ask_list_file_type()) {
+        case LIST_FILE::Fasta:
+            filename = ask_name_fasta();
+            output.push_back(read_sequencefile_to_searchresults(filename));
+            break;
+            
+        case LIST_FILE::NormalList:
+            filename = ask_inputfile_name();
+            output.push_back(read_sequence_list_to_searchresults(filename));
+            break;
+            
+        case LIST_FILE::SeparatedList:
+            char delim(ask_separation_character());
+            filename = ask_inputfile_name();
+            output.push_back(read_char_separated_to_searchresults(filename, delim));
+            break;
+    }
+    
+    return output;
+}
 
 //=======================================================================
 
-std::vector<SearchResults> seq_source_FromSearchResult();
+std::vector<SearchResults> seq_source_FromSearchResult() {
+    return read_searchresult_file(ask_inputfile_name());
+}
 
 //=======================================================================
 

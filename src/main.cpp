@@ -38,7 +38,17 @@ int main() {
 	    if (procedure == Logo) {
 			logo();
 		}
-		
+       
+       if (procedure == CorrelateResults) {
+           correlate_coordinates_with_results(input_search_results());
+       }
+       
+       done();
+       
+       // Waits with program until next input of user.
+       getchar();
+       getchar();
+
 	 } while (procedure != Exit);
 	
 	return 0;
