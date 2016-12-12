@@ -307,9 +307,18 @@ void save(std::string fileName, MATRIX_TYPE type);
      *
      * @return  The converted matrix
      */
-    Matrix_Neo probMatrix_from_logMatrix( Matrix_Neo input_matrix );
+    Matrix_Neo probMatrix_from_logMatrix( Matrix_Neo input_matrix);
 
-    
+
+	/*!
+     * @brief   Converts the log matrix to a probability matrix using the
+     *          attribute base probabilities
+     *
+     * @param   The matrix to convert
+     *
+     * @return  The converted matrix
+     */
+    Matrix_Neo probMatrix_from_logMatrix();    
     
     //-----------------------------------------------------------------------
     // DETERMINE TYPE

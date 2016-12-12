@@ -438,7 +438,7 @@ Matrix_Neo Matrix::logMatrix_from_normed_PPM( Matrix_Neo input_matrix ) {
 
 //-----------------------------------------------------------------------
 
-Matrix_Neo Matrix::probMatrix_from_logMatrix( Matrix_Neo input_matrix )
+Matrix_Neo Matrix::probMatrix_from_logMatrix( Matrix_Neo input_matrix)
 {
 
     Matrix_Neo probability_matrix;
@@ -469,6 +469,13 @@ Matrix_Neo Matrix::probMatrix_from_logMatrix( Matrix_Neo input_matrix )
     }
     return probability_matrix;
 }
+
+Matrix_Neo Matrix::probMatrix_from_logMatrix()
+{
+	return this->probMatrix_from_logMatrix(this->logMatrix);
+}
+
+
 
 
 //-----------------------------------------------------------------------

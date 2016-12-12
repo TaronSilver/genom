@@ -81,7 +81,17 @@ void logo() {
 
 std::vector<std::vector<double>> read_logo_matrix(std::string const& fileName)
 {
-	std::vector<std::vector<double>> input_matrix;
+	/*
+	 * to be able to make a logo from any kind of matrix:
+	 * opens the file
+	 * makes a matrix
+	 * converts the log matrix to prob matrix
+	 * returns the prob matrix 
+	 */
+	Matrix mat1(fileName);
+	std::vector<std::vector<double>> result(mat1.probMatrix_from_logMatrix());
+	
+	/*std::vector<std::vector<double>> input_matrix;
 
     std::ifstream PWM;
     PWM.open(fileName);
@@ -117,7 +127,9 @@ std::vector<std::vector<double>> read_logo_matrix(std::string const& fileName)
         PWM.close();
 
         return input_matrix;
-    }
+        
+    }*/
+    return result;
 }
 
 double size(std::vector<std::vector<double>> const& PWM, unsigned N, unsigned pos)
