@@ -4,7 +4,7 @@ project(genom-2 CXX)
 
 option(main "Build main version." ON)
 option(test "Build tests." ON) #declares a boolean that tells that we are doing a test version.
-option(Qt "Building Graphic Interface." OFF)
+option(Qt "Building Graphic Interface." ON)
 
 set(CMAKE_BUILD_TYPE Debug) #Allows to debug
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wall -pedantic -std=c++11")
