@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "../src/Matrix.hpp"
+#include "../src/utility.hpp"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -12,17 +13,17 @@ Matrix_Neo lm_1({{-0.440569,MINUSINFINI,-1.247930,1.506960},
 
 Matrix_Neo lm_2({{-2.440569,MINUSINFINI,-3.247930,1.506960 -2},
 			   {-2.440569,MINUSINFINI,-3.247930,1.506960 -2}});
-			   			     
+
 Matrix_Neo a_1({{0.184211,0.000,0.105263, 0.710526},
 			  {0.184211,0.000,0.105263, 0.710526}});
-			  
+
 Matrix_Neo r_1({{0.259260,0.000000,0.148148,1.000},
 				{0.259260,0.000000,0.148148,1.000}});
-			
-				
+
+
 Matrix_Neo lcm_1({{-1.947529,MINUSINFINI,-2.754889,0.000},
-				{-1.947529,MINUSINFINI,-2.754889,0.000}});	
-											
+				{-1.947529,MINUSINFINI,-2.754889,0.000}});
+
 const std::vector<double> base_probabilities ({0.25,0.25,0.25,0.25});
 
 Matrix_Neo r({{0.259260,0.000000,0.148148,1.000}});
@@ -39,14 +40,14 @@ Matrix ma_matrice_4(lcm,logConstMatrix, base_probabilities);
 
 Matrix_Neo wrong({{1.506960,0.105263,0.148148,-2.754889}});
 
-Matrix_Neo DBP_PPM{ {0.991265586410457  , 0.00188241672188422, 0.00438979579543401, 0.00246220107222457}, 
-					 {0.00454038913318475, 0.00308716342389013, 0.961116800192759  , 0.0312556472501656}, 
+Matrix_Neo DBP_PPM{ {0.991265586410457  , 0.00188241672188422, 0.00438979579543401, 0.00246220107222457},
+					 {0.00454038913318475, 0.00308716342389013, 0.961116800192759  , 0.0312556472501656},
 					 {0.00319260279955123, 0.991529060968172  ,0.00188243089596181 , 0.0033959053363151},
 					 {0.891738449490994  ,0.00188241672188422 , 0.00883982892596831, 0.0975393048611529},
 					 {0.624171736642371  ,0.251091801698693   ,0.00595596650804169 ,0.118780495150895},
 					 {0.728886814047346  ,0.10454942473345	  ,0.0115881573399193  ,0.154975603879284},
 					 {0.304793385940606  ,0.491122522739594	  ,0.00446509246430938 ,0.199618998855491}   };
-					 
+
 Matrix_Neo DBP_PSSM {{1.98734355068112	,-7.05319824318173	,-5.83163045464332	,-6.66583570234573},
 					{-5.78296833594373	,-6.33950242833837	,1.94278367099148	,-2.99973931124021},
 					{-6.29105121022664	,1.98772696248885	,-7.05318738012775	,-6.20198804153446},
@@ -55,6 +56,7 @@ Matrix_Neo DBP_PSSM {{1.98734355068112	,-7.05319824318173	,-5.83163045464332	,-6
 					{1.54376670664635	,-1.25774297113760	,-4.4312050115156	,-0.689886969274964},
 					{0.285903501598009	,0.97415489074836	,-5.80709423329781	,-0.324679058329434} };
 
+Matrix ma_matrice_5 (DBP_PPM, absoluteMatrix, base_probabilities);
 
 Matrix ma_matrice_A	(a_1,absoluteMatrix, base_probabilities);
 
@@ -74,7 +76,7 @@ TEST (max_of_line_Test, Good_MaxValue)
 {
 	std::vector<double> line_to_be_tested_1 ({0.184211,0.000,0.105263, 0.710526});
 	double answer_1(0.710526);
-	
+
 	ASSERT_EQ(answer_1,Matrix::max_of_line(line_to_be_tested_1));
 }
 
@@ -86,7 +88,7 @@ TEST (min_of_line_Test, Good_MinValue)
 {
 	std::vector<double> line_to_be_tested_2 ({0.259260,0.000000,0.148148,1.000});
 	double answer_2(0.000000);
-	
+
 	ASSERT_EQ(answer_2,Matrix::min_of_line(line_to_be_tested_2));
 }
 
@@ -94,12 +96,12 @@ TEST (min_of_line_Test, Good_MinValue)
 /*!
  *@brief Function testing if sum_of_line(std::vector<double> line) returns the expected value.
  */
- 
+
 TEST (sum_of_line_Test, Good_Sum)
 {
 	std::vector<double> line_to_be_tested_3 ({0.259260,0.000000,0.148148,1.000});
 	double answer_3(1.407408);
-	
+
 	ASSERT_EQ(answer_3, Matrix::sum_of_line(line_to_be_tested_3));
 }
 
@@ -118,7 +120,7 @@ TEST (line_is_reg_ppm_Test, Good_Bool)
 TEST (line_is_normed_ppm_Test, Good_Bool)
 {
 
-	ASSERT_TRUE(ma_matrice_A.line_is_normed_ppm(1,1,2));
+	ASSERT_TRUE(ma_matrice_A.line_is_normed_ppm(1,1));
 
 }
 
@@ -128,7 +130,7 @@ TEST (line_is_normed_ppm_Test, Good_Bool)
  */
 TEST (logMatrix_from_logConstMatrix_Test, Good_logMatrix)
 {
-		   			   
+
 	Matrix ma_matrice_2(lcm_1, logConstMatrix);
 
 	Matrix_Neo result2 = ma_matrice_2.logMatrix_from_logConstMatrix(lcm_1);
@@ -149,7 +151,7 @@ TEST (logMatrix_from_logConstMatrix_Test, Good_logMatrix)
 
 TEST (logMatrix_from_normed_PPM_Test, Good_logMatrix)
 {
-			  
+
 	Matrix_Neo result_3 = ma_matrice_R. logMatrix_from_normed_PPM(r_1);
 
 	for (int i=0 ; i<2 ; ++i)
@@ -169,7 +171,7 @@ TEST (logMatrix_from_normed_PPM_Test, Good_logMatrix)
 
 TEST (logMatrix_from_probMatrix_Test, Good_logMatrix)
 {
-			  
+
 	Matrix_Neo result_4 = ma_matrice_A. logMatrix_from_probMatrix(a_1);
 
 	for (int i=0 ; i<2 ; ++i)
@@ -188,7 +190,7 @@ TEST (logMatrix_from_probMatrix_Test, Good_logMatrix)
 
 TEST (probMatrix_from_logMatrix_Test, Good_absoluteMatrix)
 {
-			  
+
 	Matrix_Neo result_5 = ma_matrice_A.probMatrix_from_logMatrix(lm_1);
 
 	for (int i=0 ; i<2 ; ++i)
@@ -209,7 +211,7 @@ TEST (probMatrix_from_logMatrix_Test, Good_absoluteMatrix)
 
 TEST (absolute_from_normed_PPM_Test, Good_absoluteMatrix)
 {
-			  
+
 	Matrix_Neo result_6 = ma_matrice_R.absolute_from_normed_PPM(r_1);
 
 	for (int i=0 ; i<2 ; ++i)
@@ -227,19 +229,19 @@ TEST (absolute_from_normed_PPM_Test, Good_absoluteMatrix)
  */
 TEST (determine_matrix_type_Test, Good_MatrixType)
 {
-			  
+
 	ASSERT_EQ(MATRIX_TYPE::absoluteMatrix, ma_matrice_A.determine_matrix_type(a_1) );
-			
+
 }
 
-// ==== Don't work
+
 
 /*!
  *@brief Function testing if log_to_matrix returns the good Matrix
  */
 TEST (log_to_matrix_Test, Good_Matrix)
-{	
-	  
+{
+
 	Matrix_Neo result_15 = ma_matrice_LOG.log_to_matrix(lm_1,MATRIX_TYPE::absoluteMatrix);
 
 	for (int i=0 ; i<2 ; ++i)
@@ -256,9 +258,9 @@ TEST (log_to_matrix_Test, Good_Matrix)
  *@brief Function testing if matrix_to_log(Matrix_Neo input_matrix, MATRIX_TYPE type)returns the good logMatrix
  */
 TEST (matrix_to_log_Test, Good_Matrix)
-{	
+{
 
-	  
+
 	Matrix_Neo result_15 = ma_matrice_A.matrix_to_log(a_1, MATRIX_TYPE::absoluteMatrix);
 
 	for (int i=0 ; i<2 ; ++i)
@@ -271,7 +273,7 @@ TEST (matrix_to_log_Test, Good_Matrix)
 	}
 }
 
-			
+
 
 // ====== Test failed
 
@@ -280,7 +282,7 @@ TEST (matrix_to_log_Test, Good_Matrix)
  */
 TEST (logConstMatrix_from_logMatrix_Test, GoodlogConstMatrix)
 {
-	Matrix ma_matrice_1(lm_1, logMatrix);  			  
+	Matrix ma_matrice_1(lm_1, logMatrix);
 	Matrix_Neo result_1 = ma_matrice_1.logConstMatrix_from_logMatrix(lm_1);
 
 	for (int i=0 ; i<2 ; ++i)
@@ -288,7 +290,7 @@ TEST (logConstMatrix_from_logMatrix_Test, GoodlogConstMatrix)
 		for(int j = 0 ; j< 4 ;++j)
 		{
 			ASSERT_TRUE(std::abs(lcm_1[i][j] - result_1[i][j]) <0.05);
-		}	
+		}
 	}
 }
 
@@ -298,10 +300,10 @@ TEST (logConstMatrix_from_logMatrix_Test, GoodlogConstMatrix)
  *@brief Function testing if normed_from_absolute_PPM( Matrix_Neo input_matrix  )returns the good reltiveMatrix
  */
 TEST (normed_from_absolute_PPM_Test, Good_relativeMatrix)
-{	
-		  
+{
+
 	Matrix_Neo result_9 = ma_matrice_A.normed_from_absolute_PPM(a_1);
-	
+
 
 	for (int i=0 ; i<2 ; ++i)
 	{
@@ -319,7 +321,7 @@ TEST (normed_from_absolute_PPM_Test, Good_relativeMatrix)
 
 TEST (normed_PPM_from_logMatrix_Test, Good_relativeMatrix)
 {
-			  
+
 	Matrix_Neo result_13 = ma_matrice_LOG.normed_PPM_from_logMatrix( lm_1);
 
 	for (int i=0 ; i<2 ; ++i)
@@ -344,32 +346,32 @@ TEST (getters_functions, good_initialisation)
 		ASSERT_EQ(base_probabilities[i], ma_matrice_2.get_base_probabilities()[i]);
 		ASSERT_EQ(base_probabilities[i], ma_matrice_3.get_base_probabilities()[i]);
 		ASSERT_EQ(base_probabilities[i], ma_matrice_4.get_base_probabilities()[i]);
-		
+
 		ASSERT_EQ(lm.size(), ma_matrice_1.get_length());
 		ASSERT_EQ(lm.size(), ma_matrice_2.get_length());
 		ASSERT_EQ(lm.size(), ma_matrice_3.get_length());
 		ASSERT_EQ(lm.size(), ma_matrice_4.get_length());
-		
+
 		ASSERT_EQ(lm[0][i], ma_matrice_3.get_logMatrix()[0][i]);
 	};
-	
+
 }
 
 /*!
- *@brief Read from file testing 
+ *@brief Testing if the matrix reading is done correctly
  */
 TEST (read_matrix_test, good_reading_file)
 {
 	std::string outputfile("../DBP_PPM.mat");
-	
+
 	Matrix_Neo tmp = Matrix::read_matrix(outputfile);
-	
+
 	for (size_t i(0) ; i<DBP_PPM.size() ; ++i)
 	{
 		for ( size_t j(0) ; j<DBP_PPM[i].size() ; ++j)
-		
+
 		ASSERT_EQ(DBP_PPM[i][j], tmp[i][j]); /// really not sure
-		
+
 	};
 }
 
@@ -381,13 +383,13 @@ TEST (sequence_score_test, good_score)
 	double our_score(0.0);
 	std::list<nuc> sequence {nuc::A,nuc::A,nuc::A,nuc::A,nuc::A,nuc::A,nuc::A};
 	double calc_score(0.0);
-	
-	
-	
-	for(size_t i(0) ; i < DBP_PSSM.size() ; ++i) 
+
+
+
+	for(size_t i(0) ; i < DBP_PSSM.size() ; ++i)
 	{
 		our_score += DBP_PSSM[i][0];
-		
+
 	}
 	test_matrix.print_log_matrix();
 	calc_score =  test_matrix.sequence_score(sequence);
@@ -402,12 +404,186 @@ TEST (sequence_score_test, good_score)
 
 
 
+/*!=========== Element we use for utility gTests ============*/
+
+SearchResult tmp;
+std::list<nuc> sequence = {A,G,A,A,A,T,C};
+bool y = false;
+std::vector<SearchResult> tmp_1;
+std::vector<SearchResults> what_we_use;
+SearchResult t_1;
+SearchResult t_2;
+SearchResult t_3;
+SearchResult t_4;
+SearchResults t_5;
+
+
 /*!======================	 Utility_gTests		========================*/
 
+/*!
+ *@brief Testing if analyze_sequence_opt2 returns the right output
+ */
+TEST ( analyze_sequence_opt2_test,valid_output)
+{
+	std::vector <SearchResult> tmp1({tmp});
+
+	SearchResults tmp3;
+
+	tmp3.description = "doesn't mater";
+	tmp3.searchResults = tmp1;
+
+	std::vector <SearchResults> results({tmp3});
+	std::vector <SearchResults> expected_value = analyze_sequence_opt2("../promoters.fasta", ma_matrice_5, 0.1);
+
+
+	if (
+	results[0].searchResults[0].sequence == expected_value[0].searchResults[0].sequence  and
+	results[0].searchResults[0].position == expected_value[0].searchResults[0].position  and
+	std::abs(results[0].searchResults[0].score - expected_value[0].searchResults[0].score) <0.01 and
+	results[0].searchResults[0].direction== expected_value[0].searchResults[0].direction )
+	{
+		y = true;
+	}
+	ASSERT_TRUE(y);
+}
+
+/*!
+ *@brief Testing if file_fill_search_result creates a good SearchResult
+ */
+TEST ( file_fill_search_result_test,valid_SearchResult)
+{
+	SearchResult test = fill_search_result(sequence, 64, 1.07805,'-');
+	if (
+		tmp.direction == test.direction and
+		tmp.position == test.position   and
+		tmp.sequence == test.sequence   and
+		std::abs(tmp.score-test.score) < 0.01)
+		{
+			y = true;
+			}
+	ASSERT_TRUE(y);
+}
+
+/*!
+ *@brief Testing if sequence_string_from_nuc_list converts a list of nuc in a string
+ */
+TEST (sequence_string_from_nuc_list_test, valid_nuc_conversion)
+ {
+	 std::list<nuc> sequence = {A,G,A,A,A,T,C};
+	 ASSERT_TRUE(tmp.sequence==sequence_string_from_nuc_list(sequence));
+
+ }
+
+ /*!
+ *@brief Testing if the character is valid
+ */
+TEST (valid_character_test, valid_char)
+{
+	char test = 'f';
+	ASSERT_FALSE(valid_character(test));
+
+
+}
+
+/*!
+ *@brief Testing if filesize returns the good number of characters in a file
+ */
+TEST (filesize_test, good_nb)
+{
+	ASSERT_EQ(864, filesize("../promoters.fasta"));
+}
+
+/*!
+ *@brief Testing if extract_sequence_descriptions returns the good description
+ */
+TEST (extract_sequence_descriptions_test, good_description)
+{
+	std::vector<std::string> descrip({">chr7|chr7:113842207-113842607", ">chr11|chr11:16380767-16381167"});
+	std::vector<std::string> test = extract_sequence_descriptions("../promoters.fasta");
+
+	for (size_t i = 0; i < test.size() ; ++i)
+	{
+		ASSERT_EQ(descrip[i], test[i]);
+	}
+
+}
+
+/*!
+ *@brief Testing if searchResults_same_length returns the number of nucleotides for the enzyme
+ */
+TEST (searchResults_same_length_test, good_number)
+{
+	std::vector <SearchResult> tmp1({tmp});
+
+	SearchResults tmp3;
+
+	tmp3.description = "doesn't mater";
+	tmp3.searchResults = tmp1;
+
+	std::vector <SearchResults> results({tmp3});
+
+	ASSERT_EQ(7, searchResults_same_length(results));
+}
+
+/*!
+ *@brief Testing if matrix_from_same_length_sequences_not_weighted returns the right matrix
+ */
+TEST (matrix_from_same_length_sequences_not_weighted_test, good_matrix)
+{
+	Matrix_Neo a = matrix_from_same_length_sequences_not_weighted(what_we_use,  base_probabilities);
+	Matrix_Neo b { {0.65, 0.05, 0.25, 0.05},
+				   {0.45, 0.05, 0.05, 0.45}	};
+
+	for ( size_t i=0 ; i < a.size() ; ++i)
+	{
+		for ( size_t j=0 ; j < a[i].size() ; ++j)
+		{
+			ASSERT_EQ(a[i][j], b[i][j]);
+		}
+	}
+}
+
+/*!
+ *@brief Testing if matrix_from_same_length_sequences_weighted returns the right matrix
+ */
+TEST (matrix_from_same_length_sequences_weighted_test, good_matrix)
+{
+	Matrix_Neo a = matrix_from_same_length_sequences_weighted(what_we_use,  base_probabilities);
+	Matrix_Neo b { {0.55, 0.05, 0.35, 0.05},
+				   {0.55, 0.05, 0.05, 0.35}	};
+
+	for ( size_t i=0 ; i < a.size() ; ++i)
+	{
+		for ( size_t j=0 ; j < a[i].size() ; ++j)
+		{
+			std::cout <<a[i][j]<<std::endl;
+			ASSERT_EQ(a[i][j], b[i][j]);
+		}
+	}
+}
 
 
 int main(int argc, char **argv) {
+	tmp.sequence = "AGAAATC";
+	tmp.position = 64;
+	tmp.score = 1.07805;
+	tmp.direction = '-';
+	t_1.sequence = "AT";
+	t_1.score = 0.5;
+	tmp_1.push_back(t_1);
+	t_2.sequence = "AA";
+	t_2.score = 1;
+	tmp_1.push_back(t_2);
+	t_3.sequence = "AT";
+	t_3.score = 1;
+	tmp_1.push_back(t_3);
+	t_4.sequence = "GA";
+	t_4.score = 0.5;
+	tmp_1.push_back(t_4);
+	t_5.searchResults = tmp_1;
+	what_we_use.push_back(t_5);
+
+
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
-

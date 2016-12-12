@@ -1,4 +1,5 @@
 #include "utility.hpp"
+#include <assert.h>
 
 #define LINE_SIZE 5000
 
@@ -31,183 +32,6 @@ std::map< nuc, char > backwardsmap {
 
 
 
-
-
-
-
-
-
-///Sequence
-//-------------------------------------------------------------------------
-
-
-
-std::vector <Sequence> Initialization()
-{
-    std::string entry_name = ask_name_fasta();
-
-    std::vector <Sequence> sequence_list;
-
-    std::vector <std::string> sequences(ExtractSequence(entry_name));
-    for(size_t i(0); i<sequences.size(); ++i){
-        Sequence seq(sequences[i]);
-        sequence_list.push_back(seq);
-    }
-
-    return sequence_list;
-}
-
-std::vector <std::string> ExtractSequence(std::string const& entry_name)
-{
-    std::ifstream entry(entry_name.c_str());
-    std::string line;
-
-    std::vector <std::string> sequences; // That is the object that will be returned.
-
-    std::string intermediate_value;
-
-    // Reads lines
-    while(getline(entry, line)){
-        if(line.front()=='>'){
-            sequences.push_back(intermediate_value);
-            intermediate_value.clear(); }
-        //else if(line.front()=='\n'){}
-        else {
-
-            // Makes DNA Sequence on line all uppercase, allowing for easier search afterwards
-            for (auto & c: line) c = toupper(c);
-            intermediate_value+=line;
-        }
-    }
-
-
-
-    // Allow to register the last value even though there's no >...
-    sequences.push_back(intermediate_value);
-
-    // Deletes the first vector created, which is a ghost one. This is just a hack cobbled together, it'd probably be best to correct that in a better way at some point.
-    sequences.erase(sequences.begin());
-
-
-    // Testing the values by showing them
-    /*for(size_t i(0); i<sequences.size(); ++i){
-     std::cout <<sequences[i] <<'\n';
-     }*/
-
-    entry.close(); // Don't you have to close it afterwards?
-    return sequences;
-}
-
-
-
-std::vector <double> nucleotide_probability(std::vector <std::string> nucleotide_sequences, unsigned int position) {
-
-    std::vector <unsigned int> nucleotide_counter(4, 0);
-    std::vector <double> probabilities(4, 0);
-    // std::array <unsigned int, 4> nucleotide_counter = {0,0,0,0};
-    // std::array <double, 4> probabilities;
-
-    unsigned int number_sequences(nucleotide_sequences.size());
-
-
-    assert(number_sequences>0);
-
-    for (unsigned int i(0); i<number_sequences; i++) {
-        switch (nucleotide_sequences[i][position]) {
-            case 'A':
-                nucleotide_counter[0]++;
-                break;
-            case 'C':
-                nucleotide_counter[1]++;
-                break;
-            case 'G':
-                nucleotide_counter[2]++;
-                break;
-            case 'T':
-                nucleotide_counter[3]++;
-                break;
-            default:
-
-                nucleotide_warning(nucleotide_sequences[i][position]);
-                return {0,0,0,0};
-                // Better error handling needed!!
-        }
-    }
-
-    for (unsigned int i(0); i < 4; i++) {
-        probabilities[i] = (double)nucleotide_counter[i] / (double)number_sequences;
-    }
-    return probabilities;
-}
-
-
-Matrix_Neo generate_PWM_from_Seq_list(std::vector <Sequence> sequence_list, bool entire_sequence) {
-    Matrix_Neo probability_matrix;
-    std::vector <std::string> binding_sequences;
-
-    unsigned int position;
-    unsigned int length;
-    unsigned int number_sequences(sequence_list.size());
-
-    if(!entire_sequence) {
-        // todo if only a part of the sequence is relevant
-            position = ask_position();
-            length = ask_length();
-    }
-
-    else {
-        position = 1;
-        length = sequence_list[0].length();
-    }
-
-    for (unsigned int i(0); i < number_sequences; i++) {
-        binding_sequences.push_back(sequence_list[i].access_sequence_pos(position-1, length));
-    }
-    // Goes through all sequences, extracts binding sites and
-    // stores them in vector binding_sequences
-
-
-    for(unsigned int i(0); i < length; i++) {
-        probability_matrix.push_back(nucleotide_probability(binding_sequences, i));
-    }
-    // Goes through every position and calculates probabilities at that position
-
-
-    /* FOR TESTING
-    for(int i(0); i < probability_matrix.size(); i++) {
-        for(int j(0); j < 4; j++) {
-            std::cout << probability_matrix[i][j] << "\t";
-        }
-        std::cout << "\n";
-    }
-     */
-
-    return probability_matrix;
-}
-
-
-Matrix_Neo matrix_from_sequence_results(std::string filename) {
-
-    std::ifstream entry(filename);
-    std::string line;
-
-    std::vector <Sequence> sequences; // That is the object that will be returned.
-    std::string nucleotides;
-
-
-    // Reads lines, converts line to stream, reads the first word and creates a sequence out of it
-    while(getline(entry, line)){
-
-        std::istringstream stringstream(line);
-        stringstream >> nucleotides;
-
-        Sequence sequence(nucleotides);
-        sequences.push_back(sequence);
-    }
-
-    entry.close();
-    return generate_PWM_from_Seq_list(sequences, true);
-}
 
 
 
@@ -249,7 +73,7 @@ std::vector<SearchResults> analyze_sequence_opt2(std::string filename, Matrix ma
 
     unsigned int char_counter(0);
     unsigned int length(matrix.get_length());
-    unsigned int position_counter(0);
+    unsigned int position_counter(1);
     unsigned int line_size;
 
     unsigned int print_counter(0);

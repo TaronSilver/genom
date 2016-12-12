@@ -413,10 +413,7 @@ Matrix_Neo Matrix::absolute_from_normed_PPM( Matrix_Neo input_matrix  )
         new_line.clear();
         line_sum = sum_of_line(input_matrix[i]);
         
-        for(size_t L = 0; L < input_matrix[i].size(); L++)
-			std::cout << input_matrix[i][L] << " ";
-		std::cout <<  "SUM " << line_sum << std::endl;
-        
+      
         //assert(line_sum >= 1);
         
         for (size_t j(0);j < NUMBER_NUCLEOTIDES; ++j)/*Read the absoluteMatrix*/
