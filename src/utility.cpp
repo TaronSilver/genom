@@ -195,7 +195,7 @@ std::vector<SearchResults> analyze_sequence_opt2(std::string filename, Matrix ma
             if(!backwardSequence.empty())
                 backwardSequence.clear();
 
-            position_counter = 0;
+            position_counter = 1;
             char_counter = 0;
             //first_line = false;
             fill = true;
