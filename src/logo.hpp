@@ -65,8 +65,6 @@ void logo() {
 	CImg<unsigned char> background(1, 1, 1, 3, 255, 255, 255);
 	background.resize(size_motif*500+250, 1400);
 	
-	std::vector<char> digits = {'1', '2', '3', '4', '5', '6', '7', '8', '9' };
-
 	const unsigned char black[] = { 0,0,0 };
 	background.draw_line(170,1205,size_motif*500+203,1205,black);
 	background.draw_line(170,1206,size_motif*500+203,1206,black);
