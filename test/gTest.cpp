@@ -648,7 +648,6 @@ TEST (matrix_from_same_length_sequences_weighted_test, good_matrix)
 	{
 		for ( size_t j=0 ; j < a[i].size() ; ++j)
 		{
-			std::cout <<a[i][j]<<std::endl;
 			ASSERT_EQ(a[i][j], b[i][j]);
 		}
 	}
