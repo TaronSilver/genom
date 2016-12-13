@@ -759,6 +759,7 @@ Matrix_Neo sequences_to_PPM (std::vector<std::string> sequences, unsigned int n)
 		}
 	}	
 	
+	
 	return PPM; 
 }
 
@@ -819,9 +820,27 @@ std::vector<std::string> PPM_to_Sequence (std::vector<std::string> binding_sites
 	return output; 
 }
 
+Matrix_Neo normalized(Matrix_Neo input){
+	
+	Matrix_Neo result;
+	
+	for (unsigned int i(0); i<input.size(); i++) {  
+		
+		double line_sum = Matrix::sum_of_line(input[i]);
+		std::vector<double> new_line;
+	
+		for (unsigned int j(0); j<4; j++) {
+			new_line.push_back(input[i][j]/line_sum);
+		}
+		result.push_back(new_line);
+	}
+	
+	return result;
+}
+
 //==========================================================================================
 
-double max_score (Matrix_Neo PPM)
+double max_score (Matrix_Neo & PPM)
 {
 	double result=1; 
 	
