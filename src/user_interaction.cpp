@@ -534,15 +534,13 @@ bool ask_matrix_from_sequences_weighed() {
     std::cin >> answer;
 
     std::cout << "You answered ";
-    switch (answer) {
-        case true:
-            std::cout <<"YES";
-            break;
-
-        default:
-            std::cout <<"NO";
-            break;
+    if (answer) {
+		std::cout <<"YES";
+	}
+	else {
+		std::cout <<"NO";
     }
+    
     std::cout << std::endl;
     return answer;
 }
@@ -559,15 +557,13 @@ bool ask_matrix_from_search_matches() {
     std::cin >> answer;
 
     std::cout << "You answered ";
-    switch (answer) {
-        case true:
-            std::cout <<"YES";
-            break;
-
-        default:
-            std::cout <<"NO";
-            break;
+    if (answer) {
+		std::cout <<"YES";
     }
+	else {
+		std::cout <<"NO";
+    }
+    
     std::cout << std::endl;
     return answer;
 }
