@@ -423,6 +423,12 @@ void error_no_search_result_read();
 bool correlate_more();
 
 /*!
+ * @brief   Check if the input from the user is in the acceptable range and returns a double
+ * @return  the number the user entered as a double
+ */
+double ask_for_a_number_infinitely();
+
+/*!
  * @brief   Asks user if he wants correlate the found results to the search results
  * @return  1 if yes, 0 if no.
  */

@@ -851,7 +851,7 @@ Matrix_Neo EM_algorithm (std::vector<std::string> Sequences, int n, double cutof
 	Matrix_Neo third; 
 	bool result;
 	double line_sum = 0.0;
-	int counter = 0;
+	int counter = 0; 
 
 	first = sequences_to_PPM(Sequences, n); 
 	result = true; 
@@ -864,8 +864,8 @@ Matrix_Neo EM_algorithm (std::vector<std::string> Sequences, int n, double cutof
 			second.push_back(PPM_to_Sequence(Sequences, first, cutoff)[i]);
 			third = sequences_to_PPM(second, n);
 			result = false; 
-			counter = 2;
 		}
+		counter =2;
 	}
 	
 	while ((cutoff<=max_score(third)) and (diff_matrices(first,third,diff)==false) and (counter<max))
@@ -877,10 +877,11 @@ Matrix_Neo EM_algorithm (std::vector<std::string> Sequences, int n, double cutof
 			for (size_t j(0);j<4;++j)
 			{
 				first[i][j] = sequences_to_PPM(second, n)[i][j];
-				counter += 1;
 				result = true; 
 			}
 		}
+		
+		counter += 1;
 		
 		if (cutoff<=max_score(first) and diff_matrices(first,third,diff)==false and counter<max)
 		{
@@ -891,34 +892,58 @@ Matrix_Neo EM_algorithm (std::vector<std::string> Sequences, int n, double cutof
 				for (size_t j(0);j<4;++j)
 				{	
 					third[i][j] = sequences_to_PPM(second, n)[i][j];
-					counter += 1;
 					result = false;
 				}
 			}
+			counter += 1;
 		}
-	}			
+	}	
 	
+	if (base_probabilities[0] == 1 and 
+		base_probabilities[1] == 1 and
+		base_probabilities[2] == 1 and
+		base_probabilities[3] == 1) {
+		base_probabilities = {0,0,0,0};
+	}
+
 	if (result == true) 
 	{
+		for(size_t i(0); i < first.size(); ++i)
+		{
+			for (size_t j(0);j<4;++j)
+			{
+				first[i][j]+=base_probabilities[j];
+			}
+		}
+		
 		for (unsigned int i(0); i<first.size(); i++) 
 		{  
 			line_sum = Matrix::sum_of_line(first[i]);
 		
-			for (unsigned int j(0); j<NUMBER_NUCLEOTIDES; j++) 
+			for (unsigned int j(0); j<4; j++) 
 			{
-				first[i][j] = (first[i][j]+base_probabilities[j])/line_sum;
+				first[i][j] = first[i][j]/line_sum;
 			}
 		} 
 		return first;
 		 
 	} else {
+		
+		for(size_t i(0); i < third.size(); ++i)
+		{
+			for (size_t j(0);j<4;++j)
+			{
+				third[i][j]+=base_probabilities[j];
+			}
+		}
+		
 		for (unsigned int i(0); i<third.size(); i++) 
 		{  
 			line_sum = Matrix::sum_of_line(third[i]);
 		
 			for (unsigned int j(0); j<NUMBER_NUCLEOTIDES; j++) 
 			{
-				third[i][j] = (third[i][j]+base_probabilities[j])/line_sum;
+				third[i][j] = third[i][j]/line_sum;
 			}
 		} 
 		return third; 

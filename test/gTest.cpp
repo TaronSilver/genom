@@ -393,8 +393,8 @@ TEST (sequence_score_test, good_score)
 	}
 	test_matrix.print_log_matrix();
 	calc_score =  test_matrix.sequence_score(sequence);
-	std::cout << our_score << std::endl;
-	std::cout << calc_score << std::endl;
+	/*std::cout << our_score << std::endl;
+	std::cout << calc_score << std::endl;*/
 	ASSERT_TRUE(std::abs(-5.10229832163 - calc_score) < 0.001);
 }
 
@@ -484,9 +484,9 @@ TEST (EM_algorithm_Test, PositiveEM_algorithm)
 	int n =3;
 	double cutoff = 100.0;
 	Base_Prob baseprob {0.25,0.25,0.25,0.25};
-	int max = 4;
+	int max = 2;
 	double diff = 1.0;
-	Matrix_Neo result ({{0.0625, 0.3125, 0.0625, 0.8125 }, { 0.0625, 1.0625, 0.0625, 0.0625 }, { 0.0625, 0.5625, 0.5625, 0.0625 }});
+	Matrix_Neo result ({ { 0.05, 0.25, 0.05, 0.65 }, { 0.05, 0.85, 0.05, 0.05 }, { 0.05, 0.45, 0.45, 0.05 } });
 	ASSERT_EQ(result,EM_algorithm(sequences, n, cutoff, baseprob, max, diff));
 }
 
