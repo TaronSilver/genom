@@ -569,6 +569,9 @@ SearchResults read_sequencefile_to_searchresults(std::string filename) {
     return output;
 }
 
+
+//==========================================================================================
+
 std::vector <SearchResults> read_searchresult_file(std::string filename) {
     std::vector <SearchResults> output;
     SearchResults intermed_chromosome;
@@ -580,7 +583,8 @@ std::vector <SearchResults> read_searchresult_file(std::string filename) {
     std::string line;
     
     while (getline(file, line)) {
-        std::replace( line.begin(), line.end(), ',', ' '); // replace all comma separators with space
+                
+        std::replace( line.begin(), line.end(), ';', ' '); // replace all comma separators with space
 
         if (line[0] == '>') {
             if (not(intermed_chromosome.searchResults.empty())) {
@@ -590,6 +594,9 @@ std::vector <SearchResults> read_searchresult_file(std::string filename) {
             
             intermed_chromosome.description = line;
         }
+        
+        else if (line.find("Seq") != std::string::npos);
+            
         
         else {
             SearchResult intermed_match;
