@@ -83,10 +83,9 @@ void Coordinates::print() {
 
 
 //-------------------------------------------------------------------------
-std::vector <double> Coordinates::position_score(SearchResults input, unsigned int seq_startpos)
+std::vector <double> Coordinates::position_score(SearchResults input)
 {
     std::vector <double> output;
-    
     unsigned int gen_id(0);
     unsigned int seq_id(0);
     

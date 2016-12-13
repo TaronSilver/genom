@@ -25,11 +25,11 @@ private:
     std::vector <std::string> description;
     std::vector <double> score;
 
-    bool line_description_present;
+
 
     std::string file_description;
     std::string location;
-
+    bool line_description_present;
 
 public:
 
@@ -83,7 +83,7 @@ public:
      *
      * @return  Vector of doubles with the genomic scores
      */
-    std::vector <double> position_score(SearchResults input, unsigned int seq_startpos);
+    std::vector <double> position_score(SearchResults input);
 };
 
 
