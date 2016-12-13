@@ -693,22 +693,23 @@ Matrix_Neo sequence_to_PPM (std::string sequence, int n)
 	{
 		for (size_t i(r); i<sequence.size()-n+r+1; ++i)
 		{
-				if (sequence[i] == 'A')
-				{
-					results[m][0] += 1.0;
-				}
-				if (sequence[i] == 'C')
-				{
-					results[m][1] += 1.0;
-				}
-				if (sequence[i] == 'G')
-				{
-					results[m][2] += 1.0;
-				}
-				if (sequence[i] == 'T')
-				{
-					results[m][3] += 1.0;
-				}
+			switch (charmap[sequence[i]]) {
+            case nuc::A:
+                results[m][0] += 1.0;
+                break;
+            case nuc::C:
+                results[m][1] += 1.0;
+                break;
+            case nuc::G:
+                results[m][2] += 1.0;
+                break;
+            case nuc::T:
+                results[m][3] += 1.0;
+                break;
+            case nuc::N:
+				break;
+			}
+				
 		}
 		r+=1;
 		m+=1;
@@ -759,22 +760,22 @@ double sequence_score (std::string sequence, Matrix_Neo PPM)
     
 	for(size_t i= 0; i < sequence.size(); ++i)
 	{
-		if (sequence[i] == 'A')
-		{  
-			score = score * (PPM[i][0]);
-		}
-		else if (sequence[i] == 'C')
-		{
-			score = score * (PPM[i][1]);
-		}
-		else if (sequence[i] == 'G')
-		{
-			score = score * (PPM[i][2]);
-		}
-		else if (sequence[i] == 'T')
-		{
-			score = score * (PPM[i][3]);
-		}	
+		switch (charmap[sequence[i]]) {
+            case nuc::A:
+                score = score * (PPM[i][0]);
+                break;
+            case nuc::C:
+                score = score * (PPM[i][1]);
+                break;
+            case nuc::G:
+                score = score * (PPM[i][2]);
+                break;
+            case nuc::T:
+                score = score * (PPM[i][3]);
+                break;
+            case nuc::N:
+				break;
+			}	
 	}
     return score;
 }
