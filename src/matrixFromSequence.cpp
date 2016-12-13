@@ -4,6 +4,7 @@
 #include <iostream>
 #include <QMessageBox>
 
+
 bool checkBox;
 unsigned int matrixChoice;
 unsigned int position;

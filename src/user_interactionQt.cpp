@@ -1,4 +1,5 @@
 #include <QMessageBox>
+#include <stdio.h>
 #include <unistd.h>
 
 #include "askBaseProb.hpp"
@@ -8,25 +9,27 @@
 #include "user_interaction.hpp"
 #include "window.hpp"
 
+
 //-----------------------------------------------------------------------
 double ask_cutoff2(double max_score) {
 
-	double cutoff;
-	while (true) {
-	    std::cout << "What cutoff would you like to use?" << std::endl;
-		std::cin >> cutoff;
 
-	    if (cutoff>max_score) {
-			std::cout << "This cutoff is too high, you need to give a cutoff lower than " << max_score << " so that we can find binding sites" << std::endl;
-			continue;
+    double cutoff = 0.0;
 
-		} else if (cutoff<=0) {
-			std::cout << "The cutoff must be bigger than 0" << std::endl;
-		}
+    do{
+        std::cout << "What cutoff would you like to use?" << std::endl;
+        std::cout << "Choose a number bigger than 0 and smaller than " << max_score << std::endl;
 
-		break;
-	}
-	return cutoff;
+        cutoff = ask_for_a_number_infinitely();
+
+        if((cutoff<max_score) and (cutoff>0)){
+            break; //success
+        }
+        std::cout << "Invalid input, please try again." << std::endl;
+
+    }while(true);
+
+    return cutoff;
 }
 
 //-----------------------------------------------------------------------
@@ -36,11 +39,19 @@ double ask_cutoff() {
 
 
 //-----------------------------------------------------------------------
-
 bool ask_binding_length_known() {
     return matrixFromSequence::getBool();
 }
 
+//-----------------------------------------------------------------------
+std::string ask_name_output_file() {
+    std::string name;
+
+    std::cout << "What name do you want to give to this file?" << std::endl;
+    std::cin >> name;
+
+    return name;
+}
 
 //-----------------------------------------------------------------------
 
@@ -49,7 +60,6 @@ unsigned int ask_position() {
 }
 
 //-----------------------------------------------------------------------
-
 unsigned int ask_length() {
     return matrixFromSequence::getLength();
 }
@@ -60,17 +70,8 @@ std::string ask_name_fasta() {
 }
 
 
-
 //-------------------------------------------------------------------------
-// There's a better function for this
-
-std::string ask_name_matrix() {
-    return Window::getMatrixLocation();
-}
-//-------------------------------------------------------------------------
-
-bool InvalidFormatMat(std::string file_name)
-{
+bool InvalidFormatMat(std::string file_name) {
     if (file_name.find(".mat") != std::string::npos)
     {
         return 0;
@@ -78,12 +79,18 @@ bool InvalidFormatMat(std::string file_name)
     else return 1;
 }
 
+//-------------------------------------------------------------------------
+// There's a better function for this
+std::string ask_name_matrix() {
+    return Window::getMatrixLocation();
+}
+
 //-----------------------------------------------------------------------
 bool InvalidFormat(std::string file_name)
 {
 
     // Defines list with known file formats
-    static const std::vector<std::string> validValues {".fasta", ".fas", ".fna", ".ffn"};
+    static const std::vector<std::string> validValues {".fasta", ".fas", ".fna", ".ffn", ".fa"};
 
     for(unsigned int i = 0; i < validValues.size(); i++) {
         if(file_name.find(validValues[i])!= std::string::npos)
@@ -94,23 +101,39 @@ bool InvalidFormat(std::string file_name)
     return 1;
 }
 //-----------------------------------------------------------------------
-void nucleotide_warning(char c)
-{
+void nucleotide_warning(char c) {
     std::cout << "WARNING, nucleotide " << c
                           << " not recognized" << std::endl;
 }
 
 //-----------------------------------------------------------------------
 void print_progress(int position, int filesize) {
-
     static int nextPrint(0);
     static int increment(filesize/1000000);
+    int barWidth = 66;
+
 
     if(position >= nextPrint) {
 
-        std::cout << (double)position / (double)filesize * 100 << "%" << std::endl;
+        double progress (std::abs((double)position / (double)filesize));
         nextPrint += increment;
+
+        std::cout << "[";
+        int pos = barWidth * progress;
+        for (int i = 0; i < barWidth; ++i) {
+            if (i < pos) std::cout << "=";
+            else if (i == pos) std::cout << ">";
+            else std::cout << " ";
+        }
+        std::cout << "] " << std::fixed << std::setprecision(2) << (progress * 100.0) << " %\r";
+        std::cout.flush();
+
     }
+
+}
+
+void ret() {
+    std::cout << std::endl;
 }
 
 
@@ -121,13 +144,14 @@ void print_results(SearchResults results, std::string filename) {
     outputfile.open(filename, std::ios_base::app);
     unsigned int size = results.searchResults.size();
 
+    outputfile << std::endl;
     outputfile << ">" << results.description << std::endl;
-    outputfile << "Seq, Pos, Dir, Seq_Score" << std::endl;
+    outputfile << "Seq; Pos; Dir; Seq_Score" << std::endl;
 
     for (unsigned int i(0); i < size; i++) {
-        outputfile << results.searchResults[i].sequence << ", "
-                   << results.searchResults[i].position << ", "
-                   << results.searchResults[i].direction << ", "
+        outputfile << results.searchResults[i].sequence << "; "
+                   << results.searchResults[i].position << "; "
+                   << results.searchResults[i].direction << "; "
                    << results.searchResults[i].score << std::endl;
     }
     outputfile.close();
@@ -141,15 +165,16 @@ void print_results_correlated(SearchResults results, std::vector <double> gen_sc
     outputfile.open(filename, std::ios_base::app);
     unsigned int size = results.searchResults.size();
 
+    outputfile << std::endl;
     outputfile << ">" << results.description << std::endl;
-    outputfile << "Seq, Pos, Dir, Seq_Score, Gen_Score" << std::endl;
+    outputfile << "Seq; Pos; Dir; Seq_Score; Gen_Score" << std::endl;
 
 
     for (unsigned int i(0); i < size; i++) {
-        outputfile  << results.searchResults[i].sequence << ", "
-                    << results.searchResults[i].position << ", "
-                    << results.searchResults[i].direction << ", "
-                    << results.searchResults[i].score << ", "
+        outputfile  << results.searchResults[i].sequence << "; "
+                    << results.searchResults[i].position << "; "
+                    << results.searchResults[i].direction << "; "
+                    << results.searchResults[i].score << "; "
                     << gen_score[i] << std::endl;
     }
     outputfile.close();
@@ -173,10 +198,9 @@ void print_results(SearchResults results) {
     }
 }
 
-
 //==========================================================================================
 std::string Ask_Outputfile_Name() {
-    return Window::getOutputName();
+        return Window::getOutputName();
 }
 
 //----------------------------------------------------------------------
@@ -184,9 +208,9 @@ void Cout_NewSeq(std::string new_sequence)
 {
     std::cout <<"Creation of a new sequence: " << new_sequence << std::endl;
 }
-
 //----------------------------------------------------------------------
-BP_FILL CoutCin_AskBaseProb() {
+BP_FILL CoutCin_AskBaseProb()
+{
     int choice = askBaseProb::getBaseChoiceFinal();
 
         switch (choice) {
@@ -199,22 +223,23 @@ BP_FILL CoutCin_AskBaseProb() {
             case 0:
                 return BP_FILL::NotUsed;
 
-        /*
             case 3:
                 return BP_FILL::FromSequence;
-        */
+
         }
         return BP_FILL::AllEqual;
 }
 //----------------------------------------------------------------------
-double CoutCin_AskBaseProb0(char letter) {
+double CoutCin_AskBaseProb0(char letter)
+{
     if (letter == A) return askBaseProb::getProbA();
     else if (letter == C) return askBaseProb::getProbC();
     else if (letter == G) return askBaseProb::getProbG();
     else return askBaseProb::getProbT();
-
 }
 //----------------------------------------------------------------------
+
+
 std::vector<double> AskBaseProb()
 {
     switch (CoutCin_AskBaseProb()) {
@@ -232,6 +257,8 @@ std::vector<double> AskBaseProb()
 
 
 //----------------------------------------------------------------------
+
+
 std::vector<double> User_Defined_Base_Prob() {
     double A, C, G, T;
     std::vector<double> base_probabilities;
@@ -258,6 +285,7 @@ std::vector<double> User_Defined_Base_Prob() {
 
 
 //----------------------------------------------------------------------
+
 MATRIX_TYPE Ask_Return_Matrix_Type() {
     unsigned int answer=askBaseProb::getMatrixChoice();
 
@@ -276,18 +304,22 @@ MATRIX_TYPE Ask_Return_Matrix_Type() {
 
 
 //----------------------------------------------------------------------
+
 bool ask_matrix_from_sequences_weighed() {
     return sequenceFromMatrix::isEM();
+
 }
 
 
 //----------------------------------------------------------------------
+
 bool ask_matrix_from_search_matches() {
     return  sequenceFromMatrix::getBool();
 }
 
 
 //----------------------------------------------------------------------
+
 void error_input_sequence() {
     std::cout << "Error: Either there was no sequence found to analyze, or the " <<
     std::endl << "sequences to analyze are of different length." << std::endl;
@@ -295,12 +327,14 @@ void error_input_sequence() {
 
 
 //----------------------------------------------------------------------
+
 void error_reading_coordiates(unsigned int line) {
     std::cout << "Error: Reading genomic coordinate files failed on line " << line <<
     std::endl;
 }
 
 //----------------------------------------------------------------------
+
 std::string ask_coordinate_filename() {
     std::string answer;
     std::cout << "What file would you like to open for the genomic coordinates." << std::endl;
@@ -308,7 +342,9 @@ std::string ask_coordinate_filename() {
     return answer;
 }
 
+
 //----------------------------------------------------------------------
+
 bool ask_line_description_present() {
     bool answer;
     std::cout << "Is a descritpion of the coordinates present in the third question?" <<
@@ -323,6 +359,7 @@ bool ask_line_description_present() {
 
 
 //----------------------------------------------------------------------
+
 Association_Table associate_genomic_with_sequences(std::vector<std::string> coordinate_description,
                                                    std::vector<std::string> sequence_description) {
     Association_Table output;
@@ -483,7 +520,9 @@ void error_sequence_doesnt_exist() {
     std::cout << "Error: The desired sequence doesn't exist" << std::endl;
 }
 
+
 //----------------------------------------------------------------------
+
 SEQ_SOURCE ask_source_sequence() {
     unsigned int answer=matrixFromSequence::getSequenceOrigin();
     while (true) {
@@ -506,8 +545,8 @@ SEQ_SOURCE ask_source_sequence() {
 
 void logo_in_process()
 {
-  std::cout << "Your logo is being generated, this should take a couple of seconds" << std::endl;
-  std::cout << "Your logo will be saved in genom-2 with the name yourlogo.png" << std::endl;
+    std::cout << "Your logo is being generated, this should take a couple of seconds" << std::endl;
+    std::cout << "Your logo will be saved in genom-2 with the name yourlogo.png" << std::endl;
 }
 
 std::string ask_logo_matrix()
@@ -517,51 +556,61 @@ std::string ask_logo_matrix()
 
 void position_in_process(int pos, int size)
 {
-	std::cout << "Drawing position: " << pos << "/" << size << std::endl;
-}
-
-void nuc_in_process(char N)
-{
-	std::cout << "	Printed " << N << std::endl;
+    std::cout << "Drawing position: " << pos << "/" << size << std::endl;
 }
 
 //-----------------------------------------------------------------------
 
 
+double ask_for_a_number_infinitely(){
+    double n=0;
+    std::string raw_input;
+
+    while(true){
+
+        std::cin >> raw_input;
+        try{
+            n = std::stod(raw_input);
+            return n;
+
+        }catch(...){
+            std::cout << "Invalid input, Try again." << std::endl;
+        }
+    }
+}
+
 //----------------------------------------------------------------------
 
 int ask_iterations (int length)
 {
-	int n=0;
-	while (true) {
-	    std::cout << "How long do you want the enzyme binding sites to be?" << std::endl;
-		std::cout << "Choose a whole number between 1 and the length of the smallest sequence" << std::endl;
-		std::cin >> n;
+    int n;
 
-	    if (n <= 1) {
-			std::cout << "Invalid input, please try again. You must choose a whole number between 1 and the length of the smallest sequence" << std::endl;
-			continue;
-		} else if (n>length) {
-			std::cout << "Invalid input, please try again. You must choose a whole number between 1 and the length of the smallest sequence" << std::endl;
-			continue;
-		}
+    do{
+        std::cout << "How long do you want the enzyme binding sites to be?" << std::endl;
+        std::cout << "Choose a whole number between 1 and the length of the smallest sequence, which is " << length << std::endl;
 
-		break;
-	}
-	return n;
+        n = (int)ask_for_a_number_infinitely();
+        if((n<length) and (n>0)){
+            break; //success
+        }
+        std::cout << "Invalid input, please try again." << std::endl;
+
+    }while(true);
+
+    return n;
 }
 
 //----------------------------------------------------------------------
 
 void print_into_file(std::ostream & out, Matrix_Neo matrix){
 
-	for(unsigned int i = 0 ; i < matrix.size(); i++) {
-		for(unsigned int j = 0 ; j < matrix[i].size(); j++)
-			out << std::left << std::setw(16) << matrix[i][j];
-		out << std::endl;
-	}
+    for(unsigned int i = 0 ; i < matrix.size(); i++) {
+        for(unsigned int j = 0 ; j < matrix[i].size(); j++)
+            out << std::left << std::setw(16) << matrix[i][j];
+        out << std::endl;
+    }
 
-	out.flush();
+    out.flush();
 
 }
 
@@ -577,47 +626,53 @@ std::string get_working_path()
 
 void path ()
 {
-	std::cout << "We will create a file in: " << get_working_path() << " with the final absolute position-probability matrix" << std::endl;
+    std::cout << "We will create a file in: " << get_working_path() << " with the final absolute position-probability matrix" << std::endl;
 }
 
 //----------------------------------------------------------------------
 
 int maximum_EM ()
 {
-	int n=0;
-	while (true) {
-	    std::cout << "What's the maximum of times do you want to do the EM_algorithm?" << std::endl;
-	    std::cout << "Choose a whole number bigger than 0" << std::endl;
-		std::cin >> n;
 
-	    if (n <= 0) {
-			std::cout << "You need to give a whole number bigger than 0" << std::endl;
-			continue;
-		}
+    int n = 0;
 
-		break;
-	}
-	return n;
+    do{
+        std::cout << "What's the maximum of times do you want to do the EM_algorithm?" << std::endl;
+        std::cout << "Choose a whole number bigger than 0" << std::endl;
+
+        n = (int)ask_for_a_number_infinitely();
+
+        if(n>0){
+            break; //success
+        }
+        std::cout << "Invalid input, please try again." << std::endl;
+
+    }while(true);
+
+    return n;
 }
 
 //----------------------------------------------------------------------
 
 double differences_matrices ()
 {
-	double n =  0.0;
-	while (true) {
-	    std::cout << "What is the difference between the two matrices when doing the EM_algorithm you chose to stop the EM_algorithm ?" << std::endl;
-	    std::cout << "Choose a number bigger than 0" << std::endl;
-		std::cin >> n;
+    double n = 0.0;
 
-	    if (n <= 0.0) {
-			std::cout << "You need to give a whole number bigger than 0" << std::endl;
-			continue;
-		}
+    do{
+        std::cout << "What is the difference between the two matrices when doing the EM_algorithm you chose to stop the EM_algorithm ?" << std::endl;
+        std::cout << "Choose a number bigger than 0" << std::endl;
 
-		break;
-	}
-	return n;
+        n = ask_for_a_number_infinitely();
+
+        if(n>0){
+            break; //success
+        }
+        std::cout << "Invalid input, please try again." << std::endl;
+
+    }while(true);
+
+    return n;
+
 }
 
 //----------------------------------------------------------------------
@@ -708,18 +763,6 @@ void done() {
     std::cout << "DONE" << std::endl;
 }
 
-//-----------------------------------------------------------------------
-
-std::string ask_name_output_file ()
-{
-	std::string name;
-
-	std::cout << "What name do you want to give to this file?" << std::endl;
-	std::cin >> name;
-
-	return name;
-}
-
 //----------------------------------------------------------------------
 
 void error_no_search_result_read() {
@@ -731,6 +774,20 @@ void error_no_search_result_read() {
 
 bool correlate_more() {
     std::cout << "Would you like to correlate more sequence results to genomic coordinates?" <<
+    std::endl << "Enter 1 for yes, 0 for no." << std::endl;
+    bool answer;
+    while (not(std::cin >> answer)) {
+        std::cout << "Invalid input, please try again." << std::endl;
+    }
+    return answer;
+}
+
+
+
+//----------------------------------------------------------------------
+
+bool ask_correlate_to_search_results() {
+    std::cout << "Would you like to correlate the found scores to a genomic coordinate file?" <<
     std::endl << "Enter 1 for yes, 0 for no." << std::endl;
     bool answer;
     while (not(std::cin >> answer)) {

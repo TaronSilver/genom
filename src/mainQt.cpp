@@ -6,7 +6,6 @@
 
 #include "Matrix.hpp"
 #include "procedures.hpp"
-#include "Sequence.hpp"
 #include "user_interaction.hpp"
 #include "utility.hpp"
 
