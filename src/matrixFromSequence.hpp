@@ -3,9 +3,6 @@
 
 #include <QDialog>
 
-#include "correlate.hpp"
-
-
 
 namespace Ui {
 class matrixFromSequence;

@@ -787,11 +787,5 @@ bool correlate_more() {
 //----------------------------------------------------------------------
 
 bool ask_correlate_to_search_results() {
-    std::cout << "Would you like to correlate the found scores to a genomic coordinate file?" <<
-    std::endl << "Enter 1 for yes, 0 for no." << std::endl;
-    bool answer;
-    while (not(std::cin >> answer)) {
-        std::cout << "Invalid input, please try again." << std::endl;
-    }
-    return answer;
+    return sequenceFromMatrix::getCorrelateChoice();
 }

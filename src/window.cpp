@@ -99,6 +99,10 @@ void Window::on_buttonLogo_clicked(){
   }
 }
 
+void Window::on_buttonCorrelate_clicked(){
+
+}
+
 std::string Window::getFastaLocation(){
     return fastaFilePath;
 }

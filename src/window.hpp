@@ -93,6 +93,13 @@ public:
   */
   void on_buttonLogo_clicked();
 
+  /*!
+  * @brief When this button is clicked, the program will launch the
+  * algorithm to  compare the score of sequences to the score
+  * in genomic coordinates.
+  */
+  void on_buttonCorrelate_clicked();
+
 
 private:
   Ui::Window *ui;

@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>Correlate</class>
- <widget name="Correlate" class="QDialog">
+ <widget class="QDialog" name="Correlate">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -10,8 +11,22 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Correlate</string>
   </property>
+  <widget class="QCheckBox" name="boolThirdQuestion">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>60</y>
+     <width>261</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Is a descritpion of the coordinates
+ present in the third question?</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
