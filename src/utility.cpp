@@ -386,7 +386,7 @@ Matrix_Neo matrix_from_same_length_sequences_weighted(std::vector<SearchResults>
     for (unsigned int i(0); i<length_sequence; i++) {
         line_min = Matrix::min_of_line(output_matrix[i]);
         
-        if (Matrix::min_of_line<=0) {
+        if (line_min<=0) {
             for (unsigned int j(0); j<NUMBER_NUCLEOTIDES; j++) {
                 output_matrix[i][j] -= line_min;
             }
@@ -501,7 +501,7 @@ std::vector<std::string> extract_sequence_descriptions(std::string filename) {
     std::vector<std::string> output;
     std::string intermediate;
     
-    unsigned int streamsize(file.tellg());
+    //unsigned int streamsize(file.tellg()); unused
     
     while (getline(file, intermediate)) {
         if (intermediate[0] == '>') {
@@ -990,24 +990,24 @@ std::vector <std::string> Initialization_string()
 
 bool diff_matrices (Matrix_Neo mat1, Matrix_Neo mat2, double difference)
 {
-	bool diff; 
+	bool diff = true; 
 	
-	for(size_t i(0); i<mat1.size(); ++i)
+	for(size_t i(0); i<mat1.size() and diff; ++i)
 	{
 		for (size_t j(0);j<4;++j)
 		{
-			if (std::fabs(mat1[i][j]-mat2[i][j])<=difference)
+			if ((std::fabs(mat1[i][j]-mat2[i][j])<=difference) and diff)
 			{
 				diff = true; 
 				
-			} else {
+			} else if (diff) {
 				
-				return false; 
+				diff = false; 
 			}
 		}
 	}
 	
-	return true; 
+	return diff; 
 }
 
 //==========================================================================================
