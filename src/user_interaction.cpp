@@ -8,6 +8,7 @@
 
 #include "user_interaction.hpp"
 #include <unistd.h>
+#include <stdio.h>
 
 
 
@@ -257,7 +258,7 @@ bool InvalidFormat(std::string file_name)
 {
 
     // Defines list with known file formats
-    static const std::vector<std::string> validValues {".fasta", ".fas", ".fna", ".ffn"};
+    static const std::vector<std::string> validValues {".fasta", ".fas", ".fna", ".ffn", ".fa"};
 
     for(unsigned int i = 0; i < validValues.size(); i++) {
         if(file_name.find(validValues[i])!= std::string::npos)
@@ -279,13 +280,31 @@ void print_progress(int position, int filesize) {
 
     static int nextPrint(0);
     static int increment(filesize/1000000);
-
+	int barWidth = 66;
+	
+	
     if(position >= nextPrint) {
 
-        std::cout << (double)position / (double)filesize * 100 << "%" << std::endl;
+        double progress (std::abs((double)position / (double)filesize));
         nextPrint += increment;
-    }
+    
+		std::cout << "[";
+		int pos = barWidth * progress;
+		for (int i = 0; i < barWidth; ++i) {
+			if (i < pos) std::cout << "=";
+			else if (i == pos) std::cout << ">";
+			else std::cout << " ";
+		}
+		std::cout << "] " << std::fixed << std::setprecision(2) << (progress * 100.0) << " %\r";
+		std::cout.flush();
+
+	}
+    
 }
+
+void ret() {
+	std::cout << std::endl;
+}	
 
 
 //==========================================================================================
@@ -294,14 +313,15 @@ void print_results(SearchResults results, std::string filename) {
     std::ofstream outputfile;
     outputfile.open(filename, std::ios_base::app);
     unsigned int size = results.searchResults.size();
-
+    
+    outputfile << std::endl;
     outputfile << ">" << results.description << std::endl;
-    outputfile << "Seq, Pos, Dir, Seq_Score" << std::endl;
+    outputfile << "Seq; Pos; Dir; Seq_Score" << std::endl;
 
     for (unsigned int i(0); i < size; i++) {
-        outputfile << results.searchResults[i].sequence << ", "
-                   << results.searchResults[i].position << ", "
-                   << results.searchResults[i].direction << ", "
+        outputfile << results.searchResults[i].sequence << "; "
+                   << results.searchResults[i].position << "; "
+                   << results.searchResults[i].direction << "; "
                    << results.searchResults[i].score << std::endl;
     }
     outputfile.close();
@@ -315,15 +335,16 @@ void print_results_correlated(SearchResults results, std::vector <double> gen_sc
     outputfile.open(filename, std::ios_base::app);
     unsigned int size = results.searchResults.size();
 
+    outputfile << std::endl;
     outputfile << ">" << results.description << std::endl;
-    outputfile << "Seq, Pos, Dir, Seq_Score, Gen_Score" << std::endl;
+    outputfile << "Seq; Pos; Dir; Seq_Score; Gen_Score" << std::endl;
 
 
     for (unsigned int i(0); i < size; i++) {
-        outputfile  << results.searchResults[i].sequence << ", "
-                    << results.searchResults[i].position << ", "
-                    << results.searchResults[i].direction << ", "
-                    << results.searchResults[i].score << ", "
+        outputfile  << results.searchResults[i].sequence << "; "
+                    << results.searchResults[i].position << "; "
+                    << results.searchResults[i].direction << "; "
+                    << results.searchResults[i].score << "; "
                     << gen_score[i] << std::endl;
     }
     outputfile.close();
@@ -760,9 +781,7 @@ void error_sequence_doesnt_exist() {
 SEQ_SOURCE ask_source_sequence() {
     std::cout << "How would you like to obtain the binding sequences to analyze?" <<
     std::endl << "Enter 1 if you have the binding sequences as a list in a file." <<
-    std::endl << "Enter 2 if you have a file with genomic coordinates of the sequences, " <<
-    std::endl << "and the sequences in a seperate file." <<
-    std::endl << "Enter 3 if you want to analyze the result of a previous analysis." <<
+    std::endl << "Enter 2 if you want to analyze the result of a previous analysis." <<
     std::endl;
 
     unsigned int answer(0);
@@ -774,9 +793,6 @@ SEQ_SOURCE ask_source_sequence() {
                 return SEQ_SOURCE::OnlySeq;
 
             case 2:
-                return SEQ_SOURCE::CoordAndSeq;
-
-            case 3:
                 return SEQ_SOURCE::FromSearchResult;
 
             default:
@@ -802,7 +818,7 @@ std::string ask_logo_matrix()
     std::string entry_name;
 
     while (true) {
-	    std::cout <<"Please give the name of your probability weight matrix file: ";
+	    std::cout <<"Please give the name of your matrix file: ";
 	    std::cin >> entry_name;
 
 	    std::ifstream entry(entry_name.c_str());
@@ -823,11 +839,6 @@ std::string ask_logo_matrix()
 void position_in_process(int pos, int size)
 {
 	std::cout << "Drawing position: " << pos << "/" << size << std::endl;
-}
-
-void nuc_in_process(char N)
-{
-	std::cout << "	Printed " << N << std::endl;
 }
 
 //-----------------------------------------------------------------------
@@ -864,7 +875,7 @@ int ask_iterations (int length)
 		if((n<length) and (n>0)){
 			break; //success
 		}
-		std::cout << "Invalid input, " << n << ". please try again." << std::endl;
+		std::cout << "Invalid input, please try again." << std::endl;
 		
 	}while(true); 
 	
@@ -1045,6 +1056,20 @@ void error_no_search_result_read() {
 
 bool correlate_more() {
     std::cout << "Would you like to correlate more sequence results to genomic coordinates?" <<
+    std::endl << "Enter 1 for yes, 0 for no." << std::endl;
+    bool answer;
+    while (not(std::cin >> answer)) {
+        std::cout << "Invalid input, please try again." << std::endl;
+    }
+    return answer;
+}
+
+
+
+//----------------------------------------------------------------------
+
+bool ask_correlate_to_search_results() {
+    std::cout << "Would you like to correlate the found scores to a genomic coordinate file?" <<
     std::endl << "Enter 1 for yes, 0 for no." << std::endl;
     bool answer;
     while (not(std::cin >> answer)) {

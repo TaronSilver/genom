@@ -13,7 +13,7 @@ resultsWindow::resultsWindow(QWidget *parent) :
     ui->setupUi(this);
 
     //The output file is saved one directory before, thus the addtiion of ../
-    QString filename = QString::fromStdString(Ask_Outputfile_Name());
+    QString filename = QString::fromStdString(Ask_Outputfile_Name()+".csv");
     QFile file(filename);
 
     file.open(QFile::ReadOnly | QFile::Text);

@@ -4,7 +4,7 @@ project(genom-2 CXX)
 
 option(main "Build main version." ON)
 option(test "Build tests." ON) #declares a boolean that tells that we are doing a test version.
-option(Qt "Building Graphic Interface." OFF)
+option(Qt "Building Graphic Interface." ON)
 
 set(CMAKE_BUILD_TYPE Debug) #Allows to debug
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wall -pedantic -std=c++11")
@@ -14,7 +14,7 @@ if (main)
 include_directories(src)
 link_directories("/usr/local/lib") #Tells cmake where some libs could potentially be located
 link_directories("/usr/lib")
-add_executable(Main src/genomic_coordinates.cpp src/main.cpp src/Matrix.cpp src/procedures.cpp src/Sequence.cpp src/user_interaction.cpp src/utility.cpp)
+add_executable(Main src/genomic_coordinates.cpp src/main.cpp src/Matrix.cpp src/procedures.cpp src/user_interaction.cpp src/utility.cpp)
 
 target_link_libraries(Main png pthread)
 

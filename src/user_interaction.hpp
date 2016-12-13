@@ -124,6 +124,10 @@ bool InvalidFormat(std::string file_name);
  */
 void print_progress(int position, int filesize);
 
+/*!
+ * @brief   A simple return
+ */
+void ret();
 
 /*!
  * @brief Prints search results to file
@@ -316,12 +320,6 @@ std::string ask_logo_matrix();
  */
 void position_in_process(int pos, int size);
 
-/*!
- * @brief   prints logo process for user
- *
- * @param   nucleotide being processed 
- */
-void nuc_in_process(char N);
 //-----------------------------------------------------------------------
 
 
@@ -424,8 +422,17 @@ void error_no_search_result_read();
  */
 bool correlate_more();
 
+/*!
+ * @brief   Check if the input from the user is in the acceptable range and returns a double
+ * @return  the number the user entered as a double
+ */
 double ask_for_a_number_infinitely();
 
+/*!
+ * @brief   Asks user if he wants correlate the found results to the search results
+ * @return  1 if yes, 0 if no.
+ */
+bool ask_correlate_to_search_results();
 //-----------------------------------------------------------------------
 
 

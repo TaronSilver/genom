@@ -209,6 +209,10 @@ std::vector<SearchResults> analyze_sequence_opt2(std::string filename, Matrix ma
 
     output.push_back(sequence_matches);
 
+	print_progress(size_of_file, size_of_file);
+	ret();
+
+
     entry_file.close();
     return output;
 }
@@ -223,7 +227,6 @@ std::vector<SearchResults> analyze_sequence_opt2(std::string filename, Matrix ma
 
 
 //==========================================================================================
-// SHOULD BE MADE AS CONSTRUCTOR
 
 SearchResult fill_search_result(std::list<nuc> sequence, int position_counter, double score, char direction)
 {
@@ -238,6 +241,7 @@ SearchResult fill_search_result(std::list<nuc> sequence, int position_counter, d
 }
 
 //==========================================================================================
+
 bool valid_character(char character) {
     auto it = charmap.find(character);
     if (it == charmap.end())
@@ -251,6 +255,7 @@ bool valid_character(char character) {
 
 
 //==========================================================================================
+
 int filesize(std::string filename) {
     std::ifstream in(filename, std::ios::binary | std::ios::ate);
     return in.tellg();
@@ -341,33 +346,33 @@ Matrix_Neo matrix_from_same_length_sequences_not_weighted(std::vector<SearchResu
 
 Matrix_Neo matrix_from_same_length_sequences_weighted(std::vector<SearchResults>  input, Base_Prob base_prob) {
     Matrix_Neo output_matrix;
-
+    
     assert(input.size() >= 1);
-
+    
     unsigned int length_sequence( searchResults_same_length(input) );
-
+    
     if(length_sequence == 0) {
         error_input_sequence();
         return output_matrix;
     }
-
-
+        
+    
     unsigned int nb_search_results;
     double line_min;
     double line_sum;
-
+    
     char character;
-
+    
     // Initialization of matrix with proper size, all zero
     for (unsigned int index(0); index<length_sequence; index++) {
         output_matrix.push_back({0,0,0,0});
     }
-
+    
     // Counter for every search result, score is added for each match
     for (unsigned int k(0); k<input.size(); k++) {
-
+        
         nb_search_results = input[k].searchResults.size();
-
+        
         for (unsigned int i(0); i<nb_search_results; i++) {
             for (unsigned int j(0); j<length_sequence; j++) {
                 character = input[k].searchResults[i].sequence[j];
@@ -375,18 +380,15 @@ Matrix_Neo matrix_from_same_length_sequences_weighted(std::vector<SearchResults>
             }
         }
     }
-
-
+    
+    
     // If the smallest number is less or equal 0, it is subtracted from all values from the line
-    // To avoid havnig a probability of 0, the base probability for each nucleotide is added to
-    // each such line (or should we do this to every line?)
     for (unsigned int i(0); i<length_sequence; i++) {
         line_min = Matrix::min_of_line(output_matrix[i]);
-
-        if (line_min<=0) { //modified by Souhail to avoid warnings
+        
+        if (Matrix::min_of_line<=0) {
             for (unsigned int j(0); j<NUMBER_NUCLEOTIDES; j++) {
                 output_matrix[i][j] -= line_min;
-                output_matrix[i][j] += base_prob[j];
             }
         }
     }
@@ -404,12 +406,12 @@ Matrix_Neo matrix_from_same_length_sequences_weighted(std::vector<SearchResults>
     // Every value of the line is divided by the sum of each line, yielding a probability
     for (unsigned int i(0); i<length_sequence; i++) {
         line_sum = Matrix::sum_of_line(output_matrix[i]);
-
+        
         for (unsigned int j(0); j<NUMBER_NUCLEOTIDES; j++) {
             output_matrix[i][j] /= line_sum;
         }
-    }
-
+    }    
+    
     return output_matrix;
 }
 
@@ -466,9 +468,6 @@ std::vector <Coordinates> read_coordinates(std::string filename, bool line_descr
     std::string seq_descr_intermediate;
     std::string line;
 
-    // File description in first line is disregarded.
-    // getline(file, file_description);
-
     std::vector <Coordinates> output;
 
     file >> seq_description;
@@ -498,18 +497,18 @@ std::vector <Coordinates> read_coordinates(std::string filename, bool line_descr
 std::vector<std::string> extract_sequence_descriptions(std::string filename) {
     std::ifstream file;
     file.open(filename);
-
+    
     std::vector<std::string> output;
     std::string intermediate;
-
+    
     unsigned int streamsize(file.tellg());
-
-    do {
-        getline(file, intermediate);
-        output.push_back(intermediate);
-
-    } while (file.ignore(streamsize, '>'));
-
+    
+    while (getline(file, intermediate)) {
+        if (intermediate[0] == '>') {
+            output.push_back(intermediate);
+        }
+    }
+    
     return output;
 }
 
@@ -535,6 +534,7 @@ SearchResults read_sequencefile_to_searchresults(std::string filename) {
     std::ifstream file;
     file.open(filename);
     
+    // For every line
     while (getline(file, line)) {
         if (line[0] == '>' or line[0] == ';') {
             if (not(seq_intermediate.empty())) {
@@ -554,8 +554,25 @@ SearchResults read_sequencefile_to_searchresults(std::string filename) {
         }
     }
 
+    // For the last line:
+    if (not(seq_intermediate.empty())) {
+        
+        intermediate.sequence = seq_intermediate;
+        intermediate.score = 1;
+        intermediate.position = 0;
+        intermediate.direction = '+';
+        
+        output.searchResults.push_back(intermediate);
+        seq_intermediate.clear();
+        intermediate = SearchResult();
+    }
+
+    
     return output;
 }
+
+
+//==========================================================================================
 
 std::vector <SearchResults> read_searchresult_file(std::string filename) {
     std::vector <SearchResults> output;
@@ -568,7 +585,8 @@ std::vector <SearchResults> read_searchresult_file(std::string filename) {
     std::string line;
     
     while (getline(file, line)) {
-        std::replace( line.begin(), line.end(), ',', ' '); // replace all comma separators with space
+                
+        std::replace( line.begin(), line.end(), ';', ' '); // replace all comma separators with space
 
         if (line[0] == '>') {
             if (not(intermed_chromosome.searchResults.empty())) {
@@ -578,6 +596,9 @@ std::vector <SearchResults> read_searchresult_file(std::string filename) {
             
             intermed_chromosome.description = line;
         }
+        
+        else if (line.find("Seq") != std::string::npos);
+            
         
         else {
             SearchResult intermed_match;
@@ -665,6 +686,8 @@ SearchResults read_char_separated_to_searchresults(std::string filename, char de
 
 //==========================================================================================
 
+
+
 Matrix_Neo sequence_to_PPM (std::string sequence, int n)
 {
 	Matrix_Neo results;
@@ -681,22 +704,23 @@ Matrix_Neo sequence_to_PPM (std::string sequence, int n)
 	{
 		for (size_t i(r); i<sequence.size()-n+r+1; ++i)
 		{
-				if (sequence[i] == 'A')
-				{
-					results[m][0] += 1.0;
-				}
-				if (sequence[i] == 'C')
-				{
-					results[m][1] += 1.0;
-				}
-				if (sequence[i] == 'G')
-				{
-					results[m][2] += 1.0;
-				}
-				if (sequence[i] == 'T')
-				{
-					results[m][3] += 1.0;
-				}
+			switch (charmap[sequence[i]]) {
+            case nuc::A:
+                results[m][0] += 1.0;
+                break;
+            case nuc::C:
+                results[m][1] += 1.0;
+                break;
+            case nuc::G:
+                results[m][2] += 1.0;
+                break;
+            case nuc::T:
+                results[m][3] += 1.0;
+                break;
+            case nuc::N:
+				break;
+			}
+				
 		}
 		r+=1;
 		m+=1;
@@ -747,22 +771,22 @@ double sequence_score (std::string sequence, Matrix_Neo PPM)
     
 	for(size_t i= 0; i < sequence.size(); ++i)
 	{
-		if (sequence[i] == 'A')
-		{  
-			score = score * (PPM[i][0]);
-		}
-		else if (sequence[i] == 'C')
-		{
-			score = score * (PPM[i][1]);
-		}
-		else if (sequence[i] == 'G')
-		{
-			score = score * (PPM[i][2]);
-		}
-		else if (sequence[i] == 'T')
-		{
-			score = score * (PPM[i][3]);
-		}	
+		switch (charmap[sequence[i]]) {
+            case nuc::A:
+                score = score * (PPM[i][0]);
+                break;
+            case nuc::C:
+                score = score * (PPM[i][1]);
+                break;
+            case nuc::G:
+                score = score * (PPM[i][2]);
+                break;
+            case nuc::T:
+                score = score * (PPM[i][3]);
+                break;
+            case nuc::N:
+				break;
+			}	
 	}
     return score;
 }
@@ -840,8 +864,8 @@ Matrix_Neo EM_algorithm (std::vector<std::string> Sequences, int n, double cutof
 			second.push_back(PPM_to_Sequence(Sequences, first, cutoff)[i]);
 			third = sequences_to_PPM(second, n);
 			result = false; 
-			counter = 2;
 		}
+		counter =2;
 	}
 	
 	while ((cutoff<=max_score(third)) and (diff_matrices(first,third,diff)==false) and (counter<max))
@@ -853,10 +877,11 @@ Matrix_Neo EM_algorithm (std::vector<std::string> Sequences, int n, double cutof
 			for (size_t j(0);j<4;++j)
 			{
 				first[i][j] = sequences_to_PPM(second, n)[i][j];
-				counter += 1;
 				result = true; 
 			}
 		}
+		
+		counter += 1;
 		
 		if (cutoff<=max_score(first) and diff_matrices(first,third,diff)==false and counter<max)
 		{
@@ -867,10 +892,10 @@ Matrix_Neo EM_algorithm (std::vector<std::string> Sequences, int n, double cutof
 				for (size_t j(0);j<4;++j)
 				{	
 					third[i][j] = sequences_to_PPM(second, n)[i][j];
-					counter += 1;
 					result = false;
 				}
 			}
+			counter += 1;
 		}
 	}	
 	
@@ -895,7 +920,7 @@ Matrix_Neo EM_algorithm (std::vector<std::string> Sequences, int n, double cutof
 		{  
 			line_sum = Matrix::sum_of_line(first[i]);
 		
-			for (unsigned int j(0); j<NUMBER_NUCLEOTIDES; j++) 
+			for (unsigned int j(0); j<4; j++) 
 			{
 				first[i][j] = first[i][j]/line_sum;
 			}
@@ -918,7 +943,7 @@ Matrix_Neo EM_algorithm (std::vector<std::string> Sequences, int n, double cutof
 		
 			for (unsigned int j(0); j<NUMBER_NUCLEOTIDES; j++) 
 			{
-				third[i][j] = first[i][j]/line_sum;
+				third[i][j] = third[i][j]/line_sum;
 			}
 		} 
 		return third; 
@@ -1025,4 +1050,21 @@ std::vector <std::string> ExtractSequence(std::string const& entry_name)
 
     entry.close(); // Don't you have to close it afterwards?
     return sequences;
+}
+
+
+
+
+//==========================================================================================
+
+std::vector <std::string> string_list_from_searchResults(std::vector <SearchResults> input) {
+    std::vector <std::string> output;
+    
+    for (unsigned int i(0); i<input.size(); i++) {
+        for (unsigned int j(0); j<input[i].searchResults.size(); j++) {
+            output.push_back(input[i].searchResults[j].sequence);
+        }
+    }
+    
+    return output;
 }

@@ -484,9 +484,9 @@ TEST (EM_algorithm_Test, PositiveEM_algorithm)
 	int n =3;
 	double cutoff = 100.0;
 	Base_Prob baseprob {0.25,0.25,0.25,0.25};
-	int max = 4;
+	int max = 2;
 	double diff = 1.0;
-	Matrix_Neo result ({{0.0625, 0.3125, 0.0625, 0.8125 }, { 0.0625, 1.0625, 0.0625, 0.0625 }, { 0.0625, 0.5625, 0.5625, 0.0625 }});
+	Matrix_Neo result ({ { 0.05, 0.25, 0.05, 0.65 }, { 0.05, 0.85, 0.05, 0.05 }, { 0.05, 0.45, 0.45, 0.05 } });
 	ASSERT_EQ(result,EM_algorithm(sequences, n, cutoff, baseprob, max, diff));
 }
 
@@ -648,7 +648,6 @@ TEST (matrix_from_same_length_sequences_weighted_test, good_matrix)
 	{
 		for ( size_t j=0 ; j < a[i].size() ; ++j)
 		{
-			std::cout <<a[i][j]<<std::endl;
 			ASSERT_EQ(a[i][j], b[i][j]);
 		}
 	}
