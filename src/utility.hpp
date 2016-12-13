@@ -250,5 +250,14 @@ SearchResults read_char_separated_to_searchresults(std::string filename, char de
 std::vector <std::string> ExtractSequence(std::string const& entry_name);
 
 
+/*!
+ * @brief   Goes through vector of search results and extracts all sequences in it.
+ *
+ * @param   The vector of search results
+ * @return  A vector of strings.
+ */
+std::vector <std::string> string_list_from_searchResults(std::vector <SearchResults> input);
+
+
 
 #endif

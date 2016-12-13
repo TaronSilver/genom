@@ -70,8 +70,10 @@ void enzyme_from_sequences() {
         Matrix result(binding_length_known(seq_to_analyze));
         result.save(Ask_Outputfile_Name(), Ask_Return_Matrix_Type());
     }
-    else
-        binding_length_unknown();
+    else {
+        binding_length_unknown(string_list_from_searchResults(seq_to_analyze));
+
+    }
 
 
 }
@@ -137,9 +139,8 @@ Matrix binding_length_known(std::vector<SearchResults> seq_to_analyze) {
 
 //=======================================================================
 
-void binding_length_unknown() {
+void binding_length_unknown(std::vector<std::string> sequence_list) {
 	unsigned int n=0;
-	std::vector<std::string> sequence_list;
 	double t=0.0;
 	Matrix_Neo results;
 	std::ofstream outputfile;
@@ -148,7 +149,6 @@ void binding_length_unknown() {
 	int f=0;
 	double g = 0.0;
 
-    sequence_list = Initialization_string();
     i = smallest_length(sequence_list);
     n = ask_iterations(i);
     Base_Prob base_probabilities = AskBaseProb();

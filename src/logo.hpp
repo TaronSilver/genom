@@ -8,12 +8,36 @@
 #include <sstream>
 #include "user_interaction.hpp"
 #include <algorithm>
+#include <cmath>
 
 using namespace cimg_library;
 
-std::vector<std::vector<double>> read_logo_matrix(std::string const& fileName);
-double size(std::vector<std::vector<double>> const& PWM, unsigned N, unsigned pos);
 
+//							READ_LOGO_MATRIX
+//----------------------------------------------------------------------
+std::vector<std::vector<double>> read_logo_matrix(std::string const& fileName)
+{
+	Matrix mat1(fileName);
+	std::vector<std::vector<double>> result(mat1.probMatrix_from_logMatrix());
+	
+    return result;
+}
+
+//								SIZE
+//----------------------------------------------------------------------
+double size(std::vector<std::vector<double>> const& PWM, unsigned N, unsigned pos)
+{
+	double info_content(2);
+
+	for (unsigned i(0); i<4; i++)
+	{
+		info_content += ((PWM[pos][i])*(std::log2(PWM[pos][i])));
+	}
+
+	return (PWM[pos][N])*info_content*500;
+}
+
+//----------------------------------------------------------------------
 typedef struct nuc_prob_pair{
     double prob;
     CImg<unsigned char> icon;
@@ -23,11 +47,14 @@ typedef struct nuc_prob_pair{
 	}
 }nuc_prob_pair;
 
+//----------------------------------------------------------------------
 bool compareByProb(const nuc_prob_pair &a, const nuc_prob_pair &b)
 {
     return a.prob > b.prob;
 }
 
+//								LOGO
+//----------------------------------------------------------------------
 void logo() {
 
 	std::string fileName(ask_logo_matrix());
@@ -35,14 +62,59 @@ void logo() {
 
 	unsigned size_motif(PWM.size());
 
-	CImg<unsigned char> background(1, 1, 1, 3, 0, 0, 0);
-	background.resize(size_motif*500, 1000);
+	CImg<unsigned char> background(1, 1, 1, 3, 255, 255, 255);
+	background.resize(size_motif*500+250, 1400);
+	
+	const unsigned char black[] = { 0,0,0 };
+	background.draw_line(170,1205,size_motif*500+203,1205,black);
+	background.draw_line(170,1206,size_motif*500+203,1206,black);
+	background.draw_line(170,1207,size_motif*500+203,1207,black);
+	background.draw_line(170,1208,size_motif*500+203,1208,black);
+	background.draw_line(170,1209,size_motif*500+203,1209,black);
+	background.draw_line(170,1210,size_motif*500+203,1210,black);
+	background.draw_line(170,1211,size_motif*500+203,1211,black);
+	
+	background.draw_line(195,1230,195,200,black);
+	background.draw_line(194,1230,194,200,black);
+	background.draw_line(193,1230,193,200,black);
+	background.draw_line(192,1230,192,200,black);
+	background.draw_line(191,1230,191,200,black);
+	background.draw_line(190,1230,190,200,black);
+	background.draw_line(189,1230,189,200,black);
 
+	background.draw_line(189,700,170,700,black);
+	background.draw_line(189,701,170,701,black);
+	background.draw_line(189,702,170,702,black);
+	background.draw_line(189,703,170,703,black);
+	background.draw_line(189,699,170,699,black);
+	background.draw_line(189,698,170,698,black);
+	background.draw_line(189,697,170,697,black);
+
+	background.draw_line(189,200,170,200,black);
+	background.draw_line(189,201,170,201,black);
+	background.draw_line(189,202,170,202,black);
+	background.draw_line(189,203,170,203,black);
+	background.draw_line(189,204,170,204,black);
+	background.draw_line(189,205,170,205,black);
+	background.draw_line(189,206,170,206,black);
+	
+	background.draw_text(60,50,"bits", black, 0, 1, 103);
+	background.draw_text(size_motif*250+80,1290,"position", black, 0, 1, 103);
+	background.draw_text(100,210,"2", black, 0, 1, 53);
+	background.draw_text(100,680,"1", black, 0, 1, 53);
+	background.draw_text(100,1185,"0", black, 0, 1, 53);	
+	background.draw_text(189,1250,"5'", black, 0, 1, 53);
+	background.draw_text(size_motif*500+190,1250,"3'", black, 0, 1, 53);
+	
 	logo_in_process();
-
+	
+		
 	for (unsigned pos(0); pos<size_motif; ++pos)
 	{
 		position_in_process(pos+1,PWM.size());
+		
+		char n = '1'+ pos;
+		background.draw_text(pos*500+450,1230, &n, black, 0, 1, 53);
 		
 		CImg<unsigned char> iconA("../logo/icons/A.png");
 		CImg<unsigned char> iconC("../logo/icons/C.png");
@@ -52,7 +124,7 @@ void logo() {
 		CImg<unsigned char> column(1, 1, 1, 3, 255, 255, 255);
 		column.resize(500, 1000);
 
-		double height(0);
+		double height(1000-size(PWM,0,pos)-size(PWM,1,pos)-size(PWM,2,pos)-size(PWM,3,pos));
 		
 		
 		std::vector<nuc_prob_pair> nuc_pairs;
@@ -66,105 +138,29 @@ void logo() {
 		
 		for(unsigned i = 0; i < nuc_pairs.size(); i++){
 			nuc_pairs[i].icon.resize(500, nuc_pairs[i].prob, -100, -100, 2);
-			column.draw_image(0, height, 0, 0, nuc_pairs[i].icon);
+			column.draw_image(0, height, 0, 0, nuc_pairs[i].icon, nuc_pairs[i].icon.get_channel(3),1,255);
 			height += nuc_pairs[i].prob;
 		}
 		
-		background.draw_image(pos*500, 0, 0, 0, column);
+		background.draw_image(pos*500+200, 200, 0, 0, column);
+		
+		background.draw_line(700+pos*500,1211,700+pos*500,1230,black);
+		background.draw_line(701+pos*500,1211,701+pos*500,1230,black);
+		background.draw_line(702+pos*500,1211,702+pos*500,1230,black);
+		background.draw_line(703+pos*500,1211,703+pos*500,1230,black);
+		background.draw_line(699+pos*500,1211,699+pos*500,1230,black);
+		background.draw_line(698+pos*500,1211,698+pos*500,1230,black);
+		background.draw_line(697+pos*500,1211,697+pos*500,1230,black);
 
 	}
+	
 	
 	background.save_png("../yourlogo.png");
 }
 
-
-
-std::vector<std::vector<double>> read_logo_matrix(std::string const& fileName)
-{
-	/*
-	 * to be able to make a logo from any kind of matrix:
-	 * opens the file
-	 * makes a matrix
-	 * converts the log matrix to prob matrix
-	 * returns the prob matrix 
-	 */
-	Matrix mat1(fileName);
-	std::vector<std::vector<double>> result(mat1.probMatrix_from_logMatrix());
-	
-	/*std::vector<std::vector<double>> input_matrix;
-
-    std::ifstream PWM;
-    PWM.open(fileName);
-
-    if (PWM.fail())
-    {
-        throw std::string("Error: Cannot read PWM file");
-    }
-    else
-    {
-        std::string line;
-        double A, T, C, G;
-        std::vector< double > rowi(4);
-
-        while (true) {
-
-            getline(PWM, line);
-
-            if (PWM.eof()) break;
-
-            std::istringstream values(line);
-            values >> A >> C >> G >> T;
-
-            rowi.clear();
-            rowi.push_back(A);
-            rowi.push_back(C);
-            rowi.push_back(G);
-            rowi.push_back(T);
-
-            input_matrix.push_back(rowi);
-        }
-
-        PWM.close();
-
-        return input_matrix;
-        
-    }*/
-    return result;
-}
-
-double size(std::vector<std::vector<double>> const& PWM, unsigned N, unsigned pos)
-{
-	return (PWM[pos][N])*1000;
-}
-
-/* commented out because formula causes weird logo
-double size(std::vector<std::vector<double>> const& PWM, unsigned N, unsigned pos)
-{
-	double info_content(0);
-
-	for (unsigned i(0); pos<4; ++pos)
-	{
-		info_content += ((PWM[pos][i])*(log2(4*PWM[pos][i])));
-	}
-
-
-	std::cout<<"info_content: " << info_content << std::endl;
-
-	return (PWM[pos][N])*1000/info_content;
-}
-*/
-
-
 /*
 
-	reasons for choices: if the declaration of the icons is in the for loop
-		then they don't lose resolution but the program is slower, otherwise they
-		become "ruined" but the program is faster
-
 	final things to implement:
-		-print with biggest letter on top
-		-correct size calculation
-		-check matrix has values > 0 and add up to 1
 		-add labels and scale
 
 */
