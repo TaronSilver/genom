@@ -4,7 +4,7 @@ RUNNING THE PROGRAM
 (from your genom-2 folder)
 
 
-Step 1: Make a build folder and build the program
+STEP 1: Make a build folder and build the program
  
  
 --> mkdir build 
@@ -18,7 +18,7 @@ Step 1: Make a build folder and build the program
 documentation		--> make doc
 
 
-Step 2: Execute the program 
+STEP 2: Execute the program 
 
 
 with Qt  			--> ./genom-2
