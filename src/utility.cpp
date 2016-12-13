@@ -209,6 +209,10 @@ std::vector<SearchResults> analyze_sequence_opt2(std::string filename, Matrix ma
 
     output.push_back(sequence_matches);
 
+	print_progress(size_of_file, size_of_file);
+	ret();
+
+
     entry_file.close();
     return output;
 }
