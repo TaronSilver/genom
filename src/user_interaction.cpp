@@ -8,6 +8,7 @@
 
 #include "user_interaction.hpp"
 #include <unistd.h>
+#include <stdio.h>
 
 
 
@@ -256,7 +257,7 @@ bool InvalidFormat(std::string file_name)
 {
 
     // Defines list with known file formats
-    static const std::vector<std::string> validValues {".fasta", ".fas", ".fna", ".ffn"};
+    static const std::vector<std::string> validValues {".fasta", ".fas", ".fna", ".ffn", ".fa"};
 
     for(unsigned int i = 0; i < validValues.size(); i++) {
         if(file_name.find(validValues[i])!= std::string::npos)
@@ -278,12 +279,15 @@ void print_progress(int position, int filesize) {
 
     static int nextPrint(0);
     static int increment(filesize/1000000);
+    static int time(0);
 
     if(position >= nextPrint) {
 
-        std::cout << (double)position / (double)filesize * 100 << "%" << std::endl;
+        std::cout << '\r' << (double)position / (double)filesize * 100 << "%" << std::endl;
         nextPrint += increment;
     }
+    
+    
 }
 
 
