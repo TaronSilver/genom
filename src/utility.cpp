@@ -532,6 +532,7 @@ SearchResults read_sequencefile_to_searchresults(std::string filename) {
     std::ifstream file;
     file.open(filename);
     
+    // For every line
     while (getline(file, line)) {
         if (line[0] == '>' or line[0] == ';') {
             if (not(seq_intermediate.empty())) {
@@ -551,6 +552,20 @@ SearchResults read_sequencefile_to_searchresults(std::string filename) {
         }
     }
 
+    // For the last line:
+    if (not(seq_intermediate.empty())) {
+        
+        intermediate.sequence = seq_intermediate;
+        intermediate.score = 1;
+        intermediate.position = 0;
+        intermediate.direction = '+';
+        
+        output.searchResults.push_back(intermediate);
+        seq_intermediate.clear();
+        intermediate = SearchResult();
+    }
+
+    
     return output;
 }
 
