@@ -57,7 +57,7 @@ Matrix binding_length_known(std::vector<SearchResults> seq_to_analyze);
  * @Brief   Handles everything if the user doesn't know the length of the binding
  *          site
  */
-void binding_length_unknown();
+void binding_length_unknown(std::vector<std::string> sequence_list);
 
 /*! 
  * @Brief   Handles everything if the user wants to extract a list of search results

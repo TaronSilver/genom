@@ -999,3 +999,20 @@ std::vector <std::string> ExtractSequence(std::string const& entry_name)
     entry.close(); // Don't you have to close it afterwards?
     return sequences;
 }
+
+
+
+
+//==========================================================================================
+
+std::vector <std::string> string_list_from_searchResults(std::vector <SearchResults> input) {
+    std::vector <std::string> output;
+    
+    for (unsigned int i(0); i<input.size(); i++) {
+        for (unsigned int j(0); j<input[i].searchResults.size(); j++) {
+            output.push_back(input[i].searchResults[j].sequence);
+        }
+    }
+    
+    return output;
+}
