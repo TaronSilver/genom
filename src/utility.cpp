@@ -678,6 +678,7 @@ SearchResults read_char_separated_to_searchresults(std::string filename, char de
 //==========================================================================================
 
 
+
 Matrix_Neo sequence_to_PPM (std::string sequence, int n)
 {
 	Matrix_Neo results;
