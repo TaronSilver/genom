@@ -124,6 +124,10 @@ bool InvalidFormat(std::string file_name);
  */
 void print_progress(int position, int filesize);
 
+/*!
+ * @brief   A simple return
+ */
+void ret();
 
 /*!
  * @brief Prints search results to file

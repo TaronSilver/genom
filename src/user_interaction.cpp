@@ -279,16 +279,31 @@ void print_progress(int position, int filesize) {
 
     static int nextPrint(0);
     static int increment(filesize/1000000);
-    static int time(0);
-
+	int barWidth = 70;
+	
+	
     if(position >= nextPrint) {
 
-        std::cout << '\r' << (double)position / (double)filesize * 100 << "%" << std::endl;
+        double progress ((double)position / (double)filesize);
         nextPrint += increment;
-    }
     
+		std::cout << "[";
+		int pos = barWidth * progress;
+		for (int i = 0; i < barWidth; ++i) {
+			if (i < pos) std::cout << "=";
+			else if (i == pos) std::cout << ">";
+			else std::cout << " ";
+		}
+		std::cout << "] " << int(progress * 100.0) << " %\r";
+		std::cout.flush();
+
+	}
     
 }
+
+void ret() {
+	std::cout << std::endl;
+}	
 
 
 //==========================================================================================
