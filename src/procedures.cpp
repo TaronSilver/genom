@@ -150,7 +150,8 @@ void binding_length_unknown(std::vector<std::string> sequence_list) {
     i = smallest_length(sequence_list);
     n = ask_iterations(i);
     Base_Prob base_probabilities = AskBaseProb();
-	max = max_score(sequences_to_PPM(sequence_list,n));
+    Matrix_Neo normd = normalized(sequences_to_PPM(sequence_list,n));
+	max = max_score(normd);
 	t = ask_cutoff2(max);
 	f = maximum_EM();
 	g = differences_matrices ();

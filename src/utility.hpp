@@ -183,7 +183,7 @@ std::vector <std::string> Initialization_string();
  * @param   a matrix
  * @return  return the maximal score of the matrix
  */
-double max_score (Matrix_Neo PPM);
+double max_score (Matrix_Neo & PPM);
 
 /*!
  * @brief   Returns a bool
@@ -259,5 +259,6 @@ std::vector <std::string> ExtractSequence(std::string const& entry_name);
 std::vector <std::string> string_list_from_searchResults(std::vector <SearchResults> input);
 
 
+Matrix_Neo normalized(Matrix_Neo input);
 
 #endif
