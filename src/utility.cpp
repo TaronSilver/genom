@@ -827,7 +827,7 @@ Matrix_Neo EM_algorithm (std::vector<std::string> Sequences, int n, double cutof
 	Matrix_Neo third; 
 	bool result;
 	double line_sum = 0.0;
-	int counter = 0;
+	int counter = 0; 
 
 	first = sequences_to_PPM(Sequences, n); 
 	result = true; 
@@ -872,29 +872,53 @@ Matrix_Neo EM_algorithm (std::vector<std::string> Sequences, int n, double cutof
 				}
 			}
 		}
-	}			
+	}	
 	
+	if (base_probabilities[0] == 1 and 
+		base_probabilities[1] == 1 and
+		base_probabilities[2] == 1 and
+		base_probabilities[3] == 1) {
+		base_probabilities = {0,0,0,0};
+	}
+
 	if (result == true) 
 	{
+		for(size_t i(0); i < first.size(); ++i)
+		{
+			for (size_t j(0);j<4;++j)
+			{
+				first[i][j]+=base_probabilities[j];
+			}
+		}
+		
 		for (unsigned int i(0); i<first.size(); i++) 
 		{  
 			line_sum = Matrix::sum_of_line(first[i]);
 		
 			for (unsigned int j(0); j<NUMBER_NUCLEOTIDES; j++) 
 			{
-				first[i][j] = (first[i][j]+base_probabilities[j])/line_sum;
+				first[i][j] = first[i][j]/line_sum;
 			}
 		} 
 		return first;
 		 
 	} else {
+		
+		for(size_t i(0); i < third.size(); ++i)
+		{
+			for (size_t j(0);j<4;++j)
+			{
+				third[i][j]+=base_probabilities[j];
+			}
+		}
+		
 		for (unsigned int i(0); i<third.size(); i++) 
 		{  
 			line_sum = Matrix::sum_of_line(third[i]);
 		
 			for (unsigned int j(0); j<NUMBER_NUCLEOTIDES; j++) 
 			{
-				third[i][j] = (third[i][j]+base_probabilities[j])/line_sum;
+				third[i][j] = first[i][j]/line_sum;
 			}
 		} 
 		return third; 

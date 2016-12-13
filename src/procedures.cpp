@@ -164,7 +164,7 @@ void binding_length_unknown() {
     Base_Prob base_probabilities = AskBaseProb();
 	max = max_score(sequences_to_PPM(sequence_list,n));
 	t = ask_cutoff2(max);
-	f = maximum_EM ();
+	f = maximum_EM();
 	g = differences_matrices ();
 	
 	results = EM_algorithm(sequence_list, n, t, base_probabilities, f, g);
@@ -173,8 +173,6 @@ void binding_length_unknown() {
 	outputfile.open(name);
 	print_into_file(outputfile, results);
 	outputfile.close();
-	char c;
-	std::cin >> c;
 }
 
 

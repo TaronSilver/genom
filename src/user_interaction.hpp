@@ -423,6 +423,9 @@ void error_no_search_result_read();
  * @return  1 if yes, 0 if no.
  */
 bool correlate_more();
+
+double ask_for_a_number_infinitely();
+
 //-----------------------------------------------------------------------
 
 

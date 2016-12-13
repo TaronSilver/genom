@@ -393,8 +393,8 @@ TEST (sequence_score_test, good_score)
 	}
 	test_matrix.print_log_matrix();
 	calc_score =  test_matrix.sequence_score(sequence);
-	std::cout << our_score << std::endl;
-	std::cout << calc_score << std::endl;
+	/*std::cout << our_score << std::endl;
+	std::cout << calc_score << std::endl;*/
 	ASSERT_TRUE(std::abs(-5.10229832163 - calc_score) < 0.001);
 }
 

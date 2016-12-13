@@ -65,21 +65,22 @@ PROCEDURE whatToDo() {
 //-----------------------------------------------------------------------
 double ask_cutoff2(double max_score) {
 
-	double cutoff;
-	while (true) {
-	    std::cout << "What cutoff would you like to use?" << std::endl;
-		std::cin >> cutoff;
 
-	    if (cutoff>max_score) {
-			std::cout << "This cutoff is too high, you need to give a cutoff lower than " << max_score << " so that we can find binding sites" << std::endl;
-			continue;
+	double cutoff = 0.0;
 
-		} else if (cutoff<=0) {
-			std::cout << "The cutoff must be bigger than 0" << std::endl;
+	do{
+		std::cout << "What cutoff would you like to use?" << std::endl;
+		std::cout << "Choose a number bigger than 0 and smaller than " << max_score << std::endl;
+
+		cutoff = ask_for_a_number_infinitely();
+		
+		if((cutoff<max_score) and (cutoff>0)){
+			break; //success
 		}
-
-		break;
-	}
+		std::cout << "Invalid input, please try again." << std::endl;
+		
+	}while(true); 
+	
 	return cutoff;
 }
 
@@ -376,7 +377,7 @@ BP_FILL CoutCin_AskBaseProb()
 
         std::endl;
 
-        std::cin>>choice;
+        choice = (int)ask_for_a_number_infinitely();
 
         switch (choice) {
             case 2:
@@ -832,26 +833,41 @@ void nuc_in_process(char N)
 //-----------------------------------------------------------------------
 
 
+double ask_for_a_number_infinitely(){
+	double n=0;
+	std::string raw_input;
+	
+	while(true){
+		
+		std::cin >> raw_input;
+		try{
+			n = std::stod(raw_input);
+			return n;
+			
+		}catch(...){
+			std::cout << "Invalid input, Try again." << std::endl;
+		}
+	}
+}
+
 //----------------------------------------------------------------------
 
 int ask_iterations (int length)
 {
-	int n=0;
-	while (true) {
-	    std::cout << "How long do you want the enzyme binding sites to be?" << std::endl;
-		std::cout << "Choose a whole number between 1 and the length of the smallest sequence" << std::endl;
-		std::cin >> n;
+	int n;
 
-	    if (n <= 1) {
-			std::cout << "Invalid input, please try again. You must choose a whole number between 1 and the length of the smallest sequence" << std::endl;
-			continue;
-		} else if (n>length) {
-			std::cout << "Invalid input, please try again. You must choose a whole number between 1 and the length of the smallest sequence" << std::endl;
-			continue;
+	do{
+		std::cout << "How long do you want the enzyme binding sites to be?" << std::endl;
+		std::cout << "Choose a whole number between 1 and the length of the smallest sequence, which is " << length << std::endl;
+
+		n = (int)ask_for_a_number_infinitely();
+		if((n<length) and (n>0)){
+			break; //success
 		}
-
-		break;
-	}
+		std::cout << "Invalid input, " << n << ". please try again." << std::endl;
+		
+	}while(true); 
+	
 	return n;
 }
 
@@ -888,19 +904,22 @@ void path ()
 
 int maximum_EM ()
 {
-	int n=0;
-	while (true) {
-	    std::cout << "What's the maximum of times do you want to do the EM_algorithm?" << std::endl;
-	    std::cout << "Choose a whole number bigger than 0" << std::endl;
-		std::cin >> n;
+	
+	int n = 0;
 
-	    if (n <= 0) {
-			std::cout << "You need to give a whole number bigger than 0" << std::endl;
-			continue;
+	do{
+		std::cout << "What's the maximum of times do you want to do the EM_algorithm?" << std::endl;
+		std::cout << "Choose a whole number bigger than 0" << std::endl;
+
+		n = (int)ask_for_a_number_infinitely();
+		
+		if(n>0){
+			break; //success
 		}
-
-		break;
-	}
+		std::cout << "Invalid input, please try again." << std::endl;
+		
+	}while(true); 
+	
 	return n;
 }
 
@@ -908,20 +927,23 @@ int maximum_EM ()
 
 double differences_matrices ()
 {
-	double n =  0.0;
-	while (true) {
-	    std::cout << "What is the difference between the two matrices when doing the EM_algorithm you chose to stop the EM_algorithm ?" << std::endl;
-	    std::cout << "Choose a number bigger than 0" << std::endl;
-		std::cin >> n;
+	double n = 0.0;
 
-	    if (n <= 0.0) {
-			std::cout << "You need to give a whole number bigger than 0" << std::endl;
-			continue;
+	do{
+		std::cout << "What is the difference between the two matrices when doing the EM_algorithm you chose to stop the EM_algorithm ?" << std::endl;
+		std::cout << "Choose a number bigger than 0" << std::endl;
+
+		n = ask_for_a_number_infinitely();
+		
+		if(n>0){
+			break; //success
 		}
-
-		break;
-	}
+		std::cout << "Invalid input, please try again." << std::endl;
+		
+	}while(true); 
+	
 	return n;
+	
 }
 
 //----------------------------------------------------------------------
