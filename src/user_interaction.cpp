@@ -761,9 +761,7 @@ void error_sequence_doesnt_exist() {
 SEQ_SOURCE ask_source_sequence() {
     std::cout << "How would you like to obtain the binding sequences to analyze?" <<
     std::endl << "Enter 1 if you have the binding sequences as a list in a file." <<
-    std::endl << "Enter 2 if you have a file with genomic coordinates of the sequences, " <<
-    std::endl << "and the sequences in a seperate file." <<
-    std::endl << "Enter 3 if you want to analyze the result of a previous analysis." <<
+    std::endl << "Enter 2 if you want to analyze the result of a previous analysis." <<
     std::endl;
 
     unsigned int answer(0);
@@ -775,9 +773,6 @@ SEQ_SOURCE ask_source_sequence() {
                 return SEQ_SOURCE::OnlySeq;
 
             case 2:
-                return SEQ_SOURCE::CoordAndSeq;
-
-            case 3:
                 return SEQ_SOURCE::FromSearchResult;
 
             default:
@@ -1020,6 +1015,20 @@ void error_no_search_result_read() {
 
 bool correlate_more() {
     std::cout << "Would you like to correlate more sequence results to genomic coordinates?" <<
+    std::endl << "Enter 1 for yes, 0 for no." << std::endl;
+    bool answer;
+    while (not(std::cin >> answer)) {
+        std::cout << "Invalid input, please try again." << std::endl;
+    }
+    return answer;
+}
+
+
+
+//----------------------------------------------------------------------
+
+bool ask_correlate_to_search_results() {
+    std::cout << "Would you like to correlate the found scores to a genomic coordinate file?" <<
     std::endl << "Enter 1 for yes, 0 for no." << std::endl;
     bool answer;
     while (not(std::cin >> answer)) {

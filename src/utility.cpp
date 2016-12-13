@@ -223,7 +223,6 @@ std::vector<SearchResults> analyze_sequence_opt2(std::string filename, Matrix ma
 
 
 //==========================================================================================
-// SHOULD BE MADE AS CONSTRUCTOR
 
 SearchResult fill_search_result(std::list<nuc> sequence, int position_counter, double score, char direction)
 {
@@ -238,6 +237,7 @@ SearchResult fill_search_result(std::list<nuc> sequence, int position_counter, d
 }
 
 //==========================================================================================
+
 bool valid_character(char character) {
     auto it = charmap.find(character);
     if (it == charmap.end())
@@ -251,6 +251,7 @@ bool valid_character(char character) {
 
 
 //==========================================================================================
+
 int filesize(std::string filename) {
     std::ifstream in(filename, std::ios::binary | std::ios::ate);
     return in.tellg();
@@ -462,9 +463,6 @@ std::vector <Coordinates> read_coordinates(std::string filename, bool line_descr
     std::string seq_description;
     std::string seq_descr_intermediate;
     std::string line;
-
-    // File description in first line is disregarded.
-    // getline(file, file_description);
 
     std::vector <Coordinates> output;
 

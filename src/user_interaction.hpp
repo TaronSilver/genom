@@ -417,6 +417,12 @@ void error_no_search_result_read();
  * @return  1 if yes, 0 if no.
  */
 bool correlate_more();
+
+/*!
+ * @brief   Asks user if he wants correlate the found results to the search results
+ * @return  1 if yes, 0 if no.
+ */
+bool ask_correlate_to_search_results();
 //-----------------------------------------------------------------------
 
 
