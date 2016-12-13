@@ -293,14 +293,15 @@ void print_results(SearchResults results, std::string filename) {
     std::ofstream outputfile;
     outputfile.open(filename, std::ios_base::app);
     unsigned int size = results.searchResults.size();
-
+    
+    outputfile << std::endl;
     outputfile << ">" << results.description << std::endl;
-    outputfile << "Seq, Pos, Dir, Seq_Score" << std::endl;
+    outputfile << "Seq; Pos; Dir; Seq_Score" << std::endl;
 
     for (unsigned int i(0); i < size; i++) {
-        outputfile << results.searchResults[i].sequence << ", "
-                   << results.searchResults[i].position << ", "
-                   << results.searchResults[i].direction << ", "
+        outputfile << results.searchResults[i].sequence << "; "
+                   << results.searchResults[i].position << "; "
+                   << results.searchResults[i].direction << "; "
                    << results.searchResults[i].score << std::endl;
     }
     outputfile.close();
@@ -314,15 +315,16 @@ void print_results_correlated(SearchResults results, std::vector <double> gen_sc
     outputfile.open(filename, std::ios_base::app);
     unsigned int size = results.searchResults.size();
 
+    outputfile << std::endl;
     outputfile << ">" << results.description << std::endl;
-    outputfile << "Seq, Pos, Dir, Seq_Score, Gen_Score" << std::endl;
+    outputfile << "Seq; Pos; Dir; Seq_Score; Gen_Score" << std::endl;
 
 
     for (unsigned int i(0); i < size; i++) {
-        outputfile  << results.searchResults[i].sequence << ", "
-                    << results.searchResults[i].position << ", "
-                    << results.searchResults[i].direction << ", "
-                    << results.searchResults[i].score << ", "
+        outputfile  << results.searchResults[i].sequence << "; "
+                    << results.searchResults[i].position << "; "
+                    << results.searchResults[i].direction << "; "
+                    << results.searchResults[i].score << "; "
                     << gen_score[i] << std::endl;
     }
     outputfile.close();

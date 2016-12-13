@@ -73,6 +73,9 @@ SearchResults Coordinates::get_search_results(std::string seq_filename,
     
     std::string output_description("Sequence: ");
     
+    
+    
+    
     // Moves to start of desired sequence
     for (unsigned int i(0); i<sequence; ) {
         while (file.ignore(MAXLINESIZE, '>')) {
