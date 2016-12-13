@@ -1,21 +1,20 @@
 # genom-2
-Project in genomics no 2
 
-compile : g++ src/*.cpp -std=c++11 -o x.x
-lauch : ./x.x
+RUNNING THE PROGRAM
+(from your genom-2 folder)
 
-you have to add to your genom-2 file the DBP_PPM.mat and promoters.fasta files (from moodle)
+Step 1: Make a build folder and build the program
+ 
+--> mkdir build 
+--> cd build
+--> cmake ../
+--> make
 
-cd build
-
-cmake ../
-
-make
-
-./Main
+documentation		--> make doc
 
 
-The test have been natively deactivated in the Cmakefile, just call make test if you want to build your tests!
+Step 2: Execute the program 
 
-Tadaa!
-Don't hesitate to contact me if you want to add your test files to cMake, I'll help make sure that all prerogatives are filled. (Taron)
+with Qt  			--> ./genom-2
+with terminal 		--> ./Main
+tests 				--> ./gtests
