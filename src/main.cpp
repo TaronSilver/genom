@@ -58,9 +58,9 @@ int main() {
 
 /*! \mainpage Welcome!
  *
- * \section intro_sec Presenting OurReallyCoolProgram
+ * \section intro_sec Presenting DBSAP
  *
- * Welcome to the Doxygen documentation for OurReallyCoolProgram! 
+ * Welcome to the Doxygen documentation for DBSAP! 
  * 
  * This program will help you by providing the tools necessary to analyse 
  * a DNA sequence or a DNA-binding protein of interest.
