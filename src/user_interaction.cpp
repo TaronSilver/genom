@@ -983,7 +983,7 @@ LIST_FILE ask_list_file_type() {
     std::cout << "What does your list file look like?" <<
     std::endl << "Enter 1 if it is in a .fasta file, with each list separated " <<
     std::endl << "by descriptions beginning with the caracter >" <<
-    std::endl << "Enter 2 if it is a simle list, with each sequence separated by returns." <<
+    std::endl << "Enter 2 if it is a simple list, with each sequence separated by returns." <<
     std::endl << "Enter 3 if the sequences are separated by a character other than a return." <<
     std::endl;
 
