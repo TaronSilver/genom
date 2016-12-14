@@ -20,6 +20,17 @@
 std::vector<SearchResults> analyze_sequence_opt2(std::string filename, Matrix matrix, double cutoff);
 
 
+/*!
+ * @brief   Goes through all sequences in the file and returns sequences with a score above 5
+ *          prints directly to output file.
+ *          Optimized version 4
+ *
+ *
+ * @param Name of sequence file, Matrix to compare it with, Cutoff
+ * @return A vector of all search results (each in one structure SearchResults)
+ */
+void analyze_sequence_opt4(std::string filename, Matrix matrix, double cutoff, std::string outputfile_name);
+
 
 /*!
  * @brief Fills up a Search result. This should be made as a constructor of the class

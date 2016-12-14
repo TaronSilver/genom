@@ -27,6 +27,15 @@
 void enzyme_on_sequence();
 
 
+/*!
+ * @Brief   Handles everything if the user wants to determine on
+ *          what position a given enzyme binds, with given probability
+ *          matrix and sequence. DOesnt use as much memory space
+ */
+void enzyme_on_sequence2();
+
+
+
 /*! 
  * @Brief   Handles everything if the user wants to determine
  *          a probability weight matrix from given sequences
@@ -57,7 +66,7 @@ Matrix binding_length_known(std::vector<SearchResults> seq_to_analyze);
  * @Brief   Handles everything if the user doesn't know the length of the binding
  *          site
  */
-void binding_length_unknown(std::vector<std::string> sequence_list);
+void binding_length_unknown(std::vector<std::string> sequence_list, std::string name, Base_Prob base_probabilities  = {1, 1, 1, 1});
 
 /*! 
  * @Brief   Handles everything if the user wants to extract a list of search results
@@ -83,7 +92,42 @@ std::vector<SearchResults> seq_source_OnlySeq();
 std::vector<SearchResults> seq_source_FromSearchResult();
 
 
+/*!
+ * @Brief   Converts char** to vector of strings
+ *
+ * @param   size of vector, char** as pointer to string
+ * @return  vector of strings
+ */
+
+std::vector<std::string> flags_to_strings(int argc, char** argv);
+
+
 //------------------------------------------------------------------------
+// NON-VERBOSE (When program is started from command line)
+
+/*!
+ * @brief   Handles everything if user starts program with flag -help
+ */
+void flag_help();
+
+/*!
+ * @brief   Handles everything if user starts program with flag -about
+ */
+void flag_about();
+
+/*!
+ * @brief   Handles everything if user starts program with flag -bindingsites
+ * @param   Flags as vector of strings
+ */
+void flag_bindingsites(std::vector<std::string> flags);
+
+/*!
+ * @brief   Handles everything if user starts program with flag -getmatrix
+ * @param   Flags as vector of strings
+ */
+void flag_getmatrix(std::vector<std::string> flags);
+
+
 
 
 #endif /* procedures_hpp */

@@ -137,6 +137,13 @@ void ret();
 void print_results(SearchResults results, std::string filename);
 
 /*!
+ * @brief Prints search results to file
+ *
+ * @param Search results, file
+ */
+void print_results2(SearchResults results, std::ofstream &outputfile);
+
+/*!
  * @brief Prints search results and corresponding genomic scores to file
  *
  * @param Search results, a vector of doubles with the genomic scores,  filename
@@ -433,6 +440,28 @@ double ask_for_a_number_infinitely();
  * @return  1 if yes, 0 if no.
  */
 bool ask_correlate_to_search_results();
+
+
+/*!
+ * @brief   Error message if user launches program with invalid flags
+ */
+void error_invalid_flags();
+
+
+/*!
+ * @brief   Checks if the file can be opened. Prints error if not.
+ * @param   Name of file to open as string
+ * @return  1 if yes, 0 if no
+ */
+bool checkfile(std::string filename);
+
+/*!
+ * @brief   Checks if the file already exists. If yes, ask if user wants to overwrite it.
+ * @param   Name of file to open as string
+ * @return  1 to proceed (overwrite or no file of that name), 0 if not
+ */
+bool overwrite(std::string filename);
+
 //-----------------------------------------------------------------------
 
 

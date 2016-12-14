@@ -9,6 +9,9 @@
 #include "user_interaction.hpp"
 #include <unistd.h>
 #include <stdio.h>
+#include <sys/stat.h>
+#include <chrono>
+
 
 
 
@@ -30,6 +33,8 @@ PROCEDURE whatToDo() {
     std::cout << "Enter 4 to compare the score of sequences to the score " <<
     std::endl << "in genomic coordinates." << std::endl;
     std::cout << "Enter 0 to exit the program." << std::endl;
+    std::cout << "This program can be launched directly from terminal, for more information " <<
+    std::endl << "run ./Main -help" << std::endl;
 
     while (true) {
         std::cin >> answer;
@@ -278,11 +283,17 @@ void nucleotide_warning(char c)
 //-----------------------------------------------------------------------
 void print_progress(int position, int filesize) {
 
+    
+    static auto start = std::chrono::system_clock::now();
+    auto end = std::chrono::system_clock::now();
+    
+    auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(end-start); // Elapsed is in seconds
+    
     static int nextPrint(0);
-    static int increment(filesize/1000000);
-	int barWidth = 66;
-
-
+    static int increment(filesize/500);
+	int barWidth = 50;
+	
+	
     if(position >= nextPrint) {
 
         double progress (std::abs((double)position / (double)filesize));
@@ -295,9 +306,8 @@ void print_progress(int position, int filesize) {
 			else if (i == pos) std::cout << ">";
 			else std::cout << " ";
 		}
-		std::cout << "] " << std::fixed << std::setprecision(2) << (progress * 100.0) << " %\r";
-		std::cout.flush();
-
+        std::cout << "] " << std::fixed << std::setprecision(2) << (progress * 100.0) << "% "<< std::setprecision(0) << elapsed.count() / progress * (1-progress) << "s left\r" << std::flush;
+        
 	}
 
 }
@@ -325,6 +335,20 @@ void print_results(SearchResults results, std::string filename) {
                    << results.searchResults[i].score << std::endl;
     }
     outputfile.close();
+}
+
+
+//==========================================================================================
+
+void print_results2(SearchResults results, std::ofstream &outputfile) {
+    unsigned int size = results.searchResults.size();
+    
+    for (unsigned int i(0); i < size; i++) {
+        outputfile << results.searchResults[i].sequence << "; "
+        << results.searchResults[i].position << "; "
+        << results.searchResults[i].direction << "; "
+        << results.searchResults[i].score << std::endl;
+    }
 }
 
 
@@ -1073,3 +1097,45 @@ bool ask_correlate_to_search_results() {
     }
     return answer;
 }
+
+//----------------------------------------------------------------------
+
+void error_invalid_flags() {
+    std::cout << "The program was launched with invalid flags. Aborting." <<
+    std::endl << "Run the program with -help flag for more information." <<
+    std::endl;
+}
+
+
+//----------------------------------------------------------------------
+
+bool checkfile(std::string filename) {
+    struct stat buf;
+    if (stat(filename.c_str(), &buf) != -1)
+    {
+        return true;
+    }
+    
+    std::cout << "The file " << filename << " could not be found. Aborting." <<
+    std::endl;
+    return false;
+}
+
+
+//----------------------------------------------------------------------
+
+bool overwrite(std::string filename) {
+    struct stat buf;
+    if (stat(filename.c_str(), &buf) != -1)
+    {
+        bool answer;
+        std::cout << "The file " << filename << " exists already. Would you like " <<
+        std::endl << "to overwrite it? " <<
+        std::endl << "Enter 1 for yes, 0 for no. ";
+        std::cin >> answer;
+        std::cout << "Your answer is " << answer << "." << std::endl;
+        return answer;
+    }
+    return true;
+}
+

@@ -15,43 +15,105 @@
 
 
 
+/*!
+ * @brief   Handles everything if the user gives the necessary information
+ *          while calling the program
+ */
+void non_verbose(int argc, char **argv);
+
+
+/*!
+ * @brief   Handles everything if the user doesn't give any information
+ *          when running the program.
+ */
+void verbose();
+
+
 //-------------------------------------------------------------------------
 
-int main() {
+int main(int argc, char **argv) {
     
+    if (argc == 1) {
+        verbose();
+    }
+    else {
+        non_verbose(argc, argv);
+    }
+    
+    
+	return 0;
+}
+
+
+//-------------------------------------------------------------------------
+
+void non_verbose(int argc, char **argv) {
+    
+    std::vector<std::string> flags(flags_to_strings(argc, argv));
+    
+    if (flags[1] == "-help" or flags[1] == "-h") {
+        flag_help();
+    }
+    
+    else if (flags[1] == "-logo" or flags[1] == "-l") {
+        logo(flags[2]);
+    }
+    
+    else if (flags[1] == "-bindingsites" or flags[1] == "-s") {
+        flag_bindingsites(flags);
+    }
+    
+    else if (flags[1] == "-getmatrix" or flags[1] == "-m") {
+        flag_getmatrix(flags);
+    }
+    
+    else if (flags[1] == "-about" or flags[1] == "-a") {
+        flag_about();
+    }
+    
+    else {
+        void error_invalid_flags();
+    }
+    
+}
+
+
+
+//-------------------------------------------------------------------------
+
+void verbose() {
     PROCEDURE procedure;
     
     
     
-   do {
-	    procedure = whatToDo();
-	    
-	    // What to do if user wants to extract Sequences from a given matrix
-	    if (procedure == SequencesFromMatrix) {
-	        enzyme_on_sequence();
-	    }
-	    
-	    if (procedure == MatrixFromSequences) {
-	        enzyme_from_sequences();
-	    }
-	    
-	    if (procedure == Logo) {
-			logo();
-		}
-       
-       if (procedure == CorrelateResults) {
-           correlate_coordinates_with_results(input_search_results());
-       }
-       
-       done();
-       
-       // Waits with program until next input of user.
-       getchar();
-       getchar();
-
-	 } while (procedure != Exit);
-	
-	return 0;
+    do {
+        procedure = whatToDo();
+        
+        // What to do if user wants to extract Sequences from a given matrix
+        if (procedure == SequencesFromMatrix) {
+            enzyme_on_sequence2();
+        }
+        
+        if (procedure == MatrixFromSequences) {
+            enzyme_from_sequences();
+        }
+        
+        if (procedure == Logo) {
+            logo();
+        }
+        
+        if (procedure == CorrelateResults) {
+            correlate_coordinates_with_results(input_search_results());
+        }
+        
+        done();
+        
+        // Waits with program until next input of user.
+        getchar();
+        getchar();
+        
+    } while (procedure != Exit);
+    
 }
 
 

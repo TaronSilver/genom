@@ -1,7 +1,14 @@
 #include "utility.hpp"
 #include <assert.h>
+#include <iostream>
+#include <fstream>
 
-#define LINE_SIZE 5000
+
+
+#define LINE_SIZE 10000 
+
+
+
 
 std::map< char, nuc > charmap{
     {'A', A}, {'a', A},
@@ -221,6 +228,325 @@ std::vector<SearchResults> analyze_sequence_opt2(std::string filename, Matrix ma
 
 
 
+//==========================================================================================
+
+void analyze_sequence_opt3(std::string filename, Matrix matrix, double cutoff, std::string outputfile_name) {
+    
+    std::ofstream output_file;
+    
+    output_file.open(outputfile_name);
+    
+    // File to read
+    std::ifstream entry_file(filename);
+    
+    
+    std::list<nuc> forwardSequence;
+    std::list<nuc> backwardSequence;
+    
+    bool fill(true);
+    //The following variable is commented because it's not used and create warnings - SOuhail
+    // bool description(true);
+    
+    
+    unsigned int char_counter(0);
+    unsigned int length(matrix.get_length());
+    unsigned int position_counter(1);
+    unsigned int line_size;
+    
+    unsigned int print_counter(0);
+    
+    
+    int size_of_file;
+    size_of_file = filesize(filename);
+    
+    //bool first_line(true); // not used ? Souhail
+    unsigned int index(0);
+    
+    double score;
+    
+    char line[LINE_SIZE];
+    std::string seq_description;
+    
+    
+    // Handles first line
+    while (entry_file.peek() == '>' or entry_file.peek() == ';') {
+        getline(entry_file, seq_description);
+        output_file << seq_description << std::endl;
+    }
+    
+    
+    while(entry_file.get(line, LINE_SIZE, '>')) {
+        // Sets line_size to amount of characters read in get
+        line_size = entry_file.gcount();
+        
+        //std::cout << line_size << std::endl;
+        
+        index = 0;
+        
+        if (print_counter > 10) {
+            print_progress(entry_file.tellg(), size_of_file);
+            print_counter = 0;
+            
+        }
+        print_counter++;
+        
+        
+        while (fill) {
+            if (valid_character(line[index])) {
+                forwardSequence.push_back(charmap[line[index]]);
+                backwardSequence.push_front(complementmap[line[index]]);
+                char_counter++;
+                
+            }
+            
+            if(char_counter >= length) {
+                fill = false;
+            }
+            
+            
+            index++;
+            
+            
+        }
+        
+        // For initialized sequence
+        // What to do if forward is binding
+        score = matrix.sequence_score(forwardSequence);
+        
+        if(score >= cutoff) {
+            output_file << sequence_string_from_nuc_list(forwardSequence) << ";\t" << position_counter
+            << ";\t" << score << ";\t" << '+' << std::endl;
+        }
+        
+        // What to do if backward is binding
+        score = matrix.sequence_score(backwardSequence);
+        
+        if(score >= cutoff) {
+            output_file << sequence_string_from_nuc_list(forwardSequence) << ";\t" << position_counter << ";\t" << score << ";\t" << '-' << std::endl;
+        }
+        
+        
+        // For all following combinations
+        while (index < line_size) {
+            
+            // Skips if character is not valid
+            if(valid_character(line[index]))
+            {
+                position_counter++;
+                
+                // Updates sequence with the new character
+                forwardSequence.pop_front();
+                forwardSequence.push_back(charmap[line[index]]);
+                backwardSequence.pop_back();
+                backwardSequence.push_front(complementmap[line[index]]);
+                
+                // What to do if forward is binding
+                score = matrix.sequence_score(forwardSequence);
+                
+                if(score >= cutoff) {
+                    output_file << sequence_string_from_nuc_list(forwardSequence) << ";\t" << position_counter << ";\t" << score << ";\t" << '+' << std::endl;
+                }
+                
+                // What to do if backward is binding
+                score = matrix.sequence_score(backwardSequence);
+                
+                if(score >= cutoff) {
+                    output_file << sequence_string_from_nuc_list(forwardSequence) << ";\t" << position_counter << ";\t" << score << ";\t" << '-' << std::endl;
+                }
+            }
+            index++;
+        }
+        
+        
+        if (entry_file.peek() == '>') {
+            while (entry_file.peek() == '>' or entry_file.peek() == ';') {
+                getline(entry_file, seq_description);
+                output_file << seq_description << std::endl;
+            }
+            
+        }
+    }
+    
+    
+    print_progress(size_of_file, size_of_file);
+    ret();
+    
+    
+    entry_file.close();
+    output_file.close();
+}
+
+
+
+void analyze_sequence_opt4(std::string filename, Matrix matrix, double cutoff, std::string outputfile_name) {
+    
+    std::ofstream output_file;
+    
+    output_file.open(outputfile_name + ".csv");
+    
+    // File to read
+    std::ifstream entry_file(filename);
+    
+    // Search results of one sequence
+    SearchResults sequence_matches;
+    
+    std::list<nuc> forwardSequence;
+    std::list<nuc> backwardSequence;
+    
+    bool fill(true);
+    //The following variable is commented because it's not used and create warnings - SOuhail
+    // bool description(true);
+    
+    
+    unsigned int char_counter(0);
+    unsigned int length(matrix.get_length());
+    unsigned int position_counter(1);
+    unsigned int line_size;
+    
+    unsigned int print_counter(0);
+    
+    
+    int size_of_file;
+    size_of_file = filesize(filename);
+    
+    //bool first_line(true); // not used ? Souhail
+    unsigned int index(0);
+    
+    double score;
+    
+    char line[LINE_SIZE];
+    std::string seq_description;
+    
+    
+    // Handles first line
+    while (entry_file.peek() == '>' or entry_file.peek() == ';') {
+        getline(entry_file, seq_description, '\n');
+        output_file << seq_description << ";" << std::endl;
+    }
+    
+    
+    while(entry_file.get(line, LINE_SIZE, '>')) {
+        
+        // Sets line_size to amount of characters read in get
+        line_size = entry_file.gcount();
+        
+        //std::cout << line_size << std::endl;
+        
+        index = 0;
+        
+        if (print_counter > 10) {
+            print_progress(entry_file.tellg(), size_of_file);
+            print_counter = 0;
+            
+        }
+        print_counter++;
+        
+        
+        while (fill) {
+            if (valid_character(line[index])) {
+                forwardSequence.push_back(charmap[line[index]]);
+                backwardSequence.push_front(complementmap[line[index]]);
+                char_counter++;
+                
+            }
+            
+            if(char_counter >= length) {
+                fill = false;
+            }
+            
+            
+            index++;
+            
+            
+        }
+        
+        // For initialized sequence
+        // What to do if forward is binding
+        score = matrix.sequence_score(forwardSequence);
+        
+        if(score >= cutoff) {
+            
+            SearchResult sequence_match(fill_search_result(forwardSequence, position_counter, score, '+'));
+            sequence_matches.searchResults.push_back(sequence_match);
+        }
+        
+        // What to do if backward is binding
+        score = matrix.sequence_score(backwardSequence);
+        
+        if(score >= cutoff) {
+            SearchResult sequence_match(fill_search_result(backwardSequence, position_counter, score, '-'));
+            sequence_matches.searchResults.push_back(sequence_match);
+        }
+        
+        
+        // For all following combinations
+        while (index < line_size) {
+            
+            // Skips if character is not valid
+            if(valid_character(line[index]))
+            {
+                position_counter++;
+                
+                // Updates sequence with the new character
+                forwardSequence.pop_front();
+                forwardSequence.push_back(charmap[line[index]]);
+                backwardSequence.pop_back();
+                backwardSequence.push_front(complementmap[line[index]]);
+                
+                // What to do if forward is binding
+                score = matrix.sequence_score(forwardSequence);
+                
+                if(score >= cutoff) {
+                    
+                    SearchResult sequence_match(fill_search_result(forwardSequence, position_counter, score, '+'));
+                    sequence_matches.searchResults.push_back(sequence_match);
+                }
+                
+                // What to do if backward is binding
+                score = matrix.sequence_score(backwardSequence);
+                
+                if(score >= cutoff) {
+                    SearchResult sequence_match(fill_search_result(backwardSequence, position_counter, score, '-'));
+                    sequence_matches.searchResults.push_back(sequence_match);
+                }
+            }
+            index++;
+        }
+        
+        print_results2(sequence_matches, output_file);
+        sequence_matches = SearchResults();
+
+        
+        if (entry_file.peek() == '>' or entry_file.peek() == EOF) {
+            sequence_matches = SearchResults();
+            
+            if(!forwardSequence.empty())
+                forwardSequence.clear();
+            if(!backwardSequence.empty())
+                backwardSequence.clear();
+            
+            position_counter = 1;
+            char_counter = 0;
+            fill = true;
+            
+            while (entry_file.peek() == '>' or entry_file.peek() == ';') {
+                getline(entry_file, seq_description);
+                output_file << seq_description;
+            }
+        }
+        
+
+    }
+    
+    
+    print_progress(size_of_file, size_of_file);
+    ret();
+    
+    
+    entry_file.close();
+    output_file.close();
+}
+
 
 
 
@@ -289,6 +615,15 @@ Matrix_Neo matrix_from_same_length_sequences_not_weighted(std::vector<SearchResu
 
     assert(input.size() >= 1);
 
+    
+    if (base_prob[0] == 1 and
+        base_prob[1] == 1 and
+        base_prob[2] == 1 and
+        base_prob[3] == 1)
+    {
+        base_prob = {0, 0, 0, 0};
+    }
+
     unsigned int nb_search_results;
     unsigned int length_sequence( searchResults_same_length(input) );
 
@@ -349,6 +684,15 @@ Matrix_Neo matrix_from_same_length_sequences_weighted(std::vector<SearchResults>
     
     assert(input.size() >= 1);
     
+    
+    if (base_prob[0] == 1 and
+        base_prob[1] == 1 and
+        base_prob[2] == 1 and
+        base_prob[3] == 1)
+    {
+        base_prob = {0, 0, 0, 0};
+    }
+
     unsigned int length_sequence( searchResults_same_length(input) );
     
     if(length_sequence == 0) {
