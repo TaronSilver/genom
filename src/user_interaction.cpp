@@ -452,7 +452,7 @@ double CoutCin_AskBaseProb0(char C)
 	double baseProb;
 
     while (true) {
-        std::cout << "Enter the base probability for "<< C ;
+        std::cout << "Enter the base probability for "<< C << " " ;
         std::cin >> baseProb;
 
         if(baseProb < 0 || baseProb > 1) {
