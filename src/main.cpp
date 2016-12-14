@@ -83,11 +83,16 @@ int main() {
  * needed inputs: a matrix file (.mat) and
  * a sequence file (.fasta, .fas, .fna, .ffn)
  * 
- * (3) Our last tool will generate a consensus sequence logo for a DNA protein
+ * (3) Generate a consensus sequence logo for a DNA protein
  * of your choosing: just give us the file name and we will take care of 
  * the rest.
  * 
  * needed inputs: a probability weight matrix file (.mat)
+ *
+ * (4) Our last tool correlates binding affinities between a genome file 
+ * and your experimental values
+ *
+ * needed inputs: your affinities, genomic file
  * 
  * We hope you enjoy!
  * 
@@ -115,6 +120,8 @@ int main() {
  * STEP 3: Execute the program (with Qt)
  * 
  * --> ./genom-2
+ *
+ * without Qt (--> ./Main)
  * 
  * and voilà!
  * 
@@ -125,7 +132,7 @@ int main() {
  * \section authors Brought to you by
  * 
  * Angela Saudan, Erica Geneletti, Jérémy Alexandre, Katia Schalk, Lucas 
- * Zweili, Matthias Minder, Marion Peter, Souhail Elaissaoui, 
+ * Zweili, Matthias Minder, Marion Perier, Souhail Elaissaoui, 
  * Tristan Vyvyan-Robinson aaaaand Gokcen Nurlu!
  * 
  * 
