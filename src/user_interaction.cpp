@@ -92,20 +92,9 @@ double ask_cutoff2(double max_score) {
 
 //-----------------------------------------------------------------------
 double ask_cutoff() {
-    double cutoff;
     std::cout << "What cutoff would you like to use?" << std::endl;
 
-    while (true)
-    {
-		std::cin >> cutoff;
-		if (cutoff > 0) break;
-		else
-		{
-			std::cout << "Cutoff must be positive, please try again." << std::endl;
-		}
-	}
-
-    return cutoff;
+    return ask_for_a_number_infinitely();
 }
 
 

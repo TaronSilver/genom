@@ -96,63 +96,29 @@ std::vector <double> Coordinates::position_score(SearchResults input)
     
     double score_intermed(0);
     
+
     while (seq_id < input.searchResults.size())
     {
-        
         seq_pos = input.searchResults[seq_id].position;
         seq_length = input.searchResults[seq_id].sequence.size();
-        gen_pos = start_pos[gen_id];
-        gen_length = length[gen_id];
+        gen_id = 0;
+        score_intermed = 0;
 
-        // DEBUG
-        std::cout << "seq_id " << seq_id << std::endl;
-        std::cout << "seq_pos " << seq_pos << std::endl;
-        std::cout << "seq_length " << seq_length << std::endl;
-        std::cout << "gen_id " << gen_id << std::endl;
-        std::cout << "gen_pos " << gen_pos << std::endl;
-        std::cout << "gen_length " << gen_length << std::endl;
-        std::cout << "\n --- \n" << std::endl;
-        
-        // No overlap
-        if (gen_pos + gen_length < seq_pos)
-        {
-            gen_id++;
+        for (unsigned int i(0); i<seq_length; i++, seq_pos++) {
+            
+            while (start_pos[gen_id] >= seq_pos and gen_id < start_pos.size()) {
+                gen_id++;
+            }
+            if (start_pos[gen_id] + length[gen_id] >= seq_pos) {
+                std::cout << gen_id << std::endl;
+
+                score_intermed += score[gen_id];
+            }
         }
-        else if (gen_pos > seq_pos + seq_length)
-        {
-            output.push_back(score_intermed);
-            score_intermed = 0;
-            seq_id++;
-        }
-        
-        // Overlaps
-        else if (gen_pos < seq_pos and gen_pos + gen_length >= seq_pos + seq_length)
-        {
-            score_intermed = score[gen_id];
-            output.push_back(score_intermed);
-            score_intermed = 0;
-            seq_id++;
-        }
-        
-        // RETHINK!
-        else if (gen_pos < seq_pos and gen_pos + gen_length <= seq_pos + seq_length)
-        {
-            gen_id++;
-            score_intermed += score[gen_id] * (gen_pos + gen_length - seq_pos) / seq_length;
-        }
-        else if (gen_pos > seq_pos and gen_pos + gen_length <= seq_pos + seq_length)
-        {
-            gen_id++;
-            score_intermed += score[gen_id] * gen_length / seq_length;
-        }
-        else if (gen_pos > seq_pos and gen_pos + gen_length >= seq_pos + seq_length)
-        {
-            score_intermed += score[gen_id] * (seq_pos + seq_length - gen_pos) / seq_length;
-            output.push_back(score_intermed);
-            score_intermed = 0;
-            seq_id++;
-        }
+        output.push_back(score_intermed / seq_length);
+        seq_id++;
     }
+
     
     return output;
 }
