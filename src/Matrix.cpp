@@ -13,11 +13,6 @@
 #define TOLERANCE 0.02
 #define APPROX_ZERO 1.0E-300
 
-//=======================================================================
-//                            PUBLIC FUNCTIONS
-//=======================================================================
-
-
 //-----------------------------------------------------------------------
 // CONSTRUCTORS
 //-----------------------------------------------------------------------
@@ -49,9 +44,6 @@ Matrix::Matrix(Matrix_Neo input_matrix,
 
     N_score = log2(1/(double)sum_of_line(base_prob));
 }
-
-
-
 
 //-----------------------------------------------------------------------
 // GETTER FUNCTIONS
@@ -123,11 +115,10 @@ void Matrix::save(std::string fileName, MATRIX_TYPE type) {
     outputfile.close();
 }
 
-
-
 //-----------------------------------------------------------------------
 // DEBUGGING FUNCTIONS
 //-----------------------------------------------------------------------
+
 void Matrix::print_log_matrix() {
     /*for(size_t i(0); i<length; i++) {
         for(size_t j(0); j<NUMBER_NUCLEOTIDES; j++) {
@@ -136,12 +127,6 @@ void Matrix::print_log_matrix() {
         std::cout << std::endl;
     }*/
 }
-
-
-
-//=======================================================================
-//                            PRIVATE FUNCTIONS
-//=======================================================================
 
 //-----------------------------------------------------------------------
 // READING MATRIX
@@ -252,7 +237,6 @@ MATRIX_TYPE Matrix::determine_matrix_type(Matrix_Neo input) {
     return MATRIX_TYPE::ERROR;
 }
 
-
 //-----------------------------------------------------------------------
 
 double Matrix::max_of_line(std::vector<double> line) {
@@ -261,7 +245,6 @@ double Matrix::max_of_line(std::vector<double> line) {
     return *maximum_of_line;
 }
 
-
 //-----------------------------------------------------------------------
 
 double Matrix::min_of_line(std::vector<double> line) {
@@ -269,7 +252,6 @@ double Matrix::min_of_line(std::vector<double> line) {
     minimum_of_line = std::min_element(line.begin(), line.end());
     return *minimum_of_line;
 }
-
 
 //-----------------------------------------------------------------------
 
@@ -282,7 +264,6 @@ double Matrix::sum_of_line(std::vector<double> line) {
     }
     return sum;
 }
-
 
 //-----------------------------------------------------------------------
 // A line is considered as part of a weighed position probability
@@ -306,8 +287,6 @@ bool Matrix::line_is_normed_ppm(double min, double max) { // the following argum
             and (min <= 1 + TOLERANCE));
 }
 
-
-
 //-----------------------------------------------------------------------
 // MATRIX CONVERSIONS
 //-----------------------------------------------------------------------
@@ -315,13 +294,6 @@ bool Matrix::line_is_normed_ppm(double min, double max) { // the following argum
 // TODO: Maybe change the default
 Matrix_Neo Matrix::matrix_to_log(Matrix_Neo input_matrix, MATRIX_TYPE type) {
 
-    // DEBUG_
-    /*for(size_t i(0); i<input_matrix.size(); i++) {
-        for(size_t j(0); j<NUMBER_NUCLEOTIDES; j++) {
-            std::cout << input_matrix[i][j] << "\t";
-        }
-        std::cout << std::endl;
-    }*/
     Matrix_Neo outputmatrix(logMatrix_from_probMatrix(input_matrix));
 
     switch (type) {
@@ -342,7 +314,6 @@ Matrix_Neo Matrix::matrix_to_log(Matrix_Neo input_matrix, MATRIX_TYPE type) {
     }
 
 }
-
 
 //-----------------------------------------------------------------------
 
@@ -366,8 +337,6 @@ Matrix_Neo Matrix::log_to_matrix(Matrix_Neo input_matrix, MATRIX_TYPE type) {
     }
 
 }
-
-
 
 //-----------------------------------------------------------------------
 
@@ -434,7 +403,6 @@ Matrix_Neo Matrix::absolute_from_normed_PPM( Matrix_Neo input_matrix  )
     return absoluteMatrix;
 }
 
-
 //-----------------------------------------------------------------------
 
 Matrix_Neo Matrix::logMatrix_from_normed_PPM( Matrix_Neo input_matrix ) {
@@ -442,7 +410,6 @@ Matrix_Neo Matrix::logMatrix_from_normed_PPM( Matrix_Neo input_matrix ) {
     absoluteMatrix = ( absolute_from_normed_PPM( input_matrix ));
     return logMatrix_from_probMatrix( absoluteMatrix );
 }
-
 
 //-----------------------------------------------------------------------
 
@@ -483,9 +450,6 @@ Matrix_Neo Matrix::probMatrix_from_logMatrix()
 	return this->probMatrix_from_logMatrix(this->logMatrix);
 }
 
-
-
-
 //-----------------------------------------------------------------------
 
 Matrix_Neo Matrix::logMatrix_from_logConstMatrix( Matrix_Neo input_matrix )
@@ -494,7 +458,6 @@ Matrix_Neo Matrix::logMatrix_from_logConstMatrix( Matrix_Neo input_matrix )
     Matrix_Neo normed_prob_matrix( Matrix::probMatrix_from_logMatrix(input_matrix));
     return logMatrix_from_normed_PPM(normed_prob_matrix);
 }
-
 
 //-----------------------------------------------------------------------
 
@@ -522,7 +485,6 @@ Matrix_Neo Matrix::normed_from_absolute_PPM( Matrix_Neo input_matrix  )
     return normedMatrix;
 }
 
-
 //-----------------------------------------------------------------------
 
 Matrix_Neo Matrix::logConstMatrix_from_logMatrix( Matrix_Neo input_matrix )
@@ -531,8 +493,6 @@ Matrix_Neo Matrix::logConstMatrix_from_logMatrix( Matrix_Neo input_matrix )
     Matrix_Neo normedMatrix(Matrix::normed_from_absolute_PPM(absoluteMatrix));
     return logMatrix_from_probMatrix(normedMatrix);
 }
-
-
 
 //-----------------------------------------------------------------------
 
