@@ -27,6 +27,7 @@ class Window : public QDialog
 {
   Q_OBJECT
 
+//-----------------------------------------------------------------------
 public:
   /*!
   * @brief Constructor
@@ -54,7 +55,7 @@ public:
   */
   static std::string getOutputName();
 
-
+//-----------------------------------------------------------------------
   public slots:
   /*!
   * @brief When this button is clicked, it opens a dialog that allows the user
@@ -100,7 +101,7 @@ public:
   */
   void on_buttonCorrelate_clicked();
 
-
+//-----------------------------------------------------------------------
 private:
   Ui::Window *ui;
 

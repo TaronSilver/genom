@@ -20,15 +20,16 @@ public:
     static unsigned int getLength();
     static bool getBool();
     static unsigned int getSequenceOrigin();
+    static unsigned int getSequenceSource();
 
 public slots:
-
     void on_buttonSave_clicked();
     void on_chooseMatrix_currentIndexChanged(int);
     void on_intPosition_valueChanged(int);
     void on_intLength_valueChanged(int);
     void on_checkBox_stateChanged();
     void on_chooseSequenceOrigin_currentIndexChanged(int);
+    void on_chooseSourceSequence_currentIndexChanged(int);
 
 
 private:

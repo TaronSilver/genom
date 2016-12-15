@@ -10,6 +10,7 @@ unsigned int matrixChoice;
 unsigned int position;
 unsigned int length;
 unsigned int sequenceOrigin;
+unsigned int sequenceSource;
 matrixFromSequence::matrixFromSequence(QWidget *parent) :
     QDialog(parent), ui(new Ui::matrixFromSequence)
 {
@@ -19,6 +20,7 @@ matrixFromSequence::matrixFromSequence(QWidget *parent) :
     position=1;
     length=0;
     sequenceOrigin=1;
+    sequenceSource=1;
 }
 
 matrixFromSequence::~matrixFromSequence() {
@@ -52,6 +54,16 @@ void matrixFromSequence::on_chooseSequenceOrigin_currentIndexChanged(int){
     sequenceOrigin = ui->chooseSequenceOrigin->currentIndex()+1;
 }
 
+void matrixFromSequence::on_chooseSourceSequence_currentIndexChanged(int){
+    sequenceSource = ui->chooseSourceSequence->currentIndex()+1;
+    if (sequenceSource == 2){
+        ui->chooseSequenceOrigin->setEnabled(false);
+    }
+    else if (sequenceSource ==1){
+        ui->chooseSequenceOrigin->setEnabled(true);
+    }
+}
+
 unsigned int matrixFromSequence::getPosition() {
     return position;
 }
@@ -66,6 +78,10 @@ bool matrixFromSequence::getBool() {
 
 unsigned int matrixFromSequence::getSequenceOrigin(){
     return sequenceOrigin;
+}
+
+unsigned int matrixFromSequence::getSequenceSource(){
+    return sequenceSource;
 }
 
 void matrixFromSequence::on_buttonSave_clicked() {

@@ -83,7 +83,7 @@ void enzyme_from_sequences() {
         result.save(Ask_Outputfile_Name(), Ask_Return_Matrix_Type());
     }
     else {
-        binding_length_unknown(string_list_from_searchResults(seq_to_analyze), ask_name_output_file(), AskBaseProb());
+        binding_length_unknown(string_list_from_searchResults(seq_to_analyze), Ask_Outputfile_Name(), AskBaseProb());
 
     }
 
@@ -173,7 +173,7 @@ void binding_length_unknown(std::vector<std::string> sequence_list, std::string 
 
 	results = EM_algorithm(sequence_list, n, t, base_probabilities_Matt, f, g);
 	path();
-	std::string name_Matt = ask_name_output_file();
+    std::string name_Matt = Ask_Outputfile_Name();
 	outputfile.open(name_Matt);
 	print_into_file(outputfile, results);
 	outputfile.close();
@@ -185,7 +185,6 @@ void binding_length_unknown(std::vector<std::string> sequence_list, std::string 
 
 
 //=======================================================================
-
 std::vector<SearchResults> seq_source_OnlySeq() {
 
     std::vector<SearchResults> output;

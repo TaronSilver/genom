@@ -22,14 +22,12 @@ public:
     static double getCutoff();
     static bool getBool();
     static bool isEM();
-    static bool getCorrelateChoice();
 
 public slots:
     void on_buttonSave_clicked();
     void on_spinCutoff_valueChanged();
     void on_checkBoxSaveResults_stateChanged();
     void on_checkBoxUseEM_stateChanged();
-    void on_checkCorrelate_stateChanged();
 
 private:
     Ui::sequenceFromMatrix *ui;

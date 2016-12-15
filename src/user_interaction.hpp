@@ -1,6 +1,6 @@
 //
 //  user_interaction.hpp
-//  
+//
 //
 //  Created by Mättu on 15.11.16.
 //
@@ -13,7 +13,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <iomanip> 
+#include <iomanip>
 
 #include "Matrix.hpp"
 
@@ -41,7 +41,7 @@ typedef std::vector<std::vector<unsigned int >> Association_Table;
 
 enum PROCEDURE { MatrixFromSequences, SequencesFromMatrix, Logo, CorrelateResults, Exit };
 enum BP_FILL { AllEqual, UserDefined, FromSequence, NotUsed };
-enum SEQ_SOURCE { CoordAndSeq, OnlySeq, FromSearchResult }; 
+enum SEQ_SOURCE { CoordAndSeq, OnlySeq, FromSearchResult };
 enum LIST_FILE { Fasta, NormalList, SeparatedList };
 
 
@@ -102,7 +102,7 @@ std::string ask_name_matrix();
 
 
 /*!
- * @brief Checks if the matrix file is valid 
+ * @brief Checks if the matrix file is valid
  *
  * @param name of the file we want to open
  * @return 0 if format is valid of 1 if not
@@ -150,14 +150,6 @@ void print_results2(SearchResults results, std::ofstream &outputfile);
  */
 void print_results_correlated(SearchResults results, std::vector <double> gen_score, std::string filename);
 
-
-/*!
- * @brief Prints search results to terminal
- *
- * @param Search results
- */
-void print_results(SearchResults results);
-
 /*!
  * @brief warns that there is a problematic char
  *
@@ -165,13 +157,6 @@ void print_results(SearchResults results);
  */
 void nucleotide_warning(char c);
 
-
-/*!
- * @brief Cout: Indicate the creation of a new sequence 
- * @param name of the new sequence
- * 
- */
-void Cout_NewSeq(std::string);
 
 /*!
  * @brief Ask the choice ( 0 or 1 or 2 ) corresponding to the question "what we want to do"
@@ -189,7 +174,7 @@ BP_FILL CoutCin_AskBaseProb();
 double CoutCin_AskBaseProb0(char letter);
 
 /*!
- * @brief Ask the name for the outputfile 
+ * @brief Ask the name for the outputfile
  *
  * @return Name of the outputfile
  */
@@ -204,7 +189,7 @@ std::string Ask_Outputfile_Name();
 std::vector<double> AskBaseProb();
 
 /*!
- * @brief   Lets the user choose the base probabilities, checks for their 
+ * @brief   Lets the user choose the base probabilities, checks for their
  *          validity.
  *
  * @return  Vector with base probabilities
@@ -219,7 +204,7 @@ std::vector<double> User_Defined_Base_Prob();
 MATRIX_TYPE Ask_Return_Matrix_Type();
 
 /*!
- * @brief   Asks the user if he wants to weigh each sequence by its score for 
+ * @brief   Asks the user if he wants to weigh each sequence by its score for
  *          the calculation of the matrix
  *
  * @return  1 if yes, else 0
@@ -227,7 +212,7 @@ MATRIX_TYPE Ask_Return_Matrix_Type();
 bool ask_matrix_from_sequences_weighed();
 
 /*!
- * @brief   Asks the user if he wants to create a new matrix based on the 
+ * @brief   Asks the user if he wants to create a new matrix based on the
  *          matches found in the previous search
  *
  * @return  1 if yes, else 0
@@ -264,10 +249,10 @@ std::string ask_coordinate_filename();
 bool ask_line_description_present();
 
 /*!
- * @brief   Ask the user to determine which sequence he wants to analyze with which set of 
+ * @brief   Ask the user to determine which sequence he wants to analyze with which set of
  *          genomic coordinates
  *
- * @param   Vector of strings with all coordinate descriptions, a vector of strings with all 
+ * @param   Vector of strings with all coordinate descriptions, a vector of strings with all
  *          sequence descriptions
  *
  * @return  Association table, with number of coordinates in column 0 (COORD) and number of sequences
@@ -281,7 +266,7 @@ Association_Table associate_genomic_with_sequences(std::vector<std::string> coor
  * @brief   Ask the user to determine which searchResult he wants to analyze with which set of
  *          genomic coordinates
  *
- * @param   Vector of strings with all coordinate descriptions, a vector of searchResults 
+ * @param   Vector of strings with all coordinate descriptions, a vector of searchResults
  *
  * @return  Association table, with id of coordinates in column 0 (COORD), id of corresponding
  *          search results in column 1 (SEQ) and the starting position in column 2 (START)
@@ -323,7 +308,7 @@ std::string ask_logo_matrix();
 /*!
  * @brief   prints logo process for user
  *
- * @param   position being processed 
+ * @param   position being processed
  */
 void position_in_process(int pos, int size);
 
@@ -339,13 +324,6 @@ void position_in_process(int pos, int size);
 int ask_iterations (int length);
 
 /*!
- * @brief   Asks the user what name he wants to give to the output file
- *
- * @return  the name of the output file the user chose
- */
-std::string ask_name_output_file ();
-
-/*!
  * @brief   Print the matrix into an output file
  *
  * @param   an output file and a matrix
@@ -355,8 +333,8 @@ void print_into_file(std::ostream & out, Matrix_Neo matrix);
 /*!
  * @brief   Asks the user what cutoff he wants to use and takes care of the possible errors
  *
- * @param   a specific number. The user has to give a bigger number than this one 
- * @return  the cutoff the user chose 
+ * @param   a specific number. The user has to give a bigger number than this one
+ * @return  the cutoff the user chose
  */
 double ask_cutoff2(double max_score);
 
@@ -377,7 +355,7 @@ std::string get_working_path();
 /*!
  * @brief   Asks the user the maximum of EM_algorithm he wants to do
  *
- * @return 	the maximum of times the user wants to do the EM_algorithm 
+ * @return 	the maximum of times the user wants to do the EM_algorithm
  */
 int maximum_EM ();
 
@@ -387,7 +365,7 @@ int maximum_EM ();
  *
  * @return 	the differences between two matrices the user chose
  */
-double differences_matrices (); 
+double differences_matrices ();
 
 /*!
  * @brief   If the user has a separate file with the sequence, it asks what this file looks like.
@@ -398,7 +376,7 @@ LIST_FILE ask_list_file_type();
 
 
 /*!
- * @brief   If the user has a file where the sequences are separated by characters other than \n, 
+ * @brief   If the user has a file where the sequences are separated by characters other than \n,
  *          he can specify the separation character with this function.
  *
  * @return  Answer as type char.

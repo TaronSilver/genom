@@ -131,18 +131,6 @@ bool ask_binding_length_known() {
 
 //-----------------------------------------------------------------------
 
-std::string ask_name_output_file ()
-{
-	std::string name;
-
-	std::cout << "What name do you want to give to this file?" << std::endl;
-	std::cin >> name;
-
-	return name;
-}
-
-//-----------------------------------------------------------------------
-
 unsigned int ask_position() {
 
 	unsigned int position;
@@ -283,17 +271,17 @@ void nucleotide_warning(char c)
 //-----------------------------------------------------------------------
 void print_progress(int position, int filesize) {
 
-    
+
     static auto start = std::chrono::system_clock::now();
     auto end = std::chrono::system_clock::now();
-    
+
     auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(end-start); // Elapsed is in seconds
-    
+
     static int nextPrint(0);
     static int increment(filesize/500);
 	int barWidth = 50;
-	
-	
+
+
     if(position >= nextPrint) {
 
         double progress (std::abs((double)position / (double)filesize));
@@ -307,7 +295,7 @@ void print_progress(int position, int filesize) {
 			else std::cout << " ";
 		}
         std::cout << "] " << std::fixed << std::setprecision(2) << (progress * 100.0) << "% "<< std::setprecision(0) << elapsed.count() / progress * (1-progress) << "s left\r" << std::flush;
-        
+
 	}
 
 }
@@ -342,7 +330,7 @@ void print_results(SearchResults results, std::string filename) {
 
 void print_results2(SearchResults results, std::ofstream &outputfile) {
     unsigned int size = results.searchResults.size();
-    
+
     for (unsigned int i(0); i < size; i++) {
         outputfile << results.searchResults[i].sequence << "; "
         << results.searchResults[i].position << "; "
@@ -374,24 +362,6 @@ void print_results_correlated(SearchResults results, std::vector <double> gen_sc
     outputfile.close();
 }
 
-
-
-
-//==========================================================================================
-void print_results(SearchResults results) {
-    unsigned int size = results.searchResults.size();
-
-    std::cout << results.description << std::endl;
-
-
-    for (unsigned int i(0); i < size; i++) {
-        std::cout << results.searchResults[i].sequence << " found at position "
-                << results.searchResults[i].position << " in "
-                << results.searchResults[i].direction << " direction with the score "
-                << results.searchResults[i].score << std::endl;
-    }
-}
-
 //==========================================================================================
 std::string Ask_Outputfile_Name() {
 	std::string filename;
@@ -402,11 +372,6 @@ std::string Ask_Outputfile_Name() {
 	return filename;
 }
 
-//----------------------------------------------------------------------
-void Cout_NewSeq(std::string new_sequence)
-{
-	std::cout <<"Creation of a new sequence: " << new_sequence << std::endl;
-}
 //----------------------------------------------------------------------
 BP_FILL CoutCin_AskBaseProb()
 {
@@ -491,7 +456,6 @@ std::vector<double> AskBaseProb()
 
 std::vector<double> User_Defined_Base_Prob() {
     double A, C, G, T;
-    std::vector<double> base_probabilities;
     while(true) {
 
         A = CoutCin_AskBaseProb0('A');
@@ -564,7 +528,7 @@ bool ask_matrix_from_sequences_weighed() {
 	else {
 		std::cout <<"NO";
     }
-    
+
     std::cout << std::endl;
     return answer;
 }
@@ -587,7 +551,7 @@ bool ask_matrix_from_search_matches() {
 	else {
 		std::cout <<"NO";
     }
-    
+
     std::cout << std::endl;
     return answer;
 }
@@ -1115,7 +1079,7 @@ bool checkfile(std::string filename) {
     {
         return true;
     }
-    
+
     std::cout << "The file " << filename << " could not be found. Aborting." <<
     std::endl;
     return false;
@@ -1138,4 +1102,3 @@ bool overwrite(std::string filename) {
     }
     return true;
 }
-

@@ -56,12 +56,6 @@ void Window::on_buttonSequenceFromMatrix_clicked() {
         base.show();
         base.exec();
 
-        if (sequenceFromMatrix::getCorrelateChoice()){
-            Correlate vache;
-            vache.show();
-            vache.exec();
-        }
-
         enzyme_on_sequence();
 
         resultsWindow results;

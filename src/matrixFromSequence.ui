@@ -59,6 +59,28 @@
    </item>
    <item row="1" column="0" colspan="2">
     <layout class="QGridLayout" name="gridLayout">
+     <item row="2" column="1">
+      <widget class="QComboBox" name="chooseSequenceOrigin">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <item>
+        <property name="text">
+         <string>You have the binding sequences seperately in a fasta file.</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>You have a file with genomic coordinates of the sequences.</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>You want to analyze the result of a previous analysis.</string>
+        </property>
+       </item>
+      </widget>
+     </item>
      <item row="0" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
@@ -93,7 +115,7 @@
        </item>
       </widget>
      </item>
-     <item row="1" column="0">
+     <item row="2" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;How would you like to obtain &lt;/p&gt;&lt;p&gt;the binding sequences to analyze?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -104,15 +126,13 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QComboBox" name="chooseSequenceOrigin">
+      <widget class="QComboBox" name="chooseSourceSequence">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <item>
         <property name="text">
-         <string>You have the binding sequences seperately in a fasta file.</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>You have a file with genomic coordinates of the sequences.</string>
+         <string>You have the binding sequences as a list in a file.</string>
         </property>
        </item>
        <item>
@@ -120,6 +140,14 @@
          <string>You want to analyze the result of a previous analysis.</string>
         </property>
        </item>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>How would you like to obtain the binding 
+ sequences to analyze?</string>
+       </property>
       </widget>
      </item>
     </layout>

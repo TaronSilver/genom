@@ -2,7 +2,6 @@
 #include "sequenceFromMatrix.hpp"
 #include "../build/ui_sequenceFromMatrix.h"
 
-bool correlate;
 double cutoff;
 bool saveM;
 bool useEM;
@@ -15,7 +14,6 @@ sequenceFromMatrix::sequenceFromMatrix(QWidget *parent) :
     cutoff=0;
     saveM=false;
     useEM=false;
-    correlate=false;
 }
 
 sequenceFromMatrix::~sequenceFromMatrix()
@@ -33,14 +31,6 @@ double sequenceFromMatrix::getCutoff(){
 
 void sequenceFromMatrix::on_buttonSave_clicked(){
     this->close();
-}
-
-bool sequenceFromMatrix::getCorrelateChoice(){
-    return correlate;
-}
-
-void sequenceFromMatrix::on_checkCorrelate_stateChanged(){
-    correlate = ui->checkCorrelate->isChecked();
 }
 
 void sequenceFromMatrix::on_checkBoxSaveResults_stateChanged(){
