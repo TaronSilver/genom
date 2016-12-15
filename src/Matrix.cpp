@@ -33,7 +33,8 @@ Matrix::Matrix(const std::string& fileName,
 
     logMatrix = matrix_to_log( input_matrix, type );
     length = logMatrix.size();
-
+    
+    N_score = log2(1/(double)sum_of_line(base_prob));
 }
 
 //-----------------------------------------------------------------------
@@ -46,6 +47,7 @@ Matrix::Matrix(Matrix_Neo input_matrix,
     logMatrix = matrix_to_log( input_matrix, type );
     length = logMatrix.size();
 
+    N_score = log2(1/(double)sum_of_line(base_prob));
 }
 
 
@@ -71,7 +73,11 @@ Matrix_Neo Matrix::get_logMatrix() {
     return logMatrix;
 }
 
+//-----------------------------------------------------------------------
 
+double Matrix::get_N_score() {
+    return N_score;
+}
 
 //-----------------------------------------------------------------------
 // COMPUTING FUNCTIONS
@@ -80,11 +86,13 @@ Matrix_Neo Matrix::get_logMatrix() {
 double Matrix::sequence_score(std::list<nuc> sequence) {
     double score(0);
     std::list<nuc>::iterator iterator;
-
     unsigned int index(0);
     for (iterator = sequence.begin(); iterator != sequence.end(); iterator++) {
         if (*iterator < N) {
             score += logMatrix[index][*iterator];
+        }
+        if (*iterator == N) {
+            score += N_score;
         }
         index++;
     }

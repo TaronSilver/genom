@@ -49,6 +49,7 @@ class Matrix
     Matrix_Neo logMatrix;
     unsigned int length;
     std::vector<double> base_prob;
+    double N_score;
    
     
     
@@ -178,7 +179,14 @@ class Matrix
      */
     unsigned int get_length();
     
-        
+
+    /*!
+     * @brief 	getter for the score of a random nucleotide
+     *
+     * @return  N_score
+     */
+    double get_N_score();
+
     //-----------------------------------------------------------------------
     // COMPUTING FUNCTIONS
 	/*!

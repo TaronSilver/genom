@@ -46,9 +46,22 @@ void enzyme_on_sequence2() {
 
 
     Matrix enzyme(ask_name_matrix(), base_prob);
+    
+    std::string fasta_name = ask_name_fasta();
+    double cutoff = ask_cutoff();
+    std::string output_name = Ask_Outputfile_Name();
 
+    analyze_sequence_opt4(fasta_name, enzyme, cutoff, output_name);
 
-    analyze_sequence_opt4(ask_name_fasta(), enzyme, ask_cutoff(), Ask_Outputfile_Name());
+    if (ask_matrix_from_search_matches()) {
+        std::vector<SearchResults> enzyme_matches (read_searchresult_file(output_name + ".csv"));
+        Matrix enzyme_renewed(matrix_from_same_length(enzyme_matches, base_prob, ask_matrix_from_sequences_weighed()),MATRIX_TYPE::absoluteMatrix);
+        enzyme_renewed.save(output_name + ".mat",  Ask_Return_Matrix_Type());
+    }
+    
+    if (ask_correlate_to_search_results()) {
+        correlate_coordinates_with_results(read_searchresult_file(output_name  + ".csv"));
+    }
 
 }
 
@@ -120,11 +133,14 @@ void correlate_coordinates_with_results(std::vector <SearchResults> result_list)
     do {
         associate = associate_genomic_with_result(get_descriptions_from_coord_list(coord_list),
                                                   result_list);
+
         coord_id = associate[0][COORD];
         seq_id = associate[0][SEQ];
        // startpos = associate[0][START]; unused
 
+
         corr_values = coord_list[coord_id].position_score(result_list[seq_id]);
+
         print_results_correlated(result_list[seq_id], corr_values, Ask_Outputfile_Name());
 
 
@@ -163,7 +179,6 @@ void binding_length_unknown(std::vector<std::string> sequence_list, std::string 
 
     i = smallest_length(sequence_list);
     n = ask_iterations(i);
-    Base_Prob base_probabilities_Matt = AskBaseProb();
     Matrix_Neo normd = normalized(sequences_to_PPM(sequence_list,n));
     max = max_score(normd);
 
@@ -171,14 +186,11 @@ void binding_length_unknown(std::vector<std::string> sequence_list, std::string 
 	f = maximum_EM();
 	g = differences_matrices ();
 
-	results = EM_algorithm(sequence_list, n, t, base_probabilities_Matt, f, g);
+	results = EM_algorithm(sequence_list, n, t, base_probabilities, f, g);
 	path();
-	std::string name_Matt = ask_name_output_file();
-	outputfile.open(name_Matt);
+	outputfile.open(name);
 	print_into_file(outputfile, results);
 	outputfile.close();
-	char c;
-	std::cin >> c;
 }
 
 
@@ -265,8 +277,13 @@ void flag_help() {
     std::endl << " sequence is the name a .fasta file that contains the sequences to analyze," <<
     std::endl << " output is the name of the file where the results are saved to," <<
     std::endl << " cutoff is the minimal score a sequence has to have to be considered as match." <<
-    std::endl << "Note that if no cutoff is specified, the score of all sequences " <<
-    std::endl << "is calculated." <<
+    std::endl << "Note that if no cutoff is specified, the score is set to be just above the " <<
+    std::endl << "score of an all-N sequence." <<
+    std::endl << "Also note that when launching from terminal, base probabilities are not " <<
+    std::endl << "used. Therefore, the score of all sequences will be below 0." <<
+    std::endl << "The score without base probabilities can be obtained from the score with " <<
+    std::endl << "base probabilities with the following formula:" <<
+    std::endl << "score' [without bp] = score [with bp] - 2 * n [length of binding site]" <<
     std::endl <<
     std::endl <<
     std::endl << "==============================================================================" <<
@@ -409,11 +426,6 @@ void flag_bindingsites(std::vector<std::string> flags) {
         return;
     }
 
-    // If no cutoff is given, take -100000 as cutoff
-    if (flags.size() < 6) {
-        flags.push_back("-100000");
-    }
-
     if (not(checkfile(flags[2]))) {
         flags[2] += ".mat";
         if (not(checkfile(flags[2]))) {
@@ -435,6 +447,13 @@ void flag_bindingsites(std::vector<std::string> flags) {
     std::vector <SearchResults> output;
     // Syntax: first matrix, then sequence file, then outputfile, then cutoff,
     Matrix enzyme(flags[2]);
+    
+    // If no cutoff is given, take score of all-N sequence as cutoff
+    if (flags.size() < 6) {
+        double score(enzyme.get_length() * enzyme.get_N_score() + 0.001);
+        flags.push_back(std::to_string(score));
+    }
+
     analyze_sequence_opt4(flags[3], enzyme, std::stod(flags[5]), flags[4]);
 }
 

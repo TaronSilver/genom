@@ -497,7 +497,6 @@ void analyze_sequence_opt4(std::string filename, Matrix matrix, double cutoff, s
                 score = matrix.sequence_score(forwardSequence);
                 
                 if(score >= cutoff) {
-                    
                     SearchResult sequence_match(fill_search_result(forwardSequence, position_counter, score, '+'));
                     sequence_matches.searchResults.push_back(sequence_match);
                 }
@@ -531,7 +530,7 @@ void analyze_sequence_opt4(std::string filename, Matrix matrix, double cutoff, s
             
             while (entry_file.peek() == '>' or entry_file.peek() == ';') {
                 getline(entry_file, seq_description);
-                output_file << seq_description;
+                output_file << std::endl << seq_description << ";" << std::endl;
             }
         }
         
