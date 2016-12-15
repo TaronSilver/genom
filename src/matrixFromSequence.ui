@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>639</width>
+    <width>660</width>
     <height>282</height>
    </rect>
   </property>
@@ -59,6 +59,16 @@
    </item>
    <item row="1" column="0" colspan="2">
     <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Save Matrix as:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
      <item row="2" column="1">
       <widget class="QComboBox" name="chooseSequenceOrigin">
        <property name="enabled">
@@ -77,40 +87,6 @@
        <item>
         <property name="text">
          <string>You want to analyze the result of a previous analysis.</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Save Matrix as:</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QComboBox" name="chooseMatrix">
-       <item>
-        <property name="text">
-         <string>Standard Probability Matrix</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Normalized Probability Matrix</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Standard Logarithmic Matrix</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Normalized Logarithmic Matrix</string>
         </property>
        </item>
       </widget>
@@ -138,6 +114,30 @@
        <item>
         <property name="text">
          <string>You want to analyze the result of a previous analysis.</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QComboBox" name="chooseMatrix">
+       <item>
+        <property name="text">
+         <string>Standard Probability Matrix</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Normalized Probability Matrix</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Standard Logarithmic Matrix</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Normalized Logarithmic Matrix</string>
         </property>
        </item>
       </widget>

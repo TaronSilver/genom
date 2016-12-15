@@ -262,7 +262,7 @@ MATRIX_TYPE Ask_Return_Matrix_Type() {
 
 //----------------------------------------------------------------------
 bool ask_matrix_from_sequences_weighed() {
-  return sequenceFromMatrix::isEM();
+  return sequenceFromMatrix::isEM() or matrixFromSequence::isEM();
 }
 
 
@@ -494,10 +494,6 @@ SEQ_SOURCE ask_source_sequence() {
 void logo_in_process() {
 	std::cout << "Your logo is being generated, this should take a couple of seconds" << std::endl;
 	std::cout << "Your logo will be saved in genom-2 with the name yourlogo.png" << std::endl;
-
-    QWidget drawing;
-    QString message = "Your logo is being generated, this should take a couple of seconds. Your logo will be saved in genom-2 with the name yourlogo.png.";
-    QMessageBox::critical(&drawing, "Drawing Logo", message);
 }
 
 std::string ask_logo_matrix() {
@@ -532,22 +528,12 @@ double ask_for_a_number_infinitely(){
 
 //----------------------------------------------------------------------
 int ask_iterations (int length) {
-    //QT TO DO
-	int n;
-
-	do{
-		std::cout << "How long do you want the enzyme binding sites to be?" << std::endl;
-		std::cout << "Choose a whole number between 1 and the length of the smallest sequence, which is " << length << std::endl;
-
-		n = (int)ask_for_a_number_infinitely();
-		if((n<length) and (n>0)){
-			break; //success
-		}
-		std::cout << "Invalid input, please try again." << std::endl;
-
-	}while(true);
-
-	return n;
+    QWidget newCut;
+    bool ok;
+    QString sentence = "Choose a whole number between 1 and the length of the smallest sequence, which is";
+    sentence +=length;
+    sentence +=".";
+    return QInputDialog::getInt(&newCut, "How long do you want the enzyme binding sites to be?", sentence,0,0,length,1, &ok);
 }
 
 //----------------------------------------------------------------------
@@ -667,25 +653,10 @@ char ask_separation_character() {
 //----------------------------------------------------------------------
 
 std::string ask_inputfile_name() {
-    //QT TO DO
-    std::string entry_name;
-
-    while (true) {
-        std::cout <<"Please give the name of your file: ";
-        std::cin >> entry_name;
-
-        std::ifstream entry(entry_name.c_str());
-
-        if (entry.fail()) {
-            std::cout << "Impossible to read the file, please try again. " << std::endl;
-            continue;
-        }
-
-        entry.close();
-        break;
-    }
-
-    return entry_name;
+    std::cout <<std::endl <<"easd" <<std::endl;
+    QWidget newFile;
+    QString fileLocation = QFileDialog::getOpenFileName(&newFile, "Open a File", fileLocation, "Whichever file you want");
+    return fileLocation.toStdString();
 }
 
 //----------------------------------------------------------------------

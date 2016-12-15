@@ -1,11 +1,13 @@
 #include "matrixFromSequence.hpp"
 #include "../build/ui_matrixFromSequence.h"
 
+#include <QFileDialog>
 #include <iostream>
 #include <QMessageBox>
 
 
 bool checkBox;
+bool useEM2;
 unsigned int matrixChoice;
 unsigned int position;
 unsigned int length;
@@ -16,6 +18,7 @@ matrixFromSequence::matrixFromSequence(QWidget *parent) :
 {
     ui->setupUi(this);
     checkBox=false;
+    useEM2=false;
     matrixChoice = 1;
     position=1;
     length=0;
@@ -88,8 +91,15 @@ void matrixFromSequence::on_buttonSave_clicked() {
     if( length == 0 ){
         int choice = QMessageBox::question(this, "EM Algorithm", "You haven't chosen a lenght value. Press Ok if you want to use EM Algorithm. Press Cancel if you wish to modify this.", QMessageBox::Ok | QMessageBox::Cancel);
 
-        if (choice == QMessageBox::Ok) this->close();
+        if (choice == QMessageBox::Ok){
+            useEM2=true;
+            this->close();
+        }
         else if (choice == QMessageBox::Cancel){}
     }
     else if( position != 0 ) this->close();
+}
+
+bool matrixFromSequence::isEM(){
+    return useEM2;
 }

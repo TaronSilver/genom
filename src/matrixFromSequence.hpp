@@ -21,6 +21,7 @@ public:
     static bool getBool();
     static unsigned int getSequenceOrigin();
     static unsigned int getSequenceSource();
+    static bool isEM();
 
 public slots:
     void on_buttonSave_clicked();
