@@ -66,15 +66,6 @@ int filesize(std::string filename);
  */
 std::string sequence_string_from_nuc_list(std::list<nuc>);
 
-
-/*!
-	 * @brief Change an absolute path to a relative one, considering the file is in the main directory of our program.
-	 *
-	 * @param the absolute path of the file to open
-	 * @return the relative patch of the file to ope.n
-	 */
-std::string relativePath(std::string file);
-
 /*!
  * @brief Creates a probability weight matrix from SearchResults with all the same length
  *          Function doesn't weigh the probabilities by the score of each individual sequence
@@ -142,21 +133,21 @@ std::vector<std::string> extract_sequence_descriptions(std::string filename);
 std::vector<std::string> get_descriptions_from_coord_list(std::vector<Coordinates> coord_list);
 
 /*!
- * @brief   Returns a matrix 
+ * @brief   Returns a matrix
  *
  * @param   One sequence and the number of iterations
  * @return  A matrix made from the sequence according to the number of iterations
  */
 Matrix_Neo sequence_to_PPM (std::string sequence, int n);
-	
+
 /*!
- * @brief   Returns a matrix 
+ * @brief   Returns a matrix
  *
  * @param   A vector of sequences, the number of iterations and the baseprobabilities for each nucleotide
  * @return  A matrix made from the sequences according to the number of iterations and the baseprobabilities
  */
 Matrix_Neo sequences_to_PPM (std::vector<std::string> sequences, unsigned int n);
-	
+
 /*!
  * @brief   Returns a score
  *
@@ -172,7 +163,7 @@ double sequence_score (std::string sequence, Matrix_Neo PPM);
  * @return  A vector of sequences found from a set of sequences and its matrix, taking into account the cutoff
  */
 std::vector<std::string> PPM_to_Sequence (std::vector<std::string> binding_sites, Matrix_Neo PPM,  double cutoff);
-	
+
 /*!
  * @brief   Returns a matrix
  *
@@ -180,14 +171,14 @@ std::vector<std::string> PPM_to_Sequence (std::vector<std::string> binding_sites
  * @return  A stabilised matrix made from the different sequences
  */
 Matrix_Neo EM_algorithm (std::vector<std::string> Sequences, int n, double cutoff, Base_Prob base_probabilities, int max, double diff);
-	
+
 /*!
  * @brief   Returns a vector of sequences
  *
  * @return  a vector of sequences made from a file that the user gives
  */
 std::vector <std::string> Initialization_string();
-	
+
 /*!
  * @brief   returns a score
  *
