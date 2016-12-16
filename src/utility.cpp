@@ -3,12 +3,7 @@
 #include <iostream>
 #include <fstream>
 
-
-
 #define LINE_SIZE 10000
-
-
-
 
 std::map< char, nuc > charmap{
     {'A', A}, {'a', A},
@@ -35,15 +30,6 @@ std::map< nuc, char > backwardsmap {
     {T, 'T'},
     {N, 'N'}
 };
-
-
-
-
-
-
-
-
-
 
 //==========================================================================================
 // SEQUENCE ANALYSIS
@@ -77,14 +63,12 @@ std::vector<SearchResults> analyze_sequence_opt2(std::string filename, Matrix ma
     //The following variable is commented because it's not used and create warnings - SOuhail
    // bool description(true);
 
-
     unsigned int char_counter(0);
     unsigned int length(matrix.get_length());
     unsigned int position_counter(1);
     unsigned int line_size;
 
     unsigned int print_counter(0);
-
 
     int size_of_file;
     size_of_file = filesize(filename);
@@ -96,7 +80,6 @@ std::vector<SearchResults> analyze_sequence_opt2(std::string filename, Matrix ma
 
     char line[LINE_SIZE];
     std::string seq_description;
-
 
     // Handles first line
     while (entry_file.peek() == '>' or entry_file.peek() == ';') {
@@ -223,10 +206,6 @@ std::vector<SearchResults> analyze_sequence_opt2(std::string filename, Matrix ma
     entry_file.close();
     return output;
 }
-
-
-
-
 
 //==========================================================================================
 
@@ -546,11 +525,6 @@ void analyze_sequence_opt4(std::string filename, Matrix matrix, double cutoff, s
     output_file.close();
 }
 
-
-
-
-
-
 //==========================================================================================
 
 SearchResult fill_search_result(std::list<nuc> sequence, int position_counter, double score, char direction)
@@ -658,10 +632,6 @@ Matrix_Neo matrix_from_same_length_sequences_not_weighted(std::vector<SearchResu
         }
     }
 
-
-
-
-
     return output_matrix;
 }
 
@@ -758,8 +728,8 @@ Matrix_Neo matrix_from_same_length( std::vector<SearchResults>  input, Base_Prob
 
 }
 
-
 //==========================================================================================
+
 unsigned int searchResults_same_length(std::vector<SearchResults> input) {
 
     unsigned int nb_sequences(input.size());
@@ -790,8 +760,8 @@ unsigned int searchResults_same_length(std::vector<SearchResults> input) {
     return length_result_0;
 }
 
-
 //==========================================================================================
+
 std::vector <Coordinates> read_coordinates(std::string filename, bool line_description_present) {
     std::ifstream file;
     file.open(filename);
@@ -823,7 +793,6 @@ std::vector <Coordinates> read_coordinates(std::string filename, bool line_descr
     output.push_back(intermediate);
     return output;
 }
-
 
 //==========================================================================================
 
@@ -904,7 +873,6 @@ SearchResults read_sequencefile_to_searchresults(std::string filename) {
     return output;
 }
 
-
 //==========================================================================================
 
 std::vector <SearchResults> read_searchresult_file(std::string filename) {
@@ -957,8 +925,6 @@ std::vector <SearchResults> read_searchresult_file(std::string filename) {
     return output;
 }
 
-
-
 //==========================================================================================
 
 SearchResults read_sequence_list_to_searchresults(std::string filename) {
@@ -980,7 +946,6 @@ SearchResults read_sequence_list_to_searchresults(std::string filename) {
     return output;
 
 }
-
 
 //==========================================================================================
 
@@ -1018,8 +983,6 @@ SearchResults read_char_separated_to_searchresults(std::string filename, char de
 }
 
 //==========================================================================================
-
-
 
 Matrix_Neo sequence_to_PPM (std::string sequence, int n)
 {
@@ -1064,7 +1027,6 @@ Matrix_Neo sequence_to_PPM (std::string sequence, int n)
 
 //==========================================================================================
 
-
 Matrix_Neo sequences_to_PPM (std::vector<std::string> sequences, unsigned int n)
 {
 	Matrix_Neo PPM;
@@ -1095,7 +1057,6 @@ Matrix_Neo sequences_to_PPM (std::vector<std::string> sequences, unsigned int n)
 
 	return PPM;
 }
-
 
 //==========================================================================================
 
@@ -1403,9 +1364,6 @@ std::vector <std::string> ExtractSequence(std::string const& entry_name)
     entry.close(); // Don't you have to close it afterwards?
     return sequences;
 }
-
-
-
 
 //==========================================================================================
 
