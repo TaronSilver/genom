@@ -17,6 +17,13 @@ using namespace cimg_library;
 
 //							READ_LOGO_MATRIX
 //----------------------------------------------------------------------
+/*!
+     * @brief   reads a matrix from file and returns the probability matrix associated
+     *
+     * @param   file name
+     *
+     * @return  the probability matrix
+     */
 std::vector<std::vector<double>> read_logo_matrix(std::string const& fileName)
 {
 	Matrix mat1(fileName);
@@ -27,6 +34,13 @@ std::vector<std::vector<double>> read_logo_matrix(std::string const& fileName)
 
 //								SIZE
 //----------------------------------------------------------------------
+/*!
+     * @brief   what size to give a logo letter
+     *
+     * @param   probability matrix, nucleotide and position
+     *
+     * @return  size of the letter
+     */
 double size(std::vector<std::vector<double>> const& PWM, unsigned N, unsigned pos)
 {
 	double info_content(2);
@@ -50,6 +64,13 @@ typedef struct nuc_prob_pair{
 }nuc_prob_pair;
 
 //----------------------------------------------------------------------
+/*!
+     * @brief   compares the type nuc_prob_matrix based on probability
+     *
+     * @param   the two nuc_prob_pairs to compare
+     *
+     * @return  true if first param bigger than second
+     */
 bool compareByProb(const nuc_prob_pair &a, const nuc_prob_pair &b)
 {
     return a.prob > b.prob;
@@ -57,6 +78,9 @@ bool compareByProb(const nuc_prob_pair &a, const nuc_prob_pair &b)
 
 //								LOGO
 //----------------------------------------------------------------------
+/*!
+     * @brief   creates the logo, calls on all functions needed
+     */
 void logo() {
 
 	std::string fileName(ask_logo_matrix());
@@ -162,7 +186,11 @@ void logo() {
 
 
 //----------------------------------------------------------------------
-
+/*!
+     * @brief   creates the logo, calls all needed function
+     *
+     * @param   the filename with matrix in it
+     */
 void logo(std::string fileName) {
 
     std::vector<std::vector<double>> PWM(read_logo_matrix(fileName));
@@ -264,11 +292,3 @@ void logo(std::string fileName) {
 
     background.save_png("../yourlogo.png");
 }
-
-
-/*
-
-	final things to implement:
-		-add labels and scale
-
-*/
