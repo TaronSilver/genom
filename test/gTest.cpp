@@ -6,7 +6,7 @@
 #include <vector>
 #include <fstream>
 
-/*!=========== Element we use for Matrix gTests ============*/
+/*!=========== Elements we use for Matrix gTests ============*/
 
 Matrix_Neo lm_1({{-0.440569,MINUSINFINI,-1.247930,1.506960},
 			     {-0.440569,MINUSINFINI,-1.247930,1.506960}});
@@ -65,9 +65,8 @@ Matrix ma_matrice_R	(r_1,relativeMatrix, base_probabilities);
 Matrix ma_matrice_LOG (lm_1,logMatrix,base_probabilities);
 
 Matrix test_matrix(DBP_PSSM, MATRIX_TYPE::logMatrix);
+
 /*!======================	Matrix_gTests		========================*/
-
-
 
 /*!
  *@brief Function testing if max_of_line(std::vector<double> line) returns as expected the max value of the line.
@@ -395,7 +394,7 @@ TEST (sequence_score_test, good_score)
 	ASSERT_TRUE(std::abs(-5.10229832163 - calc_score) < 0.001);
 }
 
-/*!=========== Element we use for utility gTests ============*/
+/*!=========== Elements we use for utility gTests ============*/
 
 SearchResult tmp;
 std::list<nuc> sequence = {A,G,A,A,A,T,C};
