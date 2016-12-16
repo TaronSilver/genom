@@ -1,29 +1,16 @@
-//
-//  genomic_coordinates.cpp
-//  
-//
-//  Created by Mättu on 29.11.16.
-//
-//
-
 #include "genomic_coordinates.hpp"
 #define MAXLINESIZE 1000
-
-
 
 Coordinates::Coordinates( std::string file_description, std::string location, bool line_description_present)
 :file_description(file_description),
 location(location),
 line_description_present(line_description_present)
 {
-    
-    
+       
 }
 
 
-
 //-------------------------------------------------------------------------
-
 
 void Coordinates::fillNewLine(std::string line) {
     std::stringstream line_stream(line);
@@ -55,15 +42,14 @@ void Coordinates::fillNewLine(std::string line) {
     score.push_back(line_score);
 }
 
-
 //-------------------------------------------------------------------------
 
 std::string Coordinates::get_location() {
     return location;
 }
 
-
 //-------------------------------------------------------------------------
+
 void Coordinates::print() {
     std::cout << "File: " << file_description << std::endl;
     std::cout << "Location: " << location << std::endl;
@@ -81,8 +67,8 @@ void Coordinates::print() {
     }
 }
 
-
 //-------------------------------------------------------------------------
+
 std::vector <double> Coordinates::position_score(SearchResults input)
 {
     std::vector <double> output;
