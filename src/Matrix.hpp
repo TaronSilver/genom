@@ -13,19 +13,19 @@
 #include <map>
 #include <algorithm>
 
+/*!
+ * @class Matrix
+ *
+ * @brief attributes and methods for probability matrix
+ */
+
+
 /*! Defines number of different nucleotides in DNA sequnece (always 4) */
 #define NUMBER_NUCLEOTIDES 4
 /*! Arbitrary value for -infini */
 #define MINUSINFINI -1000.0
 
 typedef enum {A, C, G, T, N} nuc;
-
-
-/*!
- * @class Matrix
- *
- * @brief attributes and methods for probability and log matrices
- */
 
 enum MATRIX_TYPE { absoluteMatrix, relativeMatrix, logMatrix, logConstMatrix, ERROR};
 
