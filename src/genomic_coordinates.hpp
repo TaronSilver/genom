@@ -65,7 +65,6 @@ public:
      */
     void fillNewLine(std::string line);
 
-
     /*!
      * @brief   Goes through SearchResults and Genomic Coordinates, and creates a vector
      *          of doubles with the genomic score of each sequence
