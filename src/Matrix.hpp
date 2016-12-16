@@ -13,8 +13,9 @@
 #include <map>
 #include <algorithm>
 
-/* Defines number of different nucleotides in DNA sequnece (always 4) */
+/*! Defines number of different nucleotides in DNA sequnece (always 4) */
 #define NUMBER_NUCLEOTIDES 4
+/*! Arbitrary value for -infini */
 #define MINUSINFINI -1000.0
 
 typedef enum {A, C, G, T, N} nuc;
@@ -60,24 +61,7 @@ class Matrix
      * @brief initialisation of logMatrix from probMatrix
      */
 	void probToLog();
-    
-
-    //-----------------------------------------------------------------------
-    // MATRIX CONVERSIONS
-    
-    
-  
-
-    
    
-
-    
-   
-    
-
-
-    
-    
     
     
 	public:
@@ -209,7 +193,7 @@ class Matrix
      */
     double sequence_score(std::list<nuc> sequence);
     
-        //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
     // SAVING MATRIX
 
     /*!
@@ -231,9 +215,10 @@ void save(std::string fileName, MATRIX_TYPE type);
     void print_log_matrix();
     
     
-    
-    
-        /*!
+    //------------------------------------------------------------------------
+    // USEFUL FONCTIONS FOR CONVERSION
+	
+     /*!
      * @brief   Gives the maximum value of a line
      *
      * @param   A line of a matrix, made as a vector of doubles
@@ -316,7 +301,6 @@ void save(std::string fileName, MATRIX_TYPE type);
      * @return  The converted matrix
      */
     Matrix_Neo probMatrix_from_logMatrix( Matrix_Neo input_matrix);
-
 
 	/*!
      * @brief   Converts the log matrix to a probability matrix using the
