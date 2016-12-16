@@ -274,9 +274,6 @@ TEST (matrix_to_log_Test, Good_Matrix)
 }
 
 
-
-// ====== Test failed
-
 /*!
  *@brief Function testing if logConstMatrix_from_logMatrix( Matrix_Neo input_matrix ) returns the good logConstMatrix
  */
@@ -397,12 +394,6 @@ TEST (sequence_score_test, good_score)
 	std::cout << calc_score << std::endl;*/
 	ASSERT_TRUE(std::abs(-5.10229832163 - calc_score) < 0.001);
 }
-
-
-
-/*!======================	Sequence_gTests		========================*/
-
-
 
 /*!=========== Element we use for utility gTests ============*/
 
@@ -655,12 +646,14 @@ TEST (matrix_from_same_length_sequences_weighted_test, good_matrix)
 
 
 int main(int argc, char **argv) {
+	
 	tmp.sequence = "AGAAATC";
 	tmp.position = 64;
 	tmp.score = 1.07805;
 	tmp.direction = '-';
 	t_1.sequence = "AT";
 	t_1.score = 0.5;
+	
 	tmp_1.push_back(t_1);
 	t_2.sequence = "AA";
 	t_2.score = 1;
@@ -673,7 +666,6 @@ int main(int argc, char **argv) {
 	tmp_1.push_back(t_4);
 	t_5.searchResults = tmp_1;
 	what_we_use.push_back(t_5);
-
 
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
