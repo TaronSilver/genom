@@ -40,10 +40,7 @@ public:
      * @param The name of the sequence file, the starting position of the sequence
      */
     // DOESNT WORK
-    SearchResults get_search_results(std::string seq_filename,
-                                    unsigned int sequence,
-                                    unsigned int startpos);
-
+    SearchResults get_search_results(std::string seq_filename, unsigned int sequence, unsigned int startpos);
     /*!
      * @brief   Getter funciton for location.
      *
@@ -67,11 +64,6 @@ public:
      * @param   Parameters to fill them with, in a string.
      */
     void fillNewLine(std::string line);
-
-    /*!
-     * @brief   Prints coordinates to terminal, only for debugging purposes
-     */
-    void print();
 
 
     /*!

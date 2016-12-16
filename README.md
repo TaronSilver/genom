@@ -16,6 +16,7 @@ STEP 1: Make a build folder and build the program
 --> make
 
 documentation		--> make doc
+tests 			--> make test
 
 
 STEP 2: Execute the program 
