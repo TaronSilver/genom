@@ -1,20 +1,8 @@
-//
-//  user_interaction.cpp
-//
-//
-//  Created by Mättu on 15.11.16.
-//
-//
-
 #include "user_interaction.hpp"
 #include <unistd.h>
 #include <stdio.h>
 #include <sys/stat.h>
 #include <chrono>
-
-
-
-
 
 //-----------------------------------------------------------------------
 
@@ -69,6 +57,7 @@ PROCEDURE whatToDo() {
 }
 
 //-----------------------------------------------------------------------
+
 double ask_cutoff2(double max_score) {
 
 
@@ -91,12 +80,12 @@ double ask_cutoff2(double max_score) {
 }
 
 //-----------------------------------------------------------------------
+
 double ask_cutoff() {
     std::cout << "What cutoff would you like to use?" << std::endl;
 
     return ask_for_a_number_infinitely();
 }
-
 
 //-----------------------------------------------------------------------
 
@@ -165,6 +154,7 @@ unsigned int ask_length() {
 }
 
 //-----------------------------------------------------------------------
+
 std::string ask_name_fasta()
 {
     std::string entry_name;
@@ -191,7 +181,6 @@ std::string ask_name_fasta()
 
     return entry_name;
 }
-
 
 //-------------------------------------------------------------------------
 
@@ -236,6 +225,7 @@ std::string ask_name_matrix()
 }
 
 //-----------------------------------------------------------------------
+
 bool InvalidFormat(std::string file_name)
 {
 
@@ -250,7 +240,9 @@ bool InvalidFormat(std::string file_name)
 
     return 1;
 }
+
 //-----------------------------------------------------------------------
+
 void nucleotide_warning(char c)
 {
 	std::cout << "WARNING, nucleotide " << c
@@ -258,6 +250,7 @@ void nucleotide_warning(char c)
 }
 
 //-----------------------------------------------------------------------
+
 void print_progress(int position, int filesize) {
 
 
@@ -293,8 +286,8 @@ void ret() {
 	std::cout << std::endl;
 }
 
-
 //==========================================================================================
+
 void print_results(SearchResults results, std::string filename) {
     filename += ".csv";
     std::ofstream outputfile;
@@ -314,7 +307,6 @@ void print_results(SearchResults results, std::string filename) {
     outputfile.close();
 }
 
-
 //==========================================================================================
 
 void print_results2(SearchResults results, std::ofstream &outputfile) {
@@ -328,8 +320,8 @@ void print_results2(SearchResults results, std::ofstream &outputfile) {
     }
 }
 
-
 //==========================================================================================
+
 void print_results_correlated(SearchResults results, std::vector <double> gen_score, std::string filename) {
     filename += ".csv";
     std::ofstream outputfile;
@@ -352,6 +344,7 @@ void print_results_correlated(SearchResults results, std::vector <double> gen_sc
 }
 
 //==========================================================================================
+
 std::string Ask_Outputfile_Name() {
 	std::string filename;
 
@@ -362,6 +355,7 @@ std::string Ask_Outputfile_Name() {
 }
 
 //----------------------------------------------------------------------
+
 BP_FILL CoutCin_AskBaseProb()
 {
 	int choice;
@@ -400,7 +394,9 @@ BP_FILL CoutCin_AskBaseProb()
     }
      return BP_FILL::NotUsed;
 }
+
 //----------------------------------------------------------------------
+
 double CoutCin_AskBaseProb0(char C)
 {
 	double baseProb;
@@ -421,8 +417,8 @@ double CoutCin_AskBaseProb0(char C)
 
 	return baseProb;
 }
-//----------------------------------------------------------------------
 
+//----------------------------------------------------------------------
 
 std::vector<double> AskBaseProb()
 {
@@ -438,10 +434,7 @@ std::vector<double> AskBaseProb()
     }
 }
 
-
-
 //----------------------------------------------------------------------
-
 
 std::vector<double> User_Defined_Base_Prob() {
     double A, C, G, T;
@@ -465,7 +458,6 @@ std::vector<double> User_Defined_Base_Prob() {
     }
 
 }
-
 
 //----------------------------------------------------------------------
 
@@ -498,7 +490,6 @@ MATRIX_TYPE Ask_Return_Matrix_Type() {
     return MATRIX_TYPE::logMatrix;
 }
 
-
 //----------------------------------------------------------------------
 
 bool ask_matrix_from_sequences_weighed() {
@@ -522,7 +513,6 @@ bool ask_matrix_from_sequences_weighed() {
     return answer;
 }
 
-
 //----------------------------------------------------------------------
 
 bool ask_matrix_from_search_matches() {
@@ -545,14 +535,12 @@ bool ask_matrix_from_search_matches() {
     return answer;
 }
 
-
 //----------------------------------------------------------------------
 
 void error_input_sequence() {
     std::cout << "Error: Either there was no sequence found to analyze, or the " <<
     std::endl << "sequences to analyze are of different length." << std::endl;
 }
-
 
 //----------------------------------------------------------------------
 
@@ -570,7 +558,6 @@ std::string ask_coordinate_filename() {
     return answer;
 }
 
-
 //----------------------------------------------------------------------
 
 bool ask_line_description_present() {
@@ -584,7 +571,6 @@ bool ask_line_description_present() {
     }
     return answer;
 }
-
 
 //----------------------------------------------------------------------
 
@@ -674,7 +660,6 @@ Association_Table associate_genomic_with_sequences(std::vector<std::string> coor
 
 }
 
-
 //----------------------------------------------------------------------
 // DOESNT WORK
 
@@ -742,12 +727,11 @@ Association_Table associate_genomic_with_result(std::vector<std::string> coordin
 
 }
 
-
 //----------------------------------------------------------------------
+
 void error_sequence_doesnt_exist() {
     std::cout << "Error: The desired sequence doesn't exist" << std::endl;
 }
-
 
 //----------------------------------------------------------------------
 
@@ -815,7 +799,6 @@ void position_in_process(int pos, int size)
 }
 
 //-----------------------------------------------------------------------
-
 
 double ask_for_a_number_infinitely(){
 	double n=0;
@@ -1024,7 +1007,6 @@ void error_no_search_result_read() {
     std::cout << "Error: No sequences were read into the program." << std::endl;
 }
 
-
 //----------------------------------------------------------------------
 
 bool correlate_more() {
@@ -1036,8 +1018,6 @@ bool correlate_more() {
     }
     return answer;
 }
-
-
 
 //----------------------------------------------------------------------
 
@@ -1059,7 +1039,6 @@ void error_invalid_flags() {
     std::endl;
 }
 
-
 //----------------------------------------------------------------------
 
 bool checkfile(std::string filename) {
@@ -1073,7 +1052,6 @@ bool checkfile(std::string filename) {
     std::endl;
     return false;
 }
-
 
 //----------------------------------------------------------------------
 
