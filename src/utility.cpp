@@ -552,7 +552,6 @@ bool valid_character(char character) {
         return true;
 }
 
-
 //==========================================================================================
 
 int filesize(std::string filename) {
@@ -634,7 +633,6 @@ Matrix_Neo matrix_from_same_length_sequences_not_weighted(std::vector<SearchResu
 
     return output_matrix;
 }
-
 
 //==========================================================================================
 
@@ -719,6 +717,7 @@ Matrix_Neo matrix_from_same_length_sequences_weighted(std::vector<SearchResults>
 }
 
 //==========================================================================================
+
 Matrix_Neo matrix_from_same_length( std::vector<SearchResults>  input, Base_Prob base_prob, bool weighed ) {
 
     if (weighed)
