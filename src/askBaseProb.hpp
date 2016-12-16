@@ -93,10 +93,10 @@ public:
     void setTotal();
 
 public slots:
-/*!
- * @brief Changes the value of a global parameter to correspond to the current
- * index choice, based on a combo box.
- */
+    /*!
+     * @brief Changes the value of a global parameter to correspond to the current
+     * index choice, based on a combo box.
+     */
     void on_chooseBase_currentIndexChanged(int);
 
     /*!

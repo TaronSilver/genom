@@ -17,6 +17,9 @@ public:
     ~resultsWindow();
 
 public slots:
+/*!
+ * @brief Close the window.
+ */
     void on_buttonLeave_clicked();
 
 

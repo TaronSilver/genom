@@ -42,31 +42,31 @@ typedef struct BindingSequence {
 class Matrix
 {
 	private:
-    
+
     //=======================================================================
     //                            PRIVATE ATTRIBUTES
-	
+
     Matrix_Neo logMatrix;
     unsigned int length;
     std::vector<double> base_prob;
     double N_score;
-   
-    
-    
+
+
+
     //=======================================================================
     //                            PRIVATE FUNCTIONS
-    
+
     /*!
      * @brief initialisation of logMatrix from probMatrix
      */
 	void probToLog();
-   
-    
-    
+
+
+
 	public:
     //=======================================================================
     //                            PUBLIC FUNCTIONS
-    
+
     /*!
      * @brief   Opens up file (checks if possible), gives out matrix stocked in file
      *
@@ -75,7 +75,7 @@ class Matrix
      * @return  Matrix in file, in type Matrix_Neo
      */
     static Matrix_Neo read_matrix(std::string const& fileName);
-    
+
     /*!
      * @brief   Converts a log matrix to a given matrix type
      *
@@ -84,7 +84,7 @@ class Matrix
      * @return  The converted matrix
      */
     Matrix_Neo log_to_matrix(Matrix_Neo input_matrix, MATRIX_TYPE type);
-    
+
      /*!
      * @brief   Converts a matrix of a given type to a log matrix
      *
@@ -93,7 +93,7 @@ class Matrix
      * @return  The converted matrix
      */
     Matrix_Neo matrix_to_log(Matrix_Neo input_matrix, MATRIX_TYPE type);
-    
+
      /*!
      * @brief   Converts a normalized probability weight to an absolute probability
      *          weight matrix
@@ -103,7 +103,7 @@ class Matrix
      * @return  The converted matrix
      */
     Matrix_Neo absolute_from_normed_PPM( Matrix_Neo input_matrix  );
-    
+
     /*!
      * @brief   Converts a probability weight matrix to a logarithmic
      *          matrix, using attribute base probabilities
@@ -113,7 +113,7 @@ class Matrix
      * @return  The converted matrix
      */
     Matrix_Neo logMatrix_from_probMatrix( Matrix_Neo input_matrix );
-    
+
     //-----------------------------------------------------------------------
     // CONSTRUCTORS
 
@@ -124,8 +124,7 @@ class Matrix
      */
     Matrix(const std::string& fileName,
            const std::vector<double> base_prob = {1, 1, 1, 1});
-    
-    
+
     
     /*!
      * @brief Constructeur matrix from vector
@@ -134,11 +133,11 @@ class Matrix
      */
     Matrix(Matrix_Neo input_matrix, MATRIX_TYPE type,
            const std::vector<double> = {1, 1, 1, 1});
-    
-    
+
+
     //-----------------------------------------------------------------------
     // GETTER FUNCTIONS
-    
+
     /*!
      * @brief Getter for logMatrix
      *
@@ -146,22 +145,22 @@ class Matrix
      */
     Matrix_Neo get_logMatrix();
 
-    
+
     /*!
      * @brief Getter for base probabilities
      *
      * @return log Matrix
      */
     std::vector<double> get_base_probabilities();
-    
-    
+
+
     /*!
      * @brief 	getter for length of matrix
      *
      * @return length
      */
     unsigned int get_length();
-    
+
 
     /*!
      * @brief 	getter for the score of a random nucleotide
@@ -183,7 +182,7 @@ class Matrix
     Matrix_Neo logMatrix_from_normed_PPM( Matrix_Neo input_matrix );
 
     /*!
-     * @brief 	Returns score of a sequence based on the log matrix. 
+     * @brief 	Returns score of a sequence based on the log matrix.
      *          If nucleotide is N, it is disregarded
      *
      * @param   List of enum nuc, being a nucleotide sequence
@@ -191,7 +190,7 @@ class Matrix
      * @return  score
      */
     double sequence_score(std::list<nuc> sequence);
-    
+
     //-----------------------------------------------------------------------
     // SAVING MATRIX
 
@@ -203,10 +202,10 @@ class Matrix
      */
 void save(std::string fileName, MATRIX_TYPE type);
 
-     
+
     //------------------------------------------------------------------------
     // USEFUL FONCTIONS FOR CONVERSION
-	
+
      /*!
      * @brief   Gives the maximum value of a line
      *
@@ -215,8 +214,8 @@ void save(std::string fileName, MATRIX_TYPE type);
      * @return  Minimum value found in the line
      */
     static double max_of_line(std::vector<double> line);
-    
-    
+
+
     /*!
      * @brief   Gives the minimum value of a line
      *
@@ -226,7 +225,7 @@ void save(std::string fileName, MATRIX_TYPE type);
      */
     static double min_of_line(std::vector<double> line);
 
-    
+
     /*!
      * @brief   Adds up values in a line
      *
@@ -235,8 +234,8 @@ void save(std::string fileName, MATRIX_TYPE type);
      * @return  Sum of the values in the line
      */
     static double sum_of_line(std::vector<double> line);
-    
-    
+
+
    /*!
      * @brief   Converts a normalized log matrix to a regular log matrix using the
      *          attribute base probabilities
@@ -247,9 +246,9 @@ void save(std::string fileName, MATRIX_TYPE type);
      */
     Matrix_Neo logMatrix_from_logConstMatrix( Matrix_Neo input_matrix );
 
-    
+
     /*!
-     * @brief   Converts a normalized position weight matrix to a regular position 
+     * @brief   Converts a normalized position weight matrix to a regular position
      *          weight matrix
      *
      * @param   The matrix to convert
@@ -258,7 +257,7 @@ void save(std::string fileName, MATRIX_TYPE type);
      */
     Matrix_Neo normed_from_absolute_PPM( Matrix_Neo input_matrix );
 
-    
+
     /*!
      * @brief   Converts a normalized logarithmic  matrix to a regular logarithmic
      *          matrix, using the attribut base probabilities
@@ -278,9 +277,9 @@ void save(std::string fileName, MATRIX_TYPE type);
      * @return  The converted matrix
      */
     Matrix_Neo normed_PPM_from_logMatrix( Matrix_Neo input_matrix );
-    
-    
-    
+
+
+
 	/*!
      * @brief   Converts any log matrix to a probability matrix using the
      *          attribute base probabilities
@@ -299,8 +298,8 @@ void save(std::string fileName, MATRIX_TYPE type);
      *
      * @return  The converted matrix
      */
-    Matrix_Neo probMatrix_from_logMatrix();    
-    
+    Matrix_Neo probMatrix_from_logMatrix();
+
     //-----------------------------------------------------------------------
     // DETERMINE TYPE
 
@@ -312,9 +311,9 @@ void save(std::string fileName, MATRIX_TYPE type);
      * @return  Type of the matrix
      */
     MATRIX_TYPE determine_matrix_type(Matrix_Neo input_matrix);
-    
 
-    
+
+
     /*!
      * @brief   Checks if line values correspond to a regular
      *          probability weight matrix
@@ -325,7 +324,7 @@ void save(std::string fileName, MATRIX_TYPE type);
      */
     static bool line_is_reg_ppm(double min, double max, double sum);
 
-    
+
     /*!
      * @brief   Checks if line values correspond to a weighed
      *          probability weight matrix
@@ -336,12 +335,7 @@ void save(std::string fileName, MATRIX_TYPE type);
      */
     static bool line_is_normed_ppm(double min, double max);//, double sum
 
-    
+
 };
 
 #endif
-
-
-
-
-
