@@ -203,17 +203,7 @@ class Matrix
      */
 void save(std::string fileName, MATRIX_TYPE type);
 
-    
-    
-    //-----------------------------------------------------------------------
-    // DEBUGGING FUNCTIONS
-    /*!
-     * @brief   Function that prints out a matrix to terminal. To be used 
-     *          for debugging
-     */
-    void print_log_matrix();
-    
-    
+     
     //------------------------------------------------------------------------
     // USEFUL FONCTIONS FOR CONVERSION
 	
