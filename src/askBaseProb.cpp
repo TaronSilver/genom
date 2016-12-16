@@ -8,6 +8,7 @@ double probG;
 double probT;
 double total;
 unsigned int baseChoice;
+
 askBaseProb::askBaseProb(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::askBaseProb)
