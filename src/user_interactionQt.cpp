@@ -12,6 +12,7 @@
 #include "window.hpp"
 
 //-----------------------------------------------------------------------
+
 double ask_cutoff2(double max_score) {
     QWidget newCut;
     bool ok;
@@ -22,10 +23,10 @@ double ask_cutoff2(double max_score) {
 }
 
 //-----------------------------------------------------------------------
+
 double ask_cutoff() {
   return sequenceFromMatrix::getCutoff();
 }
-
 
 //-----------------------------------------------------------------------
 
@@ -40,17 +41,19 @@ unsigned int ask_position() {
 }
 
 //-----------------------------------------------------------------------
+
 unsigned int ask_length() {
     return matrixFromSequence::getLength();
 }
 
 //-----------------------------------------------------------------------
+
 std::string ask_name_fasta() {
     return Window::getFastaLocation();
 }
 
-
 //-------------------------------------------------------------------------
+
 bool InvalidFormatMat(std::string file_name) {
 	if (file_name.find(".mat") != std::string::npos)
 	{
@@ -60,11 +63,13 @@ bool InvalidFormatMat(std::string file_name) {
 }
 
 //-------------------------------------------------------------------------
+
 std::string ask_name_matrix() {
     return Window::getMatrixLocation();
 }
 
 //-----------------------------------------------------------------------
+
 bool InvalidFormat(std::string file_name) {
     // Defines list with known file formats
     static const std::vector<std::string> validValues {".fasta", ".fas", ".fna", ".ffn", ".fa"};
@@ -77,7 +82,9 @@ bool InvalidFormat(std::string file_name) {
 
     return 1;
 }
+
 //-----------------------------------------------------------------------
+
 void nucleotide_warning(char c) {
     QWidget alarm;
     QString error = "Nucleotide ";
@@ -87,6 +94,7 @@ void nucleotide_warning(char c) {
 }
 
 //-----------------------------------------------------------------------
+
 void print_progress(int position, int filesize) {
     //QT Implement
     static auto start = std::chrono::system_clock::now();
@@ -121,8 +129,8 @@ void ret() {
 	std::cout << std::endl;
 }
 
-
 //==========================================================================================
+
 void print_results(SearchResults results, std::string filename) {
     filename += ".csv";
     std::ofstream outputfile;
@@ -142,8 +150,8 @@ void print_results(SearchResults results, std::string filename) {
     outputfile.close();
 }
 
-
 //==========================================================================================
+
 void print_results2(SearchResults results, std::ofstream &outputfile) {
     unsigned int size = results.searchResults.size();
 
@@ -155,8 +163,8 @@ void print_results2(SearchResults results, std::ofstream &outputfile) {
     }
 }
 
-
 //==========================================================================================
+
 void print_results_correlated(SearchResults results, std::vector <double> gen_score, std::string filename) {
     filename += ".csv";
     std::ofstream outputfile;
@@ -179,11 +187,13 @@ void print_results_correlated(SearchResults results, std::vector <double> gen_sc
 }
 
 //==========================================================================================
+
 std::string Ask_Outputfile_Name() {
   return Window::getOutputName();
 }
 
 //----------------------------------------------------------------------
+
 BP_FILL CoutCin_AskBaseProb() {
     int choice = askBaseProb::getBaseChoiceFinal();
 
@@ -205,6 +215,7 @@ BP_FILL CoutCin_AskBaseProb() {
 }
 
 //----------------------------------------------------------------------
+
 double CoutCin_AskBaseProb0(char letter) {
     if (letter == A) return askBaseProb::getProbA();
     else if (letter == C) return askBaseProb::getProbC();
@@ -213,6 +224,7 @@ double CoutCin_AskBaseProb0(char letter) {
 }
 
 //----------------------------------------------------------------------
+
 std::vector<double> AskBaseProb() {
     switch (CoutCin_AskBaseProb()) {
         case UserDefined:
@@ -226,9 +238,8 @@ std::vector<double> AskBaseProb() {
     }
 }
 
-
-
 //----------------------------------------------------------------------
+
 std::vector<double> User_Defined_Base_Prob() {
     double A, C, G, T;
     while(true) {
@@ -241,8 +252,8 @@ std::vector<double> User_Defined_Base_Prob() {
             return {A, C, G, T};
 }
 
-
 //----------------------------------------------------------------------
+
 MATRIX_TYPE Ask_Return_Matrix_Type() {
     unsigned int answer=askBaseProb::getMatrixChoice();
 
@@ -259,28 +270,28 @@ MATRIX_TYPE Ask_Return_Matrix_Type() {
         return MATRIX_TYPE::logMatrix;
 }
 
-
 //----------------------------------------------------------------------
+
 bool ask_matrix_from_sequences_weighed() {
   return sequenceFromMatrix::isEM() or matrixFromSequence::isEM();
 }
 
-
 //----------------------------------------------------------------------
+
 bool ask_matrix_from_search_matches() {
   return  sequenceFromMatrix::getBool();
 }
 
-
 //----------------------------------------------------------------------
+
 void error_input_sequence() {
     QWidget alarm;
     QString NoSeq = "Error: Either there was no sequence found to analyze, or the sequences to analyze are of different length.";
     QMessageBox::critical(&alarm, "Warning", NoSeq);
 }
 
-
 //----------------------------------------------------------------------
+
 void error_reading_coordiates(unsigned int line) {
     QWidget alarm;
     QString Misread = "Error: Reading genomic coordinate files failed on line ";
@@ -289,13 +300,13 @@ void error_reading_coordiates(unsigned int line) {
 }
 
 //----------------------------------------------------------------------
+
 std::string ask_coordinate_filename() {
     std::string answer;
     std::cout << "What file would you like to open for the genomic coordinates." << std::endl;
     std::cin >> answer;
     return answer;
 }
-
 
 //----------------------------------------------------------------------
 
@@ -310,7 +321,6 @@ bool ask_line_description_present() {
     }
     return answer;
 }
-
 
 //----------------------------------------------------------------------
 
@@ -400,8 +410,8 @@ Association_Table associate_genomic_with_sequences(std::vector<std::string> coor
 
 }
 
-
 //----------------------------------------------------------------------
+
 Association_Table associate_genomic_with_result(std::vector<std::string> coordinate_description,
                                                 std::vector<SearchResults> result_list) {
     Association_Table output;
@@ -466,14 +476,14 @@ Association_Table associate_genomic_with_result(std::vector<std::string> coordin
 
 }
 
-
 //----------------------------------------------------------------------
+
 void error_sequence_doesnt_exist() {
     std::cout << "Error: The desired sequence doesn't exist" << std::endl;
 }
 
-
 //----------------------------------------------------------------------
+
 SEQ_SOURCE ask_source_sequence() {
     unsigned int answer=matrixFromSequence::getSequenceSource();
     while (true) {
@@ -507,7 +517,6 @@ void position_in_process(int pos, int size) {
 
 //-----------------------------------------------------------------------
 
-
 double ask_for_a_number_infinitely(){
     //QT
 	double n=0;
@@ -527,6 +536,7 @@ double ask_for_a_number_infinitely(){
 }
 
 //----------------------------------------------------------------------
+
 int ask_iterations (int length) {
     QWidget newCut;
     bool ok;
@@ -537,6 +547,7 @@ int ask_iterations (int length) {
 }
 
 //----------------------------------------------------------------------
+
 void print_into_file(std::ostream & out, Matrix_Neo matrix) {
 	for(unsigned int i = 0 ; i < matrix.size(); i++) {
 		for(unsigned int j = 0 ; j < matrix[i].size(); j++)
@@ -549,12 +560,14 @@ void print_into_file(std::ostream & out, Matrix_Neo matrix) {
 }
 
 //----------------------------------------------------------------------
+
 std::string get_working_path() {
    char temp[1024];
    return ( getcwd(temp, 1024) ? std::string( temp ) : std::string("") );
 }
 
 //----------------------------------------------------------------------
+
 void path () {
     QWidget notice;
     QString pigeon = "We will create a file in: ";
@@ -564,6 +577,7 @@ void path () {
     }
 
 //----------------------------------------------------------------------
+
 int maximum_EM () {
     //QT TO DO
 
@@ -586,6 +600,7 @@ int maximum_EM () {
 }
 
 //----------------------------------------------------------------------
+
 double differences_matrices () {
     //QT TO DO
 	double n = 0.0;
@@ -608,6 +623,7 @@ double differences_matrices () {
 }
 
 //----------------------------------------------------------------------
+
 LIST_FILE ask_list_file_type() {
     unsigned int answer = matrixFromSequence::getSequenceOrigin();
 
@@ -624,9 +640,8 @@ LIST_FILE ask_list_file_type() {
     return LIST_FILE::Fasta;
 }
 
-
-
 //----------------------------------------------------------------------
+
 char ask_separation_character() {
     //QT TO DO
     char answer;
@@ -649,7 +664,6 @@ char ask_separation_character() {
     return answer;
 }
 
-
 //----------------------------------------------------------------------
 
 std::string ask_inputfile_name() {
@@ -667,13 +681,14 @@ void done() {
 }
 
 //----------------------------------------------------------------------
+
 void error_no_search_result_read() {
     QWidget notice;
     QMessageBox::information(&notice, "Warning", "Error: No sequences were read into the program.");
 }
 
-
 //----------------------------------------------------------------------
+
 bool correlate_more() {
     //QT TO DO
     std::cout << "Would you like to correlate more sequence results to genomic coordinates?" <<
@@ -685,14 +700,14 @@ bool correlate_more() {
     return answer;
 }
 
-
-
 //----------------------------------------------------------------------
+
 bool ask_correlate_to_search_results() {
   return false;
 }
 
 //----------------------------------------------------------------------
+
 void error_invalid_flags() {
     //QT ??
     std::cout << "The program was launched with invalid flags. Aborting." <<
@@ -700,8 +715,8 @@ void error_invalid_flags() {
     std::endl;
 }
 
-
 //----------------------------------------------------------------------
+
 bool checkfile(std::string filename) {
     //QT ?? (FLAGS are with -a? )
     struct stat buf;
@@ -715,8 +730,8 @@ bool checkfile(std::string filename) {
     return false;
 }
 
-
 //----------------------------------------------------------------------
+
 bool overwrite(std::string filename) {
     //QT ?? (FLAGS are with -a? )
     struct stat buf;
