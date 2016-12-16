@@ -7,7 +7,7 @@ option(test "Build tests." ON) #declares a boolean that tells that we are doing 
 option(Qt "Building Graphic Interface." ON)
 
 set(CMAKE_BUILD_TYPE Debug) #Allows to debug
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wall -Wunused-function -pedantic -O3 -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wall  -g -Wunused-function -pedantic -O3 -std=c++11")
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 if (main)
@@ -36,7 +36,7 @@ if (QT4_FOUND AND Qt)
 	execute_process(COMMAND bash ../qt.sh )
 	include_directories(src /usr/include/qt4/Qt)
 	link_directories("/usr/local/lib" "/usr/lib") #Tells cmake where some libs could potentially be located
-	add_executable(genom-2 src/askBaseProb.cpp src/correlate.cpp src/genomic_coordinates.cpp src/mainQt.cpp src/Matrix.cpp src/matrixFromSequence.cpp src/procedures.cpp src/resultsWindow.cpp src/sequenceFromMatrix.cpp src/user_interactionQt.cpp src/utility.cpp src/window.cpp)
+	add_executable(genom-2 src/askBaseProb.cpp src/genomic_coordinates.cpp src/mainQt.cpp src/Matrix.cpp src/matrixFromSequence.cpp src/procedures.cpp src/resultsWindow.cpp src/sequenceFromMatrix.cpp src/user_interactionQt.cpp src/utility.cpp src/window.cpp)
 	target_link_libraries(genom-2 Qt4::QtGui png pthread)
 endif (QT4_FOUND AND Qt)
 

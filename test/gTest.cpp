@@ -387,7 +387,6 @@ TEST (sequence_score_test, good_score)
 		our_score += DBP_PSSM[i][0];
 
 	}
-	test_matrix.print_log_matrix();
 	calc_score =  test_matrix.sequence_score(sequence);
 	/*std::cout << our_score << std::endl;
 	std::cout << calc_score << std::endl;*/
@@ -645,14 +644,14 @@ TEST (matrix_from_same_length_sequences_weighted_test, good_matrix)
 
 
 int main(int argc, char **argv) {
-	
+
 	tmp.sequence = "AGAAATC";
 	tmp.position = 64;
 	tmp.score = 1.07805;
 	tmp.direction = '-';
 	t_1.sequence = "AT";
 	t_1.score = 0.5;
-	
+
 	tmp_1.push_back(t_1);
 	t_2.sequence = "AA";
 	t_2.score = 1;

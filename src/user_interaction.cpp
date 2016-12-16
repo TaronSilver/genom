@@ -20,7 +20,7 @@
 
 PROCEDURE whatToDo() {
 
-    system("Clear");
+    //system("Clear");
     PROCEDURE whatToDo;
     unsigned int answer;
 

@@ -65,6 +65,12 @@
      </item>
      <item row="0" column="1">
       <widget class="QDoubleSpinBox" name="spinCutoff">
+       <property name="minimum">
+        <double>-99.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>99.000000000000000</double>
+       </property>
        <property name="singleStep">
         <double>0.100000000000000</double>
        </property>

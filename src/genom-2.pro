@@ -1,5 +1,8 @@
 QT += widgets
 
+TARGET = genom
+TEMPLATE = app
+
 HEADERS += \
     Matrix.hpp \
     procedures.hpp \
@@ -11,7 +14,7 @@ HEADERS += \
     resultsWindow.hpp \
     genomic_coordinates.hpp \
     askBaseProb.hpp \
-    correlate.hpp
+    logo.hpp
 
 SOURCES += \
     mainQt.cpp \
@@ -24,16 +27,16 @@ SOURCES += \
     sequenceFromMatrix.cpp \
     resultsWindow.cpp \
     genomic_coordinates.cpp \
-    askBaseProb.cpp \
-    correlate.cpp
+    askBaseProb.cpp
 
 FORMS += \
     window.ui \
     matrixFromSequence.ui \
     sequenceFromMatrix.ui \
     resultsWindow.ui \
-    askBaseProb.ui \
-    correlate.ui
+    askBaseProb.ui
 
 
 INCLUDEPATH += ../logo
+
+LIBS += -L$PATH_TO_CIMG_LIB -lpng -lpthread

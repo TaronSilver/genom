@@ -1,16 +1,17 @@
 #ifndef WINDOW_HPP
 #define WINDOW_HPP
 
-#include <QDialog>
 #include <QApplication>
-#include <QWidget>
-#include <QPushButton>
-#include <QMessageBox>
-#include <QInputDialog>
-#include <QFontDialog>
 #include <QColorDialog>
+#include <QDialog>
 #include <QFileDialog>
+#include <QFontDialog>
+#include <QInputDialog>
+#include <QMessageBox>
 #include <QObject>
+#include <QPushButton>
+#include <QSlider>
+#include <QWidget>
 
 #include "askBaseProb.hpp"
 #include "procedures.hpp"

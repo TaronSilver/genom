@@ -11,7 +11,7 @@
 
 void enzyme_on_sequence() {
 
-    system("Clear");
+    //system("Clear");
     std::vector <double> base_prob(AskBaseProb());
 
 
@@ -41,7 +41,7 @@ void enzyme_on_sequence() {
 
 void enzyme_on_sequence2() {
 
-    system("Clear");
+    //system("Clear");
     std::vector <double> base_prob(AskBaseProb());
 
 

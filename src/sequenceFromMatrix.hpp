@@ -3,7 +3,6 @@
 
 #include <QDialog>
 
-#include "correlate.hpp"
 #include "resultsWindow.hpp"
 #include "procedures.hpp"
 

@@ -91,8 +91,8 @@ std::vector <double> Coordinates::position_score(SearchResults input)
     
     unsigned int seq_pos;
     unsigned int seq_length;
-    unsigned int gen_pos;
-    unsigned int gen_length;
+    //unsigned int gen_pos;
+    //unsigned int gen_length;
     
     double score_intermed(0);
     

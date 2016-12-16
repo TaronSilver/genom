@@ -621,7 +621,7 @@ LIST_FILE ask_list_file_type() {
             case 3:
                 return LIST_FILE::SeparatedList;
     }
-
+    return LIST_FILE::Fasta;
 }
 
 

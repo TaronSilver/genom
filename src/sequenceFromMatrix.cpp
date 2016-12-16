@@ -1,4 +1,3 @@
-#include "correlate.hpp"
 #include "sequenceFromMatrix.hpp"
 #include "../build/ui_sequenceFromMatrix.h"
 

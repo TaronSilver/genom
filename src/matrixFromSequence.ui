@@ -72,7 +72,10 @@
      <item row="2" column="1">
       <widget class="QComboBox" name="chooseSequenceOrigin">
        <property name="enabled">
-        <bool>true</bool>
+        <bool>false</bool>
+       </property>
+       <property name="toolTip">
+        <string>Not implemented in Qt</string>
        </property>
        <item>
         <property name="text">
@@ -104,7 +107,10 @@
      <item row="1" column="1">
       <widget class="QComboBox" name="chooseSourceSequence">
        <property name="enabled">
-        <bool>true</bool>
+        <bool>false</bool>
+       </property>
+       <property name="toolTip">
+        <string>Not implemented in Qt</string>
        </property>
        <item>
         <property name="text">
