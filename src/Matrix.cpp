@@ -115,18 +115,6 @@ void Matrix::save(std::string fileName, MATRIX_TYPE type) {
     outputfile.close();
 }
 
-//-----------------------------------------------------------------------
-// DEBUGGING FUNCTIONS
-//-----------------------------------------------------------------------
-
-void Matrix::print_log_matrix() {
-    /*for(size_t i(0); i<length; i++) {
-        for(size_t j(0); j<NUMBER_NUCLEOTIDES; j++) {
-            std::cout << logMatrix[i][j] << "\t";
-        }
-        std::cout << std::endl;
-    }*/
-}
 
 //-----------------------------------------------------------------------
 // READING MATRIX
