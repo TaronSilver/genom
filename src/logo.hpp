@@ -291,4 +291,4 @@ void logo(std::string fileName) {
     background.save_png("../yourlogo.png");
 }
 
-#endif LOGO_HPP
+#endif
