@@ -1,11 +1,3 @@
-//
-//  procedures.hpp
-//
-//
-//  Created by Mättu on 15.11.16.
-//
-//
-
 #ifndef procedures_hpp
 #define procedures_hpp
 
@@ -130,4 +122,4 @@ void flag_getmatrix(std::vector<std::string> flags);
 
 
 
-#endif /* procedures_hpp */
+#endif
