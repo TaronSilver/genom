@@ -137,8 +137,8 @@ void logo() {
 	{
 		position_in_process(pos+1,PWM.size());
 		
-		char n = '1'+ pos;
-		background.draw_text(pos*500+450,1230, &n, black, 0, 1, 53);
+		int n = 1 + pos;
+		background.draw_text(pos*500+450,1230, std::to_string(n).c_str(), black, 0, 1, 53);
 		
 		CImg<unsigned char> iconA("../logo/icons/A.png");
 		CImg<unsigned char> iconC("../logo/icons/C.png");
