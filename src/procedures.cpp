@@ -1,11 +1,3 @@
-//
-//  procedures.cpp
-//
-//
-//  Created by Mättu on 15.11.16.
-//
-//
-
 #include "procedures.hpp"
 
 
