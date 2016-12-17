@@ -29,4 +29,4 @@ private:
     QTextBrowser resultsBrowser;
 };
 
-#endif // RESULTSWINDOW_HPP
+#endif
