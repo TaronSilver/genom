@@ -1,11 +1,3 @@
-//
-//  user_interaction.hpp
-//
-//
-//  Created by Mättu on 15.11.16.
-//
-//
-
 #ifndef user_interaction_hpp
 #define user_interaction_hpp
 
@@ -443,4 +435,4 @@ bool overwrite(std::string filename);
 //-----------------------------------------------------------------------
 
 
-#endif /* user_interaction_hpp */
+#endif
