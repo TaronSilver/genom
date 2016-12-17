@@ -1,11 +1,3 @@
-//
-//  main.cpp
-//
-//
-//  Created by Mättu on 20.10.16.
-//
-//
-
 #include <stdio.h>
 #include <string>
 
