@@ -185,6 +185,8 @@ void verbose() {
  *
  * without Qt (--> ./Main)
  * 
+ * from the command line (--> ./Main -help)
+ *
  * and voilà!
  * 
  * TESTS (in build):
