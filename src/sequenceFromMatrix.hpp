@@ -76,4 +76,4 @@ private:
     Ui::sequenceFromMatrix *ui;
 };
 
-#endif // SEQUENCEFROMMATRIX_HPP
+#endif
