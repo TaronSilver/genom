@@ -139,4 +139,4 @@ private:
     Ui::askBaseProb *ui;
 };
 
-#endif // ASKBASEPROB_HPP
+#endif
