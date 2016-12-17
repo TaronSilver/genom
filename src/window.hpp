@@ -112,4 +112,4 @@ private:
   std::string matrixLocationFromWindow;
 };
 
-#endif // WINDOW_H
+#endif
