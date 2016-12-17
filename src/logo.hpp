@@ -15,7 +15,7 @@
 
 using namespace cimg_library;
 
-/*!==================== structure used by logo() =====================*/
+//==================== structure used by logo() =======================
 
 typedef struct nuc_prob_pair{
     double prob;
@@ -26,7 +26,7 @@ typedef struct nuc_prob_pair{
 	}
 }nuc_prob_pair;
 
-/*!==================== functions used by logo() =====================*/
+//==================== functions used by logo() =======================
 
 /*!
      * @brief   reads a matrix from file and returns the probability matrix associated
@@ -74,7 +74,7 @@ bool compareByProb(const nuc_prob_pair &a, const nuc_prob_pair &b)
     return a.prob > b.prob;
 }
 
-/*!======================= logo main functions ========================*/
+//======================= logo main functions ========================
 
 /*!
      * @brief   creates the logo, calls on all functions needed
@@ -182,7 +182,7 @@ void logo() {
 	background.save_png("../yourlogo.png");
 }
 
-/*!===================================================================*/
+//===================================================================
 
 /*!
      * @brief   creates the logo, calls all needed function
