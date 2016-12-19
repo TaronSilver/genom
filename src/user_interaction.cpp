@@ -366,7 +366,6 @@ BP_FILL CoutCin_AskBaseProb()
         std::endl << "Enter 0 to not use any base probabilities"<<
         std::endl << "Enter 1 to use a base probability of 0.25 for all nucleotides"<<
         std::endl << "Enter 2 to use custom base probabilities" <<
-        std::endl << "Enter 3 to use base probabilities calculated from the input sequence" <<
 
         std::endl;
 
