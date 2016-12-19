@@ -411,6 +411,12 @@ bool checkfile(std::string filename);
  */
 bool overwrite(std::string filename);
 
+/*!
+ * @brief   Checks if the user inputs a 1 or a 0 
+ * 
+ * @return  user input 1 or 0
+ */
+bool correct_bool();
 //-----------------------------------------------------------------------
 
 
