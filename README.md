@@ -26,7 +26,7 @@ with Qt  			--> ./genom-2
 
 with terminal 		--> ./Main
 
-from the command line --> ./Main -help
+from the command line --> ./Main --help
 
 tests 				--> ./gtests
 
