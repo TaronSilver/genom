@@ -110,7 +110,7 @@ std::vector<SearchResults> input_search_results() {
 void correlate_coordinates_with_results(std::vector <SearchResults> result_list) {
 
     Association_Table associate;
-    //unsigned int startpos; unused
+    unsigned int startpos;
     unsigned int coord_id;
     unsigned int seq_id;
 
@@ -128,10 +128,10 @@ void correlate_coordinates_with_results(std::vector <SearchResults> result_list)
 
         coord_id = associate[0][COORD];
         seq_id = associate[0][SEQ];
-       // startpos = associate[0][START]; unused
+        startpos = associate[0][START] - 1;
 
 
-        corr_values = coord_list[coord_id].position_score(result_list[seq_id]);
+        corr_values = coord_list[coord_id].position_score(result_list[seq_id], startpos);
 
         print_results_correlated(result_list[seq_id], corr_values, Ask_Outputfile_Name());
 

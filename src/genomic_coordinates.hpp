@@ -74,7 +74,7 @@ public:
      *
      * @return  Vector of doubles with the genomic scores
      */
-    std::vector <double> position_score(SearchResults input);
+    std::vector <double> position_score(SearchResults input, unsigned int pos_zero);
 };
 
 
