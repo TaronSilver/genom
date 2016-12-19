@@ -43,23 +43,23 @@ void non_verbose(int argc, char **argv) {
     
     std::vector<std::string> flags(flags_to_strings(argc, argv));
     
-    if (flags[1] == "-help" or flags[1] == "-h") {
+    if (flags[1] == "--help" or flags[1] == "-h") {
         flag_help();
     }
     
-    else if (flags[1] == "-logo" or flags[1] == "-l") {
+    else if (flags[1] == "--logo" or flags[1] == "-l") {
         logo(flags[2]);
     }
     
-    else if (flags[1] == "-bindingsites" or flags[1] == "-s") {
+    else if (flags[1] == "--bindingsites" or flags[1] == "-s") {
         flag_bindingsites(flags);
     }
     
-    else if (flags[1] == "-getmatrix" or flags[1] == "-m") {
+    else if (flags[1] == "--getmatrix" or flags[1] == "-m") {
         flag_getmatrix(flags);
     }
     
-    else if (flags[1] == "-about" or flags[1] == "-a") {
+    else if (flags[1] == "--about" or flags[1] == "-a") {
         flag_about();
     }
     
@@ -133,6 +133,7 @@ void verbose() {
  * (2) You can obtain all the binding positions of a protein to a DNA sequence
  * of your choosing. You may even specify the cutoff value you prefer: 0.25,
  * calculated based on the input sequence or customised by you.
+ * In order to be clear and precise the sequnce retured is the complementary reverse branch when (-) is indicated.
  * 
  * needed inputs: a matrix file (.mat) and
  * a sequence file (.fasta, .fas, .fna, .ffn)

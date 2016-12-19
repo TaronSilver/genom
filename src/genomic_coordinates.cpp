@@ -50,7 +50,7 @@ std::string Coordinates::get_location() {
 
 //-------------------------------------------------------------------------
 
-std::vector <double> Coordinates::position_score(SearchResults input)
+std::vector <double> Coordinates::position_score(SearchResults input, unsigned int pos_zero)
 {
     std::vector <double> output;
     unsigned int gen_id(0);
@@ -66,18 +66,16 @@ std::vector <double> Coordinates::position_score(SearchResults input)
 
     while (seq_id < input.searchResults.size())
     {
-        seq_pos = input.searchResults[seq_id].position;
+        seq_pos = input.searchResults[seq_id].position + pos_zero;
         seq_length = input.searchResults[seq_id].sequence.size();
         gen_id = 0;
         score_intermed = 0;
 
         for (unsigned int i(0); i<seq_length; i++, seq_pos++) {
-
-            while (start_pos[gen_id] >= seq_pos and gen_id < start_pos.size()) {
+            while (start_pos[gen_id + 1] < seq_pos and gen_id < start_pos.size() - 1) {
                 gen_id++;
             }
             if (start_pos[gen_id] + length[gen_id] >= seq_pos) {
-                std::cout << gen_id << std::endl;
 
                 score_intermed += score[gen_id];
             }

@@ -110,7 +110,7 @@ std::vector<SearchResults> input_search_results() {
 void correlate_coordinates_with_results(std::vector <SearchResults> result_list) {
 
     Association_Table associate;
-    //unsigned int startpos; unused
+    unsigned int startpos;
     unsigned int coord_id;
     unsigned int seq_id;
 
@@ -128,10 +128,10 @@ void correlate_coordinates_with_results(std::vector <SearchResults> result_list)
 
         coord_id = associate[0][COORD];
         seq_id = associate[0][SEQ];
-       // startpos = associate[0][START]; unused
+        startpos = associate[0][START] - 1;
 
 
-        corr_values = coord_list[coord_id].position_score(result_list[seq_id]);
+        corr_values = coord_list[coord_id].position_score(result_list[seq_id], startpos);
 
         print_results_correlated(result_list[seq_id], corr_values, Ask_Outputfile_Name());
 
@@ -246,14 +246,14 @@ void flag_help() {
     std::endl << "==============================================================================" <<
     std::endl << "For help:" <<
     std::endl <<
-    std::endl << "-help (or -h)" <<
+    std::endl << "--help (or -h)" <<
     std::endl <<
     std::endl <<
     std::endl <<
     std::endl << "==============================================================================" <<
     std::endl << "For readme (program and algorithm description):" <<
     std::endl <<
-    std::endl << "-about (or -a)" <<
+    std::endl << "--about (or -a)" <<
     std::endl <<
     std::endl <<
     std::endl <<
@@ -281,7 +281,7 @@ void flag_help() {
     std::endl << "To obtain a probability weight matrix from a list of sequences, " <<
     std::endl << "all separated by a return: " <<
     std::endl <<
-    std::endl << "-getmatrix -list input output" <<
+    std::endl << "--getmatrix --list input output" <<
     std::endl << "(or short: -m -list)" <<
     std::endl <<
     std::endl << "Where: " <<
@@ -293,7 +293,7 @@ void flag_help() {
     std::endl << "To obtain a probability weight matrix from a list of sequences, " <<
     std::endl << "present in a .fasta file: " <<
     std::endl <<
-    std::endl << "-getmatrix -fasta input output" <<
+    std::endl << "--getmatrix --fasta input output" <<
     std::endl << "(or short: -m -fas)" <<
     std::endl <<
     std::endl << "Where:" <<
@@ -305,7 +305,7 @@ void flag_help() {
     std::endl << "To obtain a probability weight matrix from the result of a previous " <<
     std::endl << "analyisis (in a .csv file): " <<
     std::endl <<
-    std::endl << "-getmatrix -result input output " <<
+    std::endl << "--getmatrix --result input output " <<
     std::endl << "(or short: -m -res)" <<
     std::endl <<
     std::endl << "Where:" <<
@@ -472,13 +472,13 @@ void flag_getmatrix(std::vector<std::string> flags) {
 
 
     std::vector <SearchResults> input;
-    if (flags[2] == "-fasta" or flags[2] == "-fas") {
+    if (flags[2] == "--fasta" or flags[2] == "-fas") {
         input.push_back(read_sequencefile_to_searchresults(flags[3]));
     }
-    else if (flags[2] == "-list" or flags[2] == "-list") {
+    else if (flags[2] == "--list" or flags[2] == "-list") {
         input.push_back(read_sequence_list_to_searchresults(flags[3]));
     }
-    else if (flags[2] == "-result" or flags[2] == "-res") {
+    else if (flags[2] == "--result" or flags[2] == "-res") {
         input = read_searchresult_file(flags[3]);
     }
 

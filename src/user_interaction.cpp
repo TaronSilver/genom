@@ -978,7 +978,7 @@ std::string ask_inputfile_name() {
     std::string entry_name;
 
     while (true) {
-        std::cout <<"Please give the name of your file: ";
+        std::cout <<"Please give the name of your sequence file: ";
         std::cin >> entry_name;
 
         std::ifstream entry(entry_name.c_str());
