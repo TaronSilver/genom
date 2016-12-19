@@ -24,6 +24,12 @@ namespace Ui {
   class Window;
 }
 
+/*!
+ * @class Window
+ *
+ * @brief Initial widget of Qt.
+ */
+
 class Window : public QDialog
 {
   Q_OBJECT
@@ -44,7 +50,7 @@ public:
   * @brief Returns the latest Fasta location specified by the user.
   */
   static std::string getFastaLocation();
-  
+
   /*!
   * @brief Returns the latest Matrix location specified by the user.
   */

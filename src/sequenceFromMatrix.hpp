@@ -11,7 +11,7 @@ class sequenceFromMatrix;
 }
 
 /*!
- * @class Sequence From Matrix
+ * @class sequenceFromMatrix
  *
  * @brief Display all widgets related to the calculation of a matrix from a
  * given seuquence file.

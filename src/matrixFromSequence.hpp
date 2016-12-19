@@ -9,7 +9,7 @@ class matrixFromSequence;
 }
 
 /*!
- * @class Matrix from sequence
+ * @class matrixFromSequence
  *
  * @brief Display all widgets related to the calculation of a matrix from a
  * given seuquence file.

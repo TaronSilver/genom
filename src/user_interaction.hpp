@@ -13,6 +13,11 @@
 #define SEQ 1
 #define START 2
 
+/*!
+ * @class SearchResult
+ *
+ * @brief Contains a sequence, a position, a score and a direction.
+ */
 class SearchResult {
 public:
     std::string sequence;
@@ -20,7 +25,11 @@ public:
     double score;
     char direction;
 };
-
+/*!
+ * @class SearchResults
+ *
+ * @brief Vector of SearchResult
+ */
 class SearchResults {
 public:
     std::string description;

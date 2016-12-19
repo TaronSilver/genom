@@ -31,6 +31,11 @@ enum MATRIX_TYPE { absoluteMatrix, relativeMatrix, logMatrix, logConstMatrix, ER
 typedef std::vector<std::vector<double> > Matrix_Neo;
 typedef std::vector<double> Base_Prob;
 
+/*!
+ * @class BindingSequence
+ *
+ * @brief
+ */
 typedef struct BindingSequence {
     std::string sequence;
     double score;
@@ -125,7 +130,7 @@ class Matrix
     Matrix(const std::string& fileName,
            const std::vector<double> base_prob = {1, 1, 1, 1});
 
-    
+
     /*!
      * @brief Constructeur matrix from vector
      *

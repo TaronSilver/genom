@@ -8,6 +8,12 @@ namespace Ui {
 class resultsWindow;
 }
 
+/*!
+ * @class resultsWindow
+ *
+ * @brief Display the final results in an independant widget.
+ */
+
 class resultsWindow : public QDialog
 {
     Q_OBJECT

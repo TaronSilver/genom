@@ -358,7 +358,7 @@ TEST (getters_functions, good_initialisation)
  */
 TEST (read_matrix_test, good_reading_file)
 {
-	std::string outputfile("../DBP_PPM.mat");
+	std::string outputfile("../test/DBP_PPM.mat");
 
 	Matrix_Neo tmp = Matrix::read_matrix(outputfile);
 
@@ -514,7 +514,7 @@ TEST ( analyze_sequence_opt2_test,valid_output)
 	tmp3.searchResults = tmp1;
 
 	std::vector <SearchResults> results({tmp3});
-	std::vector <SearchResults> expected_value = analyze_sequence_opt2("../promoters.fasta", ma_matrice_5, 0.1);
+	std::vector <SearchResults> expected_value = analyze_sequence_opt2("../test/promoters.fasta", ma_matrice_5, 0.1);
 
 
 	if (
@@ -571,7 +571,7 @@ TEST (valid_character_test, valid_char)
  */
 TEST (filesize_test, good_nb)
 {
-	ASSERT_EQ(864, filesize("../promoters.fasta"));
+	ASSERT_EQ(864, filesize("../test/promoters.fasta"));
 }
 
 /*!
@@ -580,7 +580,7 @@ TEST (filesize_test, good_nb)
 TEST (extract_sequence_descriptions_test, good_description)
 {
 	std::vector<std::string> descrip({">chr7|chr7:113842207-113842607", ">chr11|chr11:16380767-16381167"});
-	std::vector<std::string> test = extract_sequence_descriptions("../promoters.fasta");
+	std::vector<std::string> test = extract_sequence_descriptions("../test/promoters.fasta");
 
 	for (size_t i = 0; i < test.size() ; ++i)
 	{

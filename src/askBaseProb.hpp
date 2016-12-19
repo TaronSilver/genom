@@ -11,7 +11,7 @@ class askBaseProb;
 }
 
 /*!
- * @class Ask base Probabilities
+ * @class askBaseProb
  *
  * @brief Display a window that will ask the user its choice of base probability,
  * and its choice in matrix type, if the choice is open, based on pre-conditions.
