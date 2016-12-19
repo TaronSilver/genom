@@ -56,27 +56,6 @@ PROCEDURE whatToDo();
 double ask_cutoff();
 
 /*!
- * @brief Ask the user if the binding site length is known
- *
- * @return true if known, false if not.
- */
-bool ask_binding_length_known();
-
-/*!
- * @brief Ask the user for the length of the enzyme binding site
- *
- * @return Length of binding site
- */
-unsigned int ask_length();
-
-/*!
- * @brief Ask the user for the position of the enzyme binding site
- *
- * @return position of binding site
- */
-unsigned int ask_position();
-
-/*!
  * @brief Ask the user for the filename; checks filename; returns filename
  *
  * @return name of the file the user would like to open
