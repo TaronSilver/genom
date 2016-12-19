@@ -81,6 +81,8 @@ will then iterate through all positions of the sequence and calculate
 a score corresponding to the sum of the logarithmic probabilities of the 
 nucleotides in the given position. A sequence is considered as a binding 
 position if its score is bigger or equal as a user defined cutoff. 
+In order to be clear and precise the sequence returned is the 
+complementary reverse branch when (-) is indicated.
 
 
 
