@@ -133,6 +133,7 @@ void verbose() {
  * (2) You can obtain all the binding positions of a protein to a DNA sequence
  * of your choosing. You may even specify the cutoff value you prefer: 0.25,
  * calculated based on the input sequence or customised by you.
+ * In order to be clear and precise the sequnce retured is the complementary reverse branch when (-) is indicated.
  * 
  * needed inputs: a matrix file (.mat) and
  * a sequence file (.fasta, .fas, .fna, .ffn)
