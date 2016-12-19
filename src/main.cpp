@@ -103,7 +103,7 @@ void verbose() {
     // Waits with program until next input of user.
     getchar();
     getchar();
-    system("CLEAR");
+    //system("CLEAR");
   } while (procedure != Exit);
 
 }
