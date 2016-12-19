@@ -6,6 +6,8 @@
 
 //-----------------------------------------------------------------------
 
+
+
 PROCEDURE whatToDo() {
 
     //system("Clear");
@@ -25,7 +27,7 @@ PROCEDURE whatToDo() {
     std::endl << "run ./Main --help" << std::endl;
 
     while (true) {
-        std::cin >> answer;
+		answer = ask_for_a_number_infinitely();
 
         if (answer == 1) {
             whatToDo = MatrixFromSequences;
@@ -46,14 +48,11 @@ PROCEDURE whatToDo() {
         else if (answer == 0) {
             whatToDo = Exit;
             break;
-        }
-        else {
-            std::cout << "Unrecognized input. Please try again." << std::endl;
-        }
+        }  
+           std::cout<<"Unrecognized input. Please try again." << std::endl;
     }
 
     return whatToDo;
-
 }
 
 //-----------------------------------------------------------------------
@@ -82,75 +81,10 @@ double ask_cutoff2(double max_score) {
 //-----------------------------------------------------------------------
 
 double ask_cutoff() {
+	
     std::cout << "What cutoff would you like to use?" << std::endl;
 
     return ask_for_a_number_infinitely();
-}
-
-//-----------------------------------------------------------------------
-
-bool ask_binding_length_known() {
-    bool known;
-    std::cout << "Do you know the length of the enzyme binding site? " << std::endl
-              << "enter 1 for yes, 0 for no. ";
-	while (true)
-	{
-		std::cin >> known;
-
-		if (known == 1 or known == 0) break;
-		else
-		{
-			std::cout << "Unrecognized input. Please try again." << std::endl;
-		}
-	}
-
-    return known;
-}
-
-//-----------------------------------------------------------------------
-
-unsigned int ask_position() {
-
-	unsigned int position;
-
-	std::cout << "At what position is the binding site (starts at 1)?";
-
-
-	while (true) {
-	    std::cin >> position;
-
-	    if (position <= 0) {
-			std::cout << "Position must be positive" << std::endl;
-			continue;
-		}
-
-		break;
-	}
-
-    return position;
-
-}
-
-//-----------------------------------------------------------------------
-
-unsigned int ask_length() {
-
-    unsigned int length;
-	std::cout << "How long is the enzyme binding site? ";
-
-    while (true) {
-	    std::cin >> length;
-
-	    if (length <= 0) {
-			std::cout << "Lenght must be positive" << std::endl;
-			continue;
-		}
-
-		break;
-	}
-
-    return length;
-
 }
 
 //-----------------------------------------------------------------------
@@ -402,7 +336,7 @@ double CoutCin_AskBaseProb0(char C)
 
     while (true) {
         std::cout << "Enter the base probability for "<< C << " " ;
-        std::cin >> baseProb;
+        baseProb = ask_for_a_number_infinitely();
 
         if(baseProb < 0 || baseProb > 1) {
             std::cout << "Invalid value for base probability. All values "
@@ -471,7 +405,7 @@ MATRIX_TYPE Ask_Return_Matrix_Type() {
         std::endl << "Enter 4 to save as a weighted logarithmic matrix." <<
         std::endl;
 
-        std::cin >> answer;
+        answer = (unsigned int)ask_for_a_number_infinitely();
 
         switch (answer) {
             case 1:
@@ -495,11 +429,10 @@ bool ask_matrix_from_sequences_weighed() {
     bool answer;
     std::cout << "Would you like to weigh each probability by its score " <<
     std::endl << "in order to calculate the probability weight matrix?" <<
-    std::endl << "Enter 1 for yes, 0 for no." <<
     std::endl;
 
-    std::cin >> answer;
-
+	answer = correct_bool();
+	
     std::cout << "You answered ";
     if (answer) {
 		std::cout <<"YES";
@@ -516,11 +449,11 @@ bool ask_matrix_from_sequences_weighed() {
 
 bool ask_matrix_from_search_matches() {
     bool answer;
+	
     std::cout << "Would you like to create a new matrix based on the search matches?" <<
-    std::endl << "Enter 1 for yes, 0 for no." <<
     std::endl;
 
-    std::cin >> answer;
+	answer = correct_bool();
 
     std::cout << "You answered ";
     if (answer) {
@@ -552,8 +485,21 @@ void error_reading_coordiates(unsigned int line) {
 
 std::string ask_coordinate_filename() {
     std::string answer;
-    std::cout << "What file would you like to open for the genomic coordinates." << std::endl;
-    std::cin >> answer;
+    std::ifstream file; 
+    
+    do {
+		std::cin.clear();
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		std::cout << "What file would you like to open for the genomic coordinates." << std::endl;
+		std::cin >> answer;
+		file.open(answer);
+		if (file.fail())
+		{
+			std::cerr << "this file doesn't exist, please try again." << std::endl;
+		}
+		
+	} while (file.fail());
+	file.close();
     return answer;
 }
 
@@ -562,12 +508,10 @@ std::string ask_coordinate_filename() {
 bool ask_line_description_present() {
     bool answer;
     std::cout << "Is a descritpion of the coordinates present in the third question?" <<
-    std::endl << "Enter 1 for yes, 0 for no." <<
     std::endl;
 
-    while (not(std::cin >> answer)) {
-        std::cout << "Error: Invalid input. Please try again." << std::endl;
-    }
+    answer = correct_bool();
+
     return answer;
 }
 
@@ -608,9 +552,10 @@ Association_Table associate_genomic_with_sequences(std::vector<std::string> coor
         bool answer;
         std::cout << "You have as many sequences as genomic coordinates. Would you like to " <<
         std::endl << "analyze them in order?" <<
-        std::endl << "Enter 1 for yes, 0 for no." <<
         std::endl;
-        std::cin >> answer;
+        
+        answer = correct_bool();
+	
         if (answer) {
             std::cout << "For each sequence, enter its starting position in the genomic " <<
             std::endl << "coordinates. " <<
@@ -735,29 +680,32 @@ void error_sequence_doesnt_exist() {
 //----------------------------------------------------------------------
 
 SEQ_SOURCE ask_source_sequence() {
-    std::cout << "How would you like to obtain the binding sequences to analyze?" <<
-    std::endl << "Enter 1 if you have the binding sequences as a list in a file." <<
-    std::endl << "Enter 2 if you want to analyze the result of a previous analysis." <<
-    std::endl;
-
-    unsigned int answer(0);
-    while (true) {
-        std::cin >> answer;
-
-        switch (answer) {
+	
+	unsigned int answer(0);
+	
+	do{
+		std::cout << "How would you like to obtain the binding sequences to analyze?" <<
+		std::endl << "Enter 1 if you have the binding sequences as a list in a file." <<
+		std::endl << "Enter 2 if you want to analyze the result of a previous analysis." <<
+		std::endl;
+		
+		answer = (unsigned int)ask_for_a_number_infinitely();
+		
+		switch (answer) {
             case 1:
                 return SEQ_SOURCE::OnlySeq;
 
             case 2:
                 return SEQ_SOURCE::FromSearchResult;
-
-            default:
-                std::cout << "Invalid input, please try again." << std::endl;
-                break;
-
         }
-    }
+        if ((answer!=1) or (answer!=2))
+        {
+			std::cout << "Unrecognized input, Please try again." << std::endl;	
+		}
+	
+	}while(true);
 }
+
 
 //-----------------------------------------------------------------------
 // 							LOGO USER INTERACTION
@@ -811,7 +759,7 @@ double ask_for_a_number_infinitely(){
 			return n;
 
 		}catch(...){
-			std::cout << "Invalid input, Try again." << std::endl;
+			std::cout << "Unrecognized input, Please try again." << std::endl;
 		}
 	}
 }
@@ -924,8 +872,8 @@ LIST_FILE ask_list_file_type() {
 
     unsigned int answer(0);
     while (true) {
-        std::cin >> answer;
-
+        answer = (unsigned int)ask_for_a_number_infinitely();
+        
         switch (answer) {
             case 1:
                 return LIST_FILE::Fasta;
@@ -963,9 +911,10 @@ char ask_separation_character() {
         std::cin.get(answer);
         std::cout <<
         std::endl << "You entered the character '" << answer << "' with ASCII number " << (int) answer <<
-        std::endl << " (decimal). Is this the right character? " <<
-        std::endl << "Enter 1 for yes, 0 for no. ";
-        std::cin >> rightanswer;
+        std::endl << " (decimal). Is this the right character? " << std::endl;
+  
+        rightanswer = correct_bool();	
+	
     }
     return answer;
 }
@@ -1009,12 +958,11 @@ void error_no_search_result_read() {
 //----------------------------------------------------------------------
 
 bool correlate_more() {
-    std::cout << "Would you like to correlate more sequence results to genomic coordinates?" <<
-    std::endl << "Enter 1 for yes, 0 for no." << std::endl;
+    std::cout << "Would you like to correlate more sequence results to genomic coordinates?" <<std::endl;
     bool answer;
-    while (not(std::cin >> answer)) {
-        std::cout << "Invalid input, please try again." << std::endl;
-    }
+    
+    answer = correct_bool();
+	
     return answer;
 }
 
@@ -1022,11 +970,11 @@ bool correlate_more() {
 
 bool ask_correlate_to_search_results() {
     std::cout << "Would you like to correlate the found scores to a genomic coordinate file?" <<
-    std::endl << "Enter 1 for yes, 0 for no." << std::endl;
+	std::endl;
     bool answer;
-    while (not(std::cin >> answer)) {
-        std::cout << "Invalid input, please try again." << std::endl;
-    }
+    
+    answer = correct_bool();
+
     return answer;
 }
 
@@ -1060,11 +1008,29 @@ bool overwrite(std::string filename) {
     {
         bool answer;
         std::cout << "The file " << filename << " exists already. Would you like " <<
-        std::endl << "to overwrite it? " <<
-        std::endl << "Enter 1 for yes, 0 for no. ";
-        std::cin >> answer;
+        std::endl << "to overwrite it? " << std::endl;
+     
+         answer = correct_bool();
+        
         std::cout << "Your answer is " << answer << "." << std::endl;
         return answer;
     }
     return true;
+}
+
+bool correct_bool() {
+	bool answer; 
+	do
+		{	std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "Enter 1 for yes, 0 for no." <<
+			std::endl;
+			std::cin >> answer;
+			if (std::cin.fail())
+			{
+				std::cout << "1 or 0 are the only valid inputs." << std::endl;
+			}
+			
+		} while (std::cin.fail());
+	return answer;
 }
