@@ -22,7 +22,7 @@ PROCEDURE whatToDo() {
     std::endl << "in genomic coordinates." << std::endl;
     std::cout << "Enter 0 to exit the program." << std::endl;
     std::cout << "This program can be launched directly from terminal, for more information " <<
-    std::endl << "run ./Main -help" << std::endl;
+    std::endl << "run ./Main --help" << std::endl;
 
     while (true) {
         std::cin >> answer;
