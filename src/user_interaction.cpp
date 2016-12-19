@@ -432,18 +432,7 @@ bool ask_matrix_from_sequences_weighed() {
     std::endl << "in order to calculate the probability weight matrix?" <<
     std::endl;
 
-	do
-	{	std::cin.clear();
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-		std::cout << "Enter 1 for yes, 0 for no." <<
-		std::endl;
-		std::cin >> answer;
-		if (std::cin.fail())
-		{
-			std::cout << "1 or 0 are the only valid inputs." << std::endl;
-		}
-		
-	} while (std::cin.fail());
+	answer = correct_bool();
 	
     std::cout << "You answered ";
     if (answer) {
@@ -465,18 +454,7 @@ bool ask_matrix_from_search_matches() {
     std::cout << "Would you like to create a new matrix based on the search matches?" <<
     std::endl;
 
-	 do
-	{	std::cin.clear();
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-		std::cout << "Enter 1 for yes, 0 for no." <<
-		std::endl;
-		std::cin >> answer;
-		if (std::cin.fail())
-		{
-			std::cout << "1 or 0 are the only valid inputs."<< std::endl;
-		}
-		
-	} while (std::cin.fail());
+	answer = correct_bool();
 
     std::cout << "You answered ";
     if (answer) {
@@ -533,19 +511,8 @@ bool ask_line_description_present() {
     std::cout << "Is a descritpion of the coordinates present in the third question?" <<
     std::endl;
 
-    do
-	{	std::cin.clear();
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-		std::cout << "Enter 1 for yes, 0 for no." <<
-		std::endl;
-		std::cin >> answer;
-		if (std::cin.fail())
-		{
-			std::cout << "1 or 0 are the only valid inputs."<< std::endl;
-		}
-		
-	} while (std::cin.fail());
-	
+    answer = correct_bool();
+
     return answer;
 }
 
@@ -588,18 +555,7 @@ Association_Table associate_genomic_with_sequences(std::vector<std::string> coor
         std::endl << "analyze them in order?" <<
         std::endl;
         
-         do
-		{	std::cin.clear();
-			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			std::cout << "Enter 1 for yes, 0 for no." <<
-			std::endl;
-			std::cin >> answer;
-			if (std::cin.fail())
-			{
-				std::cout << "1 or 0 are the only valid inputs."<< std::endl;
-			}
-		
-		} while (std::cin.fail());
+        answer = correct_bool();
 	
         if (answer) {
             std::cout << "For each sequence, enter its starting position in the genomic " <<
@@ -958,18 +914,7 @@ char ask_separation_character() {
         std::endl << "You entered the character '" << answer << "' with ASCII number " << (int) answer <<
         std::endl << " (decimal). Is this the right character? " << std::endl;
   
-         do
-		{	std::cin.clear();
-			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			std::cout << "Enter 1 for yes, 0 for no." <<
-			std::endl;
-			std::cin >> rightanswer;
-			if (std::cin.fail())
-			{
-				std::cout << "1 or 0 are the only valid inputs."<< std::endl;
-			}
-			
-		} while (std::cin.fail());
+        rightanswer = correct_bool();	
 	
     }
     return answer;
@@ -1017,18 +962,7 @@ bool correlate_more() {
     std::cout << "Would you like to correlate more sequence results to genomic coordinates?" <<std::endl;
     bool answer;
     
-    do
-	{	std::cin.clear();
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-		std::cout << "Enter 1 for yes, 0 for no." <<
-		std::endl;
-		std::cin >> answer;
-		if (std::cin.fail())
-		{
-			std::cout << "1 or 0 are the only valid inputs."<< std::endl;
-		}
-			
-	} while (std::cin.fail());
+    answer = correct_bool();
 	
     return answer;
 }
@@ -1040,18 +974,7 @@ bool ask_correlate_to_search_results() {
 	std::endl;
     bool answer;
     
-    do
-	{	std::cin.clear();
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-		std::cout << "Enter 1 for yes, 0 for no." <<
-		std::endl;
-		std::cin >> answer;
-		if (std::cin.fail())
-		{
-			std::cout << "1 or 0 are the only valid inputs."<< std::endl;
-		}
-		
-	} while (std::cin.fail());
+    answer = correct_bool();
 
     return answer;
 }
@@ -1088,20 +1011,27 @@ bool overwrite(std::string filename) {
         std::cout << "The file " << filename << " exists already. Would you like " <<
         std::endl << "to overwrite it? " << std::endl;
      
-         do {	std::cin.clear();
+         answer = correct_bool();
+        
+        std::cout << "Your answer is " << answer << "." << std::endl;
+        return answer;
+    }
+    return true;
+}
+
+bool correct_bool() {
+	bool answer; 
+	do
+		{	std::cin.clear();
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			std::cout << "Enter 1 for yes, 0 for no." <<
 			std::endl;
 			std::cin >> answer;
 			if (std::cin.fail())
 			{
-				std::cout << "1 or 0 are the only valid inputs."<< std::endl;
+				std::cout << "1 or 0 are the only valid inputs." << std::endl;
 			}
 			
 		} while (std::cin.fail());
-        
-        std::cout << "Your answer is " << answer << "." << std::endl;
-        return answer;
-    }
-    return true;
+	return answer;
 }
